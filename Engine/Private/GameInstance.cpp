@@ -78,4 +78,6 @@ void CGameInstance::Free()
 	__super::Free();
 
 	m_pGraphicDevice->Free();
+	Safe_Release(m_pGraphicDevice);
+	Safe_Release(m_pTimerManager);
 }

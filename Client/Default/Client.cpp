@@ -101,6 +101,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
     Safe_Release(pGameInstance);
+    pGameInstance->DestroyInstance();
 
     if (Safe_Release(pMainApp) != 0)
         return FALSE;

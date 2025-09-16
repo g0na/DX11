@@ -30,15 +30,15 @@ HRESULT CMainApp::Render()
 
 CMainApp* CMainApp::Create()
 {
-	CMainApp* pCMainApp = new CMainApp;
+	CMainApp* pMainApp = new CMainApp;
 	
-	if (FAILED(pCMainApp->Initialize()))
+	if (FAILED(pMainApp->Initialize()))
 	{
 		MSG_BOX("Failed to create CMainApp!");
-		Safe_Release(pCMainApp);
+		Safe_Release(pMainApp);
 	}
 
-	return pCMainApp;
+	return pMainApp;
 }
 
 void Client::CMainApp::Free()
@@ -46,6 +46,5 @@ void Client::CMainApp::Free()
 	__super::Free();
 
 	// MainApp의 멤버를 정리한다.
-	m_pContext->Release();
-	m_pDevice->Release();
+
 }
