@@ -2,7 +2,10 @@
 
 #include "Client_Defines.h"
 #include "Base.h"
-#include "GameInstance.h"
+
+NS_BEGIN(Engine)
+class CGameInstance;
+NS_END
 
 NS_BEGIN(Client)
 

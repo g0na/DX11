@@ -1,4 +1,5 @@
 #include "MainApp.h"
+#include "GameInstance.h"
 
 USING(Client)
 
