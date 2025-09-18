@@ -13,10 +13,11 @@ private:
 
 #pragma region ENGINE
 public:
-	HRESULT					Initialize_Engine();
-	HRESULT					Initialize_Device(HWND hWnd, WINMODE isWindowed, _uint iWinSizeX, _uint iWinSizeY, ID3D11Device** ppDevice, ID3D11DeviceContext** ppDeviceContextOut);
+	HRESULT					Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** ppDevice, ID3D11DeviceContext** ppDeviceContext);
 	void					Update_Engine(const _float& fTimeDelta);
+	HRESULT					Draw_Begin(const _float4& vColor);
 	HRESULT					Draw();
+	HRESULT					Draw_End();
 #pragma endregion
 
 #pragma region TIMER_MANAGER

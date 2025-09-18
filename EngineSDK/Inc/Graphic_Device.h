@@ -83,7 +83,7 @@ private:
 
 private:
 	/* 스왑체인에게 필수적으로 필요한 데이터는 백버퍼가 필요하여 백버퍼를 생성하기위한 정보를 던져준다. */
-	/* 스왑체인을 만들었다 == 백버퍼(텍스쳐)가 생성된다. */
+	/* 스왑체인객체를 만들었다 == 백버퍼(텍스쳐)가 생성된다. */
 	HRESULT Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iWinCX, _uint iWinCY);
 	HRESULT Ready_BackBufferRenderTargetView();	
 	HRESULT Ready_DepthStencilView(_uint iWinCX, _uint iWinCY);

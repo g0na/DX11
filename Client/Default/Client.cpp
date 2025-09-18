@@ -4,7 +4,6 @@
 #include "framework.h"
 #include "Client.h"
 #include "MainApp.h"
-#include "TimerManager.h"
 #include "GameInstance.h"
 
 #define MAX_LOADSTRING 100
@@ -55,7 +54,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if (pGameInstance == nullptr)
         return FALSE;
     Safe_AddRef(pGameInstance);
-    pGameInstance->Initialize_Engine();
 
     if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
     {
@@ -151,8 +149,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   RECT rcWindow = { 0, 0, g_iWinSizeX, g_iWinSizeY };
+   AdjustWindowRect(&rcWindow, WS_OVERLAPPEDWINDOW, FALSE);
+
    HWND hWnd = CreateWindowW(szWindowClass, L"Dark Souls : Prepare to Die Edition", WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, g_iWinSizeX, g_iWinSizeY, nullptr, nullptr, hInstance, nullptr);
+                             0, 0,
+                             rcWindow.right - rcWindow.left, 
+                             rcWindow.bottom - rcWindow.top, 
+                             nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
