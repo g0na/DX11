@@ -1,5 +1,6 @@
 #include "GameInstance.h"
 #include "TimerManager.h"
+#include "LevelManager.h"
 #include "Graphic_Device.h"
 
 USING(Engine)
@@ -25,6 +26,11 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	if (m_pTimerManager == nullptr)
 		return E_FAIL;
 
+	// 레벨 매니저 초기화
+	m_pLevelManager = CLevelManager::Create();
+	if (m_pLevelManager == nullptr)
+		return E_FAIL;
+
 	// 프로토타입 매니저 초기화
 	// 오브젝트 , 매니저 초기화
 	return S_OK;
@@ -32,7 +38,7 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 
 void CGameInstance::Update_Engine(const _float& fTimeDelta)
 {
-
+	m_pLevelManager->Update_Level(fTimeDelta);
 }
 
 HRESULT CGameInstance::Draw_Begin(const _float4& vColor)
@@ -49,6 +55,9 @@ HRESULT CGameInstance::Draw_Begin(const _float4& vColor)
 HRESULT CGameInstance::Draw()
 {
 	// Renderer->Render 같은 그리기 함수
+
+	m_pLevelManager->Render_Level();
+
 	return S_OK;
 }
 HRESULT CGameInstance::Draw_End()
@@ -57,6 +66,11 @@ HRESULT CGameInstance::Draw_End()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CGameInstance::Clear(_uint iLevelID)
+{
+	// 자원을 지운다.
 }
 #pragma endregion
 
@@ -78,11 +92,21 @@ void CGameInstance::Compute_TimeDelta(const _tchar* pTimerTag)
 }
 #pragma endregion
 
+#pragma region LEVEL
+HRESULT CGameInstance::Change_Level(_uint iCurLevelID, class CLevel* pCurLevel)
+{
+	m_pLevelManager->Change_Level(iCurLevelID, pCurLevel);
+
+	return S_OK;
+}
+#pragma endregion
+
+
 void CGameInstance::Free()
 {
 	__super::Free();
 
-	m_pGraphicDevice->Free();
-	Safe_Release(m_pGraphicDevice);
 	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pLevelManager);
+	Safe_Release(m_pGraphicDevice);
 }

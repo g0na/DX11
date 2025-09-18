@@ -153,7 +153,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    AdjustWindowRect(&rcWindow, WS_OVERLAPPEDWINDOW, FALSE);
 
    HWND hWnd = CreateWindowW(szWindowClass, L"Dark Souls : Prepare to Die Edition", WS_OVERLAPPEDWINDOW,
-                             0, 0,
+                             g_iWinSizeX >> 2,
+                             g_iWinSizeY >> 2,
                              rcWindow.right - rcWindow.left, 
                              rcWindow.bottom - rcWindow.top, 
                              nullptr, nullptr, hInstance, nullptr);

@@ -18,6 +18,7 @@ public:
 	HRESULT					Draw_Begin(const _float4& vColor);
 	HRESULT					Draw();
 	HRESULT					Draw_End();
+	void					Clear(_uint iLevelID);		// 정해진 레벨의 자원을 정리한다.
 #pragma endregion
 
 #pragma region TIMER_MANAGER
@@ -27,9 +28,16 @@ public:
 	void		Compute_TimeDelta(const _tchar* pTimerTag);
 #pragma endregion
 
+#pragma region LEVEL
+public:
+	HRESULT	Change_Level(_uint iCurLevelID, class CLevel* pCurLevel);
+#pragma endregion
+
+
 private:
 	class CGraphic_Device*	m_pGraphicDevice = { nullptr };
 	class CTimerManager*	m_pTimerManager = { nullptr };
+	class CLevelManager*	m_pLevelManager = { nullptr };
 
 public:
 	virtual void Free() override;

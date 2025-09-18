@@ -23,6 +23,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(m_tEngineDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Change_Level(LEVEL_TO_UINT(LEVELID::LOGO), nullptr)))
+		return E_FAIL; 
+
 	return S_OK;
 }
 
@@ -34,6 +37,7 @@ void CMainApp::Update(const _float& fTimeDelta)
 HRESULT CMainApp::Render()
 {
 	_float4	vColor = { 0.f, 0.f, 1.f, 1.f };
+
 	if (FAILED(m_pGameInstance->Draw_Begin(vColor)))
 		return E_FAIL;
 

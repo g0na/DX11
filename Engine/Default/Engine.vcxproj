@@ -158,6 +158,8 @@ call UpdateLib.bat</Command>
     <ClInclude Include="..\Public\Engine_Typedef.h" />
     <ClInclude Include="..\Public\GameInstance.h" />
     <ClInclude Include="..\Public\Graphic_Device.h" />
+    <ClInclude Include="..\Public\Level.h" />
+    <ClInclude Include="..\Public\LevelManager.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\TimerManager.h" />
   </ItemGroup>
@@ -165,6 +167,8 @@ call UpdateLib.bat</Command>
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\GameInstance.cpp" />
     <ClCompile Include="..\Private\Graphic_Device.cpp" />
+    <ClCompile Include="..\Private\Level.cpp" />
+    <ClCompile Include="..\Private\LevelManager.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\TimerManager.cpp" />
   </ItemGroup>
