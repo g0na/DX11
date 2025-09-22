@@ -18,7 +18,7 @@ public:
 	HRESULT					Draw_Begin(const _float4& vColor);
 	HRESULT					Draw();
 	HRESULT					Draw_End();
-	void					Clear(_uint iLevelID);
+	void					Clear(_uint iLevelID);		// 정해진 레벨의 자원을 정리한다.
 #pragma endregion
 
 #pragma region TIMER_MANAGER

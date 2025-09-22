@@ -26,7 +26,7 @@ void CTimer::Update_Timer()
 
 	if (m_FrameTime.QuadPart - m_FixTime.QuadPart >= m_CpuTick.QuadPart)
 	{
-		QueryPerformanceFrequency(&m_CpuTick);
+		QueryPerformanceFrequency(&m_CpuTick); 
 		m_FixTime = m_FrameTime;
 	}
 

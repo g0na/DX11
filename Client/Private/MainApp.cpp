@@ -1,5 +1,6 @@
 #include "MainApp.h"
 #include "GameInstance.h"
+#include "Level_Loading.h"
 
 USING(Client)
 
@@ -24,7 +25,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(m_tEngineDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Change_Level(LEVEL_TO_UINT(LEVELID::LOGO), nullptr)))
+	if (FAILED(Start_Level(LEVELID::LOGO)))
 		return E_FAIL; 
 
 	return S_OK;
@@ -46,6 +47,14 @@ HRESULT CMainApp::Render()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Draw_End()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Start_Level(LEVELID eLevelID)
+{
+	if (FAILED(m_pGameInstance->Change_Level(LEVEL_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, eLevelID))))
 		return E_FAIL;
 
 	return S_OK;

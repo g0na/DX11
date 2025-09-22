@@ -2,9 +2,9 @@
 #include "GameInstance.h"
 
 CLevel::CLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-	m_pGameInstance( CGameInstance::GetInstance() ),
-	m_pDevice(pDevice), 
-	m_pContext(pContext)
+	m_pGameInstance{ CGameInstance::GetInstance() },
+	m_pDevice{ pDevice }, 
+	m_pContext{ pContext }
 {
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pDevice);

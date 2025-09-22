@@ -48,6 +48,8 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	m_pDeviceContext->OMSetRenderTargets(1, pRTVs,
 		m_pDepthStencilView);		
 	
+	/* 뷰포트 설정 */
+	/* 뷰포트란? : 장면을 그려 넣고자 하는 후면 버퍼의 부분직사각형 영역 */
 	D3D11_VIEWPORT			ViewPortDesc;
 	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
 	ViewPortDesc.TopLeftX = 0;
@@ -57,6 +59,7 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	ViewPortDesc.MinDepth = 0.f;
 	ViewPortDesc.MaxDepth = 1.f;
 
+	/* Direct3D에게 뷰포트를 알려주는 메서드 */
 	m_pDeviceContext->RSSetViewports(1, &ViewPortDesc);
 
 	*ppDevice = m_pDevice;
@@ -136,11 +139,12 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 	SwapChain.BufferCount = 1;
 
 	/*스왑하는 형태 : 모니터 주사율에 따라 조절해도 됨. */
-	SwapChain.BufferDesc.RefreshRate.Numerator = 60;
+	SwapChain.BufferDesc.RefreshRate.Numerator = 144;
 	SwapChain.BufferDesc.RefreshRate.Denominator = 1;
 
 	/* 멀티샘플링 : 안티얼라이징 (계단현상방지) */
 	/* 나중에 후처리 렌더링 : 멀티샘플링 지원(x) */
+	/* 멀티 샘플링을 사용하지 않으려면 품질 수준은 0, 표본 개수는 1로 설정해주면 된다. */
 	SwapChain.SampleDesc.Quality = 0;
 	SwapChain.SampleDesc.Count = 1;	
 
@@ -198,8 +202,9 @@ HRESULT CGraphic_Device::Ready_DepthStencilView(_uint iWinCX, _uint iWinCY)
 	TextureDesc.Height = iWinCY;
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;
+	/* 각 텍셀은 [0, 1] 구간으로 사상되는 부호 없는 24비트 깊이 값 하나와 [0, 255] 구간으로 사상되는 8비트 부호 없는 정수 스텐실 값*/
 	TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-
+	/* 깊이, 스텐실 버퍼를 위한 멀티샘플링 설정 값은 스왑 체인에 쓰인 설정과 일치해야함 */
 	TextureDesc.SampleDesc.Quality = 0;
 	TextureDesc.SampleDesc.Count = 1;
 
