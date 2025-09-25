@@ -79,4 +79,7 @@ CLevel_Loading* CLevel_Loading::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CLevel_Loading::Free()
 {
+	__super::Free();
+
+	Safe_Release(m_pLoader);
 }

@@ -2,6 +2,8 @@
 
 #include "windows.h"
 #include "process.h"
+#include <thread>
+#include <mutex>
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;

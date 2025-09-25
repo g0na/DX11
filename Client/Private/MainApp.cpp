@@ -1,6 +1,7 @@
 #include "MainApp.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "Background.h"
 
 USING(Client)
 
@@ -21,6 +22,7 @@ HRESULT CMainApp::Initialize()
 	m_tEngineDesc.eWinMode = WINMODE::WIN;
 	m_tEngineDesc.iWinSizeX = g_iWinSizeX;
 	m_tEngineDesc.iWinSizeY = g_iWinSizeY;
+	m_tEngineDesc.iLevelNum = LEVEL_TO_UINT(LEVELID::END);
 	
 	if (FAILED(m_pGameInstance->Initialize_Engine(m_tEngineDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
@@ -77,6 +79,10 @@ void Client::CMainApp::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
+
 	// MainApp의 멤버를 정리한다.
+	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);
 }

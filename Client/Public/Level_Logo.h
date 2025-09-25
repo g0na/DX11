@@ -5,7 +5,7 @@
 
 NS_BEGIN(Client)
 
-class CLevel_Logo : public CLevel
+class CLevel_Logo final : public CLevel
 {
 private:
 	explicit CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -15,6 +15,9 @@ public:
 	virtual HRESULT Initialize() override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+public:
+	HRESULT	Ready_Layer_Background(const _wstring& strLayerTag);
 
 public:
 	static CLevel_Logo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

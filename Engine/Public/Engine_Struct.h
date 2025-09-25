@@ -9,6 +9,7 @@ namespace Engine
 		WINMODE				eWinMode;
 		unsigned int		iWinSizeX;
 		unsigned int		iWinSizeY;
+		unsigned int		iLevelNum;
 	}EngineDesc;
 	
 }

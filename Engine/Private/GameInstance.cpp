@@ -1,6 +1,8 @@
 #include "GameInstance.h"
-#include "TimerManager.h"
-#include "LevelManager.h"
+#include "Timer_Manager.h"
+#include "Level_Manager.h"
+#include "Object_Manager.h"
+#include "Prototype_Manager.h"
 #include "Graphic_Device.h"
 
 USING(Engine)
@@ -22,22 +24,34 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	// 인풋 디바이스 초기화
 	// 사운드 디바이스 초기화
 	// 타이머 매니저 초기화
-	m_pTimerManager = CTimerManager::Create();
+	m_pTimerManager = CTimer_Manager::Create();
 	if (m_pTimerManager == nullptr)
 		return E_FAIL;
 
 	// 레벨 매니저 초기화
-	m_pLevelManager = CLevelManager::Create();
+	m_pLevelManager = CLevel_Manager::Create();
 	if (m_pLevelManager == nullptr)
 		return E_FAIL;
 
 	// 프로토타입 매니저 초기화
-	// 오브젝트 , 매니저 초기화
+	m_pPrototypeManager = CPrototype_Manager::Create(EngineDesc.iLevelNum);
+	if (m_pPrototypeManager == nullptr)
+		return E_FAIL;
+
+	// 오브젝트 매니저 초기화
+	m_pObjectManager = CObject_Manager::Create(EngineDesc.iLevelNum);
+	if (m_pObjectManager == nullptr)
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CGameInstance::Update_Engine(const _float& fTimeDelta)
 {
+	m_pObjectManager->Update_Priority(fTimeDelta);
+	m_pObjectManager->Update(fTimeDelta);
+	m_pObjectManager->Update_Late(fTimeDelta);
+
 	m_pLevelManager->Update_Level(fTimeDelta);
 }
 
@@ -92,7 +106,7 @@ void CGameInstance::Compute_TimeDelta(const _tchar* pTimerTag)
 }
 #pragma endregion
 
-#pragma region LEVEL
+#pragma region LEVEL_MANAGER
 HRESULT CGameInstance::Change_Level(_uint iCurLevelID, class CLevel* pCurLevel)
 {
 	m_pLevelManager->Change_Level(iCurLevelID, pCurLevel);
@@ -101,12 +115,40 @@ HRESULT CGameInstance::Change_Level(_uint iCurLevelID, class CLevel* pCurLevel)
 }
 #pragma endregion
 
+#pragma region PROTOTYPE_MANAGER
+HRESULT CGameInstance::Add_Prototype(_uint iLevelNum, const _wstring& strPrototypeTag, CBase* pPrototype)
+{
+	return m_pPrototypeManager->Add_Prototype(iLevelNum, strPrototypeTag, pPrototype);
+}
+
+CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelNum, const _wstring& strPrototypeTag, void* pArg)
+{
+	return m_pPrototypeManager->Clone_Prototype(ePrototypeID, iLevelNum, strPrototypeTag, pArg);
+}
+#pragma endregion
+
+#pragma region OBJECT_MANAGER
+HRESULT CGameInstance::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
+	_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
+{
+	return m_pObjectManager->Add_GameObject_To_Layer(iProtoLevelIndex, strProtoTag, iLayerLevelIndex, strLayerTag, pArg);
+}
+#pragma endregion
+
+void CGameInstance::Release_Engine()
+{
+	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pLevelManager);
+	Safe_Release(m_pObjectManager);
+	Safe_Release(m_pPrototypeManager);
+	Safe_Release(m_pGraphicDevice);
+
+	CGameInstance::GetInstance()->DestroyInstance();
+}
 
 void CGameInstance::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTimerManager);
-	Safe_Release(m_pLevelManager);
-	Safe_Release(m_pGraphicDevice);
+
 }

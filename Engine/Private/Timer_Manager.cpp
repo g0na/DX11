@@ -1,11 +1,11 @@
-#include "TimerManager.h"
+#include "Timer_Manager.h"
 #include "Timer.h"
 
-CTimerManager::CTimerManager()
+CTimer_Manager::CTimer_Manager()
 {
 }
 
-_float CTimerManager::Get_TimeDelta(const _tchar* pTimerTag)
+_float CTimer_Manager::Get_TimeDelta(const _tchar* pTimerTag)
 {
 	CTimer* pTimer = Find_Timer(pTimerTag);
 	if (nullptr == pTimer)
@@ -14,7 +14,7 @@ _float CTimerManager::Get_TimeDelta(const _tchar* pTimerTag)
 	return pTimer->Get_TimeDelta();
 }
 
-HRESULT CTimerManager::Add_Timer(const _tchar* pTimerTag)
+HRESULT CTimer_Manager::Add_Timer(const _tchar* pTimerTag)
 {
 	CTimer* pTimer = Find_Timer(pTimerTag);
 
@@ -30,7 +30,7 @@ HRESULT CTimerManager::Add_Timer(const _tchar* pTimerTag)
 	return S_OK;
 }
 
-void CTimerManager::Compute_TimeDelta(const _tchar* pTimerTag)
+void CTimer_Manager::Compute_TimeDelta(const _tchar* pTimerTag)
 {
 	CTimer* pTimer = Find_Timer(pTimerTag);
 	if (nullptr == pTimer)
@@ -39,7 +39,7 @@ void CTimerManager::Compute_TimeDelta(const _tchar* pTimerTag)
 	pTimer->Update_Timer();
 }
 
-CTimer* CTimerManager::Find_Timer(const _wstring pTimerTag)
+CTimer* CTimer_Manager::Find_Timer(const _wstring pTimerTag)
 {
 	//auto		iter = find_if(m_mapTimer.begin(), m_mapTimer.end(), CTag_Finder(pTimerTag));
 	auto iter = m_mapTimer.find(pTimerTag);
@@ -50,12 +50,12 @@ CTimer* CTimerManager::Find_Timer(const _wstring pTimerTag)
 	return iter->second;
 }
 
-CTimerManager* CTimerManager::Create()
+CTimer_Manager* CTimer_Manager::Create()
 {
-	return new CTimerManager;
+	return new CTimer_Manager;
 }
 
-void CTimerManager::Free()
+void CTimer_Manager::Free()
 {
 	for (auto& Pair : m_mapTimer)
 		Safe_Release(Pair.second);

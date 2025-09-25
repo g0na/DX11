@@ -3,11 +3,11 @@
 
 NS_BEGIN(Engine)
 
-class CTimerManager :  public CBase
+class CTimer_Manager :  public CBase
 {
 private:
-	explicit CTimerManager();
-	~CTimerManager() = default;
+	explicit CTimer_Manager();
+	~CTimer_Manager() = default;
 
 public:
 	_float		Get_TimeDelta(const _tchar* pTimerTag);
@@ -23,7 +23,7 @@ private:
 	class CTimer* Find_Timer(const _wstring pTimerTag);
 	
 public:
-	static CTimerManager* Create();
+	static CTimer_Manager* Create();
 	virtual void Free() override;
 };
 

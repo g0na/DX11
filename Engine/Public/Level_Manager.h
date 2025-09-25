@@ -3,11 +3,11 @@
 
 NS_BEGIN(Engine)
 
-class CLevelManager final : public CBase
+class CLevel_Manager final : public CBase
 {
 private:
-	explicit CLevelManager();
-	virtual ~CLevelManager() = default;
+	explicit CLevel_Manager();
+	virtual ~CLevel_Manager() = default;
 
 public:
 	HRESULT	Change_Level(_uint iCurLevelID, class CLevel* pCurLevel);
@@ -20,7 +20,7 @@ private:
 	_uint					m_iCurLevelID = {};
 
 public:
-	static CLevelManager* Create();
+	static CLevel_Manager* Create();
 	virtual void Free() override;
 };
 

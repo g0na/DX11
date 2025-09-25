@@ -28,18 +28,32 @@ public:
 	void		Compute_TimeDelta(const _tchar* pTimerTag);
 #pragma endregion
 
-#pragma region LEVEL
+#pragma region LEVEL_MANAGER
 public:
 	HRESULT	Change_Level(_uint iCurLevelID, class CLevel* pCurLevel);
 #pragma endregion
 
+#pragma region PROTOTYPE_MANAGER
+public:
+	HRESULT Add_Prototype(_uint iLevelNum, const _wstring& strPrototypeTag, CBase* pPrototype);
+	CBase* Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelNum, const _wstring& strPrototypeTag, void* pArg = nullptr);
+#pragma endregion
+
+#pragma region OBJECT_MANAGER
+public:
+	HRESULT Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
+		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+#pragma endregion
 
 private:
-	class CGraphic_Device*	m_pGraphicDevice = { nullptr };
-	class CTimerManager*	m_pTimerManager = { nullptr };
-	class CLevelManager*	m_pLevelManager = { nullptr };
+	class CGraphic_Device*		m_pGraphicDevice = { nullptr };
+	class CTimer_Manager*		m_pTimerManager = { nullptr };
+	class CLevel_Manager*		m_pLevelManager = { nullptr };
+	class CObject_Manager*		m_pObjectManager = { nullptr };
+	class CPrototype_Manager*	m_pPrototypeManager = { nullptr };
 
 public:
+	void Release_Engine();
 	virtual void Free() override;
 
 }; 

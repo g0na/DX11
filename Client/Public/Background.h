@@ -1,0 +1,28 @@
+#pragma once
+#include "Client_Defines.h"
+#include "UIObj.h"
+
+NS_BEGIN(Client)
+
+class CBackground final : public CUIObj
+{
+private:
+	explicit CBackground(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CBackground(const CBackground& Prototype);
+	virtual ~CBackground() = default;
+
+public:
+	virtual HRESULT Initialize_Prototype();		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
+	virtual HRESULT Initialize(void* pArg);							// 원형 객체를 복제할 때 호출되는 함수. 추가적인 초기화를 위해서
+	virtual void	Update_Priority(_float fTimeDelta);
+	virtual void	Update(_float fTimeDelta);
+	virtual void	Update_Late(_float fTimeDelta);
+	virtual HRESULT	Render();
+
+public:
+	static	CBackground* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual CGameObject* Clone(void* pArg) override;
+	virtual void Free() override;
+};
+
+NS_END

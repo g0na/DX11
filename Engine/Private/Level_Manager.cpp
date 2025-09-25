@@ -1,16 +1,16 @@
-#include "LevelManager.h"
+#include "Level_Manager.h"
 #include "GameInstance.h"
 #include "Level.h"
 
 USING(Engine)
 
-CLevelManager::CLevelManager() :
+CLevel_Manager::CLevel_Manager() :
 	m_pGameInstance{ CGameInstance::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 }
 
-HRESULT CLevelManager::Change_Level(_uint iCurLevelID, CLevel* pNewLevel)
+HRESULT CLevel_Manager::Change_Level(_uint iCurLevelID, CLevel* pNewLevel)
 {
 	// 이전 레벨의 자원을 정리
 	// 만약 레벨이 처음 생성되었다면 현재 레벨은 nullptr 일 것이다. 따라서 처음 생성되지 않았을 때에만 정리를 한다.
@@ -27,24 +27,24 @@ HRESULT CLevelManager::Change_Level(_uint iCurLevelID, CLevel* pNewLevel)
 	return S_OK;
 }
 
-void CLevelManager::Update_Level(_float fTimeDelta)
+void CLevel_Manager::Update_Level(_float fTimeDelta)
 {
 	m_pCurLevel->Update(fTimeDelta);
 }
 
-HRESULT CLevelManager::Render_Level()
+HRESULT CLevel_Manager::Render_Level()
 {
 	m_pCurLevel->Render();
 
 	return S_OK;
 }
 
-CLevelManager* CLevelManager::Create()
+CLevel_Manager* CLevel_Manager::Create()
 {
-	return new CLevelManager();
+	return new CLevel_Manager();
 }
 
-void CLevelManager::Free()
+void CLevel_Manager::Free()
 {
 	__super::Free();
 

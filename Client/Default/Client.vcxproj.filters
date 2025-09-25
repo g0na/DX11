@@ -25,6 +25,12 @@
     <Filter Include="01. Levels\00. Loading\Loader">
       <UniqueIdentifier>{068ebef4-1dd4-4f64-8463-1390a4aee959}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects">
+      <UniqueIdentifier>{15daa1cb-cd87-4cf3-b8c3-82f1f2d38ae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. Background">
+      <UniqueIdentifier>{5fbf98f5-3cbd-42c1-952d-9d237a29059c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -56,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_GamePlay.h">
       <Filter>01. Levels\02. GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Background.h">
+      <Filter>02. GameObjects\00. Background</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01. Levels\02. GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Background.cpp">
+      <Filter>02. GameObjects\00. Background</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

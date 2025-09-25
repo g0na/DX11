@@ -1,0 +1,38 @@
+#pragma once
+#include "Base.h"
+
+NS_BEGIN(Engine)
+
+class CObject_Manager final : public CBase
+{
+private:
+	explicit CObject_Manager();
+	virtual ~CObject_Manager() = default;
+
+public:
+	HRESULT Initialize(_uint iLevelNum);
+	void	Update_Priority(_float fTimeDelta);
+	void	Update(_float fTimeDelta);
+	void	Update_Late(_float fTimeDelta);
+
+public:
+	// 특정 레벨의 특정 프로토 타입을, 특정 레벨의 특정 레이어에 추가하는 함수
+	HRESULT Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
+		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+
+private:
+	class CGameInstance* m_pGameInstance = { nullptr };
+
+	map<const _wstring, class CLayer*>*		m_pLayers = { nullptr };
+	_uint									m_iLevelNum = {};
+
+private:
+	// 특정 레벨의 특정 태그를 가진 레이어를 검색하는 함수
+	CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
+
+public:
+	static CObject_Manager* Create(_uint iLevelNum);
+	virtual void Free() override;
+};
+
+NS_END

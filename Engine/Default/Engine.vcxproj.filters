@@ -34,12 +34,30 @@
     <Filter Include="01. Utility\01. Levels\00. Manager">
       <UniqueIdentifier>{fd039185-7240-4577-863f-2ecf4c3f28c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\03. GameObject">
+      <UniqueIdentifier>{f18aa230-76ea-41f2-9f8a-520fe934d70c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\00. Manager">
+      <UniqueIdentifier>{644722f0-3ba3-4f77-9c9f-84c34a2e71b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\01. Layer">
+      <UniqueIdentifier>{ac1f08e1-a78b-4a40-b76c-4d5737b39b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\02. Prototype">
+      <UniqueIdentifier>{49d5d14a-c46b-4154-a27c-0b8d0522c3a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\02. Prototype\00. Manager">
+      <UniqueIdentifier>{a7958890-d2d1-4ce6-8600-5395a0015abc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\02. UI Object">
+      <UniqueIdentifier>{e42b68e0-e76c-4575-b7cc-1ed6a6a9ba28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
       <Filter>01. Utility\99. SuperClass</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\TimerManager.cpp">
+    <ClCompile Include="..\Private\Timer_Manager.cpp">
       <Filter>00. Systems\00. Timers\00. Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Timer.cpp">
@@ -51,11 +69,26 @@
     <ClCompile Include="..\Private\Graphic_Device.cpp">
       <Filter>00. Systems\01. Device\00. Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\LevelManager.cpp">
+    <ClCompile Include="..\Private\Level_Manager.cpp">
       <Filter>01. Utility\01. Levels\00. Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level.cpp">
       <Filter>01. Utility\01. Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GameObject.cpp">
+      <Filter>01. Utility\03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Object_Manager.cpp">
+      <Filter>01. Utility\03. GameObject\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Layer.cpp">
+      <Filter>01. Utility\03. GameObject\01. Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Prototype_Manager.cpp">
+      <Filter>01. Utility\02. Prototype\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UIObj.cpp">
+      <Filter>01. Utility\03. GameObject\02. UI Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,7 +113,7 @@
     <ClInclude Include="..\Public\Engine_Typedef.h">
       <Filter>99. Defines</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\TimerManager.h">
+    <ClInclude Include="..\Public\Timer_Manager.h">
       <Filter>00. Systems\00. Timers\00. Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Timer.h">
@@ -92,11 +125,26 @@
     <ClInclude Include="..\Public\Graphic_Device.h">
       <Filter>00. Systems\01. Device\00. Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\LevelManager.h">
+    <ClInclude Include="..\Public\Level_Manager.h">
       <Filter>01. Utility\01. Levels\00. Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level.h">
       <Filter>01. Utility\01. Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameObject.h">
+      <Filter>01. Utility\03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Object_Manager.h">
+      <Filter>01. Utility\03. GameObject\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Layer.h">
+      <Filter>01. Utility\03. GameObject\01. Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Prototype_Manager.h">
+      <Filter>01. Utility\02. Prototype\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UIObj.h">
+      <Filter>01. Utility\03. GameObject\02. UI Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

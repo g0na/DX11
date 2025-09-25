@@ -1,43 +1,56 @@
 #include "Loader.h"	
+#include "Background.h"
+#include "GameInstance.h"
 
 USING(Client)
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice {pDevice}
 	, m_pContext {pContext}
+	, m_pGameInstance {CGameInstance::GetInstance()}
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+	Safe_AddRef(m_pGameInstance);
 }
 
-_uint APIENTRY ThreadMain(void* pArg)
-{
-	CLoader* pLoader = static_cast<CLoader*>(pArg);
-
-	if (FAILED(pLoader->Loading()))
-		return 1;
-
-	return 0;
-}
+// 보조 스레드의 작업 시작점
+//_uint APIENTRY ThreadMain(void* pArg)
+//{
+//	// 전달받은 this를 받는다
+//	CLoader* pLoader = static_cast<CLoader*>(pArg);
+//
+//	// 전달받은 매개 변수에 따라서 로딩을 시작한다.
+//	if (FAILED(pLoader->Loading()))
+//		return 1;
+//
+//	return 0;
+//}
 
 HRESULT CLoader::Initialize(LEVELID eLoadingLevelID)
 {
 	m_eLoadingLevelID = eLoadingLevelID;
 
-	InitializeCriticalSection(&m_CriticalSection);
+	m_Thread = thread(&CLoader::Loading, this);
 
-	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, ThreadMain, this, 0, nullptr);
+	// 작업 공간(임계 영역)을 준비
+	//InitializeCriticalSection(&m_CriticalSection);
 
-	if (m_hThread == 0)
-		return E_FAIL;
+	// 보조 스레드를 생성하는 함수
+	//m_hThread = (HANDLE)_beginthreadex(nullptr, 0, ThreadMain, this, 0, nullptr);
+
+	//if (m_hThread == 0)
+	//	return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CLoader::Loading()
 { 
-	EnterCriticalSection(&m_CriticalSection);
-
+	// 보조 스레드가 작업 공간을 사용한다고 선언 (잠금)
+	//EnterCriticalSection(&m_CriticalSection);
+	
+	// COM 라이브러리 초기화
 	CoInitializeEx(nullptr, 0);
 
 	HRESULT hr = {};
@@ -55,7 +68,8 @@ HRESULT CLoader::Loading()
 		break;
 	}
 
-	LeaveCriticalSection(&m_CriticalSection);
+	// 작업 공간 사용이 끝났음을 선언 (잠금 해제)
+	//LeaveCriticalSection(&m_CriticalSection);
 
 	if (FAILED(hr))
 		return E_FAIL;
@@ -65,26 +79,19 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_Logo()
 {
+	lock_guard<mutex> lock(m_mutex);
+
 	lstrcpy(m_szFPS, TEXT("텍스쳐를 로딩 중 입니다."));
-	for (size_t i = 0; i < 888899999; i++)
-	{
-		int a = 10;
-	}
+	
 	lstrcpy(m_szFPS, TEXT("모델을(를) 로딩 중 입니다."));
-	for (size_t i = 0; i < 88899999; i++)
-	{
-		int a = 10;
-	}
+
 	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
-	for (size_t i = 0; i < 88899999; i++)
-	{
-		int a = 10;
-	}
+
 	lstrcpy(m_szFPS, TEXT("객체원형을(를) 로딩 중 입니다."));
-	for (size_t i = 0; i < 88899999; i++)
-	{
-		int a = 10;
-	}
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
+		CBackground::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 
@@ -96,26 +103,15 @@ HRESULT CLoader::Loading_Logo()
 
 HRESULT CLoader::Loading_GamePlay()
 {
+	lock_guard<mutex> lock(m_mutex);
+
 	lstrcpy(m_szFPS, TEXT("텍스쳐를 로딩 중 입니다."));
-	for (size_t i = 0; i < 888899999; i++)
-	{
-		int a = 10;
-	}
+
 	lstrcpy(m_szFPS, TEXT("모델을(를) 로딩 중 입니다."));
-	for (size_t i = 0; i < 88899999; i++)
-	{
-		int a = 10;
-	}
+
 	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
-	for (size_t i = 0; i < 88899999; i++)
-	{
-		int a = 10;
-	}
+
 	lstrcpy(m_szFPS, TEXT("객체원형을(를) 로딩 중 입니다."));
-	for (size_t i = 0; i < 88899999; i++)
-	{
-		int a = 10;
-	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 
@@ -141,12 +137,19 @@ void CLoader::Free()
 {
 	__super::Free();
 
-	WaitForSingleObject(m_hThread, INFINITE);
+	// 보조 스레드의 작업이 완전히 마칠 때까지 기다린다.
+	//WaitForSingleObject(m_hThread, INFINITE);
 
-	DeleteCriticalSection(&m_CriticalSection);
+	// 사용했던 작업 공간 (임계 영역)을 정리한다.
+	//DeleteCriticalSection(&m_CriticalSection);
 
-	CloseHandle(m_hThread);
+	// 보조 스레드의 핸들을 정리한다.
+	//CloseHandle(m_hThread);
+
+	if (m_Thread.joinable())
+		m_Thread.join();
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+	Safe_Release(m_pGameInstance);
 }

@@ -4,5 +4,6 @@
 namespace Engine
 {
 	enum class WINMODE { FULL, WIN };
+	enum class PROTOTYPE { GAMEOBJECT, COMPONENT };
 }
 #endif // Engine_Enum_h__

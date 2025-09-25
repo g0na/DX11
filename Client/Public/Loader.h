@@ -3,6 +3,10 @@
 #include "Client_Defines.h"
 #include "Base.h"
 
+NS_BEGIN(Engine)
+class CGameInstance;
+NS_END
+
 NS_BEGIN(Client)
 
 class CLoader final : public CBase
@@ -28,10 +32,16 @@ private:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 
+	CGameInstance*			m_pGameInstance = { nullptr };
+
 	HANDLE				m_hThread = {};
 	CRITICAL_SECTION	m_CriticalSection = {};
 
-	_bool				m_bIsFinished = { false };
+	thread				m_Thread = {};
+	mutex				m_mutex = {};
+
+	//_bool				m_bIsFinished = { false };
+	atomic<_bool>		m_bIsFinished = { false };
 	_tchar				m_szFPS[MAX_PATH] = {};
 
 public:
