@@ -52,6 +52,15 @@
     <Filter Include="01. Utility\03. GameObject\02. UI Object">
       <UniqueIdentifier>{e42b68e0-e76c-4575-b7cc-1ed6a6a9ba28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\04. Renderer">
+      <UniqueIdentifier>{7686e397-d68e-4c0d-8f25-ec6c3bb36fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component">
+      <UniqueIdentifier>{95196612-7754-4312-a6ef-b94cffbdd108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\00. Transform">
+      <UniqueIdentifier>{e1856e15-a98f-45c8-8eea-6214b3d43a30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -89,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\UIObj.cpp">
       <Filter>01. Utility\03. GameObject\02. UI Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Renderer.cpp">
+      <Filter>01. Utility\04. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Component.cpp">
+      <Filter>01. Utility\05. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Transform.cpp">
+      <Filter>01. Utility\05. Component\00. Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +163,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\UIObj.h">
       <Filter>01. Utility\03. GameObject\02. UI Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Renderer.h">
+      <Filter>01. Utility\04. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Component.h">
+      <Filter>01. Utility\05. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Transform.h">
+      <Filter>01. Utility\05. Component\00. Transform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

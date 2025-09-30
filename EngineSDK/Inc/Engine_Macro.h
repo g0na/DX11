@@ -1,7 +1,7 @@
 #ifndef Engine_Macro_h__
 #define Engine_Macro_h__
 
-#define			LEVEL_TO_UINT(LEVELID)		static_cast<unsigned int>(LEVELID)
+#define			ENUM_TO_UINT(LEVELID)		static_cast<unsigned int>(LEVELID)
 
 #ifndef			MSG_BOX
 #define			MSG_BOX(_message)			MessageBox(nullptr, TEXT(_message), L"System Message", MB_OK)

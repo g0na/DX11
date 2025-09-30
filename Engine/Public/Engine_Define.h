@@ -28,6 +28,11 @@ using namespace std;
 
 #pragma warning(disable : 4251)
 
+namespace Engine
+{
+	static const _wstring g_strTransformTag = TEXT("Com_Transform");
+}
+
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC

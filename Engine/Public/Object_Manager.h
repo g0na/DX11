@@ -14,6 +14,7 @@ public:
 	void	Update_Priority(_float fTimeDelta);
 	void	Update(_float fTimeDelta);
 	void	Update_Late(_float fTimeDelta);
+	void	Clear(_uint iLevelNum);
 
 public:
 	// 특정 레벨의 특정 프로토 타입을, 특정 레벨의 특정 레이어에 추가하는 함수
@@ -28,7 +29,7 @@ private:
 
 private:
 	// 특정 레벨의 특정 태그를 가진 레이어를 검색하는 함수
-	CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
+	class CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
 
 public:
 	static CObject_Manager* Create(_uint iLevelNum);

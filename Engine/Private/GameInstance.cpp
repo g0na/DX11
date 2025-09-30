@@ -4,6 +4,7 @@
 #include "Object_Manager.h"
 #include "Prototype_Manager.h"
 #include "Graphic_Device.h"
+#include "Renderer.h"
 
 USING(Engine)
 
@@ -42,6 +43,11 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	m_pObjectManager = CObject_Manager::Create(EngineDesc.iLevelNum);
 	if (m_pObjectManager == nullptr)
 		return E_FAIL;
+	
+	// 렌더러 초기화
+	m_pRenderer = CRenderer::Create(*ppDevice, *ppDeviceContext);
+	if (m_pRenderer == nullptr)
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -68,12 +74,13 @@ HRESULT CGameInstance::Draw_Begin(const _float4& vColor)
 
 HRESULT CGameInstance::Draw()
 {
-	// Renderer->Render 같은 그리기 함수
+	m_pRenderer->Draw();
 
 	m_pLevelManager->Render_Level();
 
 	return S_OK;
 }
+
 HRESULT CGameInstance::Draw_End()
 {
 	if (FAILED(m_pGraphicDevice->Present()))
@@ -85,6 +92,8 @@ HRESULT CGameInstance::Draw_End()
 void CGameInstance::Clear(_uint iLevelID)
 {
 	// 자원을 지운다.
+	m_pObjectManager->Clear(iLevelID);
+	m_pPrototypeManager->Clear(iLevelID);
 }
 #pragma endregion
 
@@ -135,12 +144,21 @@ HRESULT CGameInstance::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _ws
 }
 #pragma endregion
 
+#pragma region RENDERER
+HRESULT CGameInstance::Add_RenderObject(RENDERGROUP eRenderGroup, CGameObject* pObj)
+{
+	return m_pRenderer->Add_RenderObject(eRenderGroup, pObj);
+}
+#pragma endregion
+
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pTimerManager);
 	Safe_Release(m_pLevelManager);
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pPrototypeManager);
+	Safe_Release(m_pRenderer);
 	Safe_Release(m_pGraphicDevice);
 
 	CGameInstance::GetInstance()->DestroyInstance();

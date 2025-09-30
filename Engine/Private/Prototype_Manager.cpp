@@ -31,7 +31,7 @@ HRESULT CPrototype_Manager::Add_Prototype(_uint iLevelNum, const _wstring& strPr
 
 CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelNum, const _wstring& strPrototypeTag, void* pArg)
 {
-	// 원본을 먼저 검색
+	// 특정 레벨의 원본을 먼저 검색
 	CBase* pPrototype = Find_Prototype(iLevelNum, strPrototypeTag);
 	if (pPrototype == nullptr)
 		return nullptr;
@@ -42,6 +42,16 @@ CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelN
 	return ePrototypeID == PROTOTYPE::GAMEOBJECT ?
 		dynamic_cast<CGameObject*>(pPrototype)->Clone(pArg) :
 		/*dynamic_cast<CComponent*>(pPrototype)->Clone(pArg)*/ nullptr;
+}
+
+void CPrototype_Manager::Clear(_uint iLevelNum)
+{
+	// 특정 레벨의 프로토타입을 순회한다.
+	for (auto& Pair : m_pPrototypes[iLevelNum])
+		// 프로토타입을 삭제한다 
+		Safe_Release(Pair.second);
+
+	m_pPrototypes[iLevelNum].clear();
 }
 
 CBase* CPrototype_Manager::Find_Prototype(_uint iLevelNum, const _wstring& strProtoTag)

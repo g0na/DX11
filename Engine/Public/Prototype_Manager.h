@@ -13,7 +13,7 @@ public:
 	HRESULT Initialize(_uint iLevelNum);
 	HRESULT Add_Prototype(_uint iLevelNum, const _wstring& strPrototypeTag, CBase* pPrototype);
 	CBase*	Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelNum, const _wstring& strPrototypeTag, void* pArg = nullptr);
-
+	void	Clear(_uint iLevelNum);
 private:
 	_uint							m_iLevelNum = {};
 	map<const _wstring, CBase*>*	m_pPrototypes = { nullptr };

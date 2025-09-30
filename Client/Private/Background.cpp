@@ -1,4 +1,5 @@
 #include "Background.h"
+#include "GameInstance.h"
 
 USING(Client)
 
@@ -20,15 +21,15 @@ HRESULT CBackground::Initialize_Prototype()
 HRESULT CBackground::Initialize(void* pArg)
 {
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
-	//CUIObj::UIOBJECT_DESC        Desc{};
+	CUIObj::UIOBJ_DESC        Desc{};
 
-	//Desc.fX = {};
-	//Desc.fY = {};
-	//Desc.fSizeX = {};
-	//Desc.fSizeY = {};
-	//lstrcpy(Desc.szName, TEXT("BackGround"));
-	//Desc.fSpeedPerSec = 10.f;
-	//Desc.fRotationPerSec = 0.f;
+	Desc.fX = g_iWinSizeX >> 1;
+	Desc.fY = g_iWinSizeY >> 1;
+	Desc.fSizeX = g_iWinSizeX;
+	Desc.fSizeY = g_iWinSizeY;
+	lstrcpy(Desc.szName, TEXT("BackGround"));
+	Desc.fSpeedPerSec = 10.f;
+	Desc.fRotationPerSec = 0.f;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -48,11 +49,13 @@ void CBackground::Update(_float fTimeDelta)
 
 void CBackground::Update_Late(_float fTimeDelta)
 {
-	int a = 10;
+	m_pGameInstance->Add_RenderObject(RENDERGROUP::UI, this);
 }
 
 HRESULT CBackground::Render()
 {
+	__super::Bind_OrthoMatrices();
+
 	return S_OK;
 }
 

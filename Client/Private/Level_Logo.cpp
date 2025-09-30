@@ -22,7 +22,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 {
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
-		if (FAILED(m_pGameInstance->Change_Level(LEVEL_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, LEVELID::GAMEPLAY))))
+		if (FAILED(m_pGameInstance->Change_Level(ENUM_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, LEVELID::GAMEPLAY))))
 			return;
 	}
 }
@@ -41,16 +41,16 @@ HRESULT CLevel_Logo::Ready_Layer_Background(const _wstring& strLayerTag)
 	// 여기서 레이어에 추가할 때 오브젝트에 필요한 정보를 넣어줘도 된다.
 	CUIObj::UIOBJ_DESC	Desc{};
 
-	Desc.m_fX = {};
-	Desc.m_fY = {};
-	Desc.m_fSizeX = {};
-	Desc.m_fSizeY = {};
+	Desc.fX = {};
+	Desc.fY = {};
+	Desc.fSizeX = {};
+	Desc.fSizeY = {};
 	lstrcpy(Desc.szName, TEXT("Background"));
 	Desc.fSpeedPerSec = 10.f;
 	Desc.fRotationPerSec = 0.f;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(LEVEL_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
-		LEVEL_TO_UINT(LEVELID::LOGO), strLayerTag, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
+		ENUM_TO_UINT(LEVELID::LOGO), strLayerTag, &Desc)))
 		return E_FAIL;
 
 	return S_OK;

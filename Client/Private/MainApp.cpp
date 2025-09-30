@@ -22,7 +22,7 @@ HRESULT CMainApp::Initialize()
 	m_tEngineDesc.eWinMode = WINMODE::WIN;
 	m_tEngineDesc.iWinSizeX = g_iWinSizeX;
 	m_tEngineDesc.iWinSizeY = g_iWinSizeY;
-	m_tEngineDesc.iLevelNum = LEVEL_TO_UINT(LEVELID::END);
+	m_tEngineDesc.iLevelNum = ENUM_TO_UINT(LEVELID::END);
 	
 	if (FAILED(m_pGameInstance->Initialize_Engine(m_tEngineDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
@@ -56,7 +56,7 @@ HRESULT CMainApp::Render()
 
 HRESULT CMainApp::Start_Level(LEVELID eLevelID)
 {
-	if (FAILED(m_pGameInstance->Change_Level(LEVEL_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, eLevelID))))
+	if (FAILED(m_pGameInstance->Change_Level(ENUM_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, eLevelID))))
 		return E_FAIL;
 
 	return S_OK;

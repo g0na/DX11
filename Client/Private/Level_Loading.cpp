@@ -46,7 +46,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		if (pNewLevel == nullptr)
 			return;
 
-		if (SUCCEEDED(m_pGameInstance->Change_Level(LEVEL_TO_UINT(m_eNextLevelID), pNewLevel)))
+		if (SUCCEEDED(m_pGameInstance->Change_Level(ENUM_TO_UINT(m_eNextLevelID), pNewLevel)))
 			return;
 
 		MSG_BOX("오류 발생");

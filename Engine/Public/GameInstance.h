@@ -45,12 +45,18 @@ public:
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 #pragma endregion
 
+#pragma region RENDERER
+public:
+	HRESULT	Add_RenderObject(RENDERGROUP eRenderGroup, class CGameObject* pObj);
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphicDevice = { nullptr };
 	class CTimer_Manager*		m_pTimerManager = { nullptr };
 	class CLevel_Manager*		m_pLevelManager = { nullptr };
 	class CObject_Manager*		m_pObjectManager = { nullptr };
 	class CPrototype_Manager*	m_pPrototypeManager = { nullptr };
+	class CRenderer*			m_pRenderer = { nullptr };
 
 public:
 	void Release_Engine();

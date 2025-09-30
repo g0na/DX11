@@ -88,7 +88,7 @@ HRESULT CLoader::Loading_Logo()
 	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
 
 	lstrcpy(m_szFPS, TEXT("객체원형을(를) 로딩 중 입니다."));
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
 		CBackground::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	

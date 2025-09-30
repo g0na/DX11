@@ -1,16 +1,8 @@
 #pragma once
 #include "Base.h"
+#include "Transform.h"
 
 NS_BEGIN(Engine)
-
-class CTransform : public CBase
-{
-public:
-	typedef struct tagTransformDesc
-	{
-		_float	fSpeedPerSec{}, fRotationPerSec{};
-	}TRANSFORM_DESC;
-};
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
@@ -36,10 +28,12 @@ public:
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
+	class CGameInstance*	m_pGameInstance = { nullptr };
 
 protected:
-	_tchar				m_szName[MAX_PATH] = {};
-	class CTransform*	m_pTransformCom = { nullptr };
+	_tchar								m_szName[MAX_PATH] = {};
+	map<const _wstring, CComponent*>	m_mapComponents;
+	class CTransform*					m_pTransformCom = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

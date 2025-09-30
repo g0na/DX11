@@ -8,7 +8,7 @@ class ENGINE_DLL CUIObj abstract : public CGameObject
 public:
 	typedef struct tagUIObj final : public CGameObject::GAMEOBJECT_DESC
 	{
-		_float			m_fX{}, m_fY{}, m_fSizeX{}, m_fSizeY{};
+		_float			fX{}, fY{}, fSizeX{}, fSizeY{};
 	}UIOBJ_DESC;
 
 protected:
@@ -27,6 +27,11 @@ public:
 protected:
 	// 직교 투영을 위한 데이터들
 	_float			m_fX{}, m_fY{}, m_fSizeX{}, m_fSizeY{};
+	_float4x4		m_ViewMatrix{}, m_ProjMatrix{};
+
+protected:
+	// 뷰, 투영행렬을 렌더링할 때 이용할 수 있도록 세팅해주는 작업
+	HRESULT		Bind_OrthoMatrices();
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

@@ -1,7 +1,7 @@
 #include "Level.h"
 #include "GameInstance.h"
 #include "GameObject.h"
-
+ 
 CLevel::CLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	m_pGameInstance{ CGameInstance::GetInstance() },
 	m_pDevice{ pDevice }, 

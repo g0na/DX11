@@ -48,6 +48,16 @@ void CObject_Manager::Update_Late(_float fTimeDelta)
 	}
 }
 
+void CObject_Manager::Clear(_uint iLevelNum)
+{
+	// 특정 레벨의 여러 레이어들을 순회한다.
+	for (auto& Pair : m_pLayers[iLevelNum])
+		// 레이어 내부의 오브젝트들을 순회하며 지운다.
+		Safe_Release(Pair.second);
+
+	m_pLayers[iLevelNum].clear();
+}
+
 HRESULT CObject_Manager::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	// 원본들을 담고 있는 프로토타입 매니저로부터 원본을 복제해서 가져온다.
