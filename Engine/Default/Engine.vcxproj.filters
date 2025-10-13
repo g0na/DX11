@@ -61,6 +61,12 @@
     <Filter Include="01. Utility\05. Component\00. Transform">
       <UniqueIdentifier>{e1856e15-a98f-45c8-8eea-6214b3d43a30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\01. VI Buffer">
+      <UniqueIdentifier>{41eb70d3-f8a4-47dc-83f9-accaa9c7855b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\01. VI Buffer\00. Rect">
+      <UniqueIdentifier>{5b044ecb-697b-4f3c-92da-525dfeafe4eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -107,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Transform.cpp">
       <Filter>01. Utility\05. Component\00. Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01. Utility\05. Component\01. VI Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Rect.cpp">
+      <Filter>01. Utility\05. Component\01. VI Buffer\00. Rect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Transform.h">
       <Filter>01. Utility\05. Component\00. Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01. Utility\05. Component\01. VI Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Rect.h">
+      <Filter>01. Utility\05. Component\01. VI Buffer\00. Rect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

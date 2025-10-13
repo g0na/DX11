@@ -31,6 +31,9 @@
     <Filter Include="02. GameObjects\00. Background">
       <UniqueIdentifier>{5fbf98f5-3cbd-42c1-952d-9d237a29059c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97. ShaderFiles">
+      <UniqueIdentifier>{4b55862d-0090-4231-9ffa-db08028f4f61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -102,5 +105,10 @@
     <ClCompile Include="..\Private\Background.cpp">
       <Filter>02. GameObjects\00. Background</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader_VtxPoxTes.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

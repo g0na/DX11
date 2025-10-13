@@ -1,5 +1,6 @@
 #include "Transform.h"
 #include "UIObj.h"
+#include "VIBuffer.h"
 
 USING(Engine)
 
