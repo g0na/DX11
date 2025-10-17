@@ -30,14 +30,19 @@ HRESULT CGameObject::Initialize_Prototype()
 
 HRESULT CGameObject::Initialize(void* pArg)
 {
-	GAMEOBJECT_DESC* pDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
-
-	lstrcpy(m_szName, pDesc->szName);
-
 	// 트랜스폼 컴포넌트를 생성한다.
+	// pArg가 nullptr 이어도 트랜스폼은 무조건 필요하므로 트랜스폼을 생성한다.
 	m_pTransformCom = CTransform::Create(m_pDevice, m_pContext);
 	if (m_pTransformCom == nullptr)
 		return E_FAIL;
+	
+	// nullptr가 들어왔을 경우 예외처리
+	if (pArg != nullptr)
+	{
+		GAMEOBJECT_DESC* pDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
+
+		lstrcpy(m_szName, pDesc->szName);
+	}
 
 	// 생성한 트랜스폼에게 pArg 그대로를 던져준다.
 	if (FAILED(m_pTransformCom->Initialize(pArg)))

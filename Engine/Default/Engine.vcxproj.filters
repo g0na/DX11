@@ -73,6 +73,9 @@
     <Filter Include="01. Utility\05. Component\03. Texture">
       <UniqueIdentifier>{37cf45b0-a509-441a-afa6-62d7fdfe92ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\01. VI Buffer\01. Terrain">
+      <UniqueIdentifier>{dc275184-e2bf-4b93-82ec-33ed70b2bf81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Texture.cpp">
       <Filter>01. Utility\05. Component\03. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
+      <Filter>01. Utility\05. Component\01. VI Buffer\01. Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Texture.h">
       <Filter>01. Utility\05. Component\03. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Terrain.h">
+      <Filter>01. Utility\05. Component\01. VI Buffer\01. Terrain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
