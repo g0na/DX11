@@ -42,14 +42,18 @@ public:
 	void Set_Scale(_float fScaleX, _float fScaleY, _float fScaleZ)
 	{
 		// Right, Up, Look 벡터의 크기를 바꿔준다.
-		Set_State(STATE::RIGHT, XMVector3Normalize(Get_State(STATE::RIGHT) * fScaleX));
-		Set_State(STATE::UP, XMVector3Normalize(Get_State(STATE::UP) * fScaleY));
-		Set_State(STATE::LOOK, XMVector3Normalize(Get_State(STATE::LOOK) * fScaleZ));
+		Set_State(STATE::RIGHT, XMVector3Normalize(Get_State(STATE::RIGHT)) * fScaleX);
+		Set_State(STATE::UP, XMVector3Normalize(Get_State(STATE::UP)) * fScaleY);
+		Set_State(STATE::LOOK, XMVector3Normalize(Get_State(STATE::LOOK)) * fScaleZ);
 	}
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT	Initialize(void* pArg) override;
+
+public:
+	// 셰이더에게 월드 행렬을 던져주는 함수
+	HRESULT Bind_ShaderResources(class CShader* pShader, const _char* pConstantName);
 
 public:
 	void Go_Straight(_float fTimeDelta);

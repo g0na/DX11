@@ -44,7 +44,7 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
 	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
-	pVertices[2].vTexcoord = _float2(1.f, -1.f);
+	pVertices[2].vTexcoord = _float2(1.f, 1.f);
 
 	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
@@ -83,6 +83,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	if (FAILED(m_pDevice->CreateBuffer(&IndexBufferDesc, &IndexInitialData, &m_pIB)))
 		return E_FAIL;
+
+	Safe_Delete_Array(pIndices);
 #pragma endregion
 
 

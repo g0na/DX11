@@ -39,9 +39,10 @@ CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelN
 	// 원본이 있다면 올바른 객체를 Clone
 	// CBase* 인 pPrototype에는 Clone 함수가 없으므로 임의로 열거체를 만들어서 조건을 건다.
 	// 조건에 맞는 형변환을 하여 Clone 함수를 호출
-	return ePrototypeID == PROTOTYPE::GAMEOBJECT ?
-		dynamic_cast<CGameObject*>(pPrototype)->Clone(pArg) :
-		/*dynamic_cast<CComponent*>(pPrototype)->Clone(pArg)*/ nullptr;
+	if (PROTOTYPE::GAMEOBJECT == ePrototypeID)
+		return dynamic_cast<CGameObject*>(pPrototype)->Clone(pArg);
+	else
+		return dynamic_cast<CComponent*>(pPrototype)->Clone(pArg);
 }
 
 void CPrototype_Manager::Clear(_uint iLevelNum)

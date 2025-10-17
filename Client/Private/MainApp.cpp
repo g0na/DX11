@@ -1,7 +1,6 @@
 #include "MainApp.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
-#include "Background.h"
 
 USING(Client)
 
@@ -18,6 +17,7 @@ Client::CMainApp::~CMainApp()
 HRESULT CMainApp::Initialize()
 {
 	// EngineDesc 초기화
+	EngineDesc		m_tEngineDesc {};
 	m_tEngineDesc.hWnd = g_hWnd;
 	m_tEngineDesc.eWinMode = WINMODE::WIN;
 	m_tEngineDesc.iWinSizeX = g_iWinSizeX;
@@ -25,6 +25,9 @@ HRESULT CMainApp::Initialize()
 	m_tEngineDesc.iLevelNum = ENUM_TO_UINT(LEVELID::END);
 	
 	if (FAILED(m_pGameInstance->Initialize_Engine(m_tEngineDesc, &m_pDevice, &m_pContext)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Prototype_For_Static()))
 		return E_FAIL;
 
 	if (FAILED(Start_Level(LEVELID::LOGO)))
@@ -57,6 +60,21 @@ HRESULT CMainApp::Render()
 HRESULT CMainApp::Start_Level(LEVELID eLevelID)
 {
 	if (FAILED(m_pGameInstance->Change_Level(ENUM_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, eLevelID))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_For_Static()
+{
+	// Prototype_Component_VIBuffer_Rect 추가
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+		CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	// Prototype_Component_Shader_VtxPosTex 추가
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_Component_Shader_VtxPosTex"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
 		return E_FAIL;
 
 	return S_OK;

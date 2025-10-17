@@ -31,7 +31,7 @@ protected:
 
 protected:
 	// 뷰, 투영행렬을 렌더링할 때 이용할 수 있도록 세팅해주는 작업
-	HRESULT		Bind_OrthoMatrices();
+	HRESULT		Bind_OrthoMatrices(class CShader* pShader, const _char* pViewMatrixName, const _char* pProjMatrixName);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

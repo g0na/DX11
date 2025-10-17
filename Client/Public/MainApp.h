@@ -19,7 +19,6 @@ public:
 	HRESULT Initialize();
 	void Update(const _float& fTimeDelta);
 	HRESULT Render();
-	HRESULT Start_Level(LEVELID eLevelID);
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
@@ -27,7 +26,8 @@ private:
 	CGameInstance* m_pGameInstance = { nullptr };
 
 private:
-	EngineDesc	m_tEngineDesc = {};
+	HRESULT Start_Level(LEVELID eLevelID);
+	HRESULT Ready_Prototype_For_Static();
 
 public:
 	static CMainApp* Create();

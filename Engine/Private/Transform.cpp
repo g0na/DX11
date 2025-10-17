@@ -1,6 +1,5 @@
 #include "Transform.h"
-#include "UIObj.h"
-#include "VIBuffer.h"
+#include "Shader.h"
 
 USING(Engine)
 
@@ -25,6 +24,11 @@ HRESULT CTransform::Initialize(void* pArg)
 	m_fRotationPerSec = pDesc->fRotationPerSec;
 
 	return S_OK;
+}
+
+HRESULT CTransform::Bind_ShaderResources(CShader* pShader, const _char* pConstantName)
+{
+	return pShader->Bind_Matrix(pConstantName, &m_WorldMatrix);
 }
 
 void CTransform::Go_Straight(_float fTimeDelta)

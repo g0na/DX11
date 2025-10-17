@@ -33,7 +33,20 @@ protected:
 protected:
 	_tchar								m_szName[MAX_PATH] = {};
 	map<const _wstring, CComponent*>	m_mapComponents;
-	class CTransform*					m_pTransformCom = { nullptr };
+	CTransform*					m_pTransformCom = { nullptr };
+
+protected:
+	/// <summary>
+	/// 복제된 원본 컴포넌트를 생성하여 추가하는 함수
+	/// </summary>
+	/// <param name="iPrototypeLevelID">복제본이 위치한 레벨 ID</param>
+	/// <param name="strPrototypeTag">컴포넌트 복제본의 태그</param>
+	/// <param name="strComponentTag">컴포넌트 원본 태그</param>
+	/// <param name="ppOut">결과로 내보낼 주소값</param>
+	/// <param name="pArg"></param>
+	/// <returns></returns>
+	HRESULT Add_Component(_uint iPrototypeLevelID, const _wstring& strPrototypeTag,
+		const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

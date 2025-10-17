@@ -70,6 +70,28 @@ HRESULT CGameObject::Render()
 }
 
 
+HRESULT CGameObject::Add_Component(_uint iPrototypeLevelID, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
+{
+	// 오브젝트에 컴포넌트 복제본이 있는지 확인하여 예외처리를 한다.
+	auto iter = m_mapComponents.find(strComponentTag);
+	if (iter != m_mapComponents.end())
+		return E_FAIL;
+
+	// 복제본이 없는 것을 확인한 후 복제하여 오브젝트의 map 컨테이너에 삽입한다.
+	CComponent* pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, iPrototypeLevelID, strPrototypeTag, pArg));
+	if (pComponent == nullptr)
+		return E_FAIL;
+
+	m_mapComponents.emplace(strComponentTag, pComponent);
+
+	// 오브젝트 자체가 가지고 있는 멤버 변수에도 삽입하고 컴포넌트를 참조하였으므로 레퍼런스 카운트를 증가시킨다.
+	*ppOut = pComponent;
+
+	Safe_AddRef(pComponent);
+
+	return S_OK;
+}
+
 void CGameObject::Free()
 {
 	__super::Free();

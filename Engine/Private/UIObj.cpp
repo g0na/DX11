@@ -1,4 +1,5 @@
 #include "UIObj.h"
+#include "Shader.h"
 
 CUIObj::CUIObj(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject {pDevice, pContext}
@@ -37,7 +38,7 @@ HRESULT CUIObj::Initialize(void* pArg)
 	m_pTransformCom->Set_Scale(m_fSizeX, m_fSizeY, 1.f);
 	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(
 		m_fX - ViewPortDesc.Width * 0.5f,
-		m_fY - ViewPortDesc.Height * 0.5f,
+		-m_fY + ViewPortDesc.Height * 0.5f,
 		0.f, 1.f));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
@@ -63,8 +64,14 @@ HRESULT CUIObj::Render()
 	return S_OK;
 }
 
-HRESULT CUIObj::Bind_OrthoMatrices()
+HRESULT CUIObj::Bind_OrthoMatrices(class CShader* pShader, const _char* pViewMatrixName, const _char* pProjMatrixName)
 {
+	if (FAILED(pShader->Bind_Matrix(pViewMatrixName, &m_ViewMatrix)))
+		return E_FAIL;
+
+	if (FAILED(pShader->Bind_Matrix(pProjMatrixName, &m_ProjMatrix)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

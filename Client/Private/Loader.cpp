@@ -82,6 +82,10 @@ HRESULT CLoader::Loading_Logo()
 	lock_guard<mutex> lock(m_mutex);
 
 	lstrcpy(m_szFPS, TEXT("텍스쳐를 로딩 중 입니다."));
+	// For Prototype_Component_Texture_Background
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_Component_Texture_Background"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default0.jpg"), 1))))
+		return E_FAIL;
 	
 	lstrcpy(m_szFPS, TEXT("모델을(를) 로딩 중 입니다."));
 
@@ -98,7 +102,6 @@ HRESULT CLoader::Loading_Logo()
 	m_bIsFinished = true;
 
 	return S_OK;
-
 }
 
 HRESULT CLoader::Loading_GamePlay()

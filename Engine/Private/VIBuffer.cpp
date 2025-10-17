@@ -55,8 +55,16 @@ HRESULT CVIBuffer::Bind_Resource()
 	// 버퍼를 장치의 한 입력 슬롯으로 묶는 함수
 	m_pContext->IASetVertexBuffers(0, m_iNumVertexBuffers, pVertexBuffers, iVertexStrides, iOffsets);
 	m_pContext->IASetIndexBuffer(m_pIB, m_iIndexStride == 2 ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT, 0);
+
 	// 기본 도형 형식을 Direct3D에게 알려주는 수단
 	m_pContext->IASetPrimitiveTopology(m_ePrimitiveType);
+
+	// VTXPOSTEX
+	D3D11_INPUT_ELEMENT_DESC		Elements[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+	};
 
 	return S_OK;
 }
