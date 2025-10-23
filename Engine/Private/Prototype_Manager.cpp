@@ -1,8 +1,6 @@
 #include "Prototype_Manager.h"
 #include "GameObject.h"
 
-USING(Engine)
-
 CPrototype_Manager::CPrototype_Manager()
 {
 }

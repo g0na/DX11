@@ -76,6 +76,15 @@
     <Filter Include="01. Utility\05. Component\01. VI Buffer\01. Terrain">
       <UniqueIdentifier>{dc275184-e2bf-4b93-82ec-33ed70b2bf81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\06. Pipeline">
+      <UniqueIdentifier>{1ba15860-5f48-4d59-9f14-6bce712cab71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\03. GameObject\03. Camera">
+      <UniqueIdentifier>{5c4d4ac9-fb06-4f2d-b51d-35789222b0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Systems\01. Device\01. Input">
+      <UniqueIdentifier>{28c35f5c-89f6-45ef-a072-1378a07aa2d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -137,6 +146,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
       <Filter>01. Utility\05. Component\01. VI Buffer\01. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PipeLine.cpp">
+      <Filter>01. Utility\06. Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera.cpp">
+      <Filter>01. Utility\03. GameObject\03. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Input_Device.cpp">
+      <Filter>00. Systems\01. Device\01. Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +235,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Terrain.h">
       <Filter>01. Utility\05. Component\01. VI Buffer\01. Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PipeLine.h">
+      <Filter>01. Utility\06. Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera.h">
+      <Filter>01. Utility\03. GameObject\03. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Input_Device.h">
+      <Filter>00. Systems\01. Device\01. Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

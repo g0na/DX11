@@ -3,6 +3,7 @@
 // 레벨별로 구분하여 보관한다. GameObject와 Component를 따로 구분하지는 않는다.
 
 #include "VIBuffer_Rect.h"
+#include "VIBuffer_Terrain.h"
 #include "Transform.h"
 #include "Shader.h"
 #include "Texture.h"

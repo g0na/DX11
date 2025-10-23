@@ -32,7 +32,7 @@ protected:
 
 protected:
 	_tchar								m_szName[MAX_PATH] = {};
-	map<const _wstring, CComponent*>	m_mapComponents;
+	map<const _wstring, class CComponent*>	m_mapComponents;
 	CTransform*					m_pTransformCom = { nullptr };
 
 protected:

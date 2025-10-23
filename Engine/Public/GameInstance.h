@@ -21,6 +21,14 @@ public:
 	void					Clear(_uint iLevelID);		// 정해진 레벨의 자원을 정리한다.
 #pragma endregion
 
+#pragma region INPUT_MANAGER
+public:
+	_byte	Get_DIKeyState(_ubyte byKeyID);
+	_byte	Get_DIMouseState(MOUSEKEYSTATE eMouse);
+	// 현재 마우스의 특정 축 좌표를 반환
+	_long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState);
+#pragma endregion
+
 #pragma region TIMER_MANAGER
 public:
 	_float		Get_TimeDelta(const _tchar* pTimerTag);
@@ -50,13 +58,22 @@ public:
 	HRESULT	Add_RenderObject(RENDERGROUP eRenderGroup, class CGameObject* pObj);
 #pragma endregion
 
+#pragma region PIPELINE
+	HRESULT Bind_PipeLineMatrix(class CShader* pShader, const _char* pConstantName, D3DTS eTransformMatrix);
+	HRESULT Bind_PipeLineInverseMatrix(class CShader* pShader, const _char* pConstantName, D3DTS eTransformMatrix);
+	HRESULT Bind_CamPosition(class CShader* pShader, const _char* pConstant);
+	void Set_Transform(D3DTS eTransformMatrix, _fmatrix TransformMatrix);
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphicDevice = { nullptr };
+	class CInput_Device*		m_pInputDevice = { nullptr };
 	class CTimer_Manager*		m_pTimerManager = { nullptr };
 	class CLevel_Manager*		m_pLevelManager = { nullptr };
 	class CObject_Manager*		m_pObjectManager = { nullptr };
 	class CPrototype_Manager*	m_pPrototypeManager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
+	class CPipeLine*			m_pPipeLine = { nullptr };
 
 public:
 	void Release_Engine();

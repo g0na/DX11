@@ -1,7 +1,5 @@
 #include "Shader.h"
 
-USING(Engine)
-
 CShader::CShader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent { pDevice, pContext }
 {
@@ -68,15 +66,15 @@ HRESULT CShader::Initialize(void* pArg)
 
 HRESULT CShader::Bind_Matrix(const _char* pConstantName, const _float4x4* pMatrix)
 {
-	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
-	if (pVariable == nullptr)
-		return E_FAIL;
+    ID3DX11EffectVariable*  pVariable = m_pEffect->GetVariableByName(pConstantName);
+    if (nullptr == pVariable)
+        return E_FAIL;
 
-	ID3DX11EffectMatrixVariable* pMatrixVariable = pVariable->AsMatrix();
-	if (pMatrixVariable == nullptr)
-		return E_FAIL;
+    ID3DX11EffectMatrixVariable*    pMatrixVariable = pVariable->AsMatrix();
+    if (nullptr == pMatrixVariable)
+        return E_FAIL;
 
-	return pMatrixVariable->SetMatrix(reinterpret_cast<const _float*>(pMatrix));
+    return pMatrixVariable->SetMatrix(reinterpret_cast<const _float*>(pMatrix));    
 }
 
 HRESULT CShader::Bind_SRV(const _char* pConstantName, ID3D11ShaderResourceView* pSRV)

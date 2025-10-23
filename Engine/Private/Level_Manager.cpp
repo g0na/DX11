@@ -2,8 +2,6 @@
 #include "GameInstance.h"
 #include "Level.h"
 
-USING(Engine)
-
 CLevel_Manager::CLevel_Manager() :
 	m_pGameInstance{ CGameInstance::GetInstance() }
 {

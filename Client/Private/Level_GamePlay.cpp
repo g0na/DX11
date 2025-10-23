@@ -1,4 +1,6 @@
 #include "Level_GamePlay.h"
+#include "GameInstance.h"
+#include "Camera_Free.h"
 
 USING(Client)
 
@@ -9,6 +11,12 @@ CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Background(TEXT("Layer_Background"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -21,6 +29,34 @@ HRESULT CLevel_GamePlay::Render()
 #ifdef _DEBUG
 	SetWindowText(g_hWnd, TEXT("게임 플레이 레벨입니다."));
 #endif
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
+{
+	CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
+	CameraDesc.vPosition = _float3(0.f, 30.f, -20.f);
+	CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+	CameraDesc.fSpeedPerSec = 50.f;
+	CameraDesc.fRotationPerSec = XMConvertToRadians(180.0f);
+	CameraDesc.fFovY = XMConvertToRadians(45.0f);
+	CameraDesc.fNearZ = 0.1f;
+	CameraDesc.fFarZ = 1000.f;
+	CameraDesc.fSensor = 0.1f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &CameraDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Background(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -1,7 +1,5 @@
 #include "VIBuffer_Rect.h"
 
-USING(Engine)
-
 CVIBuffer_Rect::CVIBuffer_Rect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CVIBuffer { pDevice, pContext }
 {

@@ -1,8 +1,6 @@
 #include "GameObject.h"
 #include "GameInstance.h"
 
-USING(Engine)
-
 CGameObject::CGameObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice {pDevice}
 	, m_pContext {pContext}

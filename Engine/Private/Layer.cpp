@@ -1,8 +1,6 @@
 #include "Layer.h"
 #include "GameObject.h"
 
-USING(Engine)
-
 CLayer::CLayer()
 {
 }

@@ -1,6 +1,8 @@
 #include "Loader.h"	
 #include "Background.h"
 #include "GameInstance.h"
+#include "Terrain.h"
+#include "Camera_Free.h"
 
 USING(Client)
 
@@ -92,12 +94,13 @@ HRESULT CLoader::Loading_Logo()
 	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
 
 	lstrcpy(m_szFPS, TEXT("객체원형을(를) 로딩 중 입니다."));
+	// For Prototype_GameObject_Backgroud
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
 		CBackground::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	
 
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었습니다."));
 
 	m_bIsFinished = true;
 
@@ -109,14 +112,37 @@ HRESULT CLoader::Loading_GamePlay()
 	lock_guard<mutex> lock(m_mutex);
 
 	lstrcpy(m_szFPS, TEXT("텍스쳐를 로딩 중 입니다."));
+	/* For.Prototype_Component_Texture_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile0.jpg"), 1))))
+		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("모델을(를) 로딩 중 입니다."));
+	/* For.Prototype_Component_VIBuffer_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
+		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
+	/* For.Prototype_Component_Shader_VtxNorTex */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxNorTex"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements))))
+		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("객체원형을(를) 로딩 중 입니다."));
+	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Camera_Free */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
+		CCamera_Free::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었습니다."));
 
 	m_bIsFinished = true;
 

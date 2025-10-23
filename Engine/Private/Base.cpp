@@ -1,7 +1,5 @@
 #include "Base.h"
 
-USING(Engine)
-
 CBase::CBase()
 {
 }

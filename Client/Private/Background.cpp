@@ -1,5 +1,6 @@
 #include "Background.h"
 #include "GameInstance.h"
+#include "Terrain.h"
 
 USING(Client)
 
@@ -122,7 +123,7 @@ HRESULT CBackground::Bind_ShaderResources()
 		return E_FAIL;
 
 	// 직교투영용 월드 행렬을 쉐이더에 전달한다.
-	if (FAILED(m_pTransformCom->Bind_ShaderResources(m_pShaderCom, "g_WorldMatrix")))
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
 
 	// 텍스쳐를 쉐이더에 전달한다.

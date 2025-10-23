@@ -3,9 +3,9 @@
 #include "Level_Manager.h"
 #include "Object_Manager.h"
 #include "Graphic_Device.h"
+#include "Input_Device.h"
 #include "Renderer.h"
-
-USING(Engine)
+#include "PipeLine.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -22,6 +22,10 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 		return E_FAIL;
 
 	// 인풋 디바이스 초기화
+	m_pInputDevice = CInput_Device::Create(EngineDesc.hInstance, EngineDesc.hWnd);
+	if (m_pInputDevice == nullptr)
+		return E_FAIL;
+
 	// 사운드 디바이스 초기화
 	// 타이머 매니저 초기화
 	m_pTimerManager = CTimer_Manager::Create();
@@ -48,15 +52,21 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	if (m_pRenderer == nullptr)
 		return E_FAIL;
 
+	// 파이프라인 초기화
+	m_pPipeLine = CPipeLine::Create();
+	if (m_pPipeLine == nullptr)
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CGameInstance::Update_Engine(const _float& fTimeDelta)
 {
+	m_pInputDevice->Update();
 	m_pObjectManager->Update_Priority(fTimeDelta);
+	m_pPipeLine->Update();
 	m_pObjectManager->Update(fTimeDelta);
 	m_pObjectManager->Update_Late(fTimeDelta);
-
 	m_pLevelManager->Update_Level(fTimeDelta);
 }
 
@@ -96,6 +106,23 @@ void CGameInstance::Clear(_uint iLevelID)
 }
 #pragma endregion
 
+#pragma region INPUT_MANAGER
+_byte CGameInstance::Get_DIKeyState(_ubyte byKeyID)
+{
+	return m_pInputDevice->Get_DIKeyState(byKeyID);
+}
+
+_byte CGameInstance::Get_DIMouseState(MOUSEKEYSTATE eMouse)
+{
+	return m_pInputDevice->Get_DIMouseState(eMouse);
+}
+
+// 현재 마우스의 특정 축 좌표를 반환
+_long CGameInstance::Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
+{
+	return m_pInputDevice->Get_DIMouseMove(eMouseState);
+}
+#pragma endregion
 
 #pragma region TIMER_MANAGER
 _float CGameInstance::Get_TimeDelta(const _tchar* pTimerTag)
@@ -150,6 +177,28 @@ HRESULT CGameInstance::Add_RenderObject(RENDERGROUP eRenderGroup, CGameObject* p
 }
 #pragma endregion
 
+#pragma region PIPELINE
+HRESULT CGameInstance::Bind_PipeLineMatrix(CShader* pShader, const _char* pConstantName, D3DTS eTransformMatrix)
+{
+	return m_pPipeLine->Bind_PipeLineMatrix(pShader, pConstantName, eTransformMatrix);
+}
+
+HRESULT CGameInstance::Bind_PipeLineInverseMatrix(CShader* pShader, const _char* pConstantName, D3DTS eTransformMatrix)
+{
+	return m_pPipeLine->Bind_PipeLineInverseMatrix(pShader, pConstantName, eTransformMatrix);
+}
+
+HRESULT CGameInstance::Bind_CamPosition(CShader* pShader, const _char* pConstant)
+{
+	return m_pPipeLine->Bind_CamPosition(pShader, pConstant);
+}
+
+void CGameInstance::Set_Transform(D3DTS eTransformMatrix, _fmatrix TransformMatrix)
+{
+	m_pPipeLine->Set_Transform(eTransformMatrix, TransformMatrix);
+}
+#pragma region
+
 
 void CGameInstance::Release_Engine()
 {
@@ -158,6 +207,8 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pPrototypeManager);
 	Safe_Release(m_pRenderer);
+	Safe_Release(m_pPipeLine);
+	Safe_Release(m_pInputDevice);
 	Safe_Release(m_pGraphicDevice);
 
 	CGameInstance::GetInstance()->DestroyInstance();

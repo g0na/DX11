@@ -4,8 +4,6 @@
 #include "Prototype_Manager.h"
 #include "GameObject.h"
 
-USING(Engine)
-
 CObject_Manager::CObject_Manager() :
 	m_pGameInstance{ CGameInstance::GetInstance() }
 {

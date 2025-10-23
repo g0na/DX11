@@ -17,7 +17,7 @@ public:
 	void	Clear(_uint iLevelNum);
 
 public:
-	// 특정 레벨의 특정 프로토 타입을, 특정 레벨의 특정 레이어에 추가하는 함수
+	// 특정 레벨의 특정 원본을, 특정 레벨의 특정 레이어에 추가하는 함수
 	HRESULT Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 

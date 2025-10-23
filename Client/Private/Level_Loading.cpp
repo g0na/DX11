@@ -14,7 +14,7 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevelID)
 	m_eNextLevelID = eNextLevelID;
 
 	// 다음 레벨에 대한 자원을 준비한다.
-	m_pLoader = CLoader::Create(eNextLevelID, m_pDevice, m_pContext);
+	m_pLoader = CLoader::Create(m_eNextLevelID, m_pDevice, m_pContext);
 	if (m_pLoader == nullptr)
 		return E_FAIL;
 

@@ -3,10 +3,12 @@
 
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include <DirectXCollision.h>
+
 #include <Fx11/d3dx11effect.h>
-#include <d3dcompiler.h>
 #include <DirectXTK/DDSTextureLoader.h>
 #include <DirectXTK/WICTextureLoader.h>
+#include <d3dcompiler.h>
 using namespace DirectX;
 
 #include <vector>
