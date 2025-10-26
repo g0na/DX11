@@ -10,5 +10,6 @@ namespace Engine
 	enum class D3DTS { VIEW, PROJ, END };
 	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
 	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };
+	enum class LIGHT { DIRECTIONAL, POINT, END };
 }
 #endif // Engine_Enum_h__

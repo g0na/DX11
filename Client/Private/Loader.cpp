@@ -142,8 +142,6 @@ HRESULT CLoader::Loading_GamePlay()
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었습니다."));
-
 	m_bIsFinished = true;
 
 	return S_OK;

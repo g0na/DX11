@@ -12,6 +12,18 @@ namespace Engine
 		unsigned int		iWinSizeY;
 		unsigned int		iLevelNum;
 	}EngineDesc;
+
+	typedef struct tagLightDesc
+	{
+		LIGHT eType;
+		XMFLOAT4 vDiffuse;
+		XMFLOAT4 vAmbient;
+		XMFLOAT4 vSpecular;
+
+		XMFLOAT4 vDirection;
+		XMFLOAT4 vPosition;	
+		float fRange;
+	}LIGHT_DESC;
 	
 	typedef struct tagVertexPositionCoord
 	{

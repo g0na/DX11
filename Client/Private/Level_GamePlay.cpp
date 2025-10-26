@@ -17,6 +17,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Background(TEXT("Layer_Background"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Lights()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -56,6 +59,22 @@ HRESULT CLevel_GamePlay::Ready_Layer_Background(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Lights()
+{
+	LIGHT_DESC LightDesc = {};
+
+	LightDesc.eType = LIGHT::DIRECTIONAL;
+	LightDesc.vDirection = { 1.f, -1.f, 1.f, 0.f};
+	LightDesc.vDiffuse = { 1.f, 1.f, 1.f, 1.f };
+	LightDesc.vAmbient = { 1.f, 1.f, 1.f, 1.f };
+	LightDesc.vSpecular = { 1.f, 1.f, 1.f, 1.f };
+
+	if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
 		return E_FAIL;
 
 	return S_OK;

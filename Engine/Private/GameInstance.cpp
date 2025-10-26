@@ -2,6 +2,7 @@
 #include "Timer_Manager.h"
 #include "Level_Manager.h"
 #include "Object_Manager.h"
+#include "Light_Manager.h"
 #include "Graphic_Device.h"
 #include "Input_Device.h"
 #include "Renderer.h"
@@ -55,6 +56,11 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	// 파이프라인 초기화
 	m_pPipeLine = CPipeLine::Create();
 	if (m_pPipeLine == nullptr)
+		return E_FAIL;
+
+	// 빛 매니저 초기화
+	m_pLightManager = CLight_Manager::Create();
+	if (m_pLightManager == nullptr)
 		return E_FAIL;
 
 	return S_OK;
@@ -169,6 +175,19 @@ HRESULT CGameInstance::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _ws
 	return m_pObjectManager->Add_GameObject_To_Layer(iProtoLevelIndex, strProtoTag, iLayerLevelIndex, strLayerTag, pArg);
 }
 #pragma endregion
+
+#pragma region LIGHT_MANAGER
+const LIGHT_DESC* CGameInstance::Get_LightDesc(_uint iIndex)
+{
+	return m_pLightManager->Get_LightDesc(iIndex);
+}
+
+HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
+{
+	return m_pLightManager->Add_Light(LightDesc);
+}
+#pragma endregion
+
 
 #pragma region RENDERER
 HRESULT CGameInstance::Add_RenderObject(RENDERGROUP eRenderGroup, CGameObject* pObj)

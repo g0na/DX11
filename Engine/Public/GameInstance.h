@@ -53,6 +53,12 @@ public:
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 #pragma endregion
 
+#pragma region LIGHT_MANAGER
+public:
+	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
+	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+#pragma endregion
+
 #pragma region RENDERER
 public:
 	HRESULT	Add_RenderObject(RENDERGROUP eRenderGroup, class CGameObject* pObj);
@@ -72,6 +78,7 @@ private:
 	class CLevel_Manager*		m_pLevelManager = { nullptr };
 	class CObject_Manager*		m_pObjectManager = { nullptr };
 	class CPrototype_Manager*	m_pPrototypeManager = { nullptr };
+	class CLight_Manager*		m_pLightManager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CPipeLine*			m_pPipeLine = { nullptr };
 

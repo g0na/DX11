@@ -17,7 +17,7 @@ HRESULT CPipeLine::Bind_PipeLineInverseMatrix(CShader* pShader, const _char* pCo
 
 HRESULT CPipeLine::Bind_CamPosition(CShader* pShader, const _char* pConstantName)
 {
-    return S_OK;
+    return pShader->Bind_RawValue(pConstantName, &m_vCamPosition, sizeof(_float4));
 }
 
 void CPipeLine::Update()

@@ -28,12 +28,6 @@
     <Filter Include="01. Utility\00. GameInstance">
       <UniqueIdentifier>{8d9f7680-840e-40b4-b3f3-6ee2f72baee1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Utility\01. Levels">
-      <UniqueIdentifier>{2e4b52ec-61be-4377-aa5f-eaba6828565d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Utility\01. Levels\00. Manager">
-      <UniqueIdentifier>{fd039185-7240-4577-863f-2ecf4c3f28c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Utility\03. GameObject">
       <UniqueIdentifier>{f18aa230-76ea-41f2-9f8a-520fe934d70c}</UniqueIdentifier>
     </Filter>
@@ -84,6 +78,18 @@
     </Filter>
     <Filter Include="00. Systems\01. Device\01. Input">
       <UniqueIdentifier>{28c35f5c-89f6-45ef-a072-1378a07aa2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\07. Lights">
+      <UniqueIdentifier>{57dce5d5-6283-4159-80d5-5688a386c302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\07. Lights\00. Manager">
+      <UniqueIdentifier>{2b1fc908-32b1-45f0-b98f-f9242af5a6cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\01. Levels">
+      <UniqueIdentifier>{2e4b52ec-61be-4377-aa5f-eaba6828565d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\01. Levels\00. Manager">
+      <UniqueIdentifier>{fd039185-7240-4577-863f-2ecf4c3f28c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +161,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Input_Device.cpp">
       <Filter>00. Systems\01. Device\01. Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light.cpp">
+      <Filter>01. Utility\07. Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light_Manager.cpp">
+      <Filter>01. Utility\07. Lights\00. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +256,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Input_Device.h">
       <Filter>00. Systems\01. Device\01. Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light.h">
+      <Filter>01. Utility\07. Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light_Manager.h">
+      <Filter>01. Utility\07. Lights\00. Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
