@@ -221,6 +221,7 @@ void CGameInstance::Set_Transform(D3DTS eTransformMatrix, _fmatrix TransformMatr
 
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pLightManager);
 	Safe_Release(m_pTimerManager);
 	Safe_Release(m_pLevelManager);
 	Safe_Release(m_pObjectManager);

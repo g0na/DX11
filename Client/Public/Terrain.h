@@ -28,7 +28,7 @@ public:
 private:
 	CVIBuffer_Terrain*		m_pVIBufferCom = { nullptr };
 	CShader*				m_pShaderCom = { nullptr };
-	CTexture*				m_pTextureCom = { nullptr };
+	CTexture*				m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::END)] = {nullptr};
 
 private:
 	HRESULT		Ready_Components();

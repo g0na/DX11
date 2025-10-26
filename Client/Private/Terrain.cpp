@@ -69,9 +69,14 @@ HRESULT CTerrain::Ready_Components()
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 
-    // Com_Texture 추가
+    // Com_Texture_Diffuse 추가
     if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
-        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        TEXT("Com_Texture_Diffuse"), reinterpret_cast<CComponent**>(&m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::DIFFUSE)]))))
+        return E_FAIL;
+
+    // Com_Texture_Mask 추가
+    if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain_Mask"),
+        TEXT("Com_Texture_Mask"), reinterpret_cast<CComponent**>(&m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::MASK)]))))
         return E_FAIL;
 
     return S_OK;
@@ -102,8 +107,11 @@ HRESULT CTerrain::Bind_ShaderResources()
         return E_FAIL;
 
 
-	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", 0)))
+    if (FAILED(m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::DIFFUSE)]->Bind_ShaderResources(m_pShaderCom, "g_DiffuseTexture")))
 		return E_FAIL;
+
+    if (FAILED(m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::MASK)]->Bind_ShaderResource(m_pShaderCom, "g_MaskTexture", 0)))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -138,7 +146,9 @@ void CTerrain::Free()
 {
     __super::Free();
 
+    for (auto& pTexture : m_pTextureCom)
+        Safe_Release(pTexture);
+
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
-    Safe_Release(m_pTextureCom);
 }

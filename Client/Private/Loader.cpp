@@ -114,8 +114,13 @@ HRESULT CLoader::Loading_GamePlay()
 	lstrcpy(m_szFPS, TEXT("텍스쳐를 로딩 중 입니다."));
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile0.jpg"), 1))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Terrain_Mask */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain_Mask"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Mask.bmp"), 1))))
+		return E_FAIL;	
 
 	lstrcpy(m_szFPS, TEXT("모델을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_VIBuffer_Terrain */

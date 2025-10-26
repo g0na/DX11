@@ -14,6 +14,7 @@ namespace Client
 	static const unsigned int g_iWinSizeY = { 720 };
 
 	enum class LEVELID { STATIC, LOADING, LOGO, GAMEPLAY, END};
+	enum class TERRAINTEX { DIFFUSE, MASK, END };
 }
 
 using namespace std;
