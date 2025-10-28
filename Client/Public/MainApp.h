@@ -26,6 +26,7 @@ private:
 	CGameInstance* m_pGameInstance = { nullptr };
 
 private:
+	HRESULT Ready_Gara();
 	HRESULT Start_Level(LEVELID eLevelID);
 	HRESULT Ready_Prototype_For_Static();
 

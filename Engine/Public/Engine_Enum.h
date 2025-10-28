@@ -11,5 +11,6 @@ namespace Engine
 	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
 	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };
 	enum class LIGHT { DIRECTIONAL, POINT, END };
+	enum class MODEL { NONANIM, ANIM };
 }
 #endif // Engine_Enum_h__
