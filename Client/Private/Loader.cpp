@@ -143,7 +143,7 @@ HRESULT CLoader::Loading_GamePlay()
 
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/Dark123.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/Darkwraith.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
