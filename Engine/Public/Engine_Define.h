@@ -9,6 +9,7 @@
 #include <DirectXTK/DDSTextureLoader.h>
 #include <DirectXTK/WICTextureLoader.h>
 #include <DirectXTK/ScreenGrab.h>
+#include <DirectXTex/DirectXTex.h>
 #include <d3dcompiler.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
@@ -37,6 +38,7 @@ using namespace std;
 #include <dinput.h>
 
 #pragma warning(disable : 4251)
+#pragma warning(disable : 4819)
 
 namespace Engine
 {

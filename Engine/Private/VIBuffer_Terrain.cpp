@@ -23,11 +23,14 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightFileMapPath
     BITMAPINFOHEADER        ih{};
     _uint* pPixels = { nullptr };
 
-    ReadFile(hFile, &fh, sizeof(fh), &dwByte, nullptr);
-    ReadFile(hFile, &ih, sizeof(ih), &dwByte, nullptr);
+    if (ReadFile(hFile, &fh, sizeof(fh), &dwByte, nullptr) == false)
+        return E_FAIL;
+    if (ReadFile(hFile, &ih, sizeof(ih), &dwByte, nullptr) == false)
+        return E_FAIL;
 
     pPixels = new _uint[ih.biWidth * ih.biHeight];
-    ReadFile(hFile, pPixels, sizeof(_uint) * ih.biWidth * ih.biHeight, &dwByte, nullptr);
+    if (ReadFile(hFile, pPixels, sizeof(_uint) * ih.biWidth * ih.biHeight, &dwByte, nullptr) == false)
+        return E_FAIL;
 
     CloseHandle(hFile);
 
@@ -57,9 +60,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightFileMapPath
     m_pVertexPositions = new _float3[m_iNumVertices];
     ZeroMemory(m_pVertexPositions, sizeof(_float3) * m_iNumVertices);
 
-    for (size_t i = 0; i < m_iNumVerticesZ; i++)
+    for (_uint i = 0; i < m_iNumVerticesZ; i++)
     {
-        for (size_t j = 0; j < m_iNumVerticesX; j++)
+        for (_uint j = 0; j < m_iNumVerticesX; j++)
         {
             _uint       iIndex = i * m_iNumVerticesX + j;
 
@@ -86,9 +89,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightFileMapPath
 
     _uint       iNumIndices = {};
 
-    for (size_t i = 0; i < m_iNumVerticesZ - 1; i++)
+    for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
     {
-        for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+        for (_uint j = 0; j < m_iNumVerticesX - 1; j++)
         {
             _uint       iIndex = i * m_iNumVerticesX + j;
 
@@ -162,11 +165,6 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightFileMapPath
         return E_FAIL;
 
     Safe_Delete_Array(pIndices);
-
-
-
-
-
 
     return S_OK;
 }

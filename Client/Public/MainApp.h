@@ -17,7 +17,7 @@ private:
 
 public:
 	HRESULT Initialize();
-	void Update(const _float& fTimeDelta);
+	void Update(const _float fTimeDelta);
 	HRESULT Render();
 
 private:

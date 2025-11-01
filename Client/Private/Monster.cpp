@@ -21,11 +21,10 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(20.f, 1.f, 20.f, 1.f));
-	m_pTransformCom->Set_Scale(0.02f, 0.02f, 0.02f);
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(10.f, 1.f, 10.f, 1.f));
 
 	return S_OK;
 }
@@ -48,11 +47,18 @@ HRESULT CMonster::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(0)))
-		return E_FAIL;
+	_uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-	if (FAILED(m_pModelCom->Render()))
-		return E_FAIL;
+	for (_uint i = 0; i < iNumMeshes; i++)
+	{
+		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE, 0)))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Begin(0)))
+			return E_FAIL;
+
+		m_pModelCom->Render(i);
+	}
 
 	return S_OK;
 }

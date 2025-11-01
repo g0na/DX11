@@ -37,14 +37,14 @@ HRESULT CMainApp::Initialize()
 	return S_OK;
 }
 
-void CMainApp::Update(const _float& fTimeDelta)
+void CMainApp::Update(const _float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
 
 HRESULT CMainApp::Render()
 {
-	_float4	vColor = { 0.f, 0.f, 0.f, 0.f };
+	_float4	vColor = { 0.f, 0.f, 255.f, 0.f };
 
 	if (FAILED(m_pGameInstance->Draw_Begin(vColor)))
 		return E_FAIL;

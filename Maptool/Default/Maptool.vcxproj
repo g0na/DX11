@@ -18,35 +18,54 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\MainApp.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Maptool.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Private\MainApp.cpp" />
+    <ClCompile Include="Maptool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Maptool.ico" />
+    <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Maptool.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5217fa0f-2dcc-42f1-8afb-b9ec9f54fa87}</ProjectGuid>
-    <RootNamespace>Engine</RootNamespace>
+    <ProjectGuid>{0ae9cbce-93f4-49b3-842d-3a8444225103}</ProjectGuid>
+    <RootNamespace>Maptool</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,26 +90,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>../Bin/</OutDir>
-    <PublicIncludeDirectories>
-    </PublicIncludeDirectories>
+    <OutDir>..\Bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>../Bin/</OutDir>
-    <PublicIncludeDirectories>
-    </PublicIncludeDirectories>
+    <OutDir>..\Bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -99,35 +113,28 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;Effects11d.lib;DirectXTKd.lib;dinput8.lib;assimp-vc143-mtd.lib;DirectXTexd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../ThirdPartyLib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../EngineSDK/Lib/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine.lib;DirectXTKd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>cd /d "$(SolutionDir)"
-call UpdateLib.bat</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -135,88 +142,17 @@ call UpdateLib.bat</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;Effects11.lib;DirectXTK.lib;dinput8.lib;assimp-vc143-mt.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../ThirdPartyLib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../EngineSDK/Lib/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Public\Base.h" />
-    <ClInclude Include="..\Public\Camera.h" />
-    <ClInclude Include="..\Public\Component.h" />
-    <ClInclude Include="..\Public\Engine_Define.h" />
-    <ClInclude Include="..\Public\Engine_Enum.h" />
-    <ClInclude Include="..\Public\Engine_Function.h" />
-    <ClInclude Include="..\Public\Engine_Macro.h" />
-    <ClInclude Include="..\Public\Engine_Struct.h" />
-    <ClInclude Include="..\Public\Engine_Typedef.h" />
-    <ClInclude Include="..\Public\GameInstance.h" />
-    <ClInclude Include="..\Public\GameObject.h" />
-    <ClInclude Include="..\Public\Graphic_Device.h" />
-    <ClInclude Include="..\Public\Input_Device.h" />
-    <ClInclude Include="..\Public\Layer.h" />
-    <ClInclude Include="..\Public\Level.h" />
-    <ClInclude Include="..\Public\Level_Manager.h" />
-    <ClInclude Include="..\Public\Light.h" />
-    <ClInclude Include="..\Public\Light_Manager.h" />
-    <ClInclude Include="..\Public\Material.h" />
-    <ClInclude Include="..\Public\Mesh.h" />
-    <ClInclude Include="..\Public\Model.h" />
-    <ClInclude Include="..\Public\Object_Manager.h" />
-    <ClInclude Include="..\Public\PipeLine.h" />
-    <ClInclude Include="..\Public\Prototype_Manager.h" />
-    <ClInclude Include="..\Public\Renderer.h" />
-    <ClInclude Include="..\Public\Shader.h" />
-    <ClInclude Include="..\Public\Texture.h" />
-    <ClInclude Include="..\Public\Timer.h" />
-    <ClInclude Include="..\Public\Timer_Manager.h" />
-    <ClInclude Include="..\Public\Transform.h" />
-    <ClInclude Include="..\Public\UIObj.h" />
-    <ClInclude Include="..\Public\VIBuffer.h" />
-    <ClInclude Include="..\Public\VIBuffer_Rect.h" />
-    <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Private\Base.cpp" />
-    <ClCompile Include="..\Private\Camera.cpp" />
-    <ClCompile Include="..\Private\Component.cpp" />
-    <ClCompile Include="..\Private\Input_Device.cpp" />
-    <ClCompile Include="..\Private\Light.cpp" />
-    <ClCompile Include="..\Private\Light_Manager.cpp" />
-    <ClCompile Include="..\Private\Material.cpp" />
-    <ClCompile Include="..\Private\Mesh.cpp" />
-    <ClCompile Include="..\Private\Model.cpp" />
-    <ClCompile Include="..\Private\PipeLine.cpp" />
-    <ClCompile Include="..\Private\Shader.cpp" />
-    <ClCompile Include="..\Private\Texture.cpp" />
-    <ClCompile Include="..\Private\VIBuffer.cpp" />
-    <ClCompile Include="..\Private\GameInstance.cpp" />
-    <ClCompile Include="..\Private\GameObject.cpp" />
-    <ClCompile Include="..\Private\Graphic_Device.cpp" />
-    <ClCompile Include="..\Private\Layer.cpp" />
-    <ClCompile Include="..\Private\Level.cpp" />
-    <ClCompile Include="..\Private\Level_Manager.cpp" />
-    <ClCompile Include="..\Private\Object_Manager.cpp" />
-    <ClCompile Include="..\Private\Prototype_Manager.cpp" />
-    <ClCompile Include="..\Private\Renderer.cpp" />
-    <ClCompile Include="..\Private\Timer.cpp" />
-    <ClCompile Include="..\Private\Timer_Manager.cpp" />
-    <ClCompile Include="..\Private\Transform.cpp" />
-    <ClCompile Include="..\Private\UIObj.cpp" />
-    <ClCompile Include="..\Private\VIBuffer_Rect.cpp" />
-    <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
