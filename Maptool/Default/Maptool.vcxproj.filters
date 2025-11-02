@@ -10,6 +10,51 @@
     <Filter Include="99. Define">
       <UniqueIdentifier>{6e0cc633-19f0-4a74-b288-6ac1aa617428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels">
+      <UniqueIdentifier>{c24cbbf8-ad11-4f6a-92f6-c5ff0726be6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading">
+      <UniqueIdentifier>{07e3ab8b-f1e3-46d1-9a44-1af1a3b31ce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\00. Loading\Loader">
+      <UniqueIdentifier>{99b5a510-97e8-451b-bb9a-cbb5451f6e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\01. Logo">
+      <UniqueIdentifier>{90b271b7-fc30-43e7-8690-81db759c454c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\02. GamePlay">
+      <UniqueIdentifier>{041d9006-76c2-4064-a872-7c680b255d29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects">
+      <UniqueIdentifier>{74d407b5-65a3-491c-912e-793ff164d355}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. Background">
+      <UniqueIdentifier>{7081a513-0b7e-4342-aebf-8326937ee4e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Terrain">
+      <UniqueIdentifier>{105b9693-9303-4884-b298-c0b278464526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Camera">
+      <UniqueIdentifier>{b98d5e8a-4fd7-4fd3-ad43-edcfc9857603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. ShaderFiles">
+      <UniqueIdentifier>{af54cdde-096d-4d62-aa8d-f6967ae7330c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui">
+      <UniqueIdentifier>{15698379-9146-4e67-8ea7-0060b42a792f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\00. Default">
+      <UniqueIdentifier>{e7cdf18d-a88a-4fac-bfa3-1481c6ef3c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\01. Panel">
+      <UniqueIdentifier>{e7a5f3e5-29a3-4236-82a1-e53b393a1668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\01. Panel\Hierarchy">
+      <UniqueIdentifier>{80489956-8ca3-4e43-af7e-305fc9d84e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\01. Panel\Inspector">
+      <UniqueIdentifier>{398eaf6e-5987-48c2-b498-496a163eab5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -30,6 +75,57 @@
     <ClInclude Include="..\Public\MainApp.h">
       <Filter>00. MainApp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Loader.h">
+      <Filter>01. Levels\00. Loading\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Loading.h">
+      <Filter>01. Levels\00. Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Logo.h">
+      <Filter>01. Levels\01. Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_GamePlay.h">
+      <Filter>01. Levels\02. GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Free.h">
+      <Filter>02. GameObjects\02. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imconfig.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imgui.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imgui_impl_dx11.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imgui_impl_win32.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imgui_internal.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imstb_rectpack.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imstb_textedit.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\imstb_truetype.h">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Private\ImGui_Manager.h">
+      <Filter>96. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui_Panel.h">
+      <Filter>96. ImGui\01. Panel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui_Panel_Hierarchy.h">
+      <Filter>96. ImGui\01. Panel\Hierarchy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui_Panel_Inspector.h">
+      <Filter>96. ImGui\01. Panel\Inspector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maptool.cpp">
@@ -37,6 +133,54 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainApp.cpp">
       <Filter>00. MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Loader.cpp">
+      <Filter>01. Levels\00. Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Loading.cpp">
+      <Filter>01. Levels\00. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Logo.cpp">
+      <Filter>01. Levels\01. Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01. Levels\02. GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Free.cpp">
+      <Filter>02. GameObjects\02. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui.cpp">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_demo.cpp">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_draw.cpp">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_impl_dx11.cpp">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_impl_win32.cpp">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_tables.cpp">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_widgets.cpp">
+      <Filter>96. ImGui\00. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui_Manager.cpp">
+      <Filter>96. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui_Panel.cpp">
+      <Filter>96. ImGui\01. Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui_Panel_Hierarchy.cpp">
+      <Filter>96. ImGui\01. Panel\Hierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui_Panel_Inspector.cpp">
+      <Filter>96. ImGui\01. Panel\Inspector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

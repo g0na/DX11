@@ -88,6 +88,14 @@ HRESULT CGraphic_Device::Clear_DepthStencil_View()
 	if (nullptr == m_pDeviceContext)
 		return E_FAIL;
 
+	ID3D11RenderTargetView* pRTVs[] = {
+	m_pBackBufferRTV,
+	};
+
+	/* 렌더타겟의 픽셀 수와 깊이스텐실버퍼의 픽셀수가 서로 다르다면 절대 렌더링이 불가능해진다. */
+	m_pDeviceContext->OMSetRenderTargets(1, pRTVs,
+		m_pDepthStencilView);
+
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
 	return S_OK;

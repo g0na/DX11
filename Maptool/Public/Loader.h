@@ -7,7 +7,7 @@ NS_BEGIN(Engine)
 class CGameInstance;
 NS_END
 
-NS_BEGIN(Client)
+NS_BEGIN(Maptool)
 
 class CLoader final : public CBase
 {
@@ -21,9 +21,9 @@ public:
 
 	_bool	isFinished() const { return m_bIsFinished; }
 	
-	void	OutPut() { 
+	void	OutPut() {
 		lock_guard<mutex> lock(m_mutex);
-		SetWindowText(g_hWnd, m_szFPS); 
+		SetWindowText(g_hWnd, m_szFPS);
 	}
 
 	void	UpdateLoadingText(const _tchar* pText) {
@@ -42,8 +42,8 @@ private:
 
 	CGameInstance*			m_pGameInstance = { nullptr };
 
-	//HANDLE				m_hThread = {};
-	//CRITICAL_SECTION	m_CriticalSection = {};
+	HANDLE				m_hThread = {};
+	CRITICAL_SECTION	m_CriticalSection = {};
 
 	thread				m_Thread = {};
 	mutex				m_mutex = {};

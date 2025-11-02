@@ -4,8 +4,12 @@
 #include "framework.h"
 #include "Maptool.h"
 #include "MainApp.h"
+#include "GameInstance.h"
 
 #define MAX_LOADSTRING 100
+
+// Imgui 초기화
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // 전역 변수:
 HINSTANCE g_hInst;                                // 현재 인스턴스입니다.
@@ -32,6 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 여기에 코드를 입력합니다.
+    CMainApp* pMainApp = { nullptr };
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -44,11 +49,34 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
+    pMainApp = CMainApp::Create();
+    if (pMainApp == nullptr)
+        return FALSE;
+
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MAPTOOL));
 
     MSG msg;
 
+    CGameInstance* pGameInstance = CGameInstance::GetInstance();
+    if (pGameInstance == nullptr)
+        return FALSE;
+    Safe_AddRef(pGameInstance);
+
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
+    {
+        MSG_BOX("Failed to Add Timer_Default");
+        return FALSE;
+    }
+
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_144"))))
+    {
+        MSG_BOX("Failed to Add Timer_144");
+        return FALSE;
+    }
+
     // 기본 메시지 루프입니다:
+    _float fTimeElapsed = { };
+
     while (true)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -62,9 +90,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
+
+        pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
+
+        fTimeElapsed += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
+
+        if (fTimeElapsed >= 1 / 144.f)
+        {
+            pGameInstance->Compute_TimeDelta(L"Timer_144");
+            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_144")));
+            pMainApp->Render();
+
+            fTimeElapsed = 0.f;
+        }
     }
 
-    return (int) msg.wParam;
+    Safe_Release(pGameInstance);
+
+    if (Safe_Release(pMainApp) != 0)
+        return FALSE;
+
+    return (int)msg.wParam;
 }
 
 
@@ -113,8 +159,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    AdjustWindowRect(&rcWindow, WS_OVERLAPPEDWINDOW, FALSE);
 
    HWND hWnd = CreateWindowW(szWindowClass, TEXT("MAPTOOL"), WS_OVERLAPPEDWINDOW,
-                             g_iWinSizeX >> 3,
-                             g_iWinSizeY >> 4, 
+                             g_iWinSizeX >> 2,
+                             g_iWinSizeY >> 2, 
                              rcWindow.right - rcWindow.left,
                              rcWindow.bottom - rcWindow.top,
                              nullptr, nullptr, hInstance, nullptr);

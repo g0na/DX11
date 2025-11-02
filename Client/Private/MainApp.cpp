@@ -4,13 +4,13 @@
 
 USING(Client)
 
-Client::CMainApp::CMainApp() :
+CMainApp::CMainApp() :
 	m_pGameInstance{ CGameInstance::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 }
 
-Client::CMainApp::~CMainApp()
+CMainApp::~CMainApp()
 {
 }
 

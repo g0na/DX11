@@ -3,6 +3,10 @@
 #include "Client_Defines.h"
 #include "Base.h"
 
+NS_BEGIN(Engine)
+class CGameInstance;
+NS_END
+
 NS_BEGIN(Maptool)
 
 class CMainApp final : public CBase
@@ -19,6 +23,13 @@ public:
 private:
 	ID3D11Device*					m_pDevice = { nullptr };
 	ID3D11DeviceContext*			m_pContext = { nullptr };
+	CGameInstance*					m_pGameInstance = { nullptr };
+	class CImGui_Manager*			m_pImguiManager = { nullptr };
+
+private:
+	HRESULT Start_Level(LEVELID eLevelID);
+	HRESULT Ready_Prototype_For_Static();
+	HRESULT Ready_Tool();
 
 public:
 	static CMainApp* Create();

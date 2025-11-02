@@ -82,26 +82,24 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_Logo()
 {
-	lock_guard<mutex> lock(m_mutex);
+	UpdateLoadingText(TEXT("텍스쳐를 로딩 중 입니다."));
 
-	lstrcpy(m_szFPS, TEXT("텍스쳐를 로딩 중 입니다."));
 	// For Prototype_Component_Texture_Background
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_Component_Texture_Background"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default0.jpg"), 1))))
 		return E_FAIL;
 	
-	lstrcpy(m_szFPS, TEXT("모델을(를) 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
 
-	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
 
-	lstrcpy(m_szFPS, TEXT("객체원형을(를) 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("객체원형을(를) 로딩 중 입니다."));
 	// For Prototype_GameObject_Backgroud
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
 		CBackground::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	
 
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었습니다."));
+	UpdateLoadingText(TEXT("로딩이 완료되었습니다."));
 
 	m_bIsFinished = true;
 
@@ -110,9 +108,7 @@ HRESULT CLoader::Loading_Logo()
 
 HRESULT CLoader::Loading_GamePlay()
 {
-	lock_guard<mutex> lock(m_mutex);
-
-	lstrcpy(m_szFPS, TEXT("텍스쳐를 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("텍스쳐를 로딩 중 입니다."));
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
@@ -123,7 +119,7 @@ HRESULT CLoader::Loading_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Mask.dds"), 1))))
 		return E_FAIL;	
 
-	lstrcpy(m_szFPS, TEXT("모델을(를) 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrain"),
@@ -146,7 +142,7 @@ HRESULT CLoader::Loading_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/Darkwraith.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
-	lstrcpy(m_szFPS, TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxNorTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements))))
@@ -157,7 +153,7 @@ HRESULT CLoader::Loading_GamePlay()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxMesh.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
 		return E_FAIL;
 
-	lstrcpy(m_szFPS, TEXT("객체원형을(를) 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("객체원형을(를) 로딩 중 입니다."));
 	/* For.Prototype_GameObject_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pDevice, m_pContext))))
@@ -173,7 +169,7 @@ HRESULT CLoader::Loading_GamePlay()
 		CMonster::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	UpdateLoadingText(TEXT("로딩이 완료되었슴니다."));
 
 	m_bIsFinished = true;
 
