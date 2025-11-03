@@ -37,17 +37,17 @@ void CCamera_Free::Update_Priority(_float fTimeDelta)
         m_pTransformCom->Go_Straight(fTimeDelta);
     }
 
-    if (GetKeyState('S') & 0x8000)
+    if (m_pGameInstance->Get_DIKeyState(DIK_S) & 0x80)
     {
         m_pTransformCom->Go_Backward(fTimeDelta);
     }
 
-    if (GetKeyState('A') & 0x8000)
+    if (m_pGameInstance->Get_DIKeyState(DIK_A) & 0x80)
     {
         m_pTransformCom->Go_Left(fTimeDelta);
     }
 
-    if (GetKeyState('D') & 0x8000)
+    if (m_pGameInstance->Get_DIKeyState(DIK_D) & 0x80)
     {
         m_pTransformCom->Go_Right(fTimeDelta);
     }

@@ -55,6 +55,9 @@
     <Filter Include="96. ImGui\01. Panel\Inspector">
       <UniqueIdentifier>{398eaf6e-5987-48c2-b498-496a163eab5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\03. Monster">
+      <UniqueIdentifier>{a265365c-3b34-4e2f-bdb8-20d7108d8b39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -126,6 +129,12 @@
     <ClInclude Include="..\Public\ImGui_Panel_Inspector.h">
       <Filter>96. ImGui\01. Panel\Inspector</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02. GameObjects\03. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map.h">
+      <Filter>02. GameObjects\01. Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maptool.cpp">
@@ -182,6 +191,12 @@
     <ClCompile Include="..\Private\ImGui_Panel_Inspector.cpp">
       <Filter>96. ImGui\01. Panel\Inspector</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02. GameObjects\03. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map.cpp">
+      <Filter>02. GameObjects\01. Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Maptool.ico">
@@ -195,5 +210,19 @@
     <ResourceCompile Include="Maptool.rc">
       <Filter>98. Default</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMesh.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMap.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

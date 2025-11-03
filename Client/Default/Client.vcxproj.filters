@@ -43,6 +43,9 @@
     <Filter Include="02. GameObjects\03. Monster">
       <UniqueIdentifier>{246edc41-0f31-4d9d-9a1a-cdd4c981ac4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\04. Map">
+      <UniqueIdentifier>{8fe118d0-9d43-4b79-98ea-4b272f3794e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02. GameObjects\03. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map.h">
+      <Filter>02. GameObjects\04. Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02. GameObjects\03. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map.cpp">
+      <Filter>02. GameObjects\04. Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

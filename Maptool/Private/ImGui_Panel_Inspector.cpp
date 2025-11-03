@@ -31,7 +31,8 @@ void CImGui_Panel_Inspector::Render()
 
     if (ImGui::Button("Create"))
     {
-
+        CGameInstance::GetInstance()->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
+            ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
     }
 
     // Todo - 나중에 피킹으로 처리해서 오브젝트나 Grid를 얻어와 버튼과 상호작용 시킬 수 있도록 해야함
@@ -41,7 +42,7 @@ void CImGui_Panel_Inspector::Render()
 
     if (ImGui::Button("Plus Diffuse X"))
     {
-        pDarkDesc->vDiffuse.x += 0.01f;
+
     }
     {
         // 다음에 배치되는 gui 같은 라인에 둬!
