@@ -111,7 +111,7 @@ HRESULT CLoader::Loading_GamePlay()
 
 	/* For.Prototype_Component_Model_Map */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/map12/map12.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/testmap/testmap.fbx", PreTransformMatrix))))
 		return E_FAIL;
 	
 	UpdateLoadingText(TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
