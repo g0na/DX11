@@ -85,7 +85,7 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 	// 투영 -> 뷰스페이스
 	_float4x4 ProjInverseMatrix;
 	ProjInverseMatrix = m_pGameInstance->Get_InverseTransform(D3DTS::PROJ);
-	XMVector3TransformCoord(vMousePos, XMLoadFloat4x4(&ProjInverseMatrix));
+	vMousePos = XMVector3TransformCoord(vMousePos, XMLoadFloat4x4(&ProjInverseMatrix));
 	
 	// 뷰 스페이스 -> 월드
 	_float4x4 ViewInverseMatrix;
@@ -94,14 +94,14 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 	_vector	vRayPos = { 0.f, 0.f, 0.f, 1.f };
 	_vector vRayDir = vMousePos - vRayPos;
 
-	XMVector3TransformCoord(vRayPos, XMLoadFloat4x4(&ViewInverseMatrix));
-	XMVector3TransformNormal(vRayDir, XMLoadFloat4x4(&ViewInverseMatrix));
+	vRayPos = XMVector3TransformCoord(vRayPos, XMLoadFloat4x4(&ViewInverseMatrix));
+	vRayDir = XMVector3TransformNormal(vRayDir, XMLoadFloat4x4(&ViewInverseMatrix));
 
 	// 월드 -> 로컬
 	_matrix WorldInverseMatrix = pTransformCom->Get_WorldMatrixInverse();
 
-	XMVector3TransformCoord(vRayPos, WorldInverseMatrix);
-	XMVector3TransformNormal(vRayDir, WorldInverseMatrix);
+	vRayPos = XMVector3TransformCoord(vRayPos, WorldInverseMatrix);
+	vRayDir = XMVector3TransformNormal(vRayDir, WorldInverseMatrix);
 
 	_float	fDist(0.f);
 	_ulong	dwVtxIdx[3] = {};
