@@ -5,6 +5,8 @@ NS_BEGIN(Engine)
 
 class ENGINE_DLL CMesh final : public CVIBuffer
 {
+	friend class CCalculator;
+
 private:
 	CMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CMesh(const CMesh& Prototype);

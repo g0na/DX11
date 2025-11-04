@@ -7,6 +7,8 @@ NS_BEGIN(Engine)
 
 class ENGINE_DLL CVIBuffer abstract : public CComponent
 {
+	friend class CCalculator;
+
 protected:
 	explicit CVIBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	explicit CVIBuffer(const CVIBuffer& Prototype);
@@ -24,6 +26,7 @@ protected:
 
 protected:
 	_float3*					m_pVertexPositions = { nullptr };
+	_uint*						m_pIndices = { nullptr };
 	_uint						m_iNumVertices = {};
 	_uint						m_iVertexStride = {};
 	_uint						m_iNumIndices = {};

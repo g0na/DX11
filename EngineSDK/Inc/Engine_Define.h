@@ -13,6 +13,7 @@
 #include <d3dcompiler.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
+#include <assimp/Exporter.hpp>
 #include <assimp/postprocess.h>
 using namespace DirectX;
 

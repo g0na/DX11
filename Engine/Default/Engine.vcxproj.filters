@@ -100,6 +100,9 @@
     <Filter Include="01. Utility\05. Component\04. Model\01. Material">
       <UniqueIdentifier>{af7bf252-8e15-48d2-9d62-437e9f0a921b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\99. Calculator">
+      <UniqueIdentifier>{0e527864-4d82-4f66-9ab4-f5e15da1fbe2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -185,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Material.cpp">
       <Filter>01. Utility\05. Component\04. Model\01. Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Calculator.cpp">
+      <Filter>01. Utility\05. Component\99. Calculator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Material.h">
       <Filter>01. Utility\05. Component\04. Model\01. Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Calculator.h">
+      <Filter>01. Utility\05. Component\99. Calculator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

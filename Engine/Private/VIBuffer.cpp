@@ -10,6 +10,7 @@ CVIBuffer::CVIBuffer(const CVIBuffer& Prototype)
 	, m_pVB { Prototype.m_pVB }
 	, m_pIB { Prototype.m_pIB }
 	, m_pVertexPositions { Prototype.m_pVertexPositions }
+	, m_pIndices { Prototype.m_pIndices }
 	, m_iNumVertices { Prototype.m_iNumVertices }
 	, m_iVertexStride { Prototype.m_iVertexStride }
 	, m_iNumIndices { Prototype.m_iNumIndices }
@@ -80,7 +81,10 @@ void CVIBuffer::Free()
 
 	// 복제품이 아닌 원본일 때만 삭제
 	if (m_bIsClone == false)
+	{
 		Safe_Delete_Array(m_pVertexPositions);
+		Safe_Delete_Array(m_pIndices);
+	}
 
 	Safe_Release(m_pVB);
 	Safe_Release(m_pIB);
