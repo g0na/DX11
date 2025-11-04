@@ -11,7 +11,7 @@ CImGui_Panel_Hierarchy::~CImGui_Panel_Hierarchy()
 {
 }
 
-HRESULT CImGui_Panel_Hierarchy::Intiailzie()
+HRESULT CImGui_Panel_Hierarchy::Initialize()
 {
     return S_OK;
 }
@@ -33,7 +33,7 @@ void CImGui_Panel_Hierarchy::Render()
 CImGui_Panel_Hierarchy* CImGui_Panel_Hierarchy::Create()
 {
     CImGui_Panel_Hierarchy* pInstance = new CImGui_Panel_Hierarchy();
-    if (FAILED(pInstance->Intiailzie()))
+    if (FAILED(pInstance->Initialize()))
     {
         MSG_BOX("CImGui_Panel_Hierarchy::Create, Failed");
         Safe_Release(pInstance);

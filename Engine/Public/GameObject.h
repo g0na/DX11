@@ -25,6 +25,12 @@ public:
 	virtual void	Update_Late(_float fTimeDelta);
 	virtual HRESULT	Render();
 
+public:
+	CComponent* Get_Component(const _wstring& strComponentTag) { return m_mapComponents[strComponentTag]; }
+	
+	template<typename T>
+	T* Get_Component(const _wstring& strComponentTag) { return dynamic_cast<T*>(Get_Component(strComponentTag)); }
+
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };

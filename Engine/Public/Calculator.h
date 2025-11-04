@@ -19,7 +19,7 @@ public:
 	//										const _ulong& dwCntZ,
 	//										const _ulong& dwVtxItv = VTXITV);
 
-	_vector			Picking_OnMesh(HWND hWnd, class CMesh* pMeshCom, class CTransform* pTerrainTransformCom);
+	_vector			Picking_OnMesh(HWND hWnd, class CMesh* pMeshCom, class CTransform* pTransformCom);
 
 private:
 	class CPipeLine*	m_pPipeLine = { nullptr };

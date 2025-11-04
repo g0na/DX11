@@ -10,7 +10,7 @@ private:
 	CImGui_Panel_Hierarchy();
 	virtual ~CImGui_Panel_Hierarchy();
 public:
-	virtual HRESULT Intiailzie() override;
+	virtual HRESULT Initialize() override;
 	virtual void Render() override;
 private:
 

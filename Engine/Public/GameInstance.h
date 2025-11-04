@@ -51,6 +51,8 @@ public:
 public:
 	HRESULT Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+
+	map<const _wstring, class CLayer*>* Get_Layers();
 #pragma endregion
 
 #pragma region LIGHT_MANAGER
@@ -69,6 +71,8 @@ public:
 	HRESULT Bind_PipeLineInverseMatrix(class CShader* pShader, const _char* pConstantName, D3DTS eTransformMatrix);
 	HRESULT Bind_CamPosition(class CShader* pShader, const _char* pConstant);
 	void Set_Transform(D3DTS eTransformMatrix, _fmatrix TransformMatrix);
+	_float4x4 Get_Transform(D3DTS eTransformMatrix);
+	_float4x4 Get_InverseTransform(D3DTS eTransformMatrix);
 #pragma endregion
 
 private:

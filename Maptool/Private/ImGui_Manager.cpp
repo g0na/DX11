@@ -3,6 +3,9 @@
 #include "ImGui_Panel_Hierarchy.h"
 #include "GameInstance.h"
 #include "ImGui_Manager.h"
+#include "Calculator.h"
+#include "Layer.h"
+#include "GameObject.h"
 
 IMPLEMENT_SINGLETON(CImGui_Manager)
 
@@ -67,6 +70,54 @@ void CImGui_Manager::Render()
 	// 초반에는 켜놓고 기능 찾아보는 것 추천
 	ImGui::ShowDemoWindow();
 
+	if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::LB))
+	{
+		map<const _wstring, class CLayer*>* pLayers = { nullptr };
+		list<class CGameObject*> listObjects = { nullptr };
+
+		pLayers = m_pGameInstance->Get_Layers();
+
+		for (auto Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
+		{
+			listObjects = Pair.second->Get_Objects();
+
+			for (auto pObject : listObjects)
+			{
+				CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
+				if (pTransformCom == nullptr)
+					continue;
+
+				CModel* pModelCom = pObject->Get_Component<CModel>(TEXT("Com_Model"));
+				if (pModelCom == nullptr)
+					continue;
+
+				_uint iNumMeshes = pModelCom->Get_NumMeshes();
+				for (_uint i = 0; i < iNumMeshes; i++)
+				{
+					CMesh* pMeshCom = pModelCom->Get_Mesh(i);
+					_vector vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom);
+
+					if (XMVectorGetW(vPickPos) > 0.f)
+					{
+						MSG_BOX("Picking Success!");
+
+						char buf[128];
+						sprintf_s(buf, "x: %f, y: %f, z %f\n", XMVectorGetX(vPickPos), XMVectorGetY(vPickPos), XMVectorGetZ(vPickPos));
+						OutputDebugStringA(buf);
+
+						continue;
+					}
+					else
+					{
+						MSG_BOX("Picking Fail!");
+						continue;
+					}
+				}
+			}
+		}
+	}
+
+
 	Render_Panels();
 	////////////////////////
 
@@ -83,6 +134,10 @@ void CImGui_Manager::Render()
 
 HRESULT CImGui_Manager::Ready_Panels()
 {
+	m_pCalculator = CCalculator::Create(m_pDevice, m_pDeviceContext);
+	if (m_pCalculator == nullptr)
+		return E_FAIL;
+
 	m_pPanels[ENUM_TO_UINT(PanelType::INSPECTOR)] = CImGui_Panel_Inspector::Create();
 	m_pPanels[ENUM_TO_UINT(PanelType::HIERARCHY)] = CImGui_Panel_Hierarchy::Create();
 	return S_OK;
@@ -110,6 +165,7 @@ void CImGui_Manager::Free()
 	::ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
+	Safe_Release(m_pCalculator);
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pDeviceContext);
 	Safe_Release(m_pDevice);

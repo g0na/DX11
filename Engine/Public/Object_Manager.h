@@ -21,6 +21,8 @@ public:
 	HRESULT Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 
+	map<const _wstring, class CLayer*>* Get_Layers() { return m_pLayers; }
+
 private:
 	class CGameInstance* m_pGameInstance = { nullptr };
 

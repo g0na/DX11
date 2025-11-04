@@ -14,6 +14,9 @@ public:
 	void	Update(_float fTimeDelta);
 	void	Update_Late(_float fTimeDelta);
 
+public:
+	list<class CGameObject*> Get_Objects() { return m_listObject; }
+
 private:
 	list<class CGameObject*>	m_listObject;
 

@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "Mesh.h"
 #include "PipeLine.h"
+#include "GameInstance.h"
 
 CCalculator::CCalculator(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent { pDevice, pContext }
@@ -11,6 +12,12 @@ CCalculator::CCalculator(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CCalculator::Initialize_Prototype()
 {
+	//m_pPipeLine = CPipeLine::Create();
+	//if (m_pPipeLine == nullptr)
+	//	return E_FAIL;
+
+	//Safe_AddRef(m_pPipeLine);
+
 	return S_OK;
 }
 
@@ -29,7 +36,7 @@ HRESULT CCalculator::Initialize(void* pArg)
 //
 //	D3DXPLANE		Plane;
 //
-//	// ¿ì »ó´Ü 
+//	// ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 //	if (fWidth > fHeight)
 //	{
 //		D3DXPlaneFromPoints(&Plane, 
@@ -37,7 +44,7 @@ HRESULT CCalculator::Initialize(void* pArg)
 //			&pTerrainVtxPos[dwIndex + dwCntX + 1],
 //			&pTerrainVtxPos[dwIndex + 1]);
 //	}
-//	// ÁÂ ÇÏ´Ü
+//	// ï¿½ï¿½ ï¿½Ï´ï¿½
 //	else
 //	{
 //		D3DXPlaneFromPoints(&Plane,
@@ -63,7 +70,7 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 	GetCursorPos(&ptMouse);
 	ScreenToClient(hWnd, &ptMouse);
 
-	// ºäÆ÷Æ® -> Åõ¿µ
+	// ë·°í¬íŠ¸ -> íˆ¬ì˜
 	_vector vMousePos;
 
 	D3D11_VIEWPORT		ViewportDesc{};
@@ -75,20 +82,22 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 							ptMouse.y / -(ViewportDesc.Height * 0.5f) + 1.f,
 							0.f, 1.f);
 	
-	// Åõ¿µ -> ºä½ºÆäÀÌ½º
-	_matrix ProjInverseMatrix = XMLoadFloat4x4(&m_pPipeLine->Get_InverseTransform(D3DTS::PROJ));
-	XMVector3TransformCoord(vMousePos, ProjInverseMatrix);
+	// íˆ¬ì˜ -> ë·°ìŠ¤íŽ˜ì´ìŠ¤
+	_float4x4 ProjInverseMatrix;
+	ProjInverseMatrix = m_pGameInstance->Get_InverseTransform(D3DTS::PROJ);
+	XMVector3TransformCoord(vMousePos, XMLoadFloat4x4(&ProjInverseMatrix));
 	
-	// ºä ½ºÆäÀÌ½º -> ¿ùµå
-	_matrix ViewInverseMatrix = XMLoadFloat4x4(&m_pPipeLine->Get_InverseTransform(D3DTS::VIEW));
+	// ë·° ìŠ¤íŽ˜ì´ìŠ¤ -> ì›”ë“œ
+	_float4x4 ViewInverseMatrix;
+	ViewInverseMatrix = m_pGameInstance->Get_InverseTransform(D3DTS::VIEW);
 
 	_vector	vRayPos = { 0.f, 0.f, 0.f, 1.f };
 	_vector vRayDir = vMousePos - vRayPos;
 
-	XMVector3TransformCoord(vRayPos, ViewInverseMatrix);
-	XMVector3TransformNormal(vRayDir, ViewInverseMatrix);
+	XMVector3TransformCoord(vRayPos, XMLoadFloat4x4(&ViewInverseMatrix));
+	XMVector3TransformNormal(vRayDir, XMLoadFloat4x4(&ViewInverseMatrix));
 
-	// ¿ùµå -> ·ÎÄÃ
+	// ì›”ë“œ -> ë¡œì»¬
 	_matrix WorldInverseMatrix = pTransformCom->Get_WorldMatrixInverse();
 
 	XMVector3TransformCoord(vRayPos, WorldInverseMatrix);
@@ -99,23 +108,28 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 
 	//const _vec3* pTerrainVtxPos = pTerrainBufferCom->Get_VtxPos();
 	const _float3* pMeshVtxPos = pMeshCom->m_pVertexPositions;
+	const _uint* pIndices = pMeshCom->m_pIndices;
 	const _uint	iNumVertices = pMeshCom->m_iNumVertices;
 	const _uint	iNumIndices = pMeshCom->m_iNumIndices;
 
 	for (_uint i = 0; i < iNumIndices / 3; i++)
 	{
-		if (TriangleTests::Intersects(vRayPos, 
+		_uint idx0 = pIndices[i * 3 + 0];
+		_uint idx1 = pIndices[i * 3 + 1];
+		_uint idx2 = pIndices[i * 3 + 2];
+
+		if (TriangleTests::Intersects(vRayPos,
 									  XMVector3Normalize(vRayDir),
-									  XMLoadFloat3(&pMeshVtxPos[i]),
-									  XMLoadFloat3(&pMeshVtxPos[i + 1]),
-									  XMLoadFloat3(&pMeshVtxPos[i + 2]), 
+									  XMLoadFloat3(&pMeshVtxPos[idx0]),
+									  XMLoadFloat3(&pMeshVtxPos[idx1]),
+									  XMLoadFloat3(&pMeshVtxPos[idx2]),
 									  fDist))
 		{
 			return XMVectorAdd(vRayPos, XMVectorScale(XMVector3Normalize(vRayDir), fDist));
 		}
 	}
 
-	return XMVectorSet(0.f, 0.f, 0.f, 1.f);
+	return XMVectorSet(0.f, 0.f, 0.f, 0.f);
 }
 
 CCalculator* CCalculator::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -139,4 +153,7 @@ CComponent* CCalculator::Clone(void* pArg)
 void CCalculator::Free()
 {
 	__super::Free();
+
+	//Safe_Release(m_pPipeLine);
+
 }

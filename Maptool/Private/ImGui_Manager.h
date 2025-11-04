@@ -30,6 +30,7 @@ private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pDeviceContext = { nullptr };
+	CCalculator* m_pCalculator = { nullptr };
 
 	ImGuiIO* m_pIO = { nullptr };
 	class CImGui_Panel* m_pPanels[ENUM_TO_UINT(PanelType::END)];

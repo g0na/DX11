@@ -80,14 +80,17 @@ HRESULT CMesh::Initialize_Prototype(const aiMesh* pAIMesh, _fmatrix PreTransform
 
     for (size_t i = 0; i < pAIMesh->mNumFaces; i++)
     {
-        pIndices[iNumIndices++] = pAIMesh->mFaces[i].mIndices[0];
-        m_pIndices[iNumIndices++] = pAIMesh->mFaces[i].mIndices[0];
+        pIndices[iNumIndices] = pAIMesh->mFaces[i].mIndices[0];
+        m_pIndices[iNumIndices] = pAIMesh->mFaces[i].mIndices[0];
+        iNumIndices++;
 
-        pIndices[iNumIndices++] = pAIMesh->mFaces[i].mIndices[1];
-        m_pIndices[iNumIndices++] = pAIMesh->mFaces[i].mIndices[1];
+        pIndices[iNumIndices] = pAIMesh->mFaces[i].mIndices[1];
+        m_pIndices[iNumIndices] = pAIMesh->mFaces[i].mIndices[1];
+        iNumIndices++;
 
-        pIndices[iNumIndices++] = pAIMesh->mFaces[i].mIndices[2];
-        m_pIndices[iNumIndices++] = pAIMesh->mFaces[i].mIndices[2];
+        pIndices[iNumIndices] = pAIMesh->mFaces[i].mIndices[2];
+        m_pIndices[iNumIndices] = pAIMesh->mFaces[i].mIndices[2];
+        iNumIndices++;
     }
     
     D3D11_SUBRESOURCE_DATA      IndexInitialData{};

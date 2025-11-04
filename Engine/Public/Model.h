@@ -16,6 +16,8 @@ public:
 		return m_iNumMeshes;
 	}
 
+	class CMesh* Get_Mesh(_uint iIndex) { return m_vecMeshes[iIndex]; }
+
 public:
 	virtual HRESULT Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix);
 	virtual HRESULT Initialize(void* pArg) override;

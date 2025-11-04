@@ -174,6 +174,11 @@ HRESULT CGameInstance::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _ws
 {
 	return m_pObjectManager->Add_GameObject_To_Layer(iProtoLevelIndex, strProtoTag, iLayerLevelIndex, strLayerTag, pArg);
 }
+
+map<const _wstring, class CLayer*>* CGameInstance::Get_Layers()
+{
+	return m_pObjectManager->Get_Layers();
+}
 #pragma endregion
 
 #pragma region LIGHT_MANAGER
@@ -216,6 +221,16 @@ void CGameInstance::Set_Transform(D3DTS eTransformMatrix, _fmatrix TransformMatr
 {
 	m_pPipeLine->Set_Transform(eTransformMatrix, TransformMatrix);
 }
+_float4x4 CGameInstance::Get_Transform(D3DTS eTransformMatrix)
+{
+	return m_pPipeLine->Get_Transform(eTransformMatrix);
+}
+
+_float4x4 CGameInstance::Get_InverseTransform(D3DTS eTransformMatrix)
+{
+	return m_pPipeLine->Get_InverseTransform(eTransformMatrix);
+}
+
 #pragma region
 
 
