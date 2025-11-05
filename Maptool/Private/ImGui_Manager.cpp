@@ -70,7 +70,7 @@ void CImGui_Manager::Render()
 	// 초반에는 켜놓고 기능 찾아보는 것 추천
 	ImGui::ShowDemoWindow();
 
-	if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::LB))
+	if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
 	{
 		map<const _wstring, class CLayer*>* pLayers = { nullptr };
 		list<class CGameObject*> listObjects = { nullptr };
@@ -99,8 +99,6 @@ void CImGui_Manager::Render()
 
 					if (XMVectorGetW(vPickPos) > 0.f)
 					{
-						MSG_BOX("Picking Success!");
-
 						char buf[128];
 						sprintf_s(buf, "x: %f, y: %f, z %f\n", XMVectorGetX(vPickPos), XMVectorGetY(vPickPos), XMVectorGetZ(vPickPos));
 						OutputDebugStringA(buf);
@@ -109,7 +107,10 @@ void CImGui_Manager::Render()
 					}
 					else
 					{
-						MSG_BOX("Picking Fail!");
+						char buf[128];
+						sprintf_s(buf, "Picking Fail!\n");
+						OutputDebugStringA(buf);
+
 						continue;
 					}
 				}

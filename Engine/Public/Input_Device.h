@@ -28,6 +28,22 @@ public:
 		return *(((_long*)&m_tMouseState) + ENUM_TO_UINT(eMouseState));
 	}
 
+	_bool	Get_KeyDown(_ubyte dwKey)
+	{
+		return (m_byKeyState[dwKey]) && !(m_byOldKeyState[dwKey]);
+	}
+
+	_bool	Get_KeyUp(_ubyte dwKey)
+	{
+		return (!m_byKeyState[dwKey]) && (m_byOldKeyState[dwKey]);
+	}
+
+	_bool	Get_KeyHold(_ubyte dwKey)
+	{
+		return (m_byKeyState[dwKey]);
+	}
+
+
 public:
 	HRESULT Initialize(HINSTANCE hInst, HWND hWnd);
 	void	Update(void);
@@ -41,6 +57,7 @@ private:
 
 private:
 	_byte					m_byKeyState[256];		// 키보드에 있는 모든 키값을 저장하기 위한 변수
+	_byte					m_byOldKeyState[256];
 	DIMOUSESTATE			m_tMouseState;
 
 public:

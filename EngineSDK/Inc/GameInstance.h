@@ -27,6 +27,9 @@ public:
 	_byte	Get_DIMouseState(MOUSEKEYSTATE eMouse);
 	// 현재 마우스의 특정 축 좌표를 반환
 	_long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState);
+	_bool	Get_KeyDown(_ubyte dwKey);
+	_bool	Get_KeyUp(_ubyte dwKey);
+	_bool	Get_KeyHold(_ubyte dwKey);
 #pragma endregion
 
 #pragma region TIMER_MANAGER

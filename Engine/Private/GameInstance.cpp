@@ -128,6 +128,21 @@ _long CGameInstance::Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
 {
 	return m_pInputDevice->Get_DIMouseMove(eMouseState);
 }
+
+_bool CGameInstance::Get_KeyDown(_ubyte dwKey)
+{
+	return m_pInputDevice->Get_KeyDown(dwKey);
+}
+
+_bool CGameInstance::Get_KeyUp(_ubyte dwKey)
+{
+	return m_pInputDevice->Get_KeyUp(dwKey);
+}
+
+_bool CGameInstance::Get_KeyHold(_ubyte dwKey)
+{
+	return m_pInputDevice->Get_KeyHold(dwKey);
+}
 #pragma endregion
 
 #pragma region TIMER_MANAGER

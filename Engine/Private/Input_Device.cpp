@@ -3,6 +3,7 @@
 Engine::CInput_Device::CInput_Device(void)
 {
 	ZeroMemory(m_byKeyState, sizeof(m_byKeyState));
+	ZeroMemory(m_byOldKeyState, sizeof(m_byOldKeyState));
 }
 
 HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
@@ -50,6 +51,10 @@ HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 
 void Engine::CInput_Device::Update(void)
 {
+	// 직전의 상태로 복사
+	memcpy(m_byOldKeyState, m_byKeyState, sizeof(m_byKeyState));
+
+	// 현재 상태 가져오기
 	m_pKeyBoard->GetDeviceState(256, m_byKeyState);
 	m_pMouse->GetDeviceState(sizeof(m_tMouseState), &m_tMouseState);
 }
