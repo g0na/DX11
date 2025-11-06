@@ -44,6 +44,7 @@ using namespace std;
 namespace Engine
 {
 	static const _wstring g_strTransformTag = TEXT("Com_Transform");
+	static const unsigned int g_iMaxNumBones = 512;
 }
 
 #ifdef _DEBUG

@@ -1,6 +1,3 @@
-// 버텍스 셰이더
-// 정점 셰이더는 정점을 가지고 논다 라는 말과 비슷하다.
-
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 // vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
@@ -19,6 +16,9 @@ vector g_vMtrlAmbient = vector(0.3f, 0.3f, 0.3f, 1.f);
 vector g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
 vector g_vCamPosition;
+
+// 메시 한 덩어리가 이용하는 뼈들
+matrix g_BoneMatrices[512];
 
 sampler DefaultSampler = sampler_state
 {
@@ -41,6 +41,8 @@ struct VS_IN
     float3 vTangent : TANGENT;
     float3 vBinormal : BINORMAL;
     float2 vTexCoord : TEXCOORD0;
+    uint4  vBlendIndex : BLENDINDEX;
+    float4 vBlendWeight : BLENDWEIGHT;
 };
 
 struct VS_OUT
@@ -55,11 +57,20 @@ VS_OUT VS_MAIN(VS_IN In)
 {
     VS_OUT Out;
     
-    vector vPosition = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
-    vPosition = mul(vPosition, g_ViewMatrix);
-    vPosition = mul(vPosition, g_ProjMatrix);
+    float fWeightW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
     
-    Out.vPosition = vPosition;
+    matrix BoneMatrix = g_BoneMatrices[In.vBlendIndex.x] * In.vBlendWeight.x +
+    g_BoneMatrices[In.vBlendIndex.y] * In.vBlendWeight.y +
+    g_BoneMatrices[In.vBlendIndex.z] * In.vBlendWeight.z +
+    g_BoneMatrices[In.vBlendIndex.w] * fWeightW;
+    
+    vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+    
+    matrix matWV, matWVP;
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+    
+    Out.vPosition = mul(vPosition, matWVP);
     Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
     Out.vTexCoord = In.vTexCoord;
     Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);      // 픽셀의 위치는 뷰포트이기 때문에 월드 공간으로 변환해서 넘겨준다.

@@ -77,7 +77,7 @@ void CImGui_Manager::Render()
 
 		pLayers = m_pGameInstance->Get_Layers();
 
-		for (auto Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
+		for (auto& Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
 		{
 			listObjects = Pair.second->Get_Objects();
 
@@ -102,6 +102,8 @@ void CImGui_Manager::Render()
 						char buf[128];
 						sprintf_s(buf, "x: %f, y: %f, z %f\n", XMVectorGetX(vPickPos), XMVectorGetY(vPickPos), XMVectorGetZ(vPickPos));
 						OutputDebugStringA(buf);
+						
+						MSG_BOX("PICKING SUCCESS");
 
 						continue;
 					}

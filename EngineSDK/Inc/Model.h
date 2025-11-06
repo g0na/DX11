@@ -16,6 +16,8 @@ public:
 		return m_iNumMeshes;
 	}
 
+	_int Get_BoneIndex(const _char* pBoneName) const;
+
 	class CMesh* Get_Mesh(_uint iIndex) { return m_vecMeshes[iIndex]; }
 
 public:
@@ -25,23 +27,34 @@ public:
 
 public:
 	HRESULT Bind_Material(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eMaterialType, _uint iTextureIndex = 0);
+	HRESULT Bind_Bones(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex);
+	void Play_Animation(_float fTimeDelta);
 
 private:
-	Assimp::Importer		m_Importer = {};
-	const aiScene*			m_pAIScene = { nullptr };
+	Assimp::Importer				m_Importer = {};
+	const aiScene*					m_pAIScene = { nullptr };
 
 private:
-	MODEL					m_eModelType = {};
-	_uint					m_iNumMeshes = {};
-	vector<class CMesh*>	m_vecMeshes;
-	_float4x4				m_PreTransformMatrix = {};
+	MODEL							m_eModelType = {};
+	_uint							m_iNumMeshes = {};
+	vector<class CMesh*>			m_vecMeshes;
+	_float4x4						m_PreTransformMatrix = {};
 
 	_uint							m_iNumMaterials = {};
 	vector<class CMaterial*>		m_vecMaterials;
 
+	_uint							m_iNumAnimations = {};
+	_uint							m_iCurrentAnimInex = {};
+	vector<class CAnimation*>		m_vecAnimations;
+
+	// 현재 모델에게 영향을 주는 전체 뼈들 : 뼈들은 하나하나 독립적이지 않고, 부모 자식관계로 엮여있다.
+	vector<class CBone*>			m_vecBones;
+
 public:
 	HRESULT Ready_Meshes();
 	HRESULT Ready_Materials(const _char* pModelFilePath);
+	HRESULT Ready_Bones(const aiNode* pAINode, _int iParentBoneIndex);
+	HRESULT Ready_Animations();
 
 public:
 	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const char* pModelFilePath, _fmatrix PreTransformMatrix);
