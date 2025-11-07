@@ -26,7 +26,7 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, CModel* pModel)
         if (pAIChannel->mNumScalingKeys > i)
         {
             memcpy(&vScale, &pAIChannel->mScalingKeys[i].mValue, sizeof(_float3));
-            KeyFrame.fTrackPosition = pAIChannel->mScalingKeys[i].mTime;
+            KeyFrame.fTrackPosition = (_float)pAIChannel->mScalingKeys[i].mTime;
         }
 
         if (pAIChannel->mNumRotationKeys > i)
@@ -36,13 +36,13 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, CModel* pModel)
             vRotation.z = pAIChannel->mRotationKeys[i].mValue.z;
             vRotation.w = pAIChannel->mRotationKeys[i].mValue.w;
 
-            KeyFrame.fTrackPosition = pAIChannel->mRotationKeys[i].mTime;
+            KeyFrame.fTrackPosition = (_float)pAIChannel->mRotationKeys[i].mTime;
         }
 
         if (pAIChannel->mNumPositionKeys > i)
         {
             memcpy(&vTranslation, &pAIChannel->mPositionKeys[i].mValue, sizeof(_float3));
-            KeyFrame.fTrackPosition = pAIChannel->mPositionKeys[i].mTime;
+            KeyFrame.fTrackPosition = (_float)pAIChannel->mPositionKeys[i].mTime;
         }
 
         KeyFrame.vScale = vScale;
@@ -55,11 +55,54 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, CModel* pModel)
     return S_OK;
 }
 
-void CChannel::Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition)
+void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition)
 {
+    if (fCurrentTrackPosition == 0.f)
+        m_iCurrentKeyFrameIndex = 0;
+
     // fCurrentTrackPosition에 맞는 현재 뼈의 상태를 만든다.
     _float4x4       TransformationMatrix = {};
 
+    // 마지막 키프레임 정보를 가져온다.
+    KEYFRAME    LastKeyFrame = m_vecKeyFrames.back();
+
+    _vector vScale, vRotation, vTranslation;
+
+    // 현재 재생위치가 마지막 키프레임의 위치를 지나면 마지막 키프레임 기준으로 SRT 정보를 유지한다.
+    if (fCurrentTrackPosition >= LastKeyFrame.fTrackPosition)
+    {
+        vScale = XMLoadFloat3(&LastKeyFrame.vScale);
+        vRotation = XMLoadFloat4(&LastKeyFrame.vRotation);
+        vTranslation = XMVectorSetW(XMLoadFloat3(&LastKeyFrame.vTranslation), 1.f);
+    }
+    else // 재생 위치가 마지막 키프레임을 지나지 않았다면 이전 키프레임과 다음 키프레임의 값을 보간하여 갱신해준다.
+    {
+        _vector     vLeftScale{}, vRightScale{};
+        _vector     vLeftRotation{}, vRightRotation{};
+        _vector     vLeftTranslation{}, vRightTranslation{};
+
+        if (fCurrentTrackPosition >= m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].fTrackPosition)
+            ++m_iCurrentKeyFrameIndex;
+
+        vLeftScale = XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex].vScale);
+        vRightScale = XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].vScale);
+
+        vLeftRotation = XMLoadFloat4(&m_vecKeyFrames[m_iCurrentKeyFrameIndex].vRotation);
+        vRightRotation = XMLoadFloat4(&m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].vRotation);
+
+        vLeftTranslation = XMVectorSetW(XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex].vTranslation), 1.f);
+        vRightTranslation = XMVectorSetW(XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].vTranslation), 1.f);
+
+        _float fRatio = (fCurrentTrackPosition - m_vecKeyFrames[m_iCurrentKeyFrameIndex].fTrackPosition) /
+            (m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].fTrackPosition - m_vecKeyFrames[m_iCurrentKeyFrameIndex].fTrackPosition);
+
+        vScale = XMVectorLerp(vLeftScale, vRightScale, fRatio);
+        vRotation = XMQuaternionSlerp(vLeftRotation, vRightRotation, fRatio);
+        vTranslation = XMVectorLerp(vLeftTranslation, vRightTranslation, fRatio);
+    }
+
+    DirectX::XMStoreFloat4x4(&TransformationMatrix,
+        XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation));
 
     vecBones[m_iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 }

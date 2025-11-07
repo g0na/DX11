@@ -12,7 +12,7 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _int iParentBoneIndex)
 	// 부모 인덱스 저장
 	m_iParentBoneIndex = iParentBoneIndex;
 
-	// Assimp는 row-major를 사용하지만 DirectX는 column-major를 사용해서 전치해줘야함.
+	// Assimp는 row-major를 사용하지만 DirectX는 column-major를 사용하므로 Assimp에서 받아온 행렬을 전치해줘야함.
 	memcpy(&m_TransformationMatrix, &pAINode->mTransformation, sizeof(_float4x4));
 
 	XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_TransformationMatrix)));

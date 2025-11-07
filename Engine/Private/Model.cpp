@@ -54,6 +54,12 @@ _int CModel::Get_BoneIndex(const _char* pBoneName) const
 	return iIndex;
 }
 
+void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
+{
+	m_iCurrentAnimIndex = iAnimationIndex;
+	m_bIsAnimLoop = isLoop;
+}
+
 HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
 	_uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
@@ -122,7 +128,8 @@ HRESULT CModel::Bind_Bones(CShader* pShader, const _char* pConstantName, _uint i
 
 void CModel::Play_Animation(_float fTimeDelta)
 {
-	// m_iCurrentAnimIndex에 해당하는 애니메이션 중, 현재 재생 시간에 맞는 상태행령(TransformationMatrix)을 실제 뼈에게 전달해준다.
+	// m_iCurrentAnimIndex에 해당하는 애니메이션 중, 현재 재생 시간에 맞는 상태행렬(TransformationMatrix)을 실제 뼈에게 전달해준다.
+	m_bIsAnimFinished = m_vecAnimations[m_iCurrentAnimIndex]->Update_TransformationMatrices(m_vecBones, fTimeDelta, m_bIsAnimLoop);
 
 	// 위에서 갱신해준 뼈들의 TransformationMatrix를 기반으로 실제 뼈의 상태행렬(CombinedTransformationMatrix)을 만들어준다.
 	for (auto& pBone : m_vecBones)

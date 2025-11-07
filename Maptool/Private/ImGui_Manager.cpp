@@ -99,13 +99,13 @@ void CImGui_Manager::Render()
 
 					if (XMVectorGetW(vPickPos) > 0.f)
 					{
-						char buf[128];
-						sprintf_s(buf, "x: %f, y: %f, z %f\n", XMVectorGetX(vPickPos), XMVectorGetY(vPickPos), XMVectorGetZ(vPickPos));
+						char buf[512];
+						sprintf_s(buf, "x: %f, y: %f, z %f, Obj: %ls\n", XMVectorGetX(vPickPos), XMVectorGetY(vPickPos), XMVectorGetZ(vPickPos), pObject->Get_Name());
 						OutputDebugStringA(buf);
 						
 						MSG_BOX("PICKING SUCCESS");
 
-						continue;
+						break;
 					}
 					else
 					{

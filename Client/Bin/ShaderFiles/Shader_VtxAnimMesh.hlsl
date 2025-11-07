@@ -65,13 +65,14 @@ VS_OUT VS_MAIN(VS_IN In)
     g_BoneMatrices[In.vBlendIndex.w] * fWeightW;
     
     vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+    vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
     
     matrix matWV, matWVP;
     matWV = mul(g_WorldMatrix, g_ViewMatrix);
     matWVP = mul(matWV, g_ProjMatrix);
     
     Out.vPosition = mul(vPosition, matWVP);
-    Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
+    Out.vNormal = normalize(mul(vNormal, g_WorldMatrix));
     Out.vTexCoord = In.vTexCoord;
     Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);      // 픽셀의 위치는 뷰포트이기 때문에 월드 공간으로 변환해서 넘겨준다.
     
@@ -104,12 +105,12 @@ PS_OUT PS_MAIN(PS_IN In)
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
     
-    float fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
+    float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
     
     float4 vLook = In.vWorldPos - g_vCamPosition;
-    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+    float4 vReflect = reflect(normalize(g_vLightDir), In.vNormal);
     
-    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 50);
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, normalize(vReflect)), 0.f), 50);
     
     Out.vColor = g_vLightDiffuse * vMtrlDiffuse * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) +
     (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;

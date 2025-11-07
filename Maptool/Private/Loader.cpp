@@ -102,14 +102,14 @@ HRESULT CLoader::Loading_GamePlay()
 	UpdateLoadingText(TEXT("텍스쳐를 로딩 중 입니다."));
 	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
-	_matrix PreTransformMatrix = XMMatrixIdentity();
-	PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	_matrix PreTransformMatrix = DirectX::XMMatrixIdentity();
 
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/Darkwraith.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/test.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
+	PreTransformMatrix = DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	/* For.Prototype_Component_Model_Map */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map"),
 		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/testmap/testmap.fbx", PreTransformMatrix))))

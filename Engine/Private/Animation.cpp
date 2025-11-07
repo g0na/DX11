@@ -8,8 +8,8 @@ CAnimation::CAnimation()
 HRESULT CAnimation::Initialize(const aiAnimation* pAIAnimation, CModel* pModel)
 {
     strcpy_s(m_szName, pAIAnimation->mName.data);
-    m_fDuration = pAIAnimation->mDuration;
-    m_fTickPerSecond = pAIAnimation->mTicksPerSecond;
+    m_fDuration = (_float)pAIAnimation->mDuration;
+    m_fTickPerSecond = (_float)pAIAnimation->mTicksPerSecond;
 
     // 현재 애니메이션을 위해 조절해야하는 뼈의 개수
     m_iNumChannels = pAIAnimation->mNumChannels;
@@ -27,19 +27,24 @@ HRESULT CAnimation::Initialize(const aiAnimation* pAIAnimation, CModel* pModel)
     return S_OK;
 }
 
-void CAnimation::Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fTimeDelta)
+_bool CAnimation::Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fTimeDelta, _bool isLoop)
 {
     m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
 
     if (m_fCurrentTrackPosition >= m_fDuration)
     {
+        if (isLoop == false)
+            return true;
 
+        m_fCurrentTrackPosition = 0.f;
     }
 
     for (auto& pChannel : m_vecChannels)
     {
-        pChannel->Update_TransformationMatrices(vecBones, m_fCurrentTrackPosition);
+        pChannel->Update_TransformationMatrix(vecBones, m_fCurrentTrackPosition);
     }
+
+    return false;
 }
 
 CAnimation* CAnimation::Create(const aiAnimation* pAIAnimation, CModel* pModel)

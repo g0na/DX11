@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject { pDevice, pContext }
+	: CGameObject{ pDevice, pContext }
 {
 }
 
 CMonster::CMonster(const CMonster& Prototype)
-	: CGameObject { Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
@@ -25,6 +25,7 @@ HRESULT CMonster::Initialize(void* pArg)
 		return E_FAIL;
 
 	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(10.f, 1.f, 10.f, 1.f));
+	m_pModelCom->Set_Animation(0, true);
 
 	return S_OK;
 }
@@ -36,6 +37,9 @@ void CMonster::Update_Priority(_float fTimeDelta)
 void CMonster::Update(_float fTimeDelta)
 {
 	m_pModelCom->Play_Animation(fTimeDelta);
+
+	if (m_pModelCom->is_AnimFinished() == true)
+		int a = 10;
 }
 
 void CMonster::Update_Late(_float fTimeDelta)

@@ -14,7 +14,7 @@ private:
 
 public:
 	HRESULT Initialize(const aiAnimation* pAIAnimation, class CModel* pModel);
-	void Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fTimeDelta);
+	_bool Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fTimeDelta, _bool isLoop);
 
 private:
 	// 현재 동작을 구현해주기위해 사용해야하는 뼈의 개수

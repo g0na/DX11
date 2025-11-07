@@ -34,8 +34,11 @@ void CImGui_Panel_Inspector::Render()
 
     if (ImGui::Button("Create"))
     {
+        CGameObject::GAMEOBJECT_DESC	GameObjectDesc{};
+        lstrcpy(GameObjectDesc.szName, TEXT("Monster"));
+
         m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-            ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
+            ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"), &GameObjectDesc);
     }
 
     //if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::LB))
