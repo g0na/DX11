@@ -108,7 +108,7 @@ HRESULT CMaterial::Initialize(const aiMaterial* pAIMaterial, const _char* pModel
 				strcat_s(szTextureFilePath, szExt);
 
 				_tchar		szFinalPath[MAX_PATH] = {};
-				MultiByteToWideChar(CP_ACP, 0, szTextureFilePath, strlen(szTextureFilePath), szFinalPath, MAX_PATH);
+				MultiByteToWideChar(CP_ACP, 0, szTextureFilePath, (_int)strlen(szTextureFilePath), szFinalPath, MAX_PATH);
 
 				if (false == strcmp(szExt, ".dds"))
 					hr = CreateDDSTextureFromFile(m_pDevice, szFinalPath, nullptr, &pSRV);

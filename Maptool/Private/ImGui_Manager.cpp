@@ -1,4 +1,4 @@
-#include "Client_Defines.h"
+#include "Maptool_Defines.h"
 #include "ImGui_Panel_Inspector.h"
 #include "ImGui_Panel_Hierarchy.h"
 #include "GameInstance.h"
@@ -121,7 +121,7 @@ void CImGui_Manager::Picking_GameObject()
 
 	// 모든 레이어를 검사하는건 별로 같음. 현재 씬의 레이어만 검사할 수 있도록 바꾸자
 	for (auto& Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
-	{
+	{	
 		listObjects = Pair.second->Get_Objects();
 
 		for (auto pObject : listObjects)
@@ -142,30 +142,14 @@ void CImGui_Manager::Picking_GameObject()
 
 				_vector	vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom, fDist);
 
-				//// 1. 픽킹 거리가 최소 거리보다 가까울 때
-				//if (fDist <= fMinDist)
-				//{
-				//	// 2. 최소 거리 갱신
-				//	fMinDist = fDist;
-				//	// 3. 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
-				//	pFinalObject = pObject;
-				//	vFinalPos = vPickPos;	
-				//}
-
 				if (XMVectorGetW(vPickPos) > 0.f &&
 					fDist <= fMinDist)
 				{
-					// 2. 최소 거리 갱신
+					// 최소 거리 갱신
 					fMinDist = fDist;
-					// 3. 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
+					// 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
 					pFinalObject = pObject;
 					vFinalPos = vPickPos;
-				}
-				else
-				{
-					char buf[128];
-					sprintf_s(buf, "Picking Fail!\n");
-					OutputDebugStringA(buf);
 				}
 			}
 		}
@@ -176,8 +160,6 @@ void CImGui_Manager::Picking_GameObject()
 		char buf[512];
 		sprintf_s(buf, "x: %f, y: %f, z %f, Obj: %ls\n", XMVectorGetX(vFinalPos), XMVectorGetY(vFinalPos), XMVectorGetZ(vFinalPos), pFinalObject->Get_Name());
 		OutputDebugStringA(buf);
-
-		MSG_BOX("PICKING SUCCESS");
 	}
 }
 

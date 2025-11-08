@@ -24,7 +24,6 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(10.f, 1.f, 10.f, 1.f));
 	m_pModelCom->Set_Animation(0, true);
 
 	return S_OK;
@@ -37,9 +36,6 @@ void CMonster::Update_Priority(_float fTimeDelta)
 void CMonster::Update(_float fTimeDelta)
 {
 	m_pModelCom->Play_Animation(fTimeDelta);
-
-	if (m_pModelCom->is_AnimFinished() == true)
-		int a = 10;
 }
 
 void CMonster::Update_Late(_float fTimeDelta)

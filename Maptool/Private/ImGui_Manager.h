@@ -28,7 +28,7 @@ public:
 private:
 	HRESULT Ready_Panels();
 	void Render_Panels();
-
+	
 private:
 	void Picking_GameObject();
 

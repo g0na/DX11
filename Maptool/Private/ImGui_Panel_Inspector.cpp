@@ -1,4 +1,4 @@
-#include "Client_Defines.h"
+#include "Maptool_Defines.h"
 #include "GameInstance.h"
 #include "Calculator.h"
 #include "Layer.h"
@@ -40,42 +40,6 @@ void CImGui_Panel_Inspector::Render()
         m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
             ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"), &GameObjectDesc);
     }
-
-    //if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::LB))
-    //{
-    //    map<const _wstring, class CLayer*>* pLayers = { nullptr };
-    //    list<class CGameObject*> listObjects = { nullptr };
-
-    //    pLayers = m_pGameInstance->Get_Layers();
-
-    //    for (auto Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
-    //    {
-    //        listObjects = Pair.second->Get_Objects();
-
-    //        for (auto pObject : listObjects)
-    //        {
-    //            CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
-    //            if (pTransformCom == nullptr)
-    //                continue;
-
-    //            CModel* pModelCom = pObject->Get_Component<CModel>(TEXT("Com_Model"));
-    //            if (pModelCom == nullptr)
-    //                continue;
-
-    //            _uint iNumMeshes = pModelCom->Get_NumMeshes();
-    //            for (_uint i = 0; i < iNumMeshes; i++)
-    //            {
-    //                CMesh* pMeshCom = pModelCom->Get_Mesh(i);
-    //                _vector vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom);
-
-    //                if (XMVectorGetW(vPickPos) > 0.f)
-    //                    MSG_BOX("Picking Success!");                   
-    //                else 
-    //                    MSG_BOX("Picking Fail!");
-    //            }
-    //        }
-    //    }
-    //}
 
     // Todo - 나중에 피킹으로 처리해서 오브젝트나 Grid를 얻어와 버튼과 상호작용 시킬 수 있도록 해야함
     const LIGHT_DESC* pDesc = m_pGameInstance->Get_LightDesc(0);

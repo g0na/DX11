@@ -72,7 +72,7 @@
     <ClInclude Include="targetver.h">
       <Filter>98. Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Client_Defines.h">
+    <ClInclude Include="..\Public\Maptool_Defines.h">
       <Filter>99. Define</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MainApp.h">

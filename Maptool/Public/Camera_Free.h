@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Client_Defines.h"
+#include "Maptool_Defines.h"
 #include "Camera.h"
 
 NS_BEGIN(Engine)
