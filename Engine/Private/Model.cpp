@@ -60,35 +60,56 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 	m_bIsAnimLoop = isLoop;
 }
 
+//HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
+//{
+//	_uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
+//
+//	if (MODEL::NONANIM == eModelType)
+//		iFlag |= aiProcess_PreTransformVertices;
+//
+//	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
+//	if (m_pAIScene == nullptr)
+//	{
+//		MSG_BOX("Failed to Load Model");
+//		return E_FAIL;
+//	}
+//
+//	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
+//
+//	m_eModelType = eModelType;
+//
+//	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+//		return E_FAIL;
+//
+//	if (FAILED(Ready_Meshes()))
+//		return E_FAIL;
+//
+//	if (FAILED(Ready_Materials(pModelFilePath)))
+//		return E_FAIL;
+//
+//	if (FAILED(Ready_Animations()))
+//		return E_FAIL;
+//
+//	return S_OK;
+//}
+
 HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
-	_uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
+	string strFBXPath = pModelFilePath;
+	string strASSBINPath = strFBXPath + ".assbin";
 
-	if (MODEL::NONANIM == eModelType)
-		iFlag |= aiProcess_PreTransformVertices;
-
-	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
-	if (m_pAIScene == nullptr)
+	ifstream assbinCheck(strASSBINPath, ios::binary);
+	
+	if (assbinCheck.good())
 	{
-		MSG_BOX("Failed to Load Model");
-		return E_FAIL;
+		assbinCheck.close();
+
+		return Load_FromAssbin(strASSBINPath.c_str(), eModelType, PreTransformMatrix);
 	}
-
-	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
-
-	m_eModelType = eModelType;
-
-	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
-		return E_FAIL;
-
-	if (FAILED(Ready_Meshes()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Materials(pModelFilePath)))
-		return E_FAIL;
-
-	if (FAILED(Ready_Animations()))
-		return E_FAIL;
+	else
+	{
+		return Load_FromFBX(eModelType, pModelFilePath, strASSBINPath.c_str(), PreTransformMatrix);
+	}
 
 	return S_OK;
 }
@@ -137,6 +158,75 @@ void CModel::Play_Animation(_float fTimeDelta)
 		// 각 뼈의 월드 변환을 계산한다.
 		pBone->Update_CombinedTransformMatrix(m_vecBones, XMLoadFloat4x4(&m_PreTransformMatrix));
 	}
+}
+
+HRESULT CModel::Load_FromAssbin(const _char* pAssbinFilePath, MODEL eModelType, _fmatrix PreTransformMatrix)
+{
+	_uint iFlag = { 0 };
+
+	m_pAIScene = m_Importer.ReadFile(pAssbinFilePath, iFlag);
+	if (m_pAIScene == nullptr)
+	{
+		MSG_BOX("Failed to Read Assbin");
+		return E_FAIL;
+	}
+	
+	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
+
+	m_eModelType = eModelType;
+
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Meshes()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Materials(pAssbinFilePath)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Animations()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, const char* pAssbinFilePath, _fmatrix PreTransformMatrix)
+{
+	_uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
+
+	if (MODEL::NONANIM == eModelType)
+		iFlag |= aiProcess_PreTransformVertices;
+
+	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
+	if (m_pAIScene == nullptr)
+	{
+		MSG_BOX("Failed to Load Model");
+		return E_FAIL;
+	}
+
+	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
+
+	m_eModelType = eModelType;
+
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Meshes()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Materials(pModelFilePath)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Animations()))
+		return E_FAIL;
+
+	if (m_Exporter.Export(m_pAIScene, "assbin", pAssbinFilePath) != AI_SUCCESS)
+	{
+		MSG_BOX("Failed to export ASSBIN");
+	}
+
+	return S_OK;
+
 }
 
 HRESULT CModel::Ready_Meshes()

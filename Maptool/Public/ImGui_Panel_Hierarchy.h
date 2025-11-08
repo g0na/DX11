@@ -12,7 +12,6 @@ private:
 public:
 	virtual HRESULT Initialize() override;
 	virtual void Render() override;
-private:
 
 public:
 	static CImGui_Panel_Hierarchy* Create();

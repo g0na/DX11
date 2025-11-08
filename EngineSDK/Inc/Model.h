@@ -31,8 +31,13 @@ public:
 	HRESULT Bind_Bones(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex);
 	void Play_Animation(_float fTimeDelta);
 
+public:
+	HRESULT Load_FromAssbin(const _char* pModelFilePath, MODEL eModelType, _fmatrix PreTransformMatrix);
+	HRESULT Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, const char* pAssbinFilePath, _fmatrix PreTransformMatrix);
+
 private:
 	Assimp::Importer				m_Importer = {};
+	Assimp::Exporter				m_Exporter = {};
 	const aiScene*					m_pAIScene = { nullptr };
 
 private:
