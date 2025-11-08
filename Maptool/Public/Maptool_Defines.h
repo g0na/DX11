@@ -4,6 +4,8 @@
 #include "process.h"
 #include <thread>
 #include <mutex>
+#include <filesystem>
+#include <iostream>
 
 #pragma push_macro("new")
 #undef new
