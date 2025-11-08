@@ -70,56 +70,9 @@ void CImGui_Manager::Render()
 	// 초반에는 켜놓고 기능 찾아보는 것 추천
 	ImGui::ShowDemoWindow();
 
+	// 마우스 픽킹 관련 함수
 	if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
-	{
-		map<const _wstring, class CLayer*>* pLayers = { nullptr };
-		list<class CGameObject*> listObjects = { nullptr };
-
-		pLayers = m_pGameInstance->Get_Layers();
-
-		for (auto& Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
-		{
-			listObjects = Pair.second->Get_Objects();
-
-			for (auto pObject : listObjects)
-			{
-				CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
-				if (pTransformCom == nullptr)
-					continue;
-
-				CModel* pModelCom = pObject->Get_Component<CModel>(TEXT("Com_Model"));
-				if (pModelCom == nullptr)
-					continue;
-
-				_uint iNumMeshes = pModelCom->Get_NumMeshes();
-				for (_uint i = 0; i < iNumMeshes; i++)
-				{
-					CMesh* pMeshCom = pModelCom->Get_Mesh(i);
-					_vector vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom);
-
-					if (XMVectorGetW(vPickPos) > 0.f)
-					{
-						char buf[512];
-						sprintf_s(buf, "x: %f, y: %f, z %f, Obj: %ls\n", XMVectorGetX(vPickPos), XMVectorGetY(vPickPos), XMVectorGetZ(vPickPos), pObject->Get_Name());
-						OutputDebugStringA(buf);
-						
-						MSG_BOX("PICKING SUCCESS");
-
-						break;
-					}
-					else
-					{
-						char buf[128];
-						sprintf_s(buf, "Picking Fail!\n");
-						OutputDebugStringA(buf);
-
-						continue;
-					}
-				}
-			}
-		}
-	}
-
+		Picking_GameObject();
 
 	Render_Panels();
 	////////////////////////
@@ -155,14 +108,85 @@ void CImGui_Manager::Render_Panels()
 	}
 }
 
+void CImGui_Manager::Picking_GameObject()
+{
+	map<const _wstring, class CLayer*>* pLayers = { nullptr };
+	list<CGameObject*> listObjects = { nullptr };
+
+	pLayers = m_pGameInstance->Get_Layers();
+
+	_float fMinDist = { 9999.f };
+	_vector vFinalPos = {};
+	CGameObject* pFinalObject = { nullptr };
+
+	// 모든 레이어를 검사하는건 별로 같음. 현재 씬의 레이어만 검사할 수 있도록 바꾸자
+	for (auto& Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
+	{
+		listObjects = Pair.second->Get_Objects();
+
+		for (auto pObject : listObjects)
+		{
+			CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
+			if (pTransformCom == nullptr)
+				continue;
+
+			CModel* pModelCom = pObject->Get_Component<CModel>(TEXT("Com_Model"));
+			if (pModelCom == nullptr)
+				continue;
+
+			_uint iNumMeshes = pModelCom->Get_NumMeshes();
+			for (_uint i = 0; i < iNumMeshes; i++)
+			{
+				CMesh* pMeshCom = pModelCom->Get_Mesh(i);
+				_float	fDist = { 0.f };
+
+				_vector	vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom, fDist);
+
+				//// 1. 픽킹 거리가 최소 거리보다 가까울 때
+				//if (fDist <= fMinDist)
+				//{
+				//	// 2. 최소 거리 갱신
+				//	fMinDist = fDist;
+				//	// 3. 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
+				//	pFinalObject = pObject;
+				//	vFinalPos = vPickPos;	
+				//}
+
+				if (XMVectorGetW(vPickPos) > 0.f &&
+					fDist <= fMinDist)
+				{
+					// 2. 최소 거리 갱신
+					fMinDist = fDist;
+					// 3. 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
+					pFinalObject = pObject;
+					vFinalPos = vPickPos;
+				}
+				else
+				{
+					char buf[128];
+					sprintf_s(buf, "Picking Fail!\n");
+					OutputDebugStringA(buf);
+				}
+			}
+		}
+	}
+
+	if (pFinalObject != nullptr)
+	{
+		char buf[512];
+		sprintf_s(buf, "x: %f, y: %f, z %f, Obj: %ls\n", XMVectorGetX(vFinalPos), XMVectorGetY(vFinalPos), XMVectorGetZ(vFinalPos), pFinalObject->Get_Name());
+		OutputDebugStringA(buf);
+
+		MSG_BOX("PICKING SUCCESS");
+	}
+}
+
 void CImGui_Manager::Free()
 {
 	__super::Free();
 
-	for (CImGui_Panel* pPanel : m_pPanels)
-	{
+	for (auto& pPanel : m_pPanels)
 		Safe_Release(pPanel);
-	}
 
 	::ImGui_ImplDX11_Shutdown();
 	::ImGui_ImplWin32_Shutdown();

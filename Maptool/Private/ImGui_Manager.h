@@ -20,20 +20,26 @@ class CImGui_Manager final : public CBase
 private:
 	CImGui_Manager();
 	virtual ~CImGui_Manager() = default;
+
 public:
 	HRESULT Initialize_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext);
 	void Render();
+
 private:
 	HRESULT Ready_Panels();
 	void Render_Panels();
+
+private:
+	void Picking_GameObject();
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pDeviceContext = { nullptr };
-	CCalculator* m_pCalculator = { nullptr };
+	class CCalculator* m_pCalculator = { nullptr };
 
 	ImGuiIO* m_pIO = { nullptr };
-	class CImGui_Panel* m_pPanels[ENUM_TO_UINT(PanelType::END)];
+	class CImGui_Panel* m_pPanels[ENUM_TO_UINT(PanelType::END)] = { nullptr };
 
 public:
 	virtual void Free() override;

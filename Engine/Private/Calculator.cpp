@@ -63,7 +63,7 @@ HRESULT CCalculator::Initialize(void* pArg)
 //}
 //
 
-_vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTransformCom)
+_vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTransformCom, _float& fDistance)
 {
 	POINT	ptMouse{};
 
@@ -106,7 +106,6 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 	_float	fDist(0.f);
 	_ulong	dwVtxIdx[3] = {};
 
-	//const _vec3* pTerrainVtxPos = pTerrainBufferCom->Get_VtxPos();
 	const _float3* pMeshVtxPos = pMeshCom->m_pVertexPositions;
 	const _uint* pIndices = pMeshCom->m_pIndices;
 	const _uint	iNumVertices = pMeshCom->m_iNumVertices;
@@ -125,6 +124,7 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 									  XMLoadFloat3(&pMeshVtxPos[idx2]),
 									  fDist))
 		{
+			fDistance = fDist;
 			return XMVectorAdd(vRayPos, XMVectorScale(XMVector3Normalize(vRayDir), fDist));
 		}
 	}
