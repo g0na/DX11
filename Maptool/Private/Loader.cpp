@@ -106,7 +106,7 @@ HRESULT CLoader::Loading_GamePlay()
 
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/test.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/DarkWraith/test.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
 	PreTransformMatrix = DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f);

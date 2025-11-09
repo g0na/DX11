@@ -42,12 +42,14 @@ public:
 #pragma region LEVEL_MANAGER
 public:
 	HRESULT	Change_Level(_uint iCurLevelID, class CLevel* pCurLevel);
+	const _uint Get_CurLevelID();
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
 public:
 	HRESULT Add_Prototype(_uint iLevelNum, const _wstring& strPrototypeTag, CBase* pPrototype);
 	CBase* Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelNum, const _wstring& strPrototypeTag, void* pArg = nullptr);
+	map<const _wstring, CBase*> Get_Prototypes(_uint iLevelID);
 #pragma endregion
 
 #pragma region OBJECT_MANAGER

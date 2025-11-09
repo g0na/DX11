@@ -10,6 +10,9 @@ private:
 	virtual ~CLevel_Manager() = default;
 
 public:
+	const _uint Get_CurLevelID() const { return m_iCurLevelID; }
+
+public:
 	HRESULT	Change_Level(_uint iCurLevelID, class CLevel* pCurLevel);
 	void Update_Level(_float fTimeDelta);
 	HRESULT Render_Level();

@@ -19,17 +19,8 @@ HRESULT CImGui_Panel_Hierarchy::Initialize()
 void CImGui_Panel_Hierarchy::Render()
 {
     ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
-    if (ImGui::Begin("Object Inspector", (_bool*)true, ImGuiWindowFlags_MenuBar))
+    if (ImGui::Begin(m_strLabel.c_str()))
     {
-        if (ImGui::BeginMenuBar())
-        {
-            if (ImGui::BeginMenu("File"))
-            {
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
-        }
-
         // Left
         static int selected = 0;
         {

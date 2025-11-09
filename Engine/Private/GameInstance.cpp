@@ -169,6 +169,10 @@ HRESULT CGameInstance::Change_Level(_uint iCurLevelID, class CLevel* pCurLevel)
 
 	return S_OK;
 }
+const _uint CGameInstance::Get_CurLevelID()
+{
+	return m_pLevelManager->Get_CurLevelID();
+}
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
@@ -180,6 +184,10 @@ HRESULT CGameInstance::Add_Prototype(_uint iLevelNum, const _wstring& strPrototy
 CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototypeID, _uint iLevelNum, const _wstring& strPrototypeTag, void* pArg)
 {
 	return m_pPrototypeManager->Clone_Prototype(ePrototypeID, iLevelNum, strPrototypeTag, pArg);
+}
+map<const _wstring, CBase*> CGameInstance::Get_Prototypes(_uint iLevelID)
+{
+	return m_pPrototypeManager->Get_Prototypes(iLevelID);
 }
 #pragma endregion
 
