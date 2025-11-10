@@ -19,6 +19,7 @@ public:
 	HRESULT					Draw();
 	HRESULT					Draw_End();
 	void					Clear(_uint iLevelID);		// 정해진 레벨의 자원을 정리한다.
+	_float					Random(_float fMin, _float fMax);		// 최대 최소를 정해서 무작위 실수를 반환하는 함수
 #pragma endregion
 
 #pragma region INPUT_MANAGER

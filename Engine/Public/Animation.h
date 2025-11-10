@@ -10,6 +10,7 @@ class CAnimation final : public CBase
 {
 private:
 	CAnimation();
+	CAnimation(const CAnimation& Prototype);
 	virtual ~CAnimation() = default;
 
 public:
@@ -20,6 +21,7 @@ private:
 	// 현재 동작을 구현해주기위해 사용해야하는 뼈의 개수
 	_uint						m_iNumChannels = {};
 	vector<class CChannel*>		m_vecChannels;
+	vector<_uint>				m_CurrentKeyFrameIndices = {};
 
 	_char						m_szName[MAX_PATH] = {};
 	_float						m_fTickPerSecond = {};				// 애니메이션의 재생 속도
@@ -28,6 +30,7 @@ private:
 
 public:
 	static CAnimation* Create(const aiAnimation* pAIAnimation, class CModel* pModel);
+	CAnimation* Clone();
 	virtual void Free() override;
 };
 

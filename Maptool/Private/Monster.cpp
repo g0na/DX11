@@ -26,8 +26,6 @@ HRESULT CMonster::Initialize(void* pArg)
 
 	//m_pModelCom->Set_Animation(0, true);
 
-	m_pTransformCom->Set_Scale(2.f, 2.f, 2.f);
-
 	return S_OK;
 }
 

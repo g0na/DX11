@@ -110,6 +110,13 @@ void CGameInstance::Clear(_uint iLevelID)
 	m_pObjectManager->Clear(iLevelID);
 	m_pPrototypeManager->Clear(iLevelID);
 }
+
+_float CGameInstance::Random(_float fMin, _float fMax)
+{
+	_float fRandNormal = static_cast<_float>(rand()) / RAND_MAX;
+
+	return (fMax - fMin) * fRandNormal + fMin;
+}
 #pragma endregion
 
 #pragma region INPUT_MANAGER

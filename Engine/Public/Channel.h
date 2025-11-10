@@ -16,11 +16,10 @@ private:
 
 public:
 	HRESULT Initialize(const aiNodeAnim* pAIChannel, class CModel* pModel);
-	void Update_TransformationMatrix(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition);
+	void Update_TransformationMatrix(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition, _uint* pCurrentKeyFrameIndex);
 
 private:
 	_uint				m_iNumKeyFrames = {};
-	_uint				m_iCurrentKeyFrameIndex = {};
 	_int				m_iBoneIndex = {};
 	vector<KEYFRAME>	m_vecKeyFrames;
 

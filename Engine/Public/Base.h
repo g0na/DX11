@@ -9,6 +9,7 @@ class ENGINE_DLL CBase abstract
 protected:
 	CBase();
 	virtual ~CBase() = default;
+
 public:
 	virtual _uint	AddRef();
 	virtual _uint	Release();

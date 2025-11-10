@@ -55,10 +55,10 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, CModel* pModel)
     return S_OK;
 }
 
-void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition)
+void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition, _uint* pCurrentKeyFrameIndex)
 {
     if (fCurrentTrackPosition == 0.f)
-        m_iCurrentKeyFrameIndex = 0;
+        (*pCurrentKeyFrameIndex) = 0;
 
     // fCurrentTrackPosition에 맞는 현재 뼈의 상태를 만든다.
     _float4x4       TransformationMatrix = {};
@@ -81,20 +81,20 @@ void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones,
         _vector     vLeftRotation{}, vRightRotation{};
         _vector     vLeftTranslation{}, vRightTranslation{};
 
-        if (fCurrentTrackPosition >= m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].fTrackPosition)
-            ++m_iCurrentKeyFrameIndex;
+        while (fCurrentTrackPosition >= m_vecKeyFrames[(*pCurrentKeyFrameIndex) + 1].fTrackPosition)
+            ++(*pCurrentKeyFrameIndex);
 
-        vLeftScale = XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex].vScale);
-        vRightScale = XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].vScale);
+        vLeftScale = XMLoadFloat3(&m_vecKeyFrames[(*pCurrentKeyFrameIndex)].vScale);
+        vRightScale = XMLoadFloat3(&m_vecKeyFrames[(*pCurrentKeyFrameIndex) + 1].vScale);
 
-        vLeftRotation = XMLoadFloat4(&m_vecKeyFrames[m_iCurrentKeyFrameIndex].vRotation);
-        vRightRotation = XMLoadFloat4(&m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].vRotation);
+        vLeftRotation = XMLoadFloat4(&m_vecKeyFrames[(*pCurrentKeyFrameIndex)].vRotation);
+        vRightRotation = XMLoadFloat4(&m_vecKeyFrames[(*pCurrentKeyFrameIndex) + 1].vRotation);
 
-        vLeftTranslation = XMVectorSetW(XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex].vTranslation), 1.f);
-        vRightTranslation = XMVectorSetW(XMLoadFloat3(&m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].vTranslation), 1.f);
+        vLeftTranslation = XMVectorSetW(XMLoadFloat3(&m_vecKeyFrames[(*pCurrentKeyFrameIndex)].vTranslation), 1.f);
+        vRightTranslation = XMVectorSetW(XMLoadFloat3(&m_vecKeyFrames[(*pCurrentKeyFrameIndex) + 1].vTranslation), 1.f);
 
-        _float fRatio = (fCurrentTrackPosition - m_vecKeyFrames[m_iCurrentKeyFrameIndex].fTrackPosition) /
-            (m_vecKeyFrames[m_iCurrentKeyFrameIndex + 1].fTrackPosition - m_vecKeyFrames[m_iCurrentKeyFrameIndex].fTrackPosition);
+        _float fRatio = (fCurrentTrackPosition - m_vecKeyFrames[(*pCurrentKeyFrameIndex)].fTrackPosition) /
+            (m_vecKeyFrames[(*pCurrentKeyFrameIndex) + 1].fTrackPosition - m_vecKeyFrames[(*pCurrentKeyFrameIndex)].fTrackPosition);
 
         vScale = XMVectorLerp(vLeftScale, vRightScale, fRatio);
         vRotation = XMQuaternionSlerp(vLeftRotation, vRightRotation, fRatio);

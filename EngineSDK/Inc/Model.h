@@ -32,8 +32,7 @@ public:
 	void Play_Animation(_float fTimeDelta);
 
 public:
-	HRESULT Load_FromAssbin(const _char* pModelFilePath, MODEL eModelType, _fmatrix PreTransformMatrix);
-	HRESULT Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, const char* pAssbinFilePath, _fmatrix PreTransformMatrix);
+	HRESULT Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix);
 
 private:
 	Assimp::Importer				m_Importer = {};
@@ -41,6 +40,8 @@ private:
 	const aiScene*					m_pAIScene = { nullptr };
 
 private:
+	_char							szBinFilePath[MAX_PATH] = {};
+
 	MODEL							m_eModelType = {};
 	_uint							m_iNumMeshes = {};
 	vector<class CMesh*>			m_vecMeshes;

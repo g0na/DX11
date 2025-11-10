@@ -24,8 +24,13 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(10.f, 1.f, 10.f, 1.f));
-	m_pModelCom->Set_Animation(0, true);
+	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(
+		m_pGameInstance->Random(0, 20),
+		3.f,
+		m_pGameInstance->Random(0, 20),
+		1.f));
+
+	m_pModelCom->Set_Animation(m_pGameInstance->Random(0, 3), true);
 
 	return S_OK;
 }
@@ -37,16 +42,6 @@ void CMonster::Update_Priority(_float fTimeDelta)
 void CMonster::Update(_float fTimeDelta)
 {
 	m_pModelCom->Play_Animation(fTimeDelta);
-
-	char buf[128];
-	sprintf_s(buf, "x: %f, y: %f, z %f\n", 
-		XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
-		XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
-		XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION)));
-	OutputDebugStringA(buf);
-
-	if (m_pModelCom->is_AnimFinished() == true)
-		int a = 10;
 }
 
 void CMonster::Update_Late(_float fTimeDelta)

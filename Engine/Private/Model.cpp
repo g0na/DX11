@@ -18,8 +18,8 @@ CModel::CModel(const CModel& Prototype)
 	, m_PreTransformMatrix { Prototype.m_PreTransformMatrix }
 	, m_iNumMaterials { Prototype.m_iNumMaterials }
 	, m_vecMaterials { Prototype.m_vecMaterials }
-	, m_vecBones { Prototype.m_vecBones }
-	, m_vecAnimations{ Prototype.m_vecAnimations }
+	//, m_vecBones { Prototype.m_vecBones }
+	//, m_vecAnimations{ Prototype.m_vecAnimations }
 {
 	for (auto& pMesh : m_vecMeshes)
 		Safe_AddRef(pMesh);
@@ -27,11 +27,11 @@ CModel::CModel(const CModel& Prototype)
 	for (auto& pMaterial : m_vecMaterials)
 		Safe_AddRef(pMaterial);
 
-	for (auto& pBone : m_vecBones)
-		Safe_AddRef(pBone);
+	for (auto& pPrototypeBone : Prototype.m_vecBones)
+		m_vecBones.push_back(pPrototypeBone->Clone());
 
-	for (auto* pAnimation : m_vecAnimations)
-		Safe_AddRef(pAnimation);
+	for (auto* pPrototypeAnimation : Prototype.m_vecAnimations)
+		m_vecAnimations.push_back(pPrototypeAnimation->Clone());
 }
 
 _int CModel::Get_BoneIndex(const _char* pBoneName) const
@@ -95,23 +95,7 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 
 HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
-	string strFBXPath = pModelFilePath;
-	string strASSBINPath = strFBXPath + ".assbin";
-
-	ifstream assbinCheck(strASSBINPath, ios::binary);
-	
-	if (assbinCheck.good())
-	{
-		assbinCheck.close();
-
-		return Load_FromAssbin(strASSBINPath.c_str(), eModelType, PreTransformMatrix);
-	}
-	else
-	{
-		return Load_FromFBX(eModelType, pModelFilePath, strASSBINPath.c_str(), PreTransformMatrix);
-	}
-
-	return S_OK;
+	return Load_FromFBX(eModelType, pModelFilePath, PreTransformMatrix);
 }
 
 HRESULT CModel::Initialize(void* pArg)
@@ -160,37 +144,7 @@ void CModel::Play_Animation(_float fTimeDelta)
 	}
 }
 
-HRESULT CModel::Load_FromAssbin(const _char* pAssbinFilePath, MODEL eModelType, _fmatrix PreTransformMatrix)
-{
-	_uint iFlag = { 0 };
-
-	m_pAIScene = m_Importer.ReadFile(pAssbinFilePath, iFlag);
-	if (m_pAIScene == nullptr)
-	{
-		MSG_BOX("Failed to Read Assbin");
-		return E_FAIL;
-	}
-	
-	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
-
-	m_eModelType = eModelType;
-
-	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
-		return E_FAIL;
-
-	if (FAILED(Ready_Meshes()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Materials(pAssbinFilePath)))
-		return E_FAIL;
-
-	if (FAILED(Ready_Animations()))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, const char* pAssbinFilePath, _fmatrix PreTransformMatrix)
+HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
 	_uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
 
@@ -208,6 +162,16 @@ HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, cons
 
 	m_eModelType = eModelType;
 
+	// 바이너리 파일 경로 가져오기
+	_char szDir[MAX_PATH] = {};
+	_char szFileName[MAX_PATH] = {};
+
+	_splitpath_s(pModelFilePath, nullptr, NULL, szDir, MAX_PATH, szFileName, MAX_PATH, nullptr, NULL);
+
+	strcpy_s(szBinFilePath, szDir);
+	strcat_s(szBinFilePath, szFileName);
+	strcat_s(szBinFilePath, ".bin");
+
 	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
 		return E_FAIL;
 
@@ -220,18 +184,34 @@ HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, cons
 	if (FAILED(Ready_Animations()))
 		return E_FAIL;
 
-	if (m_Exporter.Export(m_pAIScene, "assbin", pAssbinFilePath) != AI_SUCCESS)
-	{
-		MSG_BOX("Failed to export ASSBIN");
-	}
-
 	return S_OK;
-
 }
 
 HRESULT CModel::Ready_Meshes()
 {
-	m_iNumMeshes = m_pAIScene->mNumMeshes;
+	// 바이너리 파일 관련
+	fs::path p(szBinFilePath);
+
+	if (fs::exists(p))
+	{
+		ifstream loadData(szBinFilePath, ios::binary);
+
+		if (loadData.is_open())
+			loadData.read((_char*)&m_iNumMeshes, sizeof(_uint));
+
+		loadData.close();
+	}
+	else if (!fs::exists(p))
+	{
+		m_iNumMeshes = m_pAIScene->mNumMeshes;
+
+		ofstream saveData(szBinFilePath, ios::binary);
+
+		if (saveData.is_open())
+			saveData.write((_char*)&m_iNumMeshes, sizeof(_uint));
+
+		saveData.close();
+	}
 
 	for (size_t i = 0; i < m_iNumMeshes; i++)
 	{

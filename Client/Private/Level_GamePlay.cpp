@@ -80,9 +80,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	TransformDesc.fSpeedPerSec = 10.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(60.f);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &TransformDesc)))
-		return E_FAIL;
+	for (size_t i = 0; i < 20; i++)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &TransformDesc)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
