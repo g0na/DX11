@@ -76,7 +76,7 @@ void CImGui_Manager::Render()
 
 	// 마우스 픽킹 관련 함수
 	if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && 
-		g_bIsCreatable == false)
+		!g_bIsCreatable)
 		Picking_GameObject();
 
 	Render_Panels();
@@ -100,7 +100,7 @@ HRESULT CImGui_Manager::Ready_Panels()
 		return E_FAIL;
 
 	m_pPanels[ENUM_TO_UINT(PanelType::INSPECTOR)] = CImGui_Panel_Inspector::Create();
-	m_pPanels[ENUM_TO_UINT(PanelType::HIERARCHY)] = CImGui_Panel_Hierarchy::Create();
+	m_pPanels[ENUM_TO_UINT(PanelType::HIERARCHY)] = CImGui_Panel_Hierarchy::Create(m_pDevice, m_pDeviceContext);
 	return S_OK;
 }
 

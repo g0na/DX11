@@ -3,10 +3,15 @@
 #include "ImGui_Panel_Hierarchy.h"
 #include "GameObject.h"
 #include "Calculator.h"
+#include "Layer.h"
 
-CImGui_Panel_Hierarchy::CImGui_Panel_Hierarchy()
+CImGui_Panel_Hierarchy::CImGui_Panel_Hierarchy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CImGui_Panel("HIERARCHY")
+    , m_pDevice { pDevice }
+    , m_pContext { pContext }
 {
+    Safe_AddRef(m_pDevice);
+    Safe_AddRef(m_pContext);
 }
 
 CImGui_Panel_Hierarchy::~CImGui_Panel_Hierarchy()
@@ -15,6 +20,10 @@ CImGui_Panel_Hierarchy::~CImGui_Panel_Hierarchy()
 
 HRESULT CImGui_Panel_Hierarchy::Initialize()
 {
+    m_pCalculator = CCalculator::Create(m_pDevice, m_pContext);
+    if (m_pCalculator == nullptr)
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -80,17 +89,86 @@ void CImGui_Panel_Hierarchy::Render()
             ImGui::EndGroup();
         }
     }
-    ImGui::End();
 
+    // 픽킹한 위치에 모델 띄우기
     if (g_bIsCreatable && m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
     {
-        //_vector vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, )
+        map<const _wstring, class CLayer*>* pLayers = { nullptr };
+        list<CGameObject*> listObjects = { nullptr };
+
+        pLayers = m_pGameInstance->Get_Layers();
+
+        _float fMinDist = { 9999.f };
+        _vector vFinalPos = {};
+        CGameObject* pFinalObject = { nullptr };
+
+        // 모든 레이어를 검사하는건 별로 같음. 현재 씬의 레이어만 검사할 수 있도록 바꾸자
+        for (auto& Pair : pLayers[iCurLevelID])
+        {
+            listObjects = Pair.second->Get_Objects();
+
+            for (auto pObject : listObjects)
+            {
+                CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
+                if (pTransformCom == nullptr)
+                    continue;
+
+                CModel* pModelCom = pObject->Get_Component<CModel>(TEXT("Com_Model"));
+                if (pModelCom == nullptr)
+                    continue;
+
+                _uint iNumMeshes = pModelCom->Get_NumMeshes();
+                for (_uint i = 0; i < iNumMeshes; i++)
+                {
+                    CMesh* pMeshCom = pModelCom->Get_Mesh(i);
+                    _float	fDist = { 0.f };
+
+                    _vector	vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom, fDist);
+
+                    if (XMVectorGetW(vPickPos) > 0.f &&
+                        fDist <= fMinDist)
+                    {
+                        // 최소 거리 갱신
+                        fMinDist = fDist;
+                        // 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
+                        pFinalObject = pObject;
+                        vFinalPos = vPickPos;
+                    }
+                }
+            }
+        }
+
+        CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(iCurLevelID, CharToWstring(m_szSelectedObj), iCurLevelID, TEXT("Layer_Monster"));
+        if (pGameObject == nullptr)
+        {
+            MSG_BOX("Failed to place GameObject");
+            return;
+        }
+        else
+        {
+            CTransform* pTransform = pGameObject->Get_Component<CTransform>(g_strTransformTag);
+            if (pTransform != nullptr)
+                pTransform->Set_State(STATE::POSITION, vFinalPos);
+        }   
     }
+
+    ImGui::End();
 }
 
-CImGui_Panel_Hierarchy* CImGui_Panel_Hierarchy::Create()
+_wstring CImGui_Panel_Hierarchy::CharToWstring(const _char* pString)
 {
-    CImGui_Panel_Hierarchy* pInstance = new CImGui_Panel_Hierarchy();
+    _uint iStringSize = MultiByteToWideChar(CP_ACP, 0, pString, -1, NULL, 0);
+
+    _wstring strResult(iStringSize - 1, 0);
+    MultiByteToWideChar(CP_ACP, 0, pString, -1, &strResult[0], iStringSize);
+
+    return strResult;
+}
+
+CImGui_Panel_Hierarchy* CImGui_Panel_Hierarchy::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+    CImGui_Panel_Hierarchy* pInstance = new CImGui_Panel_Hierarchy(pDevice, pContext);
+
     if (FAILED(pInstance->Initialize()))
     {
         MSG_BOX("CImGui_Panel_Hierarchy::Create, Failed");
@@ -102,4 +180,8 @@ CImGui_Panel_Hierarchy* CImGui_Panel_Hierarchy::Create()
 void CImGui_Panel_Hierarchy::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pCalculator);
+    Safe_Release(m_pDevice);
+    Safe_Release(m_pContext);
 }

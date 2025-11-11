@@ -7,6 +7,7 @@
 #include "Input_Device.h"
 #include "Renderer.h"
 #include "PipeLine.h"
+#include "GameObject.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -214,7 +215,7 @@ map<const _wstring, CBase*> CGameInstance::Get_Prototypes(_uint iLevelID)
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-HRESULT CGameInstance::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
+CGameObject* CGameInstance::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
 	_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	return m_pObjectManager->Add_GameObject_To_Layer(iProtoLevelIndex, strProtoTag, iLayerLevelIndex, strLayerTag, pArg);

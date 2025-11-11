@@ -59,7 +59,7 @@ public:
 
 #pragma region OBJECT_MANAGER
 public:
-	HRESULT Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
+	class CGameObject* Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 
 	map<const _wstring, class CLayer*>* Get_Layers();

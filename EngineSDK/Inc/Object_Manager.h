@@ -18,7 +18,7 @@ public:
 
 public:
 	// 특정 레벨의 특정 원본을, 특정 레벨의 특정 레이어에 추가하는 함수
-	HRESULT Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
+	class CGameObject* Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 
 	map<const _wstring, class CLayer*>* Get_Layers() const { return m_pLayers; }
