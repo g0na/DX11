@@ -44,7 +44,7 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 		return E_FAIL;
 
 	// 오브젝트 매니저 초기화
-	m_pObjectManager = CObject_Manager::Create(EngineDesc.iLevelNum);
+	m_pObjectManager = CObject_Manager::Create(*ppDevice, *ppDeviceContext, EngineDesc.iLevelNum);
 	if (m_pObjectManager == nullptr)
 		return E_FAIL;
 	
@@ -128,6 +128,21 @@ _byte CGameInstance::Get_DIKeyState(_ubyte byKeyID)
 _byte CGameInstance::Get_DIMouseState(MOUSEKEYSTATE eMouse)
 {
 	return m_pInputDevice->Get_DIMouseState(eMouse);
+}
+
+_bool CGameInstance::Get_MouseBtnDown(MOUSEKEYSTATE eMouse)
+{
+	return m_pInputDevice->Get_MouseBtnDown(eMouse);
+}
+
+_bool CGameInstance::Get_MouseBtnHold(MOUSEKEYSTATE eMouse)
+{
+	return m_pInputDevice->Get_MouseBtnHold(eMouse);
+}
+
+_bool CGameInstance::Get_MouseBtnUp(MOUSEKEYSTATE eMouse)
+{
+	return m_pInputDevice->Get_MouseBtnUp(eMouse);
 }
 
 // 현재 마우스의 특정 축 좌표를 반환

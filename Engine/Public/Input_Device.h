@@ -22,6 +22,36 @@ public:
 		return m_tMouseState.rgbButtons[ENUM_TO_UINT(eMouse)];
 	}
 
+	_bool	Get_MouseBtnDown(MOUSEKEYSTATE eMouse)
+	{
+		// 이전 프레임에 안 눌리고, 현재 프레임에 눌렸다면
+		if (!(m_tOldMouseState.rgbButtons[ENUM_TO_UINT(eMouse)] & 0x80) &&
+			(m_tMouseState.rgbButtons[ENUM_TO_UINT(eMouse)] & 0x80))
+			return true;
+		else
+			return false;
+	}
+
+	_bool	Get_MouseBtnHold(MOUSEKEYSTATE eMouse)
+	{
+		// 이전 프레임에도 눌리고, 현재 프레임에도 눌렸다면
+		if ((m_tOldMouseState.rgbButtons[ENUM_TO_UINT(eMouse)] & 0x80) &&
+			(m_tMouseState.rgbButtons[ENUM_TO_UINT(eMouse)] & 0x80))
+			return true;
+		else
+			return false;
+	}
+
+	_bool Get_MouseBtnUp(MOUSEKEYSTATE eMouse)
+	{
+		// 이전 프레임에 눌렸고, 현재 프레임에는 안 눌렸다면
+		if ((m_tOldMouseState.rgbButtons[ENUM_TO_UINT(eMouse)] & 0x80) &&
+			!(m_tMouseState.rgbButtons[ENUM_TO_UINT(eMouse)] & 0x80))
+			return true;
+		else
+			return false;
+	}
+
 	// 현재 마우스의 특정 축 좌표를 반환
 	_long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
 	{
@@ -59,6 +89,7 @@ private:
 	_byte					m_byKeyState[256];		// 키보드에 있는 모든 키값을 저장하기 위한 변수
 	_byte					m_byOldKeyState[256];
 	DIMOUSESTATE			m_tMouseState;
+	DIMOUSESTATE			m_tOldMouseState;
 
 public:
 	static CInput_Device* Create(HINSTANCE hInstance, HWND hWnd);

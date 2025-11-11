@@ -26,6 +26,10 @@ public:
 public:
 	_byte	Get_DIKeyState(_ubyte byKeyID);
 	_byte	Get_DIMouseState(MOUSEKEYSTATE eMouse);
+	_bool	Get_MouseBtnDown(MOUSEKEYSTATE eMouse);
+	_bool	Get_MouseBtnHold(MOUSEKEYSTATE eMouse);
+	_bool	Get_MouseBtnUp(MOUSEKEYSTATE eMouse);
+
 	// 현재 마우스의 특정 축 좌표를 반환
 	_long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState);
 	_bool	Get_KeyDown(_ubyte dwKey);

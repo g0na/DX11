@@ -1,12 +1,12 @@
 #include "Input_Device.h"
 
-Engine::CInput_Device::CInput_Device(void)
+CInput_Device::CInput_Device(void)
 {
 	ZeroMemory(m_byKeyState, sizeof(m_byKeyState));
 	ZeroMemory(m_byOldKeyState, sizeof(m_byOldKeyState));
 }
 
-HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
+HRESULT CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 {
 
 	// DInput 컴객체를 생성하는 함수
@@ -49,9 +49,10 @@ HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 	return S_OK;
 }
 
-void Engine::CInput_Device::Update(void)
+void CInput_Device::Update(void)
 {
 	// 직전의 상태로 복사
+	memcpy(&m_tOldMouseState, &m_tMouseState, sizeof(DIMOUSESTATE));
 	memcpy(m_byOldKeyState, m_byKeyState, sizeof(m_byKeyState));
 
 	// 현재 상태 가져오기
