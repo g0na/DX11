@@ -28,6 +28,8 @@ public:
 		return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix));
 	}
 
+	const _float4x4* Get_WorldMatrixPtr() const { return &m_WorldMatrix; }
+
 	void Set_State(STATE eState, const _float4& vState) {
 		memcpy(&m_WorldMatrix.m[ENUM_TO_UINT(eState)], &vState, sizeof vState);
 	}

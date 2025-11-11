@@ -9,6 +9,8 @@
 #include "Layer.h"
 #include "GameObject.h"
 
+_bool g_bIsCreatable = false;
+
 IMPLEMENT_SINGLETON(CImGui_Manager)
 
 CImGui_Manager::CImGui_Manager()
@@ -73,7 +75,8 @@ void CImGui_Manager::Render()
 	ImGui::ShowDemoWindow();
 
 	// 마우스 픽킹 관련 함수
-	if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+	if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && 
+		g_bIsCreatable == false)
 		Picking_GameObject();
 
 	Render_Panels();

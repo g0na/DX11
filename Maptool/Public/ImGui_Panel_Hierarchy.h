@@ -1,6 +1,11 @@
 #pragma once
 #include "ImGui_Panel.h"
 
+NS_BEGIN(Engine)
+class CGameObject;
+class CCalculator;
+NS_END
+
 NS_BEGIN(Maptool)
 
 // 현재 씬의 원본들을 보여주는 창
@@ -14,6 +19,9 @@ public:
 	virtual void Render() override;
 
 private:
+	CGameObject*		m_pSelectedObject = { nullptr };
+	CCalculator*		m_pCalculator = { nullptr };
+
 	_char	m_szSelectedObj[128] = {};
 
 public:

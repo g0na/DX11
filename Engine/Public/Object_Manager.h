@@ -6,7 +6,7 @@ NS_BEGIN(Engine)
 class CObject_Manager final : public CBase
 {
 private:
-	explicit CObject_Manager();
+	explicit CObject_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CObject_Manager() = default;
 
 public:
@@ -24,7 +24,9 @@ public:
 	map<const _wstring, class CLayer*>* Get_Layers() const { return m_pLayers; }
 
 private:
-	class CGameInstance* m_pGameInstance = { nullptr };
+	ID3D11Device*					m_pDevice = { nullptr };
+	ID3D11DeviceContext*			m_pContext = { nullptr };
+	class CGameInstance*			m_pGameInstance = { nullptr };
 
 	map<const _wstring, class CLayer*>*		m_pLayers = { nullptr };
 	_uint									m_iLevelNum = {};
@@ -34,7 +36,7 @@ private:
 	class CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
 
 public:
-	static CObject_Manager* Create(_uint iLevelNum);
+	static CObject_Manager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iLevelNum);
 	virtual void Free() override;
 };
 

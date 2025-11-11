@@ -46,6 +46,15 @@
     <Filter Include="02. GameObjects\04. Map">
       <UniqueIdentifier>{8fe118d0-9d43-4b79-98ea-4b272f3794e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\05. Player">
+      <UniqueIdentifier>{008cfe9f-c6ed-4e36-a65e-6de9701e014a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\05. Player\00. Body">
+      <UniqueIdentifier>{3980844c-4a22-4392-81b7-a381a260cc66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\05. Player\01. Weapon">
+      <UniqueIdentifier>{9c63e074-1090-4dee-8225-0cd4ea7c36dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -92,6 +101,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Map.h">
       <Filter>02. GameObjects\04. Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Body.h">
+      <Filter>02. GameObjects\05. Player\00. Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02. GameObjects\05. Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Map.cpp">
       <Filter>02. GameObjects\04. Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Body.cpp">
+      <Filter>02. GameObjects\05. Player\00. Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02. GameObjects\05. Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

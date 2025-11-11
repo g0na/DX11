@@ -4,9 +4,13 @@
 #include "Prototype_Manager.h"
 #include "GameObject.h"
 
-CObject_Manager::CObject_Manager() :
-	m_pGameInstance{ CGameInstance::GetInstance() }
+CObject_Manager::CObject_Manager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) 
+	: m_pDevice { pDevice }
+	, m_pContext { pContext }
+	, m_pGameInstance{ CGameInstance::GetInstance() }
 {
+	Safe_AddRef(m_pDevice);
+	Safe_AddRef(m_pContext);
 	Safe_AddRef(m_pGameInstance);
 }
 
@@ -89,9 +93,9 @@ CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerT
 	return iter->second;
 }
 
-CObject_Manager* CObject_Manager::Create(_uint iLevelNum)
+CObject_Manager* CObject_Manager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iLevelNum)
 {
-	CObject_Manager* pInstance = new CObject_Manager();
+	CObject_Manager* pInstance = new CObject_Manager(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize(iLevelNum)))
 	{
@@ -116,5 +120,7 @@ void CObject_Manager::Free()
 
 	Safe_Delete_Array(m_pLayers);
 
+	Safe_Release(m_pContext);
+	Safe_Release(m_pDevice);
 	Safe_Release(m_pGameInstance);
 }

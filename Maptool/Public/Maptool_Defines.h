@@ -17,6 +17,7 @@
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;
+extern bool g_bIsCreatable;
 
 namespace Maptool
 {

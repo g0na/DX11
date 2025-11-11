@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "ImGui_Panel_Hierarchy.h"
 #include "GameObject.h"
+#include "Calculator.h"
 
 CImGui_Panel_Hierarchy::CImGui_Panel_Hierarchy()
     : CImGui_Panel("HIERARCHY")
@@ -37,7 +38,11 @@ void CImGui_Panel_Hierarchy::Render()
                     sprintf_s(szPrototypeName, sizeof(szPrototypeName), szPrototypeName);
 
                     if (ImGui::Selectable(szPrototypeName, false, ImGuiSelectableFlags_SelectOnNav))
+                    {
+                        g_bIsCreatable = true;
+                        m_pSelectedObject = static_cast<CGameObject*>(Pair.second);
                         strcpy_s(m_szSelectedObj, szPrototypeName);
+                    }
                 }
             }
             ImGui::EndChild();
@@ -48,25 +53,39 @@ void CImGui_Panel_Hierarchy::Render()
         {
             ImGui::BeginGroup();
             ImGui::BeginChild("item view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
-            //ImGui::Text();
+            ImGui::Text("Create Mode");
             ImGui::Separator();
             if (ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None))
             {
                 if (ImGui::BeginTabItem("Selected Object"))
                 {
-                    ImGui::TextWrapped(m_szSelectedObj);
+                    if (g_bIsCreatable)
+                        ImGui::TextWrapped(m_szSelectedObj);
+                    else
+                        ImGui::TextWrapped("No Selected Object!");
+
                     ImGui::EndTabItem();
                 }
                 ImGui::EndTabBar();
             }
             ImGui::EndChild();
-            if (ImGui::Button("Revert")) {}
+            if (ImGui::Button("Exit Create Mode")) 
+            {
+                strcpy_s(m_szSelectedObj, "");
+                g_bIsCreatable = false;
+                m_pSelectedObject = nullptr;
+            }
             ImGui::SameLine();
             if (ImGui::Button("Save")) {}
             ImGui::EndGroup();
         }
     }
     ImGui::End();
+
+    if (g_bIsCreatable && m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+    {
+        //_vector vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, )
+    }
 }
 
 CImGui_Panel_Hierarchy* CImGui_Panel_Hierarchy::Create()

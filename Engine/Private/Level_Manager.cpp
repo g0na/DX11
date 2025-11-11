@@ -32,9 +32,7 @@ void CLevel_Manager::Update_Level(_float fTimeDelta)
 
 HRESULT CLevel_Manager::Render_Level()
 {
-	m_pCurLevel->Render();
-
-	return S_OK;
+	return m_pCurLevel->Render();
 }
 
 CLevel_Manager* CLevel_Manager::Create()
