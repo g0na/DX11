@@ -13,7 +13,7 @@ CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CModel::CModel(const CModel& Prototype)
 	: CComponent { Prototype }
 	, m_eModelType { Prototype.m_eModelType }
-	, m_iNumMeshes { Prototype.m_iNumMeshes }
+	, m_iNumMeshes{ Prototype.m_iNumMeshes }
 	, m_vecMeshes { Prototype.m_vecMeshes }
 	, m_PreTransformMatrix { Prototype.m_PreTransformMatrix }
 	, m_iNumMaterials { Prototype.m_iNumMaterials }
@@ -168,9 +168,9 @@ HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, _fma
 
 	_splitpath_s(pModelFilePath, nullptr, NULL, szDir, MAX_PATH, szFileName, MAX_PATH, nullptr, NULL);
 
-	strcpy_s(szBinFilePath, szDir);
-	strcat_s(szBinFilePath, szFileName);
-	strcat_s(szBinFilePath, ".bin");
+	strcpy_s(m_szBinFilePath, szDir);
+	strcat_s(m_szBinFilePath, szFileName);
+	strcat_s(m_szBinFilePath, ".bin");
 
 	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
 		return E_FAIL;
@@ -190,37 +190,56 @@ HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, _fma
 HRESULT CModel::Ready_Meshes()
 {
 	// 바이너리 파일 관련
-	fs::path p(szBinFilePath);
+	fs::path p(m_szBinFilePath);
 
-	if (fs::exists(p))
+	if (fs::exists(p))			// 바이너리 파일이 존재하면 읽어오기
 	{
-		ifstream loadData(szBinFilePath, ios::binary);
+		ifstream fileMesh(m_szBinFilePath, ios::binary);
 
-		if (loadData.is_open())
-			loadData.read((_char*)&m_iNumMeshes, sizeof(_uint));
+		if (fileMesh.is_open())
+			fileMesh.read(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
 
-		loadData.close();
+		fileMesh.close();
+
+		for (size_t i = 0; i < m_iNumMeshes; i++)
+		{
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix), m_szBinFilePath);
+			if (pMesh == nullptr)
+				return E_FAIL;
+
+			m_vecMeshes.push_back(pMesh);
+			pMesh->Write_To_Binary(m_szBinFilePath);
+		}
 	}
-	else if (!fs::exists(p))
+	else if (!fs::exists(p))	// 바이너리 파일이 없다면 assimp -> bin 쓰기
 	{
+		ofstream fileMesh(m_szBinFilePath, ios::binary);
+
 		m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-		ofstream saveData(szBinFilePath, ios::binary);
+		fileMesh.write(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
 
-		if (saveData.is_open())
-			saveData.write((_char*)&m_iNumMeshes, sizeof(_uint));
+		for (size_t i = 0; i < m_iNumMeshes; i++)
+		{
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix), m_szBinFilePath);
+			if (pMesh == nullptr)
+				return E_FAIL;
 
-		saveData.close();
+			m_vecMeshes.push_back(pMesh);
+			pMesh->Write_To_Binary(m_szBinFilePath);
+		}
+
+		fileMesh.close();
 	}
 
-	for (size_t i = 0; i < m_iNumMeshes; i++)
-	{
-		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix));
-		if (pMesh == nullptr)
-			return E_FAIL;
-		
-		m_vecMeshes.push_back(pMesh);
-	}
+	//for (size_t i = 0; i < m_iNumMeshes; i++)
+	//{
+	//	CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix));
+	//	if (pMesh == nullptr)
+	//		return E_FAIL;
+	//	
+	//	m_vecMeshes.push_back(pMesh);
+	//}
 
 	return S_OK;
 }

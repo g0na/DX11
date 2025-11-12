@@ -49,9 +49,9 @@ HRESULT CLevel_Logo::Ready_Layer_Background(const _wstring& strLayerTag)
 	Desc.fSpeedPerSec = 10.f;
 	Desc.fRotationPerSec = 0.f;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
-		ENUM_TO_UINT(LEVELID::LOGO), strLayerTag, &Desc)))
-		return E_FAIL;
+	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_GameObject_Background"),
+		ENUM_TO_UINT(LEVELID::LOGO), strLayerTag, &Desc);
+
 
 	return S_OK;
 }

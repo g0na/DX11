@@ -19,11 +19,13 @@ public:
 	}
 
 public:
-	virtual HRESULT Initialize_Prototype(MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix);
+	virtual HRESULT Initialize_Prototype(MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix, const _char* pBinFilePath);
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
 	HRESULT Bind_Bones(class CShader* pShader, const _char* pConstantName, const vector<class CBone*>& Bones);
+	void Write_To_Binary(const _char* pBinFilePath);
+	void Read_From_Binary(const _char* pBinFilePath);
 
 private:
 	_char		m_szName[MAX_PATH] = {};
@@ -38,12 +40,17 @@ private:
 	// 특정 뼈를 정점에게 적용할 때, 추가 보정을 거쳐서 정점에게 상태를 전달할 수 있도록 한다.
 	vector<_float4x4>	m_OffsetMatrices;
 
+	// 버텍스 복사용 변수
+	MODEL			m_eModelType = {};
+	VTXMESH*		m_pNonAnimVertices = { nullptr };
+	VTXANIMMESH*	m_pAnimVertices = { nullptr };
+
 private:
 	HRESULT Ready_For_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix PreTransformMatrix);
 	HRESULT Ready_For_AnimMesh(const aiMesh* pAIMesh, class CModel* pModel);
 
 public:
-	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix);
+	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix, const _char* pBinFilePath);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 };

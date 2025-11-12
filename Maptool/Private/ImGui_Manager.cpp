@@ -72,7 +72,7 @@ void CImGui_Manager::Render()
 
 	////////////////////////
 	// 초반에는 켜놓고 기능 찾아보는 것 추천
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	// 마우스 픽킹 관련 함수
 	if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && 

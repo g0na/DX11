@@ -32,12 +32,12 @@ void CImGui_Panel_Hierarchy::Render()
     _uint iCurLevelID = m_pGameInstance->Get_CurLevelID();
     map<const _wstring, CBase*> mapPrototypes = m_pGameInstance->Get_Prototypes(iCurLevelID);
 
-    ImGui::SetNextWindowSize(ImVec2(700, 350), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowSize(ImVec2(500, 350), ImGuiCond_FirstUseEver);
     if (ImGui::Begin(m_strLabel.c_str()))
     {
         // Left
         {
-            ImGui::BeginChild("left pane", ImVec2(350, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX);
+            ImGui::BeginChild("left pane", ImVec2(250, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX);
             for (auto& Pair : mapPrototypes)
             {
                 if (dynamic_cast<CGameObject*>(Pair.second) != nullptr)
@@ -90,69 +90,68 @@ void CImGui_Panel_Hierarchy::Render()
         }
     }
 
-    // 픽킹한 위치에 모델 띄우기
-    if (g_bIsCreatable && m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
-    {
-        map<const _wstring, class CLayer*>* pLayers = { nullptr };
-        list<CGameObject*> listObjects = { nullptr };
+	// 픽킹한 위치에 모델 띄우기
+	if (g_bIsCreatable && m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+	{
+		map<const _wstring, class CLayer*>* pLayers = { nullptr };
+		list<CGameObject*> listObjects = { nullptr };
 
-        pLayers = m_pGameInstance->Get_Layers();
+		pLayers = m_pGameInstance->Get_Layers();
 
-        _float fMinDist = { 9999.f };
-        _vector vFinalPos = {};
-        CGameObject* pFinalObject = { nullptr };
+		_float fMinDist = { 9999.f };
+		_vector vFinalPos = {};
+		CGameObject* pFinalObject = { nullptr };
 
-        // 모든 레이어를 검사하는건 별로 같음. 현재 씬의 레이어만 검사할 수 있도록 바꾸자
-        for (auto& Pair : pLayers[iCurLevelID])
-        {
-            listObjects = Pair.second->Get_Objects();
+		for (auto& Pair : pLayers[iCurLevelID])
+		{
+			listObjects = Pair.second->Get_Objects();
 
-            for (auto pObject : listObjects)
-            {
-                CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
-                if (pTransformCom == nullptr)
-                    continue;
+			for (auto pObject : listObjects)
+			{
+				CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
+				if (pTransformCom == nullptr)
+					continue;
 
-                CModel* pModelCom = pObject->Get_Component<CModel>(TEXT("Com_Model"));
-                if (pModelCom == nullptr)
-                    continue;
+				CModel* pModelCom = pObject->Get_Component<CModel>(TEXT("Com_Model"));
+				if (pModelCom == nullptr)
+					continue;
 
-                _uint iNumMeshes = pModelCom->Get_NumMeshes();
-                for (_uint i = 0; i < iNumMeshes; i++)
-                {
-                    CMesh* pMeshCom = pModelCom->Get_Mesh(i);
-                    _float	fDist = { 0.f };
+				_uint iNumMeshes = pModelCom->Get_NumMeshes();
+				for (_uint i = 0; i < iNumMeshes; i++)
+				{
+					CMesh* pMeshCom = pModelCom->Get_Mesh(i);
+					_float	fDist = { 0.f };
 
-                    _vector	vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom, fDist);
+					_vector	vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom, fDist);
 
-                    if (XMVectorGetW(vPickPos) > 0.f &&
-                        fDist <= fMinDist)
-                    {
-                        // 최소 거리 갱신
-                        fMinDist = fDist;
-                        // 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
-                        pFinalObject = pObject;
-                        vFinalPos = vPickPos;
-                    }
-                }
-            }
-        }
+					if (XMVectorGetW(vPickPos) > 0.f &&
+						fDist <= fMinDist)
+					{
+						// 최소 거리 갱신
+						fMinDist = fDist;
+						// 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
+						pFinalObject = pObject;
+						vFinalPos = vPickPos;
+					}
+				}
+			}
+		}
 
-        CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(iCurLevelID, CharToWstring(m_szSelectedObj), iCurLevelID, TEXT("Layer_Monster"));
-        if (pGameObject == nullptr)
-        {
-            MSG_BOX("Failed to place GameObject");
-            return;
-        }
+		CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(iCurLevelID, CharToWstring(m_szSelectedObj), iCurLevelID, TEXT("Layer_Monster"));
+		if (pGameObject == nullptr)
+		{
+			MSG_BOX("Failed to place GameObject");
+			return;
+		}
         else
-        {
-            CTransform* pTransform = pGameObject->Get_Component<CTransform>(g_strTransformTag);
-            if (pTransform != nullptr)
-                pTransform->Set_State(STATE::POSITION, vFinalPos);
-        }   
-    }
+		{
+			CTransform* pTransform = pGameObject->Get_Component<CTransform>(g_strTransformTag);
+			if (pTransform != nullptr)
+				pTransform->Set_State(STATE::POSITION, vFinalPos);
+		}
+	}
 
-    ImGui::End();
+	ImGui::End();
 }
 
 _wstring CImGui_Panel_Hierarchy::CharToWstring(const _char* pString)

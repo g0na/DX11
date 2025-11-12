@@ -52,7 +52,7 @@ void CBody::Update_Late(_float fTimeDelta)
         m_pModelCom->Set_Animation(0, true);
 
     if (*m_pParentState & CPlayer::RUN)
-        m_pModelCom->Set_Animation(2, true);
+        m_pModelCom->Set_Animation(1, true);
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }

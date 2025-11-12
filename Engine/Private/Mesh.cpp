@@ -13,16 +13,21 @@ CMesh::CMesh(const CMesh& Prototype)
 {
 }
 
-HRESULT CMesh::Initialize_Prototype(MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix)
+HRESULT CMesh::Initialize_Prototype(MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix, const _char* pBinFilePath)
 {
-    strcpy_s(m_szName, pAIMesh->mName.data);
+    fs::path p(pBinFilePath);
 
-    m_iMaterialIndex = pAIMesh->mMaterialIndex;
+    if (fs::exists(p))
+        Read_From_Binary(pBinFilePath);
 
-    m_iNumVertices = pAIMesh->mNumVertices;
+    //strcpy_s(m_szName, pAIMesh->mName.data);
+
+    //m_iMaterialIndex = pAIMesh->mMaterialIndex;
+
+    //m_iNumVertices = pAIMesh->mNumVertices;
     m_iIndexStride = 4;
 
-    m_iNumIndices = pAIMesh->mNumFaces * 3;
+    //m_iNumIndices = pAIMesh->mNumFaces * 3;
     m_iNumVertexBuffers = 1;
     m_ePrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
@@ -97,8 +102,51 @@ HRESULT CMesh::Bind_Bones(CShader* pShader, const _char* pConstantName, const ve
     return pShader->Bind_Matrices(pConstantName, m_BoneMatrices, g_iMaxNumBones);
 }
 
+void CMesh::Write_To_Binary(const _char* pBinFilePath)
+{
+    ofstream fileMesh(pBinFilePath, ios::binary);
+
+    fileMesh.write(reinterpret_cast<_char*>(&m_szName), sizeof(m_szName));
+    fileMesh.write(reinterpret_cast<_char*>(&m_iMaterialIndex), sizeof(_uint));
+    fileMesh.write(reinterpret_cast<_char*>(&m_iNumVertices), sizeof(_uint));
+    fileMesh.write(reinterpret_cast<_char*>(&m_iNumIndices), sizeof(_uint));
+    
+    // 버텍스 정보
+    if (m_eModelType == MODEL::NONANIM)
+        fileMesh.write(reinterpret_cast<_char*>(m_pNonAnimVertices), sizeof(VTXMESH) * m_iNumVertices);
+    else
+        fileMesh.write(reinterpret_cast<_char*>(m_pAnimVertices), sizeof(VTXANIMMESH) * m_iNumVertices);
+
+    // 인덱스 정보
+    fileMesh.write(reinterpret_cast<_char*>(m_pIndices), sizeof(_uint) * m_iNumIndices);
+
+    fileMesh.close();
+}
+
+void CMesh::Read_From_Binary(const _char* pBinFilePath)
+{
+    ifstream fileMesh(pBinFilePath, ios::binary);
+
+    fileMesh.read(reinterpret_cast<_char*>(&m_szName), sizeof(m_szName));
+    fileMesh.read(reinterpret_cast<_char*>(&m_iMaterialIndex), sizeof(_uint));
+    fileMesh.read(reinterpret_cast<_char*>(&m_iNumVertices), sizeof(_uint));
+    fileMesh.read(reinterpret_cast<_char*>(&m_iNumIndices), sizeof(_uint));
+
+    // 버텍스 정보
+    if (m_eModelType == MODEL::NONANIM)
+        fileMesh.read(reinterpret_cast<_char*>(m_pNonAnimVertices), sizeof(VTXMESH) * m_iNumVertices);
+    else
+        fileMesh.read(reinterpret_cast<_char*>(m_pAnimVertices), sizeof(VTXANIMMESH) * m_iNumVertices);
+
+    // 인덱스 정보
+    fileMesh.read(reinterpret_cast<_char*>(m_pIndices), sizeof(_uint) * m_iNumIndices);
+
+    fileMesh.close();
+}
+
 HRESULT CMesh::Ready_For_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
 {
+    m_eModelType = MODEL::NONANIM;
     m_iVertexStride = sizeof(VTXMESH);
 
     D3D11_BUFFER_DESC   VertexBufferDesc{};
@@ -140,13 +188,15 @@ HRESULT CMesh::Ready_For_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix PreTransfor
     if (FAILED(m_pDevice->CreateBuffer(&VertexBufferDesc, &VertexInitialData, &m_pVB)))
         return E_FAIL;
 
-    Safe_Delete_Array(pVertices);
+    m_pNonAnimVertices = pVertices;
+    //Safe_Delete_Array(pVertices);
 
     return S_OK;
 }
 
 HRESULT CMesh::Ready_For_AnimMesh(const aiMesh* pAIMesh, CModel* pModel)
 {
+    m_eModelType = MODEL::ANIM;
     m_iVertexStride = sizeof(VTXANIMMESH);
 
     D3D11_BUFFER_DESC   VertexBufferDesc{};
@@ -242,16 +292,17 @@ HRESULT CMesh::Ready_For_AnimMesh(const aiMesh* pAIMesh, CModel* pModel)
     if (FAILED(m_pDevice->CreateBuffer(&VertexBufferDesc, &VertexInitialData, &m_pVB)))
         return E_FAIL;
 
-    Safe_Delete_Array(pVertices);
+    m_pAnimVertices = pVertices;
+    //Safe_Delete_Array(pVertices);
 
     return S_OK;
 }
 
-CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix)
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix, const _char* pBinFilePath)
 {
     CMesh* pInstance = new CMesh(pDevice, pContext);
 
-    if (FAILED(pInstance->Initialize_Prototype(eModelType, pAIMesh, pModel, PreTransformMatrix)))
+    if (FAILED(pInstance->Initialize_Prototype(eModelType, pAIMesh, pModel, PreTransformMatrix, pBinFilePath)))
     {
         MSG_BOX("Failed to Created : CMesh");
         Safe_Release(pInstance);
@@ -275,5 +326,8 @@ CComponent* CMesh::Clone(void* pArg)
 
 void CMesh::Free()
 {
+    Safe_Delete_Array(m_pNonAnimVertices);
+    Safe_Delete_Array(m_pAnimVertices);
+
     __super::Free();
 }

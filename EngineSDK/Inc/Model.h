@@ -40,7 +40,7 @@ private:
 	const aiScene*					m_pAIScene = { nullptr };
 
 private:
-	_char							szBinFilePath[MAX_PATH] = {};
+	_char							m_szBinFilePath[MAX_PATH] = {};
 
 	MODEL							m_eModelType = {};
 	_uint							m_iNumMeshes = {};
