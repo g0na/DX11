@@ -199,35 +199,37 @@ HRESULT CModel::Ready_Meshes()
 		if (fileMesh.is_open())
 			fileMesh.read(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
 
-		fileMesh.close();
-
 		for (size_t i = 0; i < m_iNumMeshes; i++)
 		{
-			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix), m_szBinFilePath);
+			CMesh* pMesh = CMesh::Create_Binary(m_pDevice, m_pContext, this, fileMesh);
 			if (pMesh == nullptr)
 				return E_FAIL;
 
 			m_vecMeshes.push_back(pMesh);
-			pMesh->Write_To_Binary(m_szBinFilePath);
 		}
-	}
+
+		fileMesh.close();
+	}  
 	else if (!fs::exists(p))	// 바이너리 파일이 없다면 assimp -> bin 쓰기
 	{
 		ofstream fileMesh(m_szBinFilePath, ios::binary);
 
 		m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-		fileMesh.write(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
-
 		for (size_t i = 0; i < m_iNumMeshes; i++)
 		{
-			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix), m_szBinFilePath);
+			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix));
 			if (pMesh == nullptr)
 				return E_FAIL;
 
 			m_vecMeshes.push_back(pMesh);
-			pMesh->Write_To_Binary(m_szBinFilePath);
 		}
+
+		// 생성된 메쉬 파일 정보를 바이너리 파일에 작성
+		fileMesh.write(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
+
+		for (auto& pMesh : m_vecMeshes)
+			pMesh->Write_To_Binary(fileMesh);
 
 		fileMesh.close();
 	}
