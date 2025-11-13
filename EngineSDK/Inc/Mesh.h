@@ -20,13 +20,13 @@ public:
 
 public:
 	virtual HRESULT Initialize_Prototype(MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix);
-	virtual HRESULT Initialize_Prototype_Binary(class CModel* pModel, ifstream& file);
+	virtual HRESULT Initialize_Prototype_Binary(MODEL eModelType, class CModel* pModel, ifstream& file);
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
 	HRESULT Bind_Bones(class CShader* pShader, const _char* pConstantName, const vector<class CBone*>& Bones);
-	void Write_To_Binary(ofstream& file);
-	void Read_From_Binary(ifstream& fileMesh);
+	void Write_To_Binary(MODEL eModelType, ofstream& file);
+	void Read_From_Binary(MODEL eModelType, ifstream& fileMesh);
 
 private:
 	_char		m_szName[MAX_PATH] = {};
@@ -42,7 +42,6 @@ private:
 	vector<_float4x4>	m_OffsetMatrices;
 
 	// 바이너리로부터 받아올 변수
-	MODEL			m_eModelType = {};
 	VTXMESH*		m_pNonAnimVertices = { nullptr };
 	VTXANIMMESH*	m_pAnimVertices = { nullptr };
 
@@ -52,7 +51,7 @@ private:
 
 public:
 	static CMesh* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PreTransformMatrix);
-	static CMesh* Create_Binary(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, class CModel* pModel, ifstream& file);
+	static CMesh* Create_Binary(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, class CModel* pModel, ifstream& file);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 };

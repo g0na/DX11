@@ -201,7 +201,7 @@ HRESULT CModel::Ready_Meshes()
 
 		for (size_t i = 0; i < m_iNumMeshes; i++)
 		{
-			CMesh* pMesh = CMesh::Create_Binary(m_pDevice, m_pContext, this, fileMesh);
+			CMesh* pMesh = CMesh::Create_Binary(m_pDevice, m_pContext, m_eModelType, this, fileMesh);
 			if (pMesh == nullptr)
 				return E_FAIL;
 
@@ -229,19 +229,10 @@ HRESULT CModel::Ready_Meshes()
 		fileMesh.write(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
 
 		for (auto& pMesh : m_vecMeshes)
-			pMesh->Write_To_Binary(fileMesh);
+			pMesh->Write_To_Binary(m_eModelType, fileMesh);
 
 		fileMesh.close();
 	}
-
-	//for (size_t i = 0; i < m_iNumMeshes; i++)
-	//{
-	//	CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix));
-	//	if (pMesh == nullptr)
-	//		return E_FAIL;
-	//	
-	//	m_vecMeshes.push_back(pMesh);
-	//}
 
 	return S_OK;
 }
