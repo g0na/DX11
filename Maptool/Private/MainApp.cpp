@@ -11,6 +11,13 @@ CMainApp::CMainApp() :
 
 HRESULT CMainApp::Initialize()
 {
+//#ifdef _DEBUG
+//	AllocConsole();
+//	FILE* pConsole;
+//	freopen_s(&pConsole, "CONOUT$", "w", stdout);
+//	freopen_s(&pConsole, "CONOUT$", "w", stderr);
+//#endif
+
 	// EngineDesc √ ±‚»≠
 	EngineDesc		m_tEngineDesc{};
 	m_tEngineDesc.hInstance = g_hInst;

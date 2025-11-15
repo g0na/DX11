@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "Bone.h"
 #include "Animation.h"
-
+#include "iostream"
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent { pDevice, pContext }
 {
@@ -60,42 +60,26 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 	m_bIsAnimLoop = isLoop;
 }
 
-//HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
-//{
-//	_uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
-//
-//	if (MODEL::NONANIM == eModelType)
-//		iFlag |= aiProcess_PreTransformVertices;
-//
-//	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
-//	if (m_pAIScene == nullptr)
-//	{
-//		MSG_BOX("Failed to Load Model");
-//		return E_FAIL;
-//	}
-//
-//	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
-//
-//	m_eModelType = eModelType;
-//
-//	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
-//		return E_FAIL;
-//
-//	if (FAILED(Ready_Meshes()))
-//		return E_FAIL;
-//
-//	if (FAILED(Ready_Materials(pModelFilePath)))
-//		return E_FAIL;
-//
-//	if (FAILED(Ready_Animations()))
-//		return E_FAIL;
-//
-//	return S_OK;
-//}
-
 HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
-	return Load_FromFBX(eModelType, pModelFilePath, PreTransformMatrix);
+	m_eModelType = eModelType;
+
+	// 바이너리 파일 경로 가져오기
+	_char szDir[MAX_PATH] = {};
+	_char szFileName[MAX_PATH] = {};
+
+	_splitpath_s(pModelFilePath, nullptr, NULL, szDir, MAX_PATH, szFileName, MAX_PATH, nullptr, NULL);
+
+	strcpy_s(m_szBinFilePath, szDir);
+	strcat_s(m_szBinFilePath, szFileName);
+	strcat_s(m_szBinFilePath, ".bin");
+
+	fs::path fileModel(m_szBinFilePath);
+
+	if (fs::exists(fileModel))
+		return Load_FromBin(PreTransformMatrix);
+	else
+		return Load_FromFBX(pModelFilePath, PreTransformMatrix);
 }
 
 HRESULT CModel::Initialize(void* pArg)
@@ -144,11 +128,11 @@ void CModel::Play_Animation(_float fTimeDelta)
 	}
 }
 
-HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
+HRESULT CModel::Load_FromFBX(const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
 	_uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
 
-	if (MODEL::NONANIM == eModelType)
+	if (MODEL::NONANIM == m_eModelType)
 		iFlag |= aiProcess_PreTransformVertices;
 
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
@@ -160,87 +144,82 @@ HRESULT CModel::Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, _fma
 
 	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
 
-	m_eModelType = eModelType;
+	ofstream fileBin(m_szBinFilePath, ios::binary);
 
-	// 바이너리 파일 경로 가져오기
-	_char szDir[MAX_PATH] = {};
-	_char szFileName[MAX_PATH] = {};
-
-	_splitpath_s(pModelFilePath, nullptr, NULL, szDir, MAX_PATH, szFileName, MAX_PATH, nullptr, NULL);
-
-	strcpy_s(m_szBinFilePath, szDir);
-	strcat_s(m_szBinFilePath, szFileName);
-	strcat_s(m_szBinFilePath, ".bin");
-
-	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+	if (FAILED(Ready_Bones(fileBin, m_pAIScene->mRootNode, -1)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Meshes()))
+	// 뼈 정보 바이너리 파일로 저장
+	_uint iNumBones = (_uint)m_vecBones.size();
+	fileBin.write(CHARCAST(&iNumBones), sizeof(_uint));
+
+	for (auto& pBone : m_vecBones)
+		pBone->Write_To_Binary(fileBin);
+
+	if (FAILED(Ready_Meshes(fileBin)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Materials(pModelFilePath)))
+	if (FAILED(Ready_Materials(fileBin, pModelFilePath)))
 		return E_FAIL;
 
-	if (FAILED(Ready_Animations()))
+	if (FAILED(Ready_Animations(fileBin)))
 		return E_FAIL;
+
+	fileBin.close();
 
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Meshes()
+HRESULT CModel::Load_FromBin(_fmatrix PreTransformMatrix)
 {
-	// 바이너리 파일 관련
-	fs::path p(m_szBinFilePath);
+	XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
 
-	if (fs::exists(p))			// 바이너리 파일이 존재하면 읽어오기
+	ifstream fileBin(m_szBinFilePath, ios::binary);
+
+	if (FAILED(Ready_Bones(fileBin)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Meshes(fileBin)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Materials(fileBin)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Animations(fileBin)))
+		return E_FAIL;
+
+	fileBin.close();
+
+	return S_OK;
+}
+
+#pragma region ASSIMP LOAD
+HRESULT CModel::Ready_Meshes(ofstream& fileBin)
+{
+	m_iNumMeshes = m_pAIScene->mNumMeshes;
+	fileBin.write(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
+
+	for (size_t i = 0; i < m_iNumMeshes; i++)
 	{
-		ifstream fileMesh(m_szBinFilePath, ios::binary);
+		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix));
+		if (pMesh == nullptr)
+			return E_FAIL;
 
-		if (fileMesh.is_open())
-			fileMesh.read(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
-
-		for (size_t i = 0; i < m_iNumMeshes; i++)
-		{
-			CMesh* pMesh = CMesh::Create_Binary(m_pDevice, m_pContext, m_eModelType, this, fileMesh);
-			if (pMesh == nullptr)
-				return E_FAIL;
-
-			m_vecMeshes.push_back(pMesh);
-		}
-
-		fileMesh.close();
-	}  
-	else if (!fs::exists(p))	// 바이너리 파일이 없다면 assimp -> bin 쓰기
-	{
-		ofstream fileMesh(m_szBinFilePath, ios::binary);
-
-		m_iNumMeshes = m_pAIScene->mNumMeshes;
-
-		for (size_t i = 0; i < m_iNumMeshes; i++)
-		{
-			CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eModelType, m_pAIScene->mMeshes[i], this, XMLoadFloat4x4(&m_PreTransformMatrix));
-			if (pMesh == nullptr)
-				return E_FAIL;
-
-			m_vecMeshes.push_back(pMesh);
-		}
-
-		// 생성된 메쉬 파일 정보를 바이너리 파일에 작성
-		fileMesh.write(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
-
-		for (auto& pMesh : m_vecMeshes)
-			pMesh->Write_To_Binary(m_eModelType, fileMesh);
-
-		fileMesh.close();
+		m_vecMeshes.push_back(pMesh);
 	}
 
+	// 생성된 메쉬 파일 정보를 바이너리 파일에 작성
+
+	for (auto& pMesh : m_vecMeshes)
+		pMesh->Write_To_Binary(m_eModelType, fileBin);
+
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
+HRESULT CModel::Ready_Materials(ofstream& fileBin, const _char* pModelFilePath)
 {
 	m_iNumMaterials = m_pAIScene->mNumMaterials;
-
+	fileBin.write(CHARCAST(&m_iNumMaterials), sizeof(_uint));
 	m_vecMaterials.reserve(m_iNumMaterials);
 
 	for (size_t i = 0; i < m_iNumMaterials; i++)
@@ -252,10 +231,14 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
 		m_vecMaterials.push_back(pMaterial);
 	}
 
+	// 생성된 메쉬 파일 정보를 바이너리 파일에 작성
+	for (auto& pMaterial : m_vecMaterials)
+		pMaterial->Write_To_Binary(fileBin);
+
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Bones(const aiNode* pAINode, _int iParentBoneIndex)
+HRESULT CModel::Ready_Bones(ofstream& fileBin, const aiNode* pAINode, _int iParentBoneIndex)
 {
 	CBone* pBone = CBone::Create(pAINode, iParentBoneIndex);
 	if (pBone == nullptr)
@@ -267,19 +250,20 @@ HRESULT CModel::Ready_Bones(const aiNode* pAINode, _int iParentBoneIndex)
 
 	for (_uint i = 0; i < pAINode->mNumChildren; ++i)
 	{
-		Ready_Bones(pAINode->mChildren[i], iPIndex);
+		Ready_Bones(fileBin, pAINode->mChildren[i], iPIndex);
 	}
 
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Animations()
+HRESULT CModel::Ready_Animations(ofstream& fileBin)
 {
 	m_iNumAnimations = m_pAIScene->mNumAnimations;
+	fileBin.write(CHARCAST(&m_iNumAnimations), sizeof(_uint));
 
 	for (size_t i = 0; i < m_iNumAnimations; i++)
 	{
-		CAnimation* pAnimation = CAnimation::Create(m_pAIScene->mAnimations[i], this);
+		CAnimation* pAnimation = CAnimation::Create(fileBin, m_pAIScene->mAnimations[i], this);
 		if (pAnimation == nullptr)
 			return E_FAIL;
 
@@ -288,6 +272,82 @@ HRESULT CModel::Ready_Animations()
 
 	return S_OK;
 }
+#pragma endregion
+
+#pragma region BINARY LOAD
+HRESULT CModel::Ready_Meshes(ifstream& fileBin)
+{
+	if (fileBin.is_open())
+		fileBin.read(reinterpret_cast<_char*>(&m_iNumMeshes), sizeof(_uint));
+
+	for (size_t i = 0; i < m_iNumMeshes; i++)
+	{
+		CMesh* pMesh = CMesh::Create_Binary(m_pDevice, m_pContext, m_eModelType, this, fileBin);
+		if (pMesh == nullptr)
+			return E_FAIL;
+
+		m_vecMeshes.push_back(pMesh);
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Materials(ifstream& fileBin)
+{
+	if (fileBin.is_open())
+		fileBin.read(reinterpret_cast<_char*>(&m_iNumMaterials), sizeof(_uint));
+
+	m_vecMaterials.reserve(m_iNumMaterials);
+
+	for (size_t i = 0; i < m_iNumMaterials; i++)
+	{
+		CMaterial* pMaterial = CMaterial::Create_Binary(m_pDevice, m_pContext, fileBin);
+		if (nullptr == pMaterial)
+			return E_FAIL;
+
+		m_vecMaterials.push_back(pMaterial);
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Bones(ifstream& fileBin)
+{
+	_uint iNumBones = {};
+	fileBin.read(CHARCAST(&iNumBones), sizeof(_uint));
+
+	m_vecBones.reserve(iNumBones);
+
+	for (_uint i = 0; i < iNumBones; i++)
+	{
+		CBone* pBone = CBone::Create_Binary(fileBin);
+		if (pBone == nullptr)
+			return E_FAIL;
+
+		m_vecBones.push_back(pBone);
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Animations(ifstream& fileBin)
+{
+	fileBin.read(CHARCAST(&m_iNumAnimations), sizeof(_uint));
+
+	m_vecAnimations.reserve(m_iNumAnimations);
+
+	for (size_t i = 0; i < m_iNumAnimations; i++)
+	{
+		CAnimation* pAnimation = CAnimation::Create_Binary(fileBin);
+		if (pAnimation == nullptr)
+			return E_FAIL;
+
+		m_vecAnimations.push_back(pAnimation);
+	}
+
+	return S_OK;
+}
+#pragma endregion
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const char* pModelFilePath, _fmatrix PreTransformMatrix)
 {

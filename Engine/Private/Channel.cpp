@@ -55,6 +55,14 @@ HRESULT CChannel::Initialize(const aiNodeAnim* pAIChannel, CModel* pModel)
     return S_OK;
 }
 
+HRESULT CChannel::Initialize_Binary(ifstream& file)
+{
+    if (FAILED(Read_From_Binary(file)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition, _uint* pCurrentKeyFrameIndex)
 {
     if (fCurrentTrackPosition == 0.f)
@@ -107,11 +115,44 @@ void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones,
     vecBones[m_iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 }
 
+HRESULT CChannel::Write_To_Binary(ofstream& file)
+{
+    file.write(CHARCAST(&m_iBoneIndex), sizeof(_uint));
+    file.write(CHARCAST(&m_iNumKeyFrames), sizeof(_uint));
+    file.write(CHARCAST(m_vecKeyFrames.data()), sizeof(KEYFRAME) * m_iNumKeyFrames);
+
+    return S_OK;
+}
+
+HRESULT CChannel::Read_From_Binary(ifstream& file)
+{
+    file.read(CHARCAST(&m_iBoneIndex), sizeof(_uint));
+    file.read(CHARCAST(&m_iNumKeyFrames), sizeof(_uint));
+
+    m_vecKeyFrames.resize(m_iNumKeyFrames);
+    file.read(CHARCAST(m_vecKeyFrames.data()), sizeof(KEYFRAME) * m_iNumKeyFrames);
+
+    return S_OK;
+}
+
 CChannel* CChannel::Create(const aiNodeAnim* pAIChannel, CModel* pModel)
 {
     CChannel* pInstance = new CChannel();
 
     if (FAILED(pInstance->Initialize(pAIChannel, pModel)))
+    {
+        MSG_BOX("Failed to Created : CChannel");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+}
+
+CChannel* CChannel::Create_Binary(ifstream& file)
+{
+    CChannel* pInstance = new CChannel();
+
+    if (FAILED(pInstance->Initialize_Binary(file)))
     {
         MSG_BOX("Failed to Created : CChannel");
         Safe_Release(pInstance);

@@ -32,7 +32,8 @@ public:
 	void Play_Animation(_float fTimeDelta);
 
 public:
-	HRESULT Load_FromFBX(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix);
+	HRESULT Load_FromFBX(const _char* pModelFilePath, _fmatrix PreTransformMatrix);
+	HRESULT Load_FromBin(_fmatrix PreTransformMatrix);
 
 private:
 	Assimp::Importer				m_Importer = {};
@@ -60,10 +61,15 @@ private:
 	vector<class CBone*>			m_vecBones;
 
 public:
-	HRESULT Ready_Meshes();
-	HRESULT Ready_Materials(const _char* pModelFilePath);
-	HRESULT Ready_Bones(const aiNode* pAINode, _int iParentBoneIndex);
-	HRESULT Ready_Animations();
+	HRESULT Ready_Meshes(ofstream& fileBin);
+	HRESULT Ready_Materials(ofstream& fileBin, const _char* pModelFilePath);
+	HRESULT Ready_Bones(ofstream& fileBin, const aiNode* pAINode, _int iParentBoneIndex);
+	HRESULT Ready_Animations(ofstream& fileBin);
+
+	HRESULT Ready_Meshes(ifstream& fileBin);
+	HRESULT Ready_Materials(ifstream& fileBin);
+	HRESULT Ready_Bones(ifstream& fileBin);
+	HRESULT Ready_Animations(ifstream& fileBin);
 
 public:
 	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eModelType, const char* pModelFilePath, _fmatrix PreTransformMatrix);

@@ -25,8 +25,8 @@ public:
 
 public:
 	HRESULT Bind_Bones(class CShader* pShader, const _char* pConstantName, const vector<class CBone*>& Bones);
-	void Write_To_Binary(MODEL eModelType, ofstream& file);
-	void Read_From_Binary(MODEL eModelType, ifstream& fileMesh);
+	HRESULT Write_To_Binary(MODEL eModelType, ofstream& file);
+	HRESULT Read_From_Binary(MODEL eModelType, ifstream& fileMesh);
 
 private:
 	_char		m_szName[MAX_PATH] = {};

@@ -13,7 +13,12 @@ private:
 
 public:
 	HRESULT Initialize(const aiNode* pAINode, _int iParentBoneIndex);
+	HRESULT Initialize_Binary(ifstream& file);
 	void Update_CombinedTransformMatrix(const vector<CBone*>& Bones, _fmatrix PreTransformMatrix);
+
+public:
+	HRESULT Write_To_Binary(ofstream& file);
+	HRESULT Read_From_Binary(ifstream& file);
 
 public:
 	_bool Compare_Name(const _char* pName)
@@ -39,6 +44,7 @@ private:
 
 public:
 	static CBone* Create(const aiNode* pAINode, _int iParentBoneIndex);
+	static CBone* Create_Binary(ifstream& file);
 	CBone* Clone();
 	virtual void Free() override;
 };

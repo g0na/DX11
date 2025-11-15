@@ -26,7 +26,7 @@ void CImGui_Panel_Inspector::Render()
     _uint iCurLevelID = m_pGameInstance->Get_CurLevelID();
     map<const _wstring, CBase*> mapPrototypes = m_pGameInstance->Get_Prototypes(iCurLevelID);
 
-    _uint iNumPrototypes = mapPrototypes.size();
+    _uint iNumPrototypes = (_uint)mapPrototypes.size();
 
     ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
 

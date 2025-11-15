@@ -126,9 +126,11 @@ HRESULT CMesh::Bind_Bones(CShader* pShader, const _char* pConstantName, const ve
     return pShader->Bind_Matrices(pConstantName, m_BoneMatrices, g_iMaxNumBones);
 }
 
-void CMesh::Write_To_Binary(MODEL eModelType, ofstream& file)
+HRESULT CMesh::Write_To_Binary(MODEL eModelType, ofstream& file)
 {
-    file.write(reinterpret_cast<_char*>(&m_szName), sizeof(m_szName));
+    _uint iNameLength = (_uint)strlen(m_szName);
+    file.write(CHARCAST(&iNameLength), sizeof(_uint));
+    file.write(m_szName, iNameLength);
     file.write(reinterpret_cast<_char*>(&m_iMaterialIndex), sizeof(_uint));
     file.write(reinterpret_cast<_char*>(&m_iNumVertices), sizeof(_uint));
     file.write(reinterpret_cast<_char*>(&m_iNumIndices), sizeof(_uint));
@@ -149,11 +151,15 @@ void CMesh::Write_To_Binary(MODEL eModelType, ofstream& file)
         file.write(reinterpret_cast<_char*>(m_vecBoneIndices.data()), sizeof(_uint) * m_iNumBones);
         file.write(reinterpret_cast<_char*>(m_OffsetMatrices.data()), sizeof(_float4x4) * m_iNumBones);
     }
+
+    return S_OK;
 }
 
-void CMesh::Read_From_Binary(MODEL eModelType, ifstream& fileMesh)
+HRESULT CMesh::Read_From_Binary(MODEL eModelType, ifstream& fileMesh)
 {
-    fileMesh.read(reinterpret_cast<_char*>(&m_szName), sizeof(m_szName));
+    _uint iNameLength = {};
+    fileMesh.read(CHARCAST(&iNameLength), sizeof(_uint));
+    fileMesh.read(m_szName, iNameLength);
     fileMesh.read(reinterpret_cast<_char*>(&m_iMaterialIndex), sizeof(_uint));
     fileMesh.read(reinterpret_cast<_char*>(&m_iNumVertices), sizeof(_uint));
     fileMesh.read(reinterpret_cast<_char*>(&m_iNumIndices), sizeof(_uint));
@@ -185,6 +191,8 @@ void CMesh::Read_From_Binary(MODEL eModelType, ifstream& fileMesh)
         m_OffsetMatrices.resize(m_iNumBones);
         fileMesh.read(reinterpret_cast<_char*>(m_OffsetMatrices.data()), sizeof(_float4x4) * m_iNumBones);
     }
+
+    return S_OK;
 }
 
 HRESULT CMesh::Ready_For_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)

@@ -16,7 +16,12 @@ private:
 
 public:
 	HRESULT Initialize(const aiNodeAnim* pAIChannel, class CModel* pModel);
+	HRESULT Initialize_Binary(ifstream& file);
 	void Update_TransformationMatrix(const vector<class CBone*>& vecBones, _float fCurrentTrackPosition, _uint* pCurrentKeyFrameIndex);
+
+public:
+	HRESULT Write_To_Binary(ofstream& file);
+	HRESULT Read_From_Binary(ifstream& file);
 
 private:
 	_uint				m_iNumKeyFrames = {};
@@ -25,6 +30,7 @@ private:
 
 public:
 	static CChannel* Create(const aiNodeAnim* pAIChannel, class CModel* pModel);
+	static CChannel* Create_Binary(ifstream& file);
 	virtual void Free() override;
 };
 

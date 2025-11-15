@@ -22,6 +22,16 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _int iParentBoneIndex)
 	return S_OK;
 }
 
+HRESULT CBone::Initialize_Binary(ifstream& file)
+{
+	if (FAILED(Read_From_Binary(file)))
+		return E_FAIL;
+
+	XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
+
+	return S_OK;
+}
+
 void CBone::Update_CombinedTransformMatrix(const vector<CBone*>& Bones, _fmatrix PreTransformMatrix)
 {
 	if (m_iParentBoneIndex == -1)		// 최상위 본 일경우
@@ -38,11 +48,46 @@ void CBone::Update_CombinedTransformMatrix(const vector<CBone*>& Bones, _fmatrix
 	}
 }
 
+HRESULT CBone::Write_To_Binary(ofstream& file)
+{
+	_uint iNameLength = (_uint)strlen(m_szName);
+	file.write(CHARCAST(&iNameLength), sizeof(_uint));
+	file.write(m_szName, iNameLength);
+	file.write(CHARCAST(&m_iParentBoneIndex), sizeof(_uint));
+	file.write(reinterpret_cast<_char*>(&m_TransformationMatrix), sizeof(_float4x4));
+
+	return S_OK;
+}
+
+HRESULT CBone::Read_From_Binary(ifstream& file)
+{
+	_uint iNameLength;
+	file.read(CHARCAST(&iNameLength), sizeof(_uint));
+	file.read(m_szName, iNameLength);
+	file.read(CHARCAST(&m_iParentBoneIndex), sizeof(_uint));
+	file.read(reinterpret_cast<_char*>(&m_TransformationMatrix), sizeof(_float4x4));
+	
+	return S_OK;
+}
+
 CBone* CBone::Create(const aiNode* pAINode, _int iParentBoneIndex)
 {
 	CBone* pInstance = new CBone();
 
 	if (FAILED(pInstance->Initialize(pAINode, iParentBoneIndex)))
+	{
+		MSG_BOX("Failed to Created : CBone");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CBone* CBone::Create_Binary(ifstream& file)
+{
+	CBone* pInstance = new CBone();
+
+	if (FAILED(pInstance->Initialize_Binary(file)))
 	{
 		MSG_BOX("Failed to Created : CBone");
 		Safe_Release(pInstance);

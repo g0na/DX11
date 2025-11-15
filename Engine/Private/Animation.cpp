@@ -19,7 +19,7 @@ CAnimation::CAnimation(const CAnimation& Prototype)
         Safe_AddRef(pChannel);
 }
 
-HRESULT CAnimation::Initialize(const aiAnimation* pAIAnimation, CModel* pModel)
+HRESULT CAnimation::Initialize(ofstream& file, const aiAnimation* pAIAnimation, CModel* pModel)
 {
     strcpy_s(m_szName, pAIAnimation->mName.data);
     m_fDuration = (_float)pAIAnimation->mDuration;
@@ -30,10 +30,34 @@ HRESULT CAnimation::Initialize(const aiAnimation* pAIAnimation, CModel* pModel)
 
     m_CurrentKeyFrameIndices.resize(m_iNumChannels);
 
+    Write_To_Binary(file);
+
     // 각 뼈가 시간에 따라 어떻게 움직일지에 대한 정보를 채널 객체에 저장한다.
-    for (size_t i = 0; i < m_iNumChannels; i++)
+    for (_uint i = 0; i < m_iNumChannels; i++)
     {
         CChannel* pChannel = CChannel::Create(pAIAnimation->mChannels[i], pModel);
+        if (pChannel == nullptr)
+            return E_FAIL;
+
+        m_vecChannels.push_back(pChannel);
+    }
+
+    for (auto& pChannel : m_vecChannels)
+        pChannel->Write_To_Binary(file);
+
+    return S_OK;
+}
+
+HRESULT CAnimation::Initialize_Binary(ifstream& file)
+{
+    Read_From_Binary(file);
+
+    m_CurrentKeyFrameIndices.resize(m_iNumChannels);
+    m_vecChannels.reserve(m_iNumChannels);
+
+    for (_uint i = 0; i < m_iNumChannels; i++)
+    {
+        CChannel* pChannel = CChannel::Create_Binary(file);
         if (pChannel == nullptr)
             return E_FAIL;
 
@@ -65,11 +89,48 @@ _bool CAnimation::Update_TransformationMatrices(const vector<class CBone*>& vecB
     return false;
 }
 
-CAnimation* CAnimation::Create(const aiAnimation* pAIAnimation, CModel* pModel)
+HRESULT CAnimation::Write_To_Binary(ofstream& file)
+{
+    _uint iNameLength = (_uint)strlen(m_szName);
+    file.write(CHARCAST(&iNameLength), sizeof(_uint));
+    file.write(m_szName, iNameLength);
+    file.write(CHARCAST(&m_fDuration), sizeof(_float));
+    file.write(CHARCAST(&m_fTickPerSecond), sizeof(_float));
+    file.write(CHARCAST(&m_iNumChannels), sizeof(_uint));
+
+    return S_OK;
+}
+
+HRESULT CAnimation::Read_From_Binary(ifstream& file)
+{
+    _uint iNameLength;
+    file.read(CHARCAST(&iNameLength), sizeof(_uint));
+    file.read(m_szName, iNameLength);
+    file.read(CHARCAST(&m_fDuration), sizeof(_float));
+    file.read(CHARCAST(&m_fTickPerSecond), sizeof(_float));
+    file.read(CHARCAST(&m_iNumChannels), sizeof(_uint));
+
+    return S_OK;
+}
+
+CAnimation* CAnimation::Create(ofstream& file, const aiAnimation* pAIAnimation, CModel* pModel)
 {
     CAnimation* pInstance = new CAnimation();
 
-    if (FAILED(pInstance->Initialize(pAIAnimation, pModel)))
+    if (FAILED(pInstance->Initialize(file, pAIAnimation, pModel)))
+    {
+        MSG_BOX("Failed to Created : CAnimation");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+}
+
+CAnimation* CAnimation::Create_Binary(ifstream& file)
+{
+    CAnimation* pInstance = new CAnimation();
+
+    if (FAILED(pInstance->Initialize_Binary(file)))
     {
         MSG_BOX("Failed to Created : CAnimation");
         Safe_Release(pInstance);

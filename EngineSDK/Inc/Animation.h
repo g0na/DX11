@@ -14,8 +14,13 @@ private:
 	virtual ~CAnimation() = default;
 
 public:
-	HRESULT Initialize(const aiAnimation* pAIAnimation, class CModel* pModel);
+	HRESULT Initialize(ofstream& file, const aiAnimation* pAIAnimation, class CModel* pModel);
+	HRESULT Initialize_Binary(ifstream& file);
 	_bool Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fTimeDelta, _bool isLoop);
+
+public:
+	HRESULT Write_To_Binary(ofstream& file);
+	HRESULT Read_From_Binary(ifstream& file);
 
 private:
 	// 현재 동작을 구현해주기위해 사용해야하는 뼈의 개수
@@ -29,7 +34,8 @@ private:
 	_float						m_fCurrentTrackPosition = {};
 
 public:
-	static CAnimation* Create(const aiAnimation* pAIAnimation, class CModel* pModel);
+	static CAnimation* Create(ofstream& file, const aiAnimation* pAIAnimation, class CModel* pModel);
+	static CAnimation* Create_Binary(ifstream& file);
 	CAnimation* Clone();
 	virtual void Free() override;
 };
