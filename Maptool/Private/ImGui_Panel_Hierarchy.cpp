@@ -78,6 +78,7 @@ void CImGui_Panel_Hierarchy::Render()
                 ImGui::EndTabBar();
             }
             ImGui::EndChild();
+
             if (ImGui::Button("Exit Create Mode")) 
             {
                 strcpy_s(m_szSelectedObj, "");
@@ -91,7 +92,9 @@ void CImGui_Panel_Hierarchy::Render()
     }
 
 	// 픽킹한 위치에 모델 띄우기
-	if (g_bIsCreatable && m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+	if (g_bIsCreatable && 
+        !ImGui::GetIO().WantCaptureMouse &&
+        m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
 	{
 		map<const _wstring, class CLayer*>* pLayers = { nullptr };
 		list<CGameObject*> listObjects = { nullptr };
@@ -137,7 +140,7 @@ void CImGui_Panel_Hierarchy::Render()
 			}
 		}
 
-		CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(iCurLevelID, CharToWstring(m_szSelectedObj), iCurLevelID, TEXT("Layer_Monster"));
+		CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(iCurLevelID, CharToWstring(m_szSelectedObj), iCurLevelID, m_pSelectedObject->Get_Layer());
 		if (pGameObject == nullptr)
 		{
 			MSG_BOX("Failed to place GameObject");

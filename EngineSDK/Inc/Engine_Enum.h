@@ -12,5 +12,6 @@ namespace Engine
 	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };
 	enum class LIGHT { DIRECTIONAL, POINT, END };
 	enum class MODEL { NONANIM, ANIM };
+	enum class LAYER { PLAYER, MONSTER, MAP, CAMERA, END };
 }
 #endif // Engine_Enum_h__

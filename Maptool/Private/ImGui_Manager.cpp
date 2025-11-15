@@ -75,7 +75,7 @@ void CImGui_Manager::Render()
 	//ImGui::ShowDemoWindow();
 
 	// 마우스 픽킹 관련 함수
-	if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && 
+	if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) &&
 		!g_bIsCreatable)
 		Picking_GameObject();
 

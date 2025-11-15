@@ -14,6 +14,7 @@ CCamera_Free::CCamera_Free(const CCamera_Free& Prototype)
 
 HRESULT CCamera_Free::Initialize_Prototype()
 {
+    m_eLayer = LAYER::CAMERA;
 
     return S_OK;
 }

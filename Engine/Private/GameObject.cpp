@@ -15,6 +15,7 @@ CGameObject::CGameObject(const CGameObject& prototype)
 	: m_pDevice {prototype.m_pDevice}
 	, m_pContext {prototype.m_pContext}
 	, m_pGameInstance {prototype.m_pGameInstance}
+	, m_eLayer {prototype.m_eLayer}
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
@@ -72,6 +73,27 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+const _wstring CGameObject::Get_Layer() const
+{
+	switch (m_eLayer)
+	{
+	case LAYER::PLAYER:
+		return TEXT("Layer_Player");
+
+	case LAYER::MONSTER:
+		return TEXT("Layer_Monster");
+
+	case LAYER::MAP:
+		return TEXT("Layer_Map");
+
+	case LAYER::CAMERA:
+		return TEXT("Layer_Camera");
+
+	default:
+		MSG_BOX("Failed to get layer!");
+		return TEXT("INVALID_LAYER");
+	}
+}
 
 HRESULT CGameObject::Add_Component(_uint iPrototypeLevelID, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {

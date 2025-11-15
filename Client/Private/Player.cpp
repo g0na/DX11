@@ -95,7 +95,7 @@ HRESULT CPlayer::Ready_PartObjects()
 {
     CBody::BODY_DESC    BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();     // 자신의 월드 행렬을 전달
-    BodyDesc.pParentState = &m_iState;              // 자신의 상태 플래그 전달
+    BodyDesc.pParentState = &m_iState;                                  // 자신의 상태 플래그 전달
 
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
         TEXT("Part_Body"), &BodyDesc)))

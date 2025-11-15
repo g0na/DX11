@@ -46,9 +46,6 @@ void CMonster::Update(_float fTimeDelta)
 
 void CMonster::Update_Late(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
-		m_pTransformCom->Go_Straight(fTimeDelta);
-
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
 }
 

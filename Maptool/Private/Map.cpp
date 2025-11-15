@@ -13,6 +13,8 @@ CMap::CMap(const CMap& Prototype)
 
 HRESULT CMap::Initialize_Prototype()
 {
+	m_eLayer = LAYER::MAP;
+
 	return S_OK;
 }
 

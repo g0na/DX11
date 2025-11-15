@@ -18,7 +18,7 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype();		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
+	virtual HRESULT Initialize_Prototype();							// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
 	virtual HRESULT Initialize(void* pArg);							// 원형 객체를 복제할 때 호출되는 함수. 추가적인 초기화를 위해서
 	virtual void	Update_Priority(_float fTimeDelta);
 	virtual void	Update(_float fTimeDelta);
@@ -32,6 +32,7 @@ public:
 	T* Get_Component(const _wstring& strComponentTag) { return dynamic_cast<T*>(Get_Component(strComponentTag)); }
 
 	_tchar* Get_Name() { return m_szName; }
+	const _wstring Get_Layer() const;
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -39,9 +40,10 @@ protected:
 	class CGameInstance*	m_pGameInstance = { nullptr };
 
 protected:
-	_tchar								m_szName[MAX_PATH] = {};
-	map<const _wstring, class CComponent*>	m_mapComponents;
-	CTransform*					m_pTransformCom = { nullptr };
+	LAYER										m_eLayer = { LAYER::END };
+	_tchar										m_szName[MAX_PATH] = {};
+	map<const _wstring, class CComponent*>		m_mapComponents;
+	CTransform*									m_pTransformCom = { nullptr };
 
 protected:
 	/// <summary>
