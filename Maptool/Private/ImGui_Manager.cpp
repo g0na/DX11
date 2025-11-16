@@ -1,6 +1,7 @@
 #include "Maptool_Defines.h"
 #include "ImGui_Panel_Inspector.h"
-#include "ImGui_Panel_Hierarchy.h"
+#include "ImGui_Panel_Prototype.h"
+#include "ImGui_Panel_Scene.h"
 #include "ImGui_Manager.h"
 #include "ImGui_Panel.h"
 
@@ -10,6 +11,8 @@
 #include "GameObject.h"
 
 _bool g_bIsCreatable = false;
+CGameObject* g_pSelectedPrototype = { nullptr };
+_char g_szSelectedPrototypeName[128] = "";
 
 IMPLEMENT_SINGLETON(CImGui_Manager)
 
@@ -68,12 +71,36 @@ void CImGui_Manager::Render()
 	ImGui::NewFrame();
 
 	// Create a dockspace in main viewport, where central node is transparent.
-	ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+	ImGuiID dockspace_id = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
+
+	// 첫 실행 시 도킹 레이아웃 설정
+	static bool first_time = true;
+	if (first_time)
+	{
+		first_time = false;
+
+		ImGui::DockBuilderRemoveNode(dockspace_id);
+		ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
+		ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetMainViewport()->Size);
+
+		// 좌측 20%: Prototype 패널
+		ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.2f, nullptr, &dockspace_id);
+
+		// 우측 30%: Inspector 패널
+		ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, nullptr, &dockspace_id);
+
+		// 중앙 하단 30%: Scene 패널
+		ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.3f, nullptr, &dockspace_id);
+
+		// 각 패널 도킹
+		ImGui::DockBuilderDockWindow("PROTOTYPE", dock_id_left);
+		ImGui::DockBuilderDockWindow("SCENE", dock_id_bottom);
+		ImGui::DockBuilderDockWindow("INSPECTOR", dock_id_right);
+
+		ImGui::DockBuilderFinish(dockspace_id);
+	}
 
 	////////////////////////
-	// 초반에는 켜놓고 기능 찾아보는 것 추천
-	//ImGui::ShowDemoWindow();
-
 	// 마우스 픽킹 관련 함수
 	if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) &&
 		!g_bIsCreatable)
@@ -99,8 +126,9 @@ HRESULT CImGui_Manager::Ready_Panels()
 	if (m_pCalculator == nullptr)
 		return E_FAIL;
 
+	m_pPanels[ENUM_TO_UINT(PanelType::PROTOTYPE)] = CImGui_Panel_Prototype::Create();
+	m_pPanels[ENUM_TO_UINT(PanelType::SCENE)] = CImGui_Panel_Scene::Create(m_pDevice, m_pDeviceContext);
 	m_pPanels[ENUM_TO_UINT(PanelType::INSPECTOR)] = CImGui_Panel_Inspector::Create();
-	m_pPanels[ENUM_TO_UINT(PanelType::HIERARCHY)] = CImGui_Panel_Hierarchy::Create(m_pDevice, m_pDeviceContext);
 	return S_OK;
 }
 
@@ -165,6 +193,8 @@ void CImGui_Manager::Picking_GameObject()
 		char buf[512];
 		sprintf_s(buf, "x: %f, y: %f, z %f, Obj: %ls\n", XMVectorGetX(vFinalPos), XMVectorGetY(vFinalPos), XMVectorGetZ(vFinalPos), pFinalObject->Get_Name());
 		OutputDebugStringA(buf);
+
+
 	}
 }
 

@@ -2,7 +2,7 @@
 #include "ImGui_Panel.h"
 
 NS_BEGIN(Engine)
-class CCalculator;
+class CGameObject;
 NS_END
 
 NS_BEGIN(Maptool)
@@ -19,7 +19,7 @@ public:
 	virtual void Render() override;
 
 private:
-	CCalculator*	m_pCalculator = { nullptr };
+	CGameObject*	m_pInspectedObject = { nullptr };
 
 public:
 	static CImGui_Panel_Inspector* Create();

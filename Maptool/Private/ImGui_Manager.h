@@ -13,8 +13,9 @@ class CImGui_Manager final : public CBase
 
 	enum class PanelType : unsigned int
 	{
-		INSPECTOR = 0,
-		HIERARCHY,
+		PROTOTYPE = 0,		// 원형 목록
+		SCENE,				// 배치된 오브젝트 목록
+		INSPECTOR,			// 오브젝트 상세 정보
 		END
 	};
 private:
@@ -33,10 +34,10 @@ private:
 	void Picking_GameObject();
 
 private:
-	CGameInstance* m_pGameInstance = { nullptr };
-	ID3D11Device* m_pDevice = { nullptr };
-	ID3D11DeviceContext* m_pDeviceContext = { nullptr };
-	class CCalculator* m_pCalculator = { nullptr };
+	CGameInstance*			m_pGameInstance = { nullptr };
+	ID3D11Device*			m_pDevice = { nullptr };
+	ID3D11DeviceContext*	m_pDeviceContext = { nullptr };
+	class CCalculator*		m_pCalculator = { nullptr };
 
 	ImGuiIO* m_pIO = { nullptr };
 	class CImGui_Panel* m_pPanels[ENUM_TO_UINT(PanelType::END)] = { nullptr };

@@ -49,14 +49,17 @@
     <Filter Include="96. ImGui\01. Panel">
       <UniqueIdentifier>{e7a5f3e5-29a3-4236-82a1-e53b393a1668}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96. ImGui\01. Panel\Hierarchy">
-      <UniqueIdentifier>{80489956-8ca3-4e43-af7e-305fc9d84e22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="96. ImGui\01. Panel\Inspector">
       <UniqueIdentifier>{398eaf6e-5987-48c2-b498-496a163eab5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObjects\03. Monster">
       <UniqueIdentifier>{a265365c-3b34-4e2f-bdb8-20d7108d8b39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\01. Panel\Scene">
+      <UniqueIdentifier>{485edb67-3b76-4e12-882a-bc159f51f5e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. ImGui\01. Panel\Prototype">
+      <UniqueIdentifier>{80489956-8ca3-4e43-af7e-305fc9d84e22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,8 +126,8 @@
     <ClInclude Include="..\Public\ImGui_Panel.h">
       <Filter>96. ImGui\01. Panel</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ImGui_Panel_Hierarchy.h">
-      <Filter>96. ImGui\01. Panel\Hierarchy</Filter>
+    <ClInclude Include="..\Public\ImGui_Panel_Prototype.h">
+      <Filter>96. ImGui\01. Panel\Prototype</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGui_Panel_Inspector.h">
       <Filter>96. ImGui\01. Panel\Inspector</Filter>
@@ -134,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Map.h">
       <Filter>02. GameObjects\01. Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui_Panel_Scene.h">
+      <Filter>96. ImGui\01. Panel\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +191,8 @@
     <ClCompile Include="..\Private\ImGui_Panel.cpp">
       <Filter>96. ImGui\01. Panel</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\ImGui_Panel_Hierarchy.cpp">
-      <Filter>96. ImGui\01. Panel\Hierarchy</Filter>
+    <ClCompile Include="..\Private\ImGui_Panel_Prototype.cpp">
+      <Filter>96. ImGui\01. Panel\Prototype</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ImGui_Panel_Inspector.cpp">
       <Filter>96. ImGui\01. Panel\Inspector</Filter>
@@ -196,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Map.cpp">
       <Filter>02. GameObjects\01. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImGui_Panel_Scene.cpp">
+      <Filter>96. ImGui\01. Panel\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

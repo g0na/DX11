@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\Private\ImGui_Manager.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
+    <ClInclude Include="..\Public\ImGui_Panel_Scene.h" />
     <ClInclude Include="..\Public\Maptool_Defines.h" />
     <ClInclude Include="..\Public\imconfig.h" />
     <ClInclude Include="..\Public\imgui.h" />
@@ -28,7 +29,7 @@
     <ClInclude Include="..\Public\imgui_impl_win32.h" />
     <ClInclude Include="..\Public\imgui_internal.h" />
     <ClInclude Include="..\Public\ImGui_Panel.h" />
-    <ClInclude Include="..\Public\ImGui_Panel_Hierarchy.h" />
+    <ClInclude Include="..\Public\ImGui_Panel_Prototype.h" />
     <ClInclude Include="..\Public\ImGui_Panel_Inspector.h" />
     <ClInclude Include="..\Public\imstb_rectpack.h" />
     <ClInclude Include="..\Public\imstb_textedit.h" />
@@ -54,8 +55,9 @@
     <ClCompile Include="..\Private\imgui_impl_win32.cpp" />
     <ClCompile Include="..\Private\ImGui_Manager.cpp" />
     <ClCompile Include="..\Private\ImGui_Panel.cpp" />
-    <ClCompile Include="..\Private\ImGui_Panel_Hierarchy.cpp" />
+    <ClCompile Include="..\Private\ImGui_Panel_Prototype.cpp" />
     <ClCompile Include="..\Private\ImGui_Panel_Inspector.cpp" />
+    <ClCompile Include="..\Private\ImGui_Panel_Scene.cpp" />
     <ClCompile Include="..\Private\imgui_tables.cpp" />
     <ClCompile Include="..\Private\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
