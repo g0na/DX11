@@ -97,19 +97,45 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 	vRayPos = XMVector3TransformCoord(vRayPos, XMLoadFloat4x4(&ViewInverseMatrix));
 	vRayDir = XMVector3TransformNormal(vRayDir, XMLoadFloat4x4(&ViewInverseMatrix));
 
+	// 유효성 검사
+	if (pMeshCom == nullptr || pTransformCom == nullptr)
+		return XMVectorSet(0.f, 0.f, 0.f, 0.f);
+
+	if (pMeshCom->m_pVertexPositions == nullptr || pMeshCom->m_pIndices == nullptr)
+		return XMVectorSet(0.f, 0.f, 0.f, 0.f);
+
+	if (pMeshCom->m_iNumIndices == 0)
+		return XMVectorSet(0.f, 0.f, 0.f, 0.f);
+
 	// 월드 -> 로컬
 	_matrix WorldInverseMatrix = pTransformCom->Get_WorldMatrixInverse();
 
 	vRayPos = XMVector3TransformCoord(vRayPos, WorldInverseMatrix);
 	vRayDir = XMVector3TransformNormal(vRayDir, WorldInverseMatrix);
 
-	_float	fDist(0.f);
-	_ulong	dwVtxIdx[3] = {};
+	// 정규화 전에 길이 체크
+	_float fRayDirLength = XMVectorGetX(XMVector3Length(vRayDir));
+	if (fRayDirLength < 0.0001f)
+		return XMVectorSet(0.f, 0.f, 0.f, 0.f);
+
+	// 정규화
+	vRayDir = XMVector3Normalize(vRayDir);
+
+	_float4 vRayDirDebug;
+	XMStoreFloat4(&vRayDirDebug, vRayDir);
+	if (isnan(vRayDirDebug.x) || isnan(vRayDirDebug.y) || isnan(vRayDirDebug.z) ||
+		isinf(vRayDirDebug.x) || isinf(vRayDirDebug.y) || isinf(vRayDirDebug.z))
+	{
+		return XMVectorSet(0.f, 0.f, 0.f, 0.f);
+	}
 
 	const _float3* pMeshVtxPos = pMeshCom->m_pVertexPositions;
 	const _uint* pIndices = pMeshCom->m_pIndices;
 	const _uint	iNumVertices = pMeshCom->m_iNumVertices;
 	const _uint	iNumIndices = pMeshCom->m_iNumIndices;
+
+	_float	fDist(0.f);
+	_ulong	dwVtxIdx[3] = {};
 
 	for (_uint i = 0; i < iNumIndices / 3; i++)
 	{
@@ -117,15 +143,19 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 		_uint idx1 = pIndices[i * 3 + 1];
 		_uint idx2 = pIndices[i * 3 + 2];
 
-		if (TriangleTests::Intersects(vRayPos,
-									  XMVector3Normalize(vRayDir),
+		// 인덱스 범위 검사
+		if (idx0 >= iNumVertices || idx1 >= iNumVertices || idx2 >= iNumVertices)
+			continue;
+
+		if (DirectX::TriangleTests::Intersects(vRayPos,
+									  vRayDir,
 									  XMLoadFloat3(&pMeshVtxPos[idx0]),
 									  XMLoadFloat3(&pMeshVtxPos[idx1]),
 									  XMLoadFloat3(&pMeshVtxPos[idx2]),
 									  fDist))
 		{
 			fDistance = fDist;
-			return XMVectorAdd(vRayPos, XMVectorScale(XMVector3Normalize(vRayDir), fDist));
+			return XMVectorAdd(vRayPos, XMVectorScale(vRayDir, fDist));
 		}
 	}
 

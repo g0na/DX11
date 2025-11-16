@@ -127,15 +127,15 @@ void CImGui_Panel_Hierarchy::Render()
 
 					_vector	vPickPos = m_pCalculator->Picking_OnMesh(g_hWnd, pMeshCom, pTransformCom, fDist);
 
-					if (XMVectorGetW(vPickPos) > 0.f &&
-						fDist <= fMinDist)
-					{
-						// 최소 거리 갱신
-						fMinDist = fDist;
-						// 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
-						pFinalObject = pObject;
-						vFinalPos = vPickPos;
-					}
+                    if (XMVectorGetW(vPickPos) > 0.f &&
+                        fDist <= fMinDist)
+                    {
+                        // 최소 거리 갱신
+                        fMinDist = fDist;
+                        // 픽킹 좌표와 오브젝트를 최종 CGameObject 변수와 _vector 변수에 대입
+                        pFinalObject = pObject;
+                        vFinalPos = vPickPos;
+                    }
 				}
 			}
 		}
