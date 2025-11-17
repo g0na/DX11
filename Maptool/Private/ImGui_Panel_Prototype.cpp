@@ -50,7 +50,7 @@ void CImGui_Panel_Prototype::Render()
                 if (strlen(search) > 0 && strstr(szPrototypeName, search) == nullptr)
                     continue;
 
-                // ★ 클릭 시 선택
+                // 클릭 시 선택
                 if (ImGui::Selectable(szPrototypeName))
                 {
                     g_bIsCreatable = true;

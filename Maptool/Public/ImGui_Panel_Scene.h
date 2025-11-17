@@ -15,6 +15,10 @@ private:
 	virtual ~CImGui_Panel_Scene();
 
 public:
+	void Set_Inspector(class CImGui_Panel_Inspector* pInspector) { m_pInspector = pInspector; }
+	void Set_SelectedObject(CGameObject* pSelectedObject) { m_pSelectedObject = pSelectedObject; }
+
+public:
 	virtual HRESULT Initialize() override;
 	virtual void Render() override;
 
@@ -22,10 +26,11 @@ private:
 	_wstring CharToWstring(const _char* pString);
 
 private:
-	ID3D11Device*			m_pDevice = { nullptr };
-	ID3D11DeviceContext*	m_pContext = { nullptr };
-	CCalculator*			m_pCalculator = { nullptr };
-	CGameObject*			m_pSelectedObject = { nullptr };
+	ID3D11Device*						m_pDevice = { nullptr };
+	ID3D11DeviceContext*				m_pContext = { nullptr };
+	CCalculator*						m_pCalculator = { nullptr };
+	CGameObject*						m_pSelectedObject = { nullptr };
+	class CImGui_Panel_Inspector*		m_pInspector = { nullptr };
 
 public:
 	static CImGui_Panel_Scene* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

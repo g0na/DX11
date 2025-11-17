@@ -11,7 +11,7 @@ class CImGui_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CImGui_Manager);
 
-	enum class PanelType : unsigned int
+	enum class PANEL : unsigned int
 	{
 		PROTOTYPE = 0,		// 원형 목록
 		SCENE,				// 배치된 오브젝트 목록
@@ -40,7 +40,7 @@ private:
 	class CCalculator*		m_pCalculator = { nullptr };
 
 	ImGuiIO* m_pIO = { nullptr };
-	class CImGui_Panel* m_pPanels[ENUM_TO_UINT(PanelType::END)] = { nullptr };
+	class CImGui_Panel* m_pPanels[ENUM_TO_UINT(PANEL::END)] = { nullptr };
 
 public:
 	virtual void Free() override;

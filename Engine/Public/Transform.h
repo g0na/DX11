@@ -33,10 +33,15 @@ public:
 	void Set_State(STATE eState, const _float4& vState) {
 		memcpy(&m_WorldMatrix.m[ENUM_TO_UINT(eState)], &vState, sizeof vState);
 	}
+
 	void Set_State(STATE eState, _fvector vState) {
 		XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMatrix.m[ENUM_TO_UINT(eState)]), vState);
 	}
+
 	void Set_Scale(_float fScaleX, _float fScaleY, _float fScaleZ);
+
+	_float3	Get_RotationAngle() { return m_vRotationAngle; }
+	void Set_RotationAngle(_float3 vRotationAngle) { m_vRotationAngle = vRotationAngle; }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -60,6 +65,7 @@ private:
 	_float			m_fSpeedPerSec = { };
 	_float			m_fRotationPerSec = { };
 	_float4x4		m_WorldMatrix = {};
+	_float3			m_vRotationAngle = {};
 
 public:
 	static CTransform* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

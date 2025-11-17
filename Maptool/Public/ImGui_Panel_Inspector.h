@@ -15,11 +15,16 @@ private:
 	virtual ~CImGui_Panel_Inspector();
 
 public:
+	void Set_SelectedObject(CGameObject* pGameObject) { m_pInspectedObject = pGameObject; }
+
+public:
 	virtual HRESULT Initialize() override;
 	virtual void Render() override;
 
 private:
-	CGameObject*	m_pInspectedObject = { nullptr };
+	CGameObject* m_pInspectedObject = { nullptr };
+	CGameObject* m_pPrevInspectedObject = { nullptr };
+	_float3 m_vRotationAngle = {};
 
 public:
 	static CImGui_Panel_Inspector* Create();

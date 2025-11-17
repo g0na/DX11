@@ -19,8 +19,8 @@ public:
 	virtual void Render() override;
 
 private:
-	CGameObject*				m_pSelectedObject = { nullptr };		// 왼쪽 창에서 선택된 원본 오브젝트
-	_char						m_szSelectedObj[128] = {};				// 왼쪽 창에서 선택된 원본 오브젝트의 키 값
+	CGameObject*						m_pSelectedObject = { nullptr };		// 왼쪽 창에서 선택된 원본 오브젝트
+	_char								m_szSelectedObj[128] = {};				// 왼쪽 창에서 선택된 원본 오브젝트의 키 값
 
 public:
 	static CImGui_Panel_Prototype* Create();

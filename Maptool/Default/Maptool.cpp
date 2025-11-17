@@ -68,7 +68,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_144"))))
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
     {
         MSG_BOX("Failed to Add Timer_144");
         return FALSE;
@@ -95,10 +95,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         fTimeElapsed += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
 
-        if (fTimeElapsed >= 1 / 144.f)
+        if (fTimeElapsed >= 1 / 60.f)
         {
-            pGameInstance->Compute_TimeDelta(L"Timer_144");
-            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_144")));
+            pGameInstance->Compute_TimeDelta(L"Timer_60");
+            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
             pMainApp->Render();
 
             fTimeElapsed = 0.f;

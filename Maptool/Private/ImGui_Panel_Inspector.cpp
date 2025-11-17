@@ -1,6 +1,7 @@
-#include "Maptool_Defines.h"
-#include "GameObject.h"
+ï»¿#include "Maptool_Defines.h"
 #include "ImGui_Panel_Inspector.h"
+#include "GameObject.h"
+#include "Transform.h"
 
 CImGui_Panel_Inspector::CImGui_Panel_Inspector()
     : CImGui_Panel("INSPECTOR")
@@ -22,8 +23,8 @@ void CImGui_Panel_Inspector::Render()
 
     if (ImGui::Begin(m_strLabel.c_str()))
     {
-        // TODO: ¼±ÅÃµÈ ¿ÀºêÁ§Æ®°¡ ÀÖÀ» ¶§¸¸ Ç¥½Ã
-        bool bHasSelection = false; // ¼±ÅÃµÈ ¿ÀºêÁ§Æ® ¿©ºÎ
+        // TODO: ì„ íƒëœ ì˜¤ë¸Œì íŠ¸ê°€ ìˆì„ ë•Œë§Œ í‘œì‹œ
+        bool bHasSelection = (m_pInspectedObject != nullptr);       // ì„ íƒëœ ì˜¤ë¸Œì íŠ¸ ì—¬ë¶€
 
         if (!bHasSelection)
         {
@@ -31,46 +32,63 @@ void CImGui_Panel_Inspector::Render()
         }
         else
         {
-            // ¿ÀºêÁ§Æ® ÀÌ¸§
+            // ì˜¤ë¸Œì íŠ¸ ì´ë¦„
             ImGui::Text("Object Name");
             ImGui::SameLine();
-            static char objName[128] = "GameObject";
+
+            _uint iNameLength = {};
+            iNameLength = WideCharToMultiByte(CP_ACP, 0, m_pInspectedObject->Get_Name(), -1, NULL, 0, NULL, NULL);
+
+            static _char objName[128] = { };
+            WideCharToMultiByte(CP_ACP, 0, m_pInspectedObject->Get_Name(), -1, objName, iNameLength, NULL, NULL);
+
             ImGui::InputText("##ObjName", objName, IM_ARRAYSIZE(objName));
 
             ImGui::Spacing();
             ImGui::Separator();
             ImGui::Spacing();
 
-            // Transform ÄÄÆ÷³ÍÆ®
+            // Transform ì»´í¬ë„ŒíŠ¸
+            CTransform* pTransform = static_cast<CTransform*>(m_pInspectedObject->Get_Component(g_strTransformTag));
+
             if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
             {
                 ImGui::Indent();
 
                 // Position
                 ImGui::Text("Position");
-                static float position[3] = { 0.0f, 0.0f, 0.0f };
-                ImGui::DragFloat3("##Position", position, 0.1f);
+                _float4 position = {};
+                _vector vPosition = pTransform->Get_State(STATE::POSITION);
+                XMStoreFloat4(&position, vPosition);
+
+                ImGui::DragFloat3("##Position", (float*)&position, 0.1f);
+                pTransform->Set_State(STATE::POSITION, position);      // ìœ„ì¹˜ê°’ ê°±ì‹ 
 
                 ImGui::Spacing();
 
                 // Rotation
                 ImGui::Text("Rotation");
-                static float rotation[3] = { 0.0f, 0.0f, 0.0f };
-                ImGui::DragFloat3("##Rotation", rotation, 1.0f, -180.0f, 180.0f);
+                m_vRotationAngle = pTransform->Get_RotationAngle();
+                ImGui::DragFloat3("##Rotation", (float*)&m_vRotationAngle, 1.0f, -180.0f, 180.0f);
+                pTransform->Rotation(XMConvertToRadians(m_vRotationAngle.x), XMConvertToRadians(m_vRotationAngle.y), XMConvertToRadians(m_vRotationAngle.z));
+                pTransform->Set_RotationAngle(m_vRotationAngle);
+
 
                 ImGui::Spacing();
 
                 // Scale
                 ImGui::Text("Scale");
-                static float scale[3] = { 1.0f, 1.0f, 1.0f };
-                ImGui::DragFloat3("##Scale", scale, 0.01f, 0.001f, 100.0f);
+                _float3 scale = {};
+                scale = pTransform->Get_Scaled();
+                ImGui::DragFloat3("##Scale", (float*)&scale, 0.01f, 0.001f, 100.0f);
+                pTransform->Set_Scale(scale.x, scale.y, scale.z);
 
                 ImGui::Unindent();
             }
 
             ImGui::Spacing();
 
-            // Model ÄÄÆ÷³ÍÆ®
+            // Model ì»´í¬ë„ŒíŠ¸
             if (ImGui::CollapsingHeader("Model"))
             {
                 ImGui::Indent();
@@ -82,13 +100,13 @@ void CImGui_Panel_Inspector::Render()
 
             ImGui::Spacing();
 
-            // Shader ÄÄÆ÷³ÍÆ®
+            // Shader ì»´í¬ë„ŒíŠ¸
             if (ImGui::CollapsingHeader("Shader"))
             {
                 ImGui::Indent();
                 ImGui::Text("Shader: ");
                 ImGui::SameLine();
-                ImGui::TextDisabled("Shader_VtxNorTex");
+                ImGui::TextDisabled("Shader_VtxMesh");
                 ImGui::Unindent();
             }
 
@@ -96,15 +114,15 @@ void CImGui_Panel_Inspector::Render()
             ImGui::Separator();
             ImGui::Spacing();
 
-            // ¾×¼Ç ¹öÆ°
-            if (ImGui::Button("Apply Changes", ImVec2(-1, 30)))
+            // ì•¡ì…˜ ë²„íŠ¼
+            if (ImGui::Button("Save", ImVec2(-1, 30)))
             {
-                // TODO: º¯°æ»çÇ× Àû¿ë
+                // TODO: ë³€ê²½ì‚¬í•­ ì ìš©
             }
 
             if (ImGui::Button("Delete Object", ImVec2(-1, 30)))
             {
-                // TODO: ¿ÀºêÁ§Æ® »èÁ¦
+                // TODO: ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
             }
         }
     }

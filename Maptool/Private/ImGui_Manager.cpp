@@ -1,4 +1,4 @@
-#include "Maptool_Defines.h"
+ï»¿#include "Maptool_Defines.h"
 #include "ImGui_Panel_Inspector.h"
 #include "ImGui_Panel_Prototype.h"
 #include "ImGui_Panel_Scene.h"
@@ -30,7 +30,7 @@ HRESULT CImGui_Manager::Initialize_Manager(ID3D11Device* pDevice, ID3D11DeviceCo
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pDeviceContext);
 
-	// ImGui Context ¼¼ÆÃ
+	// ImGui Context ì„¸íŒ…
 	IMGUI_CHECKVERSION();
 	ImGuiContext *pContext = ImGui::CreateContext();
 	if (!pContext)
@@ -44,16 +44,16 @@ HRESULT CImGui_Manager::Initialize_Manager(ID3D11Device* pDevice, ID3D11DeviceCo
 
 	m_pIO->IniFilename = NULL;
 
-	// ImGui Style ¼¼ÆÃ
+	// ImGui Style ì„¸íŒ…
 	ImGui::StyleColorsDark();
 	//ImGui::StyleColorsClassic();
 	//ImGui::StyleColorsLight();
 
-	// Win32¿ë ÃÊ±âÈ­
+	// Win32ìš© ì´ˆê¸°í™”
 	if (!::ImGui_ImplWin32_Init(g_hWnd))
 		return E_FAIL;
 
-	// dx11¿ë ÃÊ±âÈ­
+	// dx11ìš© ì´ˆê¸°í™”
 	if (!::ImGui_ImplDX11_Init(m_pDevice, m_pDeviceContext))
 		return E_FAIL;
 
@@ -65,7 +65,7 @@ HRESULT CImGui_Manager::Initialize_Manager(ID3D11Device* pDevice, ID3D11DeviceCo
 
 void CImGui_Manager::Render()
 {
-	// win32, dx11, imguicontext Â¦²á
+	// win32, dx11, imguicontext ì§ê¿
 	::ImGui_ImplDX11_NewFrame();
 	::ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -73,7 +73,7 @@ void CImGui_Manager::Render()
 	// Create a dockspace in main viewport, where central node is transparent.
 	ImGuiID dockspace_id = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
-	// Ã¹ ½ÇÇà ½Ã µµÅ· ·¹ÀÌ¾Æ¿ô ¼³Á¤
+	// ì²« ì‹¤í–‰ ì‹œ ë„í‚¹ ë ˆì´ì•„ì›ƒ ì„¤ì •
 	static bool first_time = true;
 	if (first_time)
 	{
@@ -83,16 +83,16 @@ void CImGui_Manager::Render()
 		ImGui::DockBuilderAddNode(dockspace_id, ImGuiDockNodeFlags_DockSpace);
 		ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetMainViewport()->Size);
 
-		// ÁÂÃø 20%: Prototype ÆÐ³Î
+		// ì¢Œì¸¡ 20%: Prototype íŒ¨ë„
 		ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.2f, nullptr, &dockspace_id);
 
-		// ¿ìÃø 30%: Inspector ÆÐ³Î
+		// ìš°ì¸¡ 30%: Inspector íŒ¨ë„
 		ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, nullptr, &dockspace_id);
 
-		// Áß¾Ó ÇÏ´Ü 30%: Scene ÆÐ³Î
+		// ì¤‘ì•™ í•˜ë‹¨ 30%: Scene íŒ¨ë„
 		ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Down, 0.3f, nullptr, &dockspace_id);
 
-		// °¢ ÆÐ³Î µµÅ·
+		// ê° íŒ¨ë„ ë„í‚¹
 		ImGui::DockBuilderDockWindow("PROTOTYPE", dock_id_left);
 		ImGui::DockBuilderDockWindow("SCENE", dock_id_bottom);
 		ImGui::DockBuilderDockWindow("INSPECTOR", dock_id_right);
@@ -101,7 +101,7 @@ void CImGui_Manager::Render()
 	}
 
 	////////////////////////
-	// ¸¶¿ì½º ÇÈÅ· °ü·Ã ÇÔ¼ö
+	// ë§ˆìš°ìŠ¤ í”½í‚¹ ê´€ë ¨ í•¨ìˆ˜
 	if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) &&
 		!g_bIsCreatable)
 		Picking_GameObject();
@@ -126,9 +126,13 @@ HRESULT CImGui_Manager::Ready_Panels()
 	if (m_pCalculator == nullptr)
 		return E_FAIL;
 
-	m_pPanels[ENUM_TO_UINT(PanelType::PROTOTYPE)] = CImGui_Panel_Prototype::Create();
-	m_pPanels[ENUM_TO_UINT(PanelType::SCENE)] = CImGui_Panel_Scene::Create(m_pDevice, m_pDeviceContext);
-	m_pPanels[ENUM_TO_UINT(PanelType::INSPECTOR)] = CImGui_Panel_Inspector::Create();
+	m_pPanels[ENUM_TO_UINT(PANEL::PROTOTYPE)] = CImGui_Panel_Prototype::Create();
+	m_pPanels[ENUM_TO_UINT(PANEL::SCENE)] = CImGui_Panel_Scene::Create(m_pDevice, m_pDeviceContext);
+	m_pPanels[ENUM_TO_UINT(PANEL::INSPECTOR)] = CImGui_Panel_Inspector::Create();
+
+	static_cast<CImGui_Panel_Scene*>(m_pPanels[ENUM_TO_UINT(PANEL::SCENE)])->Set_Inspector(
+		static_cast<CImGui_Panel_Inspector*>(m_pPanels[ENUM_TO_UINT(PANEL::INSPECTOR)]));
+
 	return S_OK;
 }
 
@@ -152,7 +156,7 @@ void CImGui_Manager::Picking_GameObject()
 	_vector vFinalPos = {};
 	CGameObject* pFinalObject = { nullptr };
 
-	// ¸ðµç ·¹ÀÌ¾î¸¦ °Ë»çÇÏ´Â°Ç º°·Î °°À½. ÇöÀç ¾ÀÀÇ ·¹ÀÌ¾î¸¸ °Ë»çÇÒ ¼ö ÀÖµµ·Ï ¹Ù²ÙÀÚ
+	// ëª¨ë“  ë ˆì´ì–´ë¥¼ ê²€ì‚¬í•˜ëŠ”ê±´ ë³„ë¡œ ê°™ìŒ. í˜„ìž¬ ì”¬ì˜ ë ˆì´ì–´ë§Œ ê²€ì‚¬í•  ìˆ˜ ìžˆë„ë¡ ë°”ê¾¸ìž
 	for (auto& Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
 	{	
 		listObjects = Pair.second->Get_Objects();
@@ -178,9 +182,9 @@ void CImGui_Manager::Picking_GameObject()
 				if (XMVectorGetW(vPickPos) > 0.f &&
 					fDist <= fMinDist)
 				{
-					// ÃÖ¼Ò °Å¸® °»½Å
+					// ìµœì†Œ ê±°ë¦¬ ê°±ì‹ 
 					fMinDist = fDist;
-					// ÇÈÅ· ÁÂÇ¥¿Í ¿ÀºêÁ§Æ®¸¦ ÃÖÁ¾ CGameObject º¯¼ö¿Í _vector º¯¼ö¿¡ ´ëÀÔ
+					// í”½í‚¹ ì¢Œí‘œì™€ ì˜¤ë¸Œì íŠ¸ë¥¼ ìµœì¢… CGameObject ë³€ìˆ˜ì™€ _vector ë³€ìˆ˜ì— ëŒ€ìž…
 					pFinalObject = pObject;
 					vFinalPos = vPickPos;
 				}
@@ -194,7 +198,11 @@ void CImGui_Manager::Picking_GameObject()
 		sprintf_s(buf, "x: %f, y: %f, z %f, Obj: %ls\n", XMVectorGetX(vFinalPos), XMVectorGetY(vFinalPos), XMVectorGetZ(vFinalPos), pFinalObject->Get_Name());
 		OutputDebugStringA(buf);
 
+		if (pFinalObject->Get_Layer() == TEXT("Layer_Map"))
+			return;
 
+		static_cast<CImGui_Panel_Inspector*>(m_pPanels[ENUM_TO_UINT(PANEL::INSPECTOR)])->Set_SelectedObject(pFinalObject);
+		static_cast<CImGui_Panel_Scene*>(m_pPanels[ENUM_TO_UINT(PANEL::SCENE)])->Set_SelectedObject(pFinalObject);
 	}
 }
 

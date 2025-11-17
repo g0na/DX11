@@ -1,5 +1,6 @@
-#include "Maptool_Defines.h"
+ï»¿#include "Maptool_Defines.h"
 #include "ImGui_Panel_Scene.h"
+#include "ImGui_Panel_Inspector.h"
 #include "GameInstance.h"
 #include "GameObject.h"
 #include "Calculator.h"
@@ -39,7 +40,7 @@ void CImGui_Panel_Scene::Render()
         ImGui::Text("Scene Objects");
         ImGui::SameLine(ImGui::GetWindowWidth() - 150);
 
-        // »ı¼º ¸ğµå Åä±Û
+        // ìƒì„± ëª¨ë“œ í† ê¸€
         if (g_bIsCreatable)
         {
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.3f, 0.3f, 1.0f));
@@ -59,7 +60,7 @@ void CImGui_Panel_Scene::Render()
 
         ImGui::Separator();
 
-        // ·¹ÀÌ¾î ÅÇ
+        // ë ˆì´ì–´ íƒ­
         if (ImGui::BeginTabBar("LayerTabs", ImGuiTabBarFlags_None))
         {
             for (auto& LayerPair : pLayers[iCurLevelID])
@@ -67,9 +68,17 @@ void CImGui_Panel_Scene::Render()
                 _char szLayerName[128] = {};
                 WideCharToMultiByte(CP_ACP, 0, LayerPair.first.c_str(), -1, szLayerName, sizeof(szLayerName), nullptr, nullptr);
 
-                if (ImGui::BeginTabItem(szLayerName))
+                // ì„ íƒëœ ì˜¤ë¸Œì íŠ¸ê°€ í˜„ì¬ ë ˆì´ì–´ì— ìˆëŠ”ì§€ í™•ì¸
+                ImGuiTabItemFlags tabFlags = ImGuiTabItemFlags_None;
+                if (m_pSelectedObject != nullptr &&
+                    m_pSelectedObject->Get_Layer() == LayerPair.first)
                 {
-                    // Å×ÀÌºí Çì´õ
+                    tabFlags = ImGuiTabItemFlags_SetSelected;
+                }
+
+                if (ImGui::BeginTabItem(szLayerName, nullptr, tabFlags))
+                {
+                    // í…Œì´ë¸” í—¤ë”
                     if (ImGui::BeginTable("ObjectTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable))
                     {
                         ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthFixed, 200.0f);
@@ -78,14 +87,14 @@ void CImGui_Panel_Scene::Render()
                         ImGui::TableSetupColumn("Scale", ImGuiTableColumnFlags_WidthStretch);
                         ImGui::TableHeadersRow();
 
-                        // ¿ÀºêÁ§Æ® ¸ñ·Ï
+                        // ì˜¤ë¸Œì íŠ¸ ëª©ë¡
                         list<CGameObject*> listObjects = LayerPair.second->Get_Objects();
                         int id = 0;
                         for (auto pObject : listObjects)
                         {
                             ImGui::TableNextRow();
 
-                            // ¼±ÅÃ ¿©ºÎ È®ÀÎ
+                            // ì„ íƒ ì—¬ë¶€ í™•ì¸
                             _bool bIsSelected = m_pSelectedObject == pObject;
                             if (bIsSelected)
                             {
@@ -95,25 +104,25 @@ void CImGui_Panel_Scene::Render()
 
                             ImGui::PushID(id++);
 
-                            // ÀÌ¸§
+                            // ì´ë¦„
                             ImGui::TableSetColumnIndex(0);
                             _char szObjName[128] = {};
                             WideCharToMultiByte(CP_ACP, 0, pObject->Get_Name(), -1, szObjName, sizeof(szObjName), nullptr, nullptr);        
 
                             if (ImGui::Selectable(szObjName, bIsSelected, ImGuiSelectableFlags_SpanAllColumns))
                             {
-                                // Å¬¸¯ ½Ã ¼±ÅÃ (Inspector¿¡¼­ ÆíÁıÇÒ ¿ÀºêÁ§Æ®)
-                                // TODO: ¼±ÅÃµÈ ¿ÀºêÁ§Æ®¸¦ Inspector¿¡ ³Ñ°ÜÁÖÀÚ.
-                                // 1. 
+                                // í´ë¦­ ì‹œ ì„ íƒ (Inspectorì—ì„œ í¸ì§‘í•  ì˜¤ë¸Œì íŠ¸)
                                 g_bIsCreatable = false;
                                 m_pSelectedObject = pObject;
+                                
+                                m_pInspector->Set_SelectedObject(m_pSelectedObject);
                             }
 
                             if (ImGui::BeginPopupContextItem())
                             {
                                 if (ImGui::MenuItem("Delete"))
                                 {
-                                    // TODO: ¿ÀºêÁ§Æ® »èÁ¦
+                                    // TODO: ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
                                 }
 
                                 ImGui::EndPopup();
@@ -131,7 +140,7 @@ void CImGui_Panel_Scene::Render()
 
                             // Rotation
                             ImGui::TableSetColumnIndex(2);
-                            ImGui::Text("0.0, 0.0, 0.0"); // TODO: È¸Àü °ª ±¸Çö
+                            ImGui::Text("0.0, 0.0, 0.0"); // TODO: íšŒì „ ê°’ êµ¬í˜„
 
                             // Scale
                             ImGui::TableSetColumnIndex(3);
@@ -157,7 +166,7 @@ void CImGui_Panel_Scene::Render()
 
     ImGui::End();
 
-    // ¿ÀºêÁ§Æ® ¹èÄ¡ ±â´É (ImGui Ã¢ ¹Û¿¡¼­ Å¬¸¯ ½Ã)
+    // ì˜¤ë¸Œì íŠ¸ ë°°ì¹˜ ê¸°ëŠ¥ (ImGui ì°½ ë°–ì—ì„œ í´ë¦­ ì‹œ)
     if (g_bIsCreatable &&
         !ImGui::GetIO().WantCaptureMouse &&
         m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
@@ -168,7 +177,7 @@ void CImGui_Panel_Scene::Render()
         _vector vFinalPos = {};
         CGameObject* pFinalObject = { nullptr };
 
-        // ¸ğµç ·¹ÀÌ¾î ¼øÈ¸ÇÏ¸ç ÇÇÅ·
+        // ëª¨ë“  ë ˆì´ì–´ ìˆœíšŒí•˜ë©° í”¼í‚¹
         for (auto& Pair : pLayers[iCurLevelID])
         {
             listObjects = Pair.second->Get_Objects();
@@ -202,12 +211,12 @@ void CImGui_Panel_Scene::Render()
             }
         }
 
-        // ¿ÀºêÁ§Æ® ¹èÄ¡ ºÎºĞ
+        // ì˜¤ë¸Œì íŠ¸ ë°°ì¹˜ ë¶€ë¶„
         if (pFinalObject != nullptr && g_pSelectedPrototype != nullptr)
         {
             _wstring strPrototypeName = CharToWstring(g_szSelectedPrototypeName);
             
-            // ÇÁ·ÎÅäÅ¸ÀÔ ÀÌ¸§¿¡¼­ Prototype_GameObject_ ±îÁö¸¸ ÀÚ¸§.
+            // í”„ë¡œí† íƒ€ì… ì´ë¦„ì—ì„œ Prototype_GameObject_ ê¹Œì§€ë§Œ ìë¦„.
             _wstring strObjectName = strPrototypeName.substr(21);
             CGameObject::GAMEOBJECT_DESC GameObjectDesc{};
             lstrcpy(GameObjectDesc.szName, strObjectName.c_str());
