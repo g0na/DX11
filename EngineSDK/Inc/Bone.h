@@ -36,6 +36,11 @@ public:
 		return m_TransformationMatrix;
 	}
 
+	_int Get_ParentBoneIndex()
+	{
+		return m_iParentBoneIndex;
+	}
+
 	void Set_TransformationMatrix(const _float4x4 TransformationMatrix)
 	{
 		m_TransformationMatrix = TransformationMatrix;

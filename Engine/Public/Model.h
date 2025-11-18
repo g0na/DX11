@@ -17,6 +17,8 @@ public:
 
 	class CMesh* Get_Mesh(_uint iIndex) { return m_vecMeshes[iIndex]; }
 
+	_vector Get_RootMotionDelta() { return m_vRootMotionDelta; }
+
 	_bool is_AnimFinished() const { return m_bIsAnimFinished; }
 
 	void Set_Animation(_uint iAnimationIndex, _bool isLoop = true);
@@ -64,6 +66,8 @@ private:
 	vector<_float4x4>				m_vecPrevBoneTransforms;
 	_float							m_fBlendTime = {};
 	_float							m_fBlendDuration = {};
+	_vector							m_vPrevRootPosition = {};
+	_vector							m_vRootMotionDelta = {};
 
 public:
 	HRESULT Ready_Meshes(ofstream& fileBin);

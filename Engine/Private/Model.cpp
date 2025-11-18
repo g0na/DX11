@@ -70,6 +70,10 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 	for (_uint i = 0; i < m_vecBones.size(); i++)
 	{
 		m_vecPrevBoneTransforms.push_back(m_vecBones[i]->Get_TransformationMatrix());
+
+		_vector vScale{}, vRotation{};
+		if (m_vecBones[i]->Get_ParentBoneIndex() == -1)
+			XMMatrixDecompose(&vScale, &vRotation, &m_vPrevRootPosition, XMLoadFloat4x4(&m_vecPrevBoneTransforms[i]));
 	}
 
 	// 현재 트랙 위치 초기화
@@ -176,6 +180,17 @@ void CModel::Play_Animation(_float fTimeDelta)
 	// 위에서 갱신해준 뼈들의 TransformationMatrix를 기반으로 실제 뼈의 상태행렬(CombinedTransformationMatrix)을 만들어준다.
 	for (auto& pBone : m_vecBones)
 	{
+		// 부모 인덱스가 -1이면 자신이 루트 본일 것이다.
+		if (pBone->Get_ParentBoneIndex() == -1)
+		{
+			_vector vCurRootPosition{}, vScale, vRotation;
+			_float4x4 TransformationMatrix = pBone->Get_TransformationMatrix();
+
+			XMMatrixDecompose(&vScale, &vRotation, &vCurRootPosition, XMLoadFloat4x4(&TransformationMatrix));
+
+			m_vRootMotionDelta = vCurRootPosition - m_vPrevRootPosition;
+		}
+
 		// 각 뼈의 월드 변환을 계산한다.
 		pBone->Update_CombinedTransformMatrix(m_vecBones, XMLoadFloat4x4(&m_PreTransformMatrix));
 	}
