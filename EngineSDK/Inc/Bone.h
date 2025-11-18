@@ -31,6 +31,11 @@ public:
 		return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
 	}
 
+	_float4x4 Get_TransformationMatrix()
+	{
+		return m_TransformationMatrix;
+	}
+
 	void Set_TransformationMatrix(const _float4x4 TransformationMatrix)
 	{
 		m_TransformationMatrix = TransformationMatrix;

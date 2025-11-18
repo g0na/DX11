@@ -89,6 +89,16 @@ _bool CAnimation::Update_TransformationMatrices(const vector<class CBone*>& vecB
     return false;
 }
 
+void CAnimation::Reset_TrackPosition()
+{
+    m_fCurrentTrackPosition = 0.f;
+
+    for (_uint i = 0; i < m_iNumChannels; i++)
+    {
+        m_CurrentKeyFrameIndices[i] = 0;
+    }
+}
+
 HRESULT CAnimation::Write_To_Binary(ofstream& file)
 {
     _uint iNameLength = (_uint)strlen(m_szName);

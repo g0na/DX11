@@ -171,7 +171,7 @@ void CImGui_Panel_Scene::Render()
         !ImGui::GetIO().WantCaptureMouse &&
         m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
     {
-        list<CGameObject*> listObjects = { nullptr };
+        list<CGameObject*> listObjects;
 
         _float fMinDist = { 9999.f };
         _vector vFinalPos = {};

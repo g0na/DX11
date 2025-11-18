@@ -18,8 +18,6 @@ CModel::CModel(const CModel& Prototype)
 	, m_PreTransformMatrix { Prototype.m_PreTransformMatrix }
 	, m_iNumMaterials { Prototype.m_iNumMaterials }
 	, m_vecMaterials { Prototype.m_vecMaterials }
-	//, m_vecBones { Prototype.m_vecBones }
-	//, m_vecAnimations{ Prototype.m_vecAnimations }
 {
 	for (auto& pMesh : m_vecMeshes)
 		Safe_AddRef(pMesh);
@@ -55,9 +53,27 @@ _int CModel::Get_BoneIndex(const _char* pBoneName) const
 }
 
 void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
-{
+{	
+	if (iAnimationIndex == m_iCurrentAnimIndex)
+		return;
+
+	m_iPrevAnimIndex = m_iCurrentAnimIndex;
 	m_iCurrentAnimIndex = iAnimationIndex;
 	m_bIsAnimLoop = isLoop;
+	m_bIsAnimBlend = true;
+	m_fBlendTime = 0.f;
+	m_fBlendDuration = 0.5f;
+
+	m_vecPrevBoneTransforms.reserve(m_vecBones.size());
+
+	// 이전 애니메이션 상태가 적용된 뼈의 행렬을 저장
+	for (_uint i = 0; i < m_vecBones.size(); i++)
+	{
+		m_vecPrevBoneTransforms.push_back(m_vecBones[i]->Get_TransformationMatrix());
+	}
+
+	// 현재 트랙 위치 초기화
+	m_vecAnimations[m_iCurrentAnimIndex]->Reset_TrackPosition();
 }
 
 HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
@@ -117,8 +133,45 @@ HRESULT CModel::Bind_Bones(CShader* pShader, const _char* pConstantName, _uint i
 
 void CModel::Play_Animation(_float fTimeDelta)
 {
-	// m_iCurrentAnimIndex에 해당하는 애니메이션 중, 현재 재생 시간에 맞는 상태행렬(TransformationMatrix)을 실제 뼈에게 전달해준다.
-	m_bIsAnimFinished = m_vecAnimations[m_iCurrentAnimIndex]->Update_TransformationMatrices(m_vecBones, fTimeDelta, m_bIsAnimLoop);
+	// 애니메이션 보간 중이라면
+	if (m_bIsAnimBlend)
+	{
+		m_fBlendTime += fTimeDelta;
+		_float fBlendRatio = min(1.f, m_fBlendTime / m_fBlendDuration);
+
+		m_bIsAnimFinished = m_vecAnimations[m_iCurrentAnimIndex]->Update_TransformationMatrices(m_vecBones, fTimeDelta, m_bIsAnimLoop);
+		
+		_float4x4	TransformationMatrix{};
+
+		_vector		vScale{}, vRotation{}, vTranslation{};
+		_vector     vLeftScale{}, vRightScale{};
+		_vector     vLeftRotation{}, vRightRotation{};
+		_vector     vLeftTranslation{}, vRightTranslation{};
+
+		for (_uint i = 0; i < m_vecBones.size(); i++)
+		{
+			_float4x4 CurrentTransformationMatrix = m_vecBones[i]->Get_TransformationMatrix();
+			XMMatrixDecompose(&vLeftScale, &vLeftRotation, &vLeftTranslation, XMLoadFloat4x4(&m_vecPrevBoneTransforms[i]));
+			XMMatrixDecompose(&vRightScale, &vRightRotation, &vRightTranslation, XMLoadFloat4x4(&CurrentTransformationMatrix));
+
+			vScale = XMVectorLerp(vLeftScale, vRightScale, fBlendRatio);
+			vRotation = XMQuaternionSlerp(vLeftRotation, vRightRotation, fBlendRatio);
+			vTranslation = XMVectorLerp(vLeftTranslation, vRightTranslation, fBlendRatio);
+
+			XMStoreFloat4x4(&TransformationMatrix,
+				XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation));
+
+			m_vecBones[i]->Set_TransformationMatrix(TransformationMatrix);
+		}
+
+		if (fBlendRatio >= 1.f)
+			m_bIsAnimBlend = false;
+	}
+	else    // 보간 중이지 않다면 원래 하던데로 애니메이션 재생
+	{
+		// m_iCurrentAnimIndex에 해당하는 애니메이션 중, 현재 재생 시간에 맞는 상태행렬(TransformationMatrix)을 실제 뼈에게 전달해준다.
+		m_bIsAnimFinished = m_vecAnimations[m_iCurrentAnimIndex]->Update_TransformationMatrices(m_vecBones, fTimeDelta, m_bIsAnimLoop);
+	}
 
 	// 위에서 갱신해준 뼈들의 TransformationMatrix를 기반으로 실제 뼈의 상태행렬(CombinedTransformationMatrix)을 만들어준다.
 	for (auto& pBone : m_vecBones)

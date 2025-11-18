@@ -26,23 +26,29 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_pModelCom->Set_Animation(0, true);
+	m_pModelCom->Set_Animation(2, true);
 
 	return S_OK;
 }
 
 void CMonster::Update_Priority(_float fTimeDelta)
 {
+	if (m_pGameInstance->Get_KeyDown(DIK_1))
+		m_pModelCom->Set_Animation(0, true);
+	else if (m_pGameInstance->Get_KeyDown(DIK_2))
+		m_pModelCom->Set_Animation(1, true);
+	else if (m_pGameInstance->Get_KeyDown(DIK_3))
+		m_pModelCom->Set_Animation(2, true);
 }
 
 void CMonster::Update(_float fTimeDelta)
 {
-	//m_pModelCom->Play_Animation(fTimeDelta);
+	m_pModelCom->Play_Animation(fTimeDelta);
 }
 
 void CMonster::Update_Late(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
+	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
 HRESULT CMonster::Render()
@@ -57,8 +63,8 @@ HRESULT CMonster::Render()
 		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE, 0)))
 			return E_FAIL;
 
-		//if (FAILED(m_pModelCom->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
-		//	return E_FAIL;
+		if (FAILED(m_pModelCom->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
+			return E_FAIL;
 
 		if (FAILED(m_pShaderCom->Begin(0)))
 			return E_FAIL;
@@ -81,7 +87,7 @@ HRESULT CMonster::Ready_Components()
 		return E_FAIL;
 
 	// For Com_Shader
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 

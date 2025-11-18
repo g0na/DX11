@@ -148,7 +148,7 @@ void CImGui_Manager::Render_Panels()
 void CImGui_Manager::Picking_GameObject()
 {
 	map<const _wstring, class CLayer*>* pLayers = { nullptr };
-	list<CGameObject*> listObjects = { nullptr };
+	list<CGameObject*> listObjects;
 
 	pLayers = m_pGameInstance->Get_Layers();
 

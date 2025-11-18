@@ -61,6 +61,9 @@
     <Filter Include="96. ImGui\01. Panel\Prototype">
       <UniqueIdentifier>{80489956-8ca3-4e43-af7e-305fc9d84e22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\04. Player">
+      <UniqueIdentifier>{5b1d541f-e4c0-403f-a3c6-bdf8cbd41803}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

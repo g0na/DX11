@@ -52,13 +52,18 @@ private:
 	vector<class CMaterial*>		m_vecMaterials;
 
 	_uint							m_iNumAnimations = {};
-	_uint							m_iCurrentAnimIndex = {};
+	_uint							m_iCurrentAnimIndex = {};		// 현재 애니메이션
+	_uint							m_iPrevAnimIndex = {};			// 이전 애니메이션
 	vector<class CAnimation*>		m_vecAnimations;
 	_bool							m_bIsAnimLoop = { false };
 	_bool							m_bIsAnimFinished = { false };
+	_bool							m_bIsAnimBlend = { false };
 
 	// 현재 모델에게 영향을 주는 전체 뼈들 : 뼈들은 하나하나 독립적이지 않고, 부모 자식관계로 엮여있다.
 	vector<class CBone*>			m_vecBones;
+	vector<_float4x4>				m_vecPrevBoneTransforms;
+	_float							m_fBlendTime = {};
+	_float							m_fBlendDuration = {};
 
 public:
 	HRESULT Ready_Meshes(ofstream& fileBin);

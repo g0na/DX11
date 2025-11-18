@@ -74,7 +74,7 @@ void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones,
     // 마지막 키프레임 정보를 가져온다.
     KEYFRAME    LastKeyFrame = m_vecKeyFrames.back();
 
-    _vector vScale, vRotation, vTranslation;
+    _vector vScale{}, vRotation{}, vTranslation{};
 
     // 현재 재생위치가 마지막 키프레임의 위치를 지나면 마지막 키프레임 기준으로 SRT 정보를 유지한다.
     if (fCurrentTrackPosition >= LastKeyFrame.fTrackPosition)
@@ -86,6 +86,7 @@ void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones,
     else // 재생 위치가 마지막 키프레임을 지나지 않았다면 이전 키프레임과 다음 키프레임의 값을 보간하여 갱신해준다.
     {
         _vector     vLeftScale{}, vRightScale{};
+
         _vector     vLeftRotation{}, vRightRotation{};
         _vector     vLeftTranslation{}, vRightTranslation{};
 

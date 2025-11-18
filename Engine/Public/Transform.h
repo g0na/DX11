@@ -40,7 +40,7 @@ public:
 
 	void Set_Scale(_float fScaleX, _float fScaleY, _float fScaleZ);
 
-	_float3	Get_RotationAngle() { return m_vRotationAngle; }
+	_float3	Get_RotationAngle() const { return m_vRotationAngle; }
 	void Set_RotationAngle(_float3 vRotationAngle) { m_vRotationAngle = vRotationAngle; }
 
 public:
