@@ -26,6 +26,8 @@ public:
 		return !strcmp(pName, m_szName);
 	}
 
+	const _char* Get_BoneName() const { return m_szName; }
+
 	_matrix Get_CombinedTransformationMatrix()
 	{
 		return XMLoadFloat4x4(&m_CombinedTransformationMatrix);

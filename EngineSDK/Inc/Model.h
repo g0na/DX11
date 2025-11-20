@@ -68,6 +68,7 @@ private:
 	_float							m_fBlendDuration = {};
 	_vector							m_vPrevRootPosition = {};
 	_vector							m_vRootMotionDelta = {};
+	_int							m_iRootBoneIndex = { -1 };
 
 public:
 	HRESULT Ready_Meshes(ofstream& fileBin);

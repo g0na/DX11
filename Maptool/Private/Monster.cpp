@@ -44,17 +44,17 @@ void CMonster::Update_Priority(_float fTimeDelta)
 void CMonster::Update(_float fTimeDelta)
 {
 	m_pModelCom->Play_Animation(fTimeDelta);
+
+	_vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
+
+	_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+	vPosition += vRootMotionDelta;
+	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 
 void CMonster::Update_Late(_float fTimeDelta)
 {
-	_vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
-	
-	_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-	vPosition += vRootMotionDelta;
-	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-
-	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
 }
 
 HRESULT CMonster::Render()

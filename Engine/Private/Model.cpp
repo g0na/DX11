@@ -4,7 +4,8 @@
 #include "Shader.h"
 #include "Bone.h"
 #include "Animation.h"
-#include "iostream"
+//#include "iostream"
+
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent { pDevice, pContext }
 {
@@ -18,6 +19,8 @@ CModel::CModel(const CModel& Prototype)
 	, m_PreTransformMatrix { Prototype.m_PreTransformMatrix }
 	, m_iNumMaterials { Prototype.m_iNumMaterials }
 	, m_vecMaterials { Prototype.m_vecMaterials }
+	, m_iNumAnimations { Prototype.m_iNumAnimations }
+	, m_iRootBoneIndex { Prototype.m_iRootBoneIndex }
 {
 	for (auto& pMesh : m_vecMeshes)
 		Safe_AddRef(pMesh);
@@ -28,7 +31,7 @@ CModel::CModel(const CModel& Prototype)
 	for (auto& pPrototypeBone : Prototype.m_vecBones)
 		m_vecBones.push_back(pPrototypeBone->Clone());
 
-	for (auto* pPrototypeAnimation : Prototype.m_vecAnimations)
+	for (auto& pPrototypeAnimation : Prototype.m_vecAnimations)
 		m_vecAnimations.push_back(pPrototypeAnimation->Clone());
 }
 
@@ -62,8 +65,9 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 	m_bIsAnimLoop = isLoop;
 	m_bIsAnimBlend = true;
 	m_fBlendTime = 0.f;
-	m_fBlendDuration = 0.5f;
+	m_fBlendDuration = 0.2f;
 
+	m_vecPrevBoneTransforms.clear();
 	m_vecPrevBoneTransforms.reserve(m_vecBones.size());
 
 	// 이전 애니메이션 상태가 적용된 뼈의 행렬을 저장
@@ -72,7 +76,8 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 		m_vecPrevBoneTransforms.push_back(m_vecBones[i]->Get_TransformationMatrix());
 
 		_vector vScale{}, vRotation{};
-		if (m_vecBones[i]->Get_ParentBoneIndex() == -1)
+
+		if (m_iRootBoneIndex == i)
 			XMMatrixDecompose(&vScale, &vRotation, &m_vPrevRootPosition, XMLoadFloat4x4(&m_vecPrevBoneTransforms[i]));
 	}
 
@@ -180,19 +185,20 @@ void CModel::Play_Animation(_float fTimeDelta)
 	// 위에서 갱신해준 뼈들의 TransformationMatrix를 기반으로 실제 뼈의 상태행렬(CombinedTransformationMatrix)을 만들어준다.
 	for (auto& pBone : m_vecBones)
 	{
-		// 부모 인덱스가 -1이면 자신이 루트 본일 것이다.
-		if (pBone->Get_ParentBoneIndex() == -1)
-		{
-			_vector vCurRootPosition{}, vScale, vRotation;
-			_float4x4 TransformationMatrix = pBone->Get_TransformationMatrix();
-
-			XMMatrixDecompose(&vScale, &vRotation, &vCurRootPosition, XMLoadFloat4x4(&TransformationMatrix));
-
-			m_vRootMotionDelta = vCurRootPosition - m_vPrevRootPosition;
-		}
-
 		// 각 뼈의 월드 변환을 계산한다.
 		pBone->Update_CombinedTransformMatrix(m_vecBones, XMLoadFloat4x4(&m_PreTransformMatrix));
+	}
+
+	// RootNode는 움직임이 없다?
+	if (m_iRootBoneIndex != -1)
+	{
+		_vector vCurRootPosition{}, vScale{}, vRotation{};
+		_float4x4 TransformationMatrix = m_vecBones[m_iRootBoneIndex]->Get_TransformationMatrix();
+
+		XMMatrixDecompose(&vScale, &vRotation, &vCurRootPosition, XMLoadFloat4x4(&TransformationMatrix));
+
+		m_vRootMotionDelta = vCurRootPosition - m_vPrevRootPosition;
+		m_vPrevRootPosition = vCurRootPosition;
 	}
 }
 
@@ -314,6 +320,11 @@ HRESULT CModel::Ready_Bones(ofstream& fileBin, const aiNode* pAINode, _int iPare
 
 	m_vecBones.push_back(pBone);
 
+	if (strstr(pAINode->mName.data, "c2390 Armature <Darkwraith>"))
+	{
+		m_iRootBoneIndex = (_int)m_vecBones.size() - 1;
+	}
+
 	_int	iPIndex = (_int)m_vecBones.size() - 1;
 
 	for (_uint i = 0; i < pAINode->mNumChildren; ++i)
@@ -393,6 +404,9 @@ HRESULT CModel::Ready_Bones(ifstream& fileBin)
 			return E_FAIL;
 
 		m_vecBones.push_back(pBone);
+
+		if (strstr(pBone->Get_BoneName(), "c2390 Armature <Darkwraith>"))
+			m_iRootBoneIndex = i;
 	}
 
 	return S_OK;

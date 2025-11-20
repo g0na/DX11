@@ -111,7 +111,7 @@ void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones,
     }
 
     DirectX::XMStoreFloat4x4(&TransformationMatrix,
-        XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation));
+        XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, XMVectorSet(0.f, 0.f, 0.f, 1.f)));
 
     vecBones[m_iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 }
