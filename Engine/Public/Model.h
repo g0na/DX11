@@ -19,6 +19,8 @@ public:
 
 	_vector Get_RootMotionDelta() { return m_vRootMotionDelta; }
 
+	_vector Get_AccumulatedMotionDelta() { return m_vAccumulatedMotionDelta; }
+
 	_bool is_AnimFinished() const { return m_bIsAnimFinished; }
 
 	void Set_Animation(_uint iAnimationIndex, _bool isLoop = true);
@@ -66,9 +68,11 @@ private:
 	vector<_float4x4>				m_vecPrevBoneTransforms;
 	_float							m_fBlendTime = {};
 	_float							m_fBlendDuration = {};
-	_vector							m_vPrevRootPosition = {};
-	_vector							m_vRootMotionDelta = {};
-	_int							m_iRootBoneIndex = { -1 };
+	_float							m_fPrevTrackPosition = {};			// 이전 프레임의 애니메이션 재생 위치
+	_vector							m_vPrevRootPosition = {};			// 이전 프레임의 루트 본 실제 위치
+	_vector							m_vRootMotionDelta = {};			// 현재 프레임의 이동량
+	_vector							m_vAccumulatedMotionDelta = {};		// 애니메이션 반복 시 누적된 이동량
+	_int							m_iRootBoneIndex = { -1 };			// 루트 본의 인덱스
 
 public:
 	HRESULT Ready_Meshes(ofstream& fileBin);

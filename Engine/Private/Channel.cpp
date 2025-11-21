@@ -86,7 +86,6 @@ void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones,
     else // 재생 위치가 마지막 키프레임을 지나지 않았다면 이전 키프레임과 다음 키프레임의 값을 보간하여 갱신해준다.
     {
         _vector     vLeftScale{}, vRightScale{};
-
         _vector     vLeftRotation{}, vRightRotation{};
         _vector     vLeftTranslation{}, vRightTranslation{};
 
@@ -111,7 +110,7 @@ void CChannel::Update_TransformationMatrix(const vector<class CBone*>& vecBones,
     }
 
     DirectX::XMStoreFloat4x4(&TransformationMatrix,
-        XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, XMVectorSet(0.f, 0.f, 0.f, 1.f)));
+        XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation));
 
     vecBones[m_iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 }

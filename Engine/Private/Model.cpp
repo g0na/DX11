@@ -21,6 +21,9 @@ CModel::CModel(const CModel& Prototype)
 	, m_vecMaterials { Prototype.m_vecMaterials }
 	, m_iNumAnimations { Prototype.m_iNumAnimations }
 	, m_iRootBoneIndex { Prototype.m_iRootBoneIndex }
+	, m_vAccumulatedMotionDelta { Prototype.m_vAccumulatedMotionDelta }
+	, m_fPrevTrackPosition { Prototype.m_fPrevTrackPosition }
+	, m_vPrevRootPosition { Prototype.m_vPrevRootPosition }
 {
 	for (auto& pMesh : m_vecMeshes)
 		Safe_AddRef(pMesh);
@@ -66,6 +69,7 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 	m_bIsAnimBlend = true;
 	m_fBlendTime = 0.f;
 	m_fBlendDuration = 0.2f;
+	m_fPrevTrackPosition = 0.f;
 
 	m_vecPrevBoneTransforms.clear();
 	m_vecPrevBoneTransforms.reserve(m_vecBones.size());
@@ -83,6 +87,8 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 
 	// 현재 트랙 위치 초기화
 	m_vecAnimations[m_iCurrentAnimIndex]->Reset_TrackPosition();
+	// 누적 이동량 초기화 안하면 애니메이션 상태 바뀔 때 마다 이전 애니메이션에 저장된 누적 이동량이 적용되서 텔포함.
+	m_vAccumulatedMotionDelta = XMVectorZero();
 }
 
 HRESULT CModel::Initialize_Prototype(MODEL eModelType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
@@ -182,14 +188,8 @@ void CModel::Play_Animation(_float fTimeDelta)
 		m_bIsAnimFinished = m_vecAnimations[m_iCurrentAnimIndex]->Update_TransformationMatrices(m_vecBones, fTimeDelta, m_bIsAnimLoop);
 	}
 
-	// 위에서 갱신해준 뼈들의 TransformationMatrix를 기반으로 실제 뼈의 상태행렬(CombinedTransformationMatrix)을 만들어준다.
-	for (auto& pBone : m_vecBones)
-	{
-		// 각 뼈의 월드 변환을 계산한다.
-		pBone->Update_CombinedTransformMatrix(m_vecBones, XMLoadFloat4x4(&m_PreTransformMatrix));
-	}
-
-	// RootNode는 움직임이 없다?
+	// RootNode는 움직임이 없다
+	// 실제로는 c2390 Armature <Darkwraith>라는 인덱스 3짜리가 루트 본이었음.
 	if (m_iRootBoneIndex != -1)
 	{
 		_vector vCurRootPosition{}, vScale{}, vRotation{};
@@ -197,8 +197,40 @@ void CModel::Play_Animation(_float fTimeDelta)
 
 		XMMatrixDecompose(&vScale, &vRotation, &vCurRootPosition, XMLoadFloat4x4(&TransformationMatrix));
 
-		m_vRootMotionDelta = vCurRootPosition - m_vPrevRootPosition;
-		m_vPrevRootPosition = vCurRootPosition;
+		_float fCurrentTrackPosition = m_vecAnimations[m_iCurrentAnimIndex]->Get_CurrentTrackPosition();
+		// 현재 애니메이션의 재생 위치가 0으로 바뀌면 한 사이클이 끝났다는 의미
+		if (fCurrentTrackPosition < m_fPrevTrackPosition && m_bIsAnimLoop)
+		{
+			// 이전 프레임의 로컬 위치를 누적 위치에 저장
+			// ex) 루트 본이 로컬에서 0 ~ 10까지 간다 했을 때 10을 저장
+			m_vAccumulatedMotionDelta = m_vPrevRootPosition;
+			m_vAccumulatedMotionDelta = XMVectorSetW(m_vAccumulatedMotionDelta, 0.f);
+		}
+		// 한 사이클이 끝났으니 애니메이션의 이전 재생 위치를 갱신해준다.
+		m_fPrevTrackPosition = fCurrentTrackPosition;
+
+		// 루트 본의 월드 위치 계산 = 루트 본의 로컬 위치 + 루트 본의 누적 이동량
+		_vector vWorldTranslation = XMVectorSetW(vCurRootPosition + m_vAccumulatedMotionDelta, 1.f);
+
+		// Delta = 현재 실제 위치 - 이전 실제 위치
+		// GameObject에 던져줘서 더할 것 이라서 w = 0으로 설정
+		m_vRootMotionDelta = vWorldTranslation - m_vPrevRootPosition;
+		m_vRootMotionDelta = XMVectorSetW(m_vRootMotionDelta, 0.f);
+
+		// 이전 위치 업데이트
+		m_vPrevRootPosition = vWorldTranslation;
+
+		// 루트 본의 Translation을 제거한다.
+		XMStoreFloat4x4(&TransformationMatrix,
+			XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, XMVectorZero()));
+		m_vecBones[m_iRootBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
+	}
+
+	// 위에서 갱신해준 뼈들의 TransformationMatrix를 기반으로 실제 뼈의 상태행렬(CombinedTransformationMatrix)을 만들어준다.
+	for (auto& pBone : m_vecBones)
+	{
+		// 각 뼈의 월드 변환을 계산한다.
+		pBone->Update_CombinedTransformMatrix(m_vecBones, XMLoadFloat4x4(&m_PreTransformMatrix));
 	}
 }
 

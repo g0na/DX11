@@ -14,6 +14,9 @@ private:
 	virtual ~CAnimation() = default;
 
 public:
+	_float Get_CurrentTrackPosition() { return m_fCurrentTrackPosition; }
+
+public:
 	HRESULT Initialize(ofstream& file, const aiAnimation* pAIAnimation, class CModel* pModel);
 	HRESULT Initialize_Binary(ifstream& file);
 	_bool Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fTimeDelta, _bool isLoop);

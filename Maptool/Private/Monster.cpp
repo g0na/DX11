@@ -46,7 +46,7 @@ void CMonster::Update(_float fTimeDelta)
 	m_pModelCom->Play_Animation(fTimeDelta);
 
 	_vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
-
+	
 	_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 	vPosition += vRootMotionDelta;
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
