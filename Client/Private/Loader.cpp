@@ -138,7 +138,7 @@ HRESULT CLoader::Loading_GamePlay()
 	
 	// 모델에 필요한 초기 상태 행렬 선언
 	PreTransformMatrix = XMMatrixIdentity();
-	//PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+	//PreTransformMatrix = XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),

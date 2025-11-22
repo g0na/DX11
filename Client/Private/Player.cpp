@@ -82,12 +82,12 @@ void CPlayer::Update(_float fTimeDelta)
         _float fAngle = atan2f(XMVectorGetX(vInputDir), XMVectorGetZ(vInputDir));       // 라디안 반환
         _float fAngleDiff = fAngle - m_fCurAngle;
 
-        while (fAngleDiff > 180.f)
-            fAngleDiff -= 360.f;
-        while (fAngleDiff < -180.f)
-            fAngleDiff += 360.f;
+        while (fAngleDiff > XM_PI)
+            fAngleDiff -= XM_2PI;
+        while (fAngleDiff < -XM_PI)
+            fAngleDiff += XM_2PI;
 
-        _float fDeltaAngle = fAngleDiff * fTimeDelta * 60.f;
+        _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
         if (abs(fDeltaAngle) > abs(fAngleDiff))
             fDeltaAngle = fAngleDiff;
 
