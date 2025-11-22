@@ -33,6 +33,9 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
+    CBody* pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
+    pBody->Set_PlayerTransform(m_pTransformCom);
+
     return S_OK;
 }
 
@@ -43,27 +46,54 @@ void CPlayer::Update_Priority(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-    if (m_pGameInstance->Get_KeyHold(DIK_LEFT))
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * -1.f);
-    }
+
+    _vector vInputDir = XMVectorZero();
+
     if (m_pGameInstance->Get_KeyHold(DIK_RIGHT))
     {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta);
+        vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
     }
+
+    if (m_pGameInstance->Get_KeyHold(DIK_LEFT))
+    {
+        vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+    }
+
     if (m_pGameInstance->Get_KeyHold(DIK_DOWN))
     {
-        m_pTransformCom->Go_Backward(fTimeDelta);
+        vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
     }
 
     if (m_pGameInstance->Get_KeyHold(DIK_UP))
     {
-        m_pTransformCom->Go_Straight(fTimeDelta);
+        vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+    }
 
+    // 입력 벡터가 영벡터가 아니라면 입력을 받았다는 뜻
+    if (!XMVector3Equal(vInputDir, XMVectorZero()))
+    {
         if (m_iState & IDLE)
             m_iState ^= IDLE;
 
         m_iState |= RUN;
+
+        vInputDir = XMVector3Normalize(vInputDir);
+
+        _float fAngle = atan2f(XMVectorGetX(vInputDir), XMVectorGetZ(vInputDir));       // 라디안 반환
+        _float fAngleDiff = fAngle - m_fCurAngle;
+
+        while (fAngleDiff > 180.f)
+            fAngleDiff -= 360.f;
+        while (fAngleDiff < -180.f)
+            fAngleDiff += 360.f;
+
+        _float fDeltaAngle = fAngleDiff * fTimeDelta * 60.f;
+        if (abs(fDeltaAngle) > abs(fAngleDiff))
+            fDeltaAngle = fAngleDiff;
+
+        m_fCurAngle += fDeltaAngle;
+        
+        m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fCurAngle);
     }
     else
     {
@@ -74,6 +104,14 @@ void CPlayer::Update(_float fTimeDelta)
     }
 
     __super::Update(fTimeDelta);
+
+    _char buf[512];
+    sprintf_s(buf, "x: %f, y: %f, z: %f\n",
+        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION)));
+    OutputDebugStringA(buf);
+
 }
 
 void CPlayer::Update_Late(_float fTimeDelta)
@@ -96,6 +134,7 @@ HRESULT CPlayer::Ready_PartObjects()
     CBody::BODY_DESC    BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();     // 자신의 월드 행렬을 전달
     BodyDesc.pParentState = &m_iState;                                  // 자신의 상태 플래그 전달
+    BodyDesc.fRotationPerSec = 1080.f;
 
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
         TEXT("Part_Body"), &BodyDesc)))

@@ -73,7 +73,6 @@ void CImGui_Panel_Inspector::Render()
                 pTransform->Rotation(XMConvertToRadians(m_vRotationAngle.x), XMConvertToRadians(m_vRotationAngle.y), XMConvertToRadians(m_vRotationAngle.z));
                 pTransform->Set_RotationAngle(m_vRotationAngle);
 
-
                 ImGui::Spacing();
 
                 // Scale

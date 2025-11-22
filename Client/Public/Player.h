@@ -8,9 +8,9 @@ class CPlayer final : public CContainerObject
 {
 public:
 	enum {
-		IDLE = 0x00000001,		// 비트 0
-		WALK = 0x00000002,		// 비트 1
-		RUN	 = 0x00000004,		// 비트 2
+		IDLE	= 1 << 0,		// 비트 0
+		WALK	= 1 << 1,		// 비트 1
+		RUN		= 1 << 2		// 비트 2
 	};
 
 private:
@@ -28,6 +28,7 @@ public:
 
 private:
 	_uint	m_iState = {};
+	_float	m_fCurAngle = { 0.f };
 
 private:
 	HRESULT Ready_Components();

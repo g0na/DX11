@@ -23,6 +23,7 @@ HRESULT CBody::Initialize(void* pArg)
     BODY_DESC* pDesc = static_cast<BODY_DESC*>(pArg);
 
     m_pParentState = pDesc->pParentState;
+    m_fRotationSpeed = pDesc->fRotationPerSec;
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -44,6 +45,22 @@ void CBody::Update_Priority(_float fTimeDelta)
 void CBody::Update(_float fTimeDelta)
 {
     m_pModelCom->Play_Animation(fTimeDelta);
+
+    _vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
+
+    _float3	fDelta = {};
+    XMStoreFloat3(&fDelta, vRootMotionDelta);
+
+    // 로컬 공간의 루트 모션 델타를 월드 공간의 벡터로 바꿔줘야 내가 바꾼 회전이 적용댐!
+    _vector vRight = m_pPlayerTransform->Get_State(STATE::RIGHT);
+    _vector vUp = m_pPlayerTransform->Get_State(STATE::UP);
+    _vector vLook = m_pPlayerTransform->Get_State(STATE::LOOK);
+
+    m_vWorldDelta = vRight * fDelta.x + vUp * fDelta.y + vLook * fDelta.z;
+    _vector vPosition = m_pPlayerTransform->Get_State(STATE::POSITION);
+    vPosition += m_vWorldDelta;
+    m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
+
 }
 
 void CBody::Update_Late(_float fTimeDelta)
@@ -51,8 +68,17 @@ void CBody::Update_Late(_float fTimeDelta)
     if (*m_pParentState & CPlayer::IDLE)
         m_pModelCom->Set_Animation(0, true);
 
-    if (*m_pParentState & CPlayer::RUN)
+    if (*m_pParentState & CPlayer::WALK)
         m_pModelCom->Set_Animation(1, true);
+
+    if (*m_pParentState & CPlayer::RUN)
+    {
+        m_pModelCom->Set_Animation(2, true);
+        
+        //_char buf[512];
+        //sprintf_s(buf, "Angle : %f\n", m_fCurAngle);
+        //OutputDebugStringA(buf);
+    }
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }

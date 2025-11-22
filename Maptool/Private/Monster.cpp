@@ -46,9 +46,19 @@ void CMonster::Update(_float fTimeDelta)
 	m_pModelCom->Play_Animation(fTimeDelta);
 
 	_vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
+
+	_float3	fDelta;
+	XMStoreFloat3(&fDelta, vRootMotionDelta);
+
+	// 로컬 공간의 루트 모션 델타를 월드 공간의 벡터로 바꿔줘야 내가 바꾼 회전이 적용댐!
+	_vector vRight = m_pTransformCom->Get_State(STATE::RIGHT);
+	_vector vUp = m_pTransformCom->Get_State(STATE::UP);
+	_vector vLook = m_pTransformCom->Get_State(STATE::LOOK);
+
+	_vector vWorldDelta = vRight * fDelta.x + vUp * fDelta.y + vLook * fDelta.z;
 	
 	_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
-	vPosition += vRootMotionDelta;
+	vPosition += vWorldDelta;
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 

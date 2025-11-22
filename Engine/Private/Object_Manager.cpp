@@ -82,28 +82,6 @@ CGameObject* CObject_Manager::Add_GameObject_To_Layer(_uint iProtoLevelIndex, co
 
 	return pGameObject;
 }
-//HRESULT CObject_Manager::Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
-//{
-//	// 원본들을 담고 있는 프로토타입 매니저로부터 원본을 복제해서 가져온다.
-//	CGameObject* pGameObject = dynamic_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, iProtoLevelIndex, strProtoTag, pArg));
-//	if (pGameObject == nullptr)
-//		return E_FAIL;
-//
-//	// 삽입하려는 레이어 그룹을 먼저 검색하고,
-//	// 해당 레이어 그룹이 없다면 레이어를 생성해서 오브젝트 추가.
-//	// 해당 레이어 그룹이 있다면 바로 오브젝트 추가
-//	CLayer* pLayer = Find_Layer(iLayerLevelIndex, strLayerTag);
-//	if (pLayer == nullptr)
-//	{
-//		pLayer = CLayer::Create();
-//		pLayer->Add_GameObject(pGameObject);
-//		m_pLayers[iLayerLevelIndex].emplace(strLayerTag, pLayer);
-//	}
-//	else
-//		pLayer->Add_GameObject(pGameObject);
-//
-//	return S_OK;
-//}
 
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
