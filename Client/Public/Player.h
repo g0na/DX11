@@ -10,7 +10,11 @@ public:
 	enum {
 		IDLE	= 1 << 0,		// 비트 0
 		WALK	= 1 << 1,		// 비트 1
-		RUN		= 1 << 2		// 비트 2
+		RUN		= 1 << 2,		// 비트 2
+		ROLL	= 1 << 3,
+		ATK1	= 1 << 4,
+		ATK2	= 1 << 5,
+		ATK3	= 1 << 6,
 	};
 
 private:

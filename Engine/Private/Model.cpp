@@ -352,10 +352,11 @@ HRESULT CModel::Ready_Bones(ofstream& fileBin, const aiNode* pAINode, _int iPare
 
 	m_vecBones.push_back(pBone);
 
-	if (strstr(pAINode->mName.data, "c2390 Armature <Darkwraith>"))
-	{
-		m_iRootBoneIndex = (_int)m_vecBones.size() - 1;
-	}
+	//if (strstr(pAINode->mName.data, "c2390 Armature <Darkwraith>"))
+	//{
+	//	m_iRootBoneIndex = (_int)m_vecBones.size() - 1;
+	//}
+	m_iRootBoneIndex = 2;
 
 	_int	iPIndex = (_int)m_vecBones.size() - 1;
 
@@ -440,6 +441,9 @@ HRESULT CModel::Ready_Bones(ifstream& fileBin)
 		if (strstr(pBone->Get_BoneName(), "c2390 Armature <Darkwraith>"))
 			m_iRootBoneIndex = i;
 	}
+
+	if (m_iRootBoneIndex == -1)
+		m_iRootBoneIndex = 3;
 
 	return S_OK;
 }

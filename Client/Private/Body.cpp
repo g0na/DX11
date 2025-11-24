@@ -68,16 +68,15 @@ void CBody::Update_Late(_float fTimeDelta)
     if (*m_pParentState & CPlayer::IDLE)
         m_pModelCom->Set_Animation(0, true);
 
-    if (*m_pParentState & CPlayer::WALK)
-        m_pModelCom->Set_Animation(1, true);
-
     if (*m_pParentState & CPlayer::RUN)
+        m_pModelCom->Set_Animation(3, true);
+
+    if (*m_pParentState & CPlayer::ROLL)
+        m_pModelCom->Set_Animation(8, true);
+
+    if (*m_pParentState & CPlayer::ATK1)
     {
-        m_pModelCom->Set_Animation(2, true);
-        
-        //_char buf[512];
-        //sprintf_s(buf, "Angle : %f\n", m_fCurAngle);
-        //OutputDebugStringA(buf);
+        m_pModelCom->Set_Animation(22, false);
     }
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
@@ -110,7 +109,7 @@ HRESULT CBody::Render()
 HRESULT CBody::Ready_Components()
 {
     // For Com_Model
-    if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
+    if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Player"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 

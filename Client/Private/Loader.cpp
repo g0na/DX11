@@ -145,6 +145,12 @@ HRESULT CLoader::Loading_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/test.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
+	PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+	/* For.Prototype_Component_Model_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Player"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Player/Player.fbx", PreTransformMatrix))))
+		return E_FAIL;
+
 	UpdateLoadingText(TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxNorTex"),

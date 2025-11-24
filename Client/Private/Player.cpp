@@ -51,25 +51,25 @@ void CPlayer::Update(_float fTimeDelta)
 
     if (m_pGameInstance->Get_KeyHold(DIK_RIGHT))
     {
-        vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+        vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
     }
 
     if (m_pGameInstance->Get_KeyHold(DIK_LEFT))
     {
-        vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+        vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
     }
 
     if (m_pGameInstance->Get_KeyHold(DIK_DOWN))
     {
-        vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
+        vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
     }
 
     if (m_pGameInstance->Get_KeyHold(DIK_UP))
     {
-        vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+        vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
     }
 
-    // 입력 벡터가 영벡터가 아니라면 입력을 받았다는 뜻
+    // 입력 벡터가 영벡터가 아니라면 방향키 입력을 받았다는 뜻
     if (!XMVector3Equal(vInputDir, XMVectorZero()))
     {
         if (m_iState & IDLE)
@@ -105,13 +105,17 @@ void CPlayer::Update(_float fTimeDelta)
 
     __super::Update(fTimeDelta);
 
+
+
+
+
+    // 위치 디버깅
     _char buf[512];
     sprintf_s(buf, "x: %f, y: %f, z: %f\n",
         XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION)));
     OutputDebugStringA(buf);
-
 }
 
 void CPlayer::Update_Late(_float fTimeDelta)
