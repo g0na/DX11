@@ -25,9 +25,9 @@ private:
 public:
 	const _vector Get_WorldDelta() const { return m_vWorldDelta; }
 	const _float Get_CurAngle() const { return m_fCurAngle; }
+	const _bool	Get_IsAnimFinish() const { return m_bIsAnimFinish; }
 
 	void Set_PlayerTransform(CTransform* pPlayerTransform) { m_pPlayerTransform = pPlayerTransform; }
-
 	void Set_RotationAngle(_float fRotationAngle) { m_fTargetAngle = fRotationAngle; }
 
 public:
@@ -44,12 +44,13 @@ private:
 	CTransform* m_pPlayerTransform = { nullptr };
 
 private:
-	const _uint*	m_pParentState = { nullptr };
-	_vector			m_vWorldDelta = {};			// 루트 모션의 최종 델타값
-	_float3			m_vRotationAngle = {};
-	_float			m_fRotationSpeed = {};
-	_float			m_fCurAngle = {};			// 현재 각도
-	_float			m_fTargetAngle = {};		// 입력 받은 각도
+	const _uint*					m_pParentState = { nullptr };
+	_vector							m_vWorldDelta = {};			// 루트 모션의 최종 델타값
+	_float3							m_vRotationAngle = {};
+	_float							m_fRotationSpeed = {};
+	_float							m_fCurAngle = {};			// 현재 각도
+	_float							m_fTargetAngle = {};		// 입력 받은 각도
+	_bool							m_bIsAnimFinish = { false };
 
 private:
 	HRESULT Ready_Components();

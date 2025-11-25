@@ -7,14 +7,14 @@ NS_BEGIN(Client)
 class CPlayer final : public CContainerObject
 {
 public:
-	enum {
-		IDLE	= 1 << 0,		// 비트 0
-		WALK	= 1 << 1,		// 비트 1
-		RUN		= 1 << 2,		// 비트 2
-		ROLL	= 1 << 3,
-		ATK1	= 1 << 4,
-		ATK2	= 1 << 5,
-		ATK3	= 1 << 6,
+	enum PLAYERSTATE {
+		IDLE,
+		WALK,
+		RUN,
+		ROLL,
+		ATK1,
+		ATK2,
+		ATK3,
 	};
 
 private:
@@ -31,8 +31,10 @@ public:
 	virtual HRESULT	Render() override;
 
 private:
-	_uint	m_iState = {};
-	_float	m_fCurAngle = { 0.f };
+	class CBody*	m_pBody = { nullptr };
+	PLAYERSTATE		m_eCurState = {};
+	PLAYERSTATE		m_ePrevState = {};
+	_float			m_fCurAngle = { 0.f };
 
 private:
 	HRESULT Ready_Components();

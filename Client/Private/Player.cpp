@@ -9,7 +9,9 @@ CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CPlayer::CPlayer(const CPlayer& Prototype)
     : CContainerObject { Prototype }
+    , m_pBody { Prototype.m_pBody }
 {
+    Safe_AddRef(m_pBody);
 }
 
 HRESULT CPlayer::Initialize_Prototype()
@@ -20,9 +22,10 @@ HRESULT CPlayer::Initialize_Prototype()
 HRESULT CPlayer::Initialize(void* pArg)
 {
     CGameObject::GAMEOBJECT_DESC    Desc{};
-
     Desc.fSpeedPerSec = 5.f;
     Desc.fRotationPerSec = XMConvertToRadians(90.f);
+
+    m_bIsDead = false;
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
@@ -33,8 +36,8 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    CBody* pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
-    pBody->Set_PlayerTransform(m_pTransformCom);
+    m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
+    m_pBody->Set_PlayerTransform(m_pTransformCom);
 
     return S_OK;
 }
@@ -46,6 +49,10 @@ void CPlayer::Update_Priority(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+    // Player.cpp Update() 시작에 추가
+    //_char buf[128];
+    //sprintf_s(buf, "[Player %p] State: %d\n", this, m_eCurState);
+    //OutputDebugStringA(buf);
 
     _vector vInputDir = XMVectorZero();
 
@@ -69,16 +76,23 @@ void CPlayer::Update(_float fTimeDelta)
         vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
     }
 
-    // 입력 벡터가 영벡터가 아니라면 방향키 입력을 받았다는 뜻
-    if (!XMVector3Equal(vInputDir, XMVectorZero()))
-    {
-        if (m_iState & IDLE)
-            m_iState ^= IDLE;
+    m_ePrevState = m_eCurState;
 
-        m_iState |= RUN;
+    // 입력 벡터가 영벡터가 아니라면 방향키 입력을 받았다는 뜻
+    if (!XMVector3Equal(vInputDir, XMVectorZero()) &&
+        m_eCurState != ROLL)
+    {
+        if (m_pGameInstance->Get_KeyHold(DIK_LSHIFT))
+        {
+            m_eCurState = RUN;
+        }
+        else if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+            m_eCurState = ROLL;
+        else
+            m_eCurState = WALK;
 
         vInputDir = XMVector3Normalize(vInputDir);
-
+         
         _float fAngle = atan2f(XMVectorGetX(vInputDir), XMVectorGetZ(vInputDir));       // 라디안 반환
         _float fAngleDiff = fAngle - m_fCurAngle;
 
@@ -97,10 +111,10 @@ void CPlayer::Update(_float fTimeDelta)
     }
     else
     {
-        if (m_iState & RUN)
-            m_iState ^= RUN;
-
-        m_iState |= IDLE;
+        if (m_ePrevState != ROLL)
+            m_eCurState = IDLE;
+        else if (m_ePrevState == ROLL && m_pBody->Get_IsAnimFinish() == true)
+            m_eCurState = IDLE;
     }
 
     __super::Update(fTimeDelta);
@@ -111,11 +125,15 @@ void CPlayer::Update(_float fTimeDelta)
 
     // 위치 디버깅
     _char buf[512];
-    sprintf_s(buf, "x: %f, y: %f, z: %f\n",
+    sprintf_s(buf, "x: %f, y: %f, z:%f\n", 
         XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION)));
     OutputDebugStringA(buf);
+
+    // _char buf[512];
+    // sprintf_s(buf, "State: %d\n", m_eCurState);
+    // OutputDebugStringA(buf);
 }
 
 void CPlayer::Update_Late(_float fTimeDelta)
@@ -137,7 +155,7 @@ HRESULT CPlayer::Ready_PartObjects()
 {
     CBody::BODY_DESC    BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();     // 자신의 월드 행렬을 전달
-    BodyDesc.pParentState = &m_iState;                                  // 자신의 상태 플래그 전달
+    BodyDesc.pParentState = reinterpret_cast<_uint*>(&m_eCurState);                     // 자신의 상태 전달
     BodyDesc.fRotationPerSec = 1080.f;
 
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
@@ -181,4 +199,6 @@ CGameObject* CPlayer::Clone(void* pArg)
 void CPlayer::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pBody);
 }

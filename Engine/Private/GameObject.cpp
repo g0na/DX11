@@ -16,6 +16,9 @@ CGameObject::CGameObject(const CGameObject& prototype)
 	, m_pContext {prototype.m_pContext}
 	, m_pGameInstance {prototype.m_pGameInstance}
 	, m_eLayer {prototype.m_eLayer}
+	, m_bIsDead { prototype.m_bIsDead }
+	, m_bIsGrounded { prototype.m_bIsGrounded }
+	, m_bIsInvincible { prototype.m_bIsInvincible }
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);

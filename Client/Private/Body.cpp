@@ -44,9 +44,49 @@ void CBody::Update_Priority(_float fTimeDelta)
 
 void CBody::Update(_float fTimeDelta)
 {
+    m_bIsAnimFinish = false;
+
+    switch (*m_pParentState)
+    {
+    case CPlayer::IDLE:
+        m_pModelCom->Set_Animation(0, true);
+        break;
+
+    case CPlayer::WALK:
+        m_pModelCom->Set_Animation(3, true);
+        break;
+
+    case CPlayer::RUN:
+        m_pModelCom->Set_Animation(12, true);
+        break;
+
+    case CPlayer::ROLL:
+        m_pModelCom->Set_Animation(8, false);
+
+        if (m_pModelCom->is_AnimFinished())
+            m_bIsAnimFinish = true;
+
+        break;
+
+    case CPlayer::ATK1:
+        m_pModelCom->Set_Animation(22, false);
+        break;
+    }
+
+}
+
+void CBody::Update_Late(_float fTimeDelta)
+{
     m_pModelCom->Play_Animation(fTimeDelta);
 
     _vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
+    // ★ 플레이어 Body만 로그 출력 ★
+    _char buf[256];
+    sprintf_s(buf, "[PLAYER Body] Delta: (%.2f, %.2f, %.2f)\n",
+        XMVectorGetX(vRootMotionDelta),
+        XMVectorGetY(vRootMotionDelta),
+        XMVectorGetZ(vRootMotionDelta));
+    OutputDebugStringA(buf);
 
     _float3	fDelta = {};
     XMStoreFloat3(&fDelta, vRootMotionDelta);
@@ -56,28 +96,17 @@ void CBody::Update(_float fTimeDelta)
     _vector vUp = m_pPlayerTransform->Get_State(STATE::UP);
     _vector vLook = m_pPlayerTransform->Get_State(STATE::LOOK);
 
+    _char buf2[512];
+    sprintf_s(buf2, "[Body] fDelta: (%.2f, %.2f, %.2f), WorldDelta: (%.2f, %.2f, %.2f), Look: (%.2f, %.2f, %.2f)\n",
+        fDelta.x, fDelta.y, fDelta.z,
+        XMVectorGetX(m_vWorldDelta), XMVectorGetY(m_vWorldDelta), XMVectorGetZ(m_vWorldDelta),
+        XMVectorGetX(vLook), XMVectorGetY(vLook), XMVectorGetZ(vLook));
+    OutputDebugStringA(buf2);
+
     m_vWorldDelta = vRight * fDelta.x + vUp * fDelta.y + vLook * fDelta.z;
     _vector vPosition = m_pPlayerTransform->Get_State(STATE::POSITION);
     vPosition += m_vWorldDelta;
     m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
-
-}
-
-void CBody::Update_Late(_float fTimeDelta)
-{
-    if (*m_pParentState & CPlayer::IDLE)
-        m_pModelCom->Set_Animation(0, true);
-
-    if (*m_pParentState & CPlayer::RUN)
-        m_pModelCom->Set_Animation(3, true);
-
-    if (*m_pParentState & CPlayer::ROLL)
-        m_pModelCom->Set_Animation(8, true);
-
-    if (*m_pParentState & CPlayer::ATK1)
-    {
-        m_pModelCom->Set_Animation(22, false);
-    }
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }

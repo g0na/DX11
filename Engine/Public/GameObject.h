@@ -45,6 +45,10 @@ protected:
 	map<const _wstring, class CComponent*>		m_mapComponents;
 	CTransform*									m_pTransformCom = { nullptr };
 
+	_bool					m_bIsGrounded = {};
+	_bool					m_bIsDead = {};
+	_bool					m_bIsInvincible = {};
+
 protected:
 	/// <summary>
 	/// 복제된 원본 컴포넌트를 생성하여 추가하는 함수

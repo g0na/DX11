@@ -69,7 +69,7 @@ HRESULT CAnimation::Initialize_Binary(ifstream& file)
 
 _bool CAnimation::Update_TransformationMatrices(const vector<class CBone*>& vecBones, _float fTimeDelta, _bool isLoop)
 {
-    m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta * 2.f;
+    m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
 
     if (m_fCurrentTrackPosition >= m_fDuration)
     {

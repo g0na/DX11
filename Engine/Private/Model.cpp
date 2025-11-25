@@ -63,6 +63,10 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 	if (iAnimationIndex == m_iCurrentAnimIndex)
 		return;
 
+	_char buf[256];
+	sprintf_s(buf, "[Set_Animation] %d -> %d\n", m_iPrevAnimIndex, m_iCurrentAnimIndex);
+	OutputDebugStringA(buf);
+
 	m_iPrevAnimIndex = m_iCurrentAnimIndex;
 	m_iCurrentAnimIndex = iAnimationIndex;
 	m_bIsAnimLoop = isLoop;
@@ -87,6 +91,7 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 
 	// 현재 트랙 위치 초기화
 	m_vecAnimations[m_iCurrentAnimIndex]->Reset_TrackPosition();
+
 	// 누적 이동량 초기화 안하면 애니메이션 상태 바뀔 때 마다 이전 애니메이션에 저장된 누적 이동량이 적용되서 텔포함.
 	m_vAccumulatedMotionDelta = XMVectorZero();
 }
@@ -199,7 +204,7 @@ void CModel::Play_Animation(_float fTimeDelta)
 
 		_float fCurrentTrackPosition = m_vecAnimations[m_iCurrentAnimIndex]->Get_CurrentTrackPosition();
 		// 현재 애니메이션의 재생 위치가 0으로 바뀌면 한 사이클이 끝났다는 의미
-		if (fCurrentTrackPosition < m_fPrevTrackPosition && m_bIsAnimLoop)
+		if (fCurrentTrackPosition < m_fPrevTrackPosition)
 		{
 			// 이전 프레임의 로컬 위치를 누적 위치에 저장
 			// ex) 루트 본이 로컬에서 0 ~ 10까지 간다 했을 때 10을 저장
@@ -356,7 +361,8 @@ HRESULT CModel::Ready_Bones(ofstream& fileBin, const aiNode* pAINode, _int iPare
 	//{
 	//	m_iRootBoneIndex = (_int)m_vecBones.size() - 1;
 	//}
-	m_iRootBoneIndex = 2;
+	if (m_iRootBoneIndex == -1)
+		m_iRootBoneIndex = 3;
 
 	_int	iPIndex = (_int)m_vecBones.size() - 1;
 

@@ -23,6 +23,8 @@ public:
 
 	_bool is_AnimFinished() const { return m_bIsAnimFinished; }
 
+	_bool is_AnimLoop() const { return m_bIsAnimLoop; }
+
 	void Set_Animation(_uint iAnimationIndex, _bool isLoop = true);
 
 public:
@@ -70,6 +72,7 @@ private:
 	_float							m_fBlendDuration = {};
 	_float							m_fPrevTrackPosition = {};			// 이전 프레임의 애니메이션 재생 위치
 	_vector							m_vPrevRootPosition = {};			// 이전 프레임의 루트 본 실제 위치
+	_vector							m_vPrevAnimPosition = {};			// 이전 애니메이션의 마지막 프레임 위치
 	_vector							m_vRootMotionDelta = {};			// 현재 프레임의 이동량
 	_vector							m_vAccumulatedMotionDelta = {};		// 애니메이션 반복 시 누적된 이동량
 	_int							m_iRootBoneIndex = { -1 };			// 루트 본의 인덱스
