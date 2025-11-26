@@ -49,10 +49,9 @@ void CPlayer::Update_Priority(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-    // Player.cpp Update() 시작에 추가
-    //_char buf[128];
-    //sprintf_s(buf, "[Player %p] State: %d\n", this, m_eCurState);
-    //OutputDebugStringA(buf);
+    _char buf[128];
+    sprintf_s(buf, "[Player %p] State: %d\n", this, m_eCurState);
+    OutputDebugStringA(buf);
 
     _vector vInputDir = XMVectorZero();
 
@@ -124,7 +123,6 @@ void CPlayer::Update(_float fTimeDelta)
 
 
     // 위치 디버깅
-    _char buf[512];
     sprintf_s(buf, "x: %f, y: %f, z:%f\n", 
         XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),

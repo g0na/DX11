@@ -222,6 +222,10 @@ void CModel::Play_Animation(_float fTimeDelta)
 		m_vRootMotionDelta = vWorldTranslation - m_vPrevRootPosition;
 		m_vRootMotionDelta = XMVectorSetW(m_vRootMotionDelta, 0.f);
 
+		// 루프 애니메이션 아니면 델타 없애기
+		if (!m_bIsAnimLoop && m_bIsAnimFinished)
+			m_vRootMotionDelta = XMVectorZero();
+
 		// 이전 위치 업데이트
 		m_vPrevRootPosition = vWorldTranslation;
 
