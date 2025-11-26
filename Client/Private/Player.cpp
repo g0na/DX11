@@ -89,9 +89,9 @@ void CPlayer::Update(_float fTimeDelta)
             m_eCurState = ROLL;
         else
             m_eCurState = WALK;
-
-        vInputDir = XMVector3Normalize(vInputDir);
-         
+        
+        // 회전 관련
+        vInputDir = XMVector3Normalize(vInputDir);         
         _float fAngle = atan2f(XMVectorGetX(vInputDir), XMVectorGetZ(vInputDir));       // 라디안 반환
         _float fAngleDiff = fAngle - m_fCurAngle;
 
@@ -119,19 +119,12 @@ void CPlayer::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 
 
-
-
-
     // 위치 디버깅
     sprintf_s(buf, "x: %f, y: %f, z:%f\n", 
         XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION)));
     OutputDebugStringA(buf);
-
-    // _char buf[512];
-    // sprintf_s(buf, "State: %d\n", m_eCurState);
-    // OutputDebugStringA(buf);
 }
 
 void CPlayer::Update_Late(_float fTimeDelta)

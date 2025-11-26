@@ -118,6 +118,12 @@
     <Filter Include="01. Utility\03. GameObject\05. Container Object">
       <UniqueIdentifier>{d8555b0f-779d-4c9c-b106-3e3fcfd3076d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\05. State">
+      <UniqueIdentifier>{ad30fc32-f6f2-473a-a4cb-e1cd2a2be11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\05. State\00. StateMachine">
+      <UniqueIdentifier>{8e4bd18f-0d5d-4cee-b4fd-adddc1b3f7d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -221,6 +227,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\ContainerObject.cpp">
       <Filter>01. Utility\03. GameObject\05. Container Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State.cpp">
+      <Filter>01. Utility\05. Component\05. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StateMachine.cpp">
+      <Filter>01. Utility\05. Component\05. State\00. StateMachine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +355,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\ContainerObject.h">
       <Filter>01. Utility\03. GameObject\05. Container Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State.h">
+      <Filter>01. Utility\05. Component\05. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StateMachine.h">
+      <Filter>01. Utility\05. Component\05. State\00. StateMachine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

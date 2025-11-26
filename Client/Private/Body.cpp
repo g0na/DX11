@@ -71,6 +71,14 @@ void CBody::Update(_float fTimeDelta)
     case CPlayer::ATK1:
         m_pModelCom->Set_Animation(22, false);
         break;
+
+    case CPlayer::ATK2:
+        m_pModelCom->Set_Animation(23, false);
+        break;
+
+    case CPlayer::ATK3:
+        m_pModelCom->Set_Animation(24, false);
+        break;
     }
 
 }
