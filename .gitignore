@@ -33,11 +33,16 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+[Ee]ngineSDK/
 
 # Build results on 'Bin' directories
 /Maptool/Bin/*.exe
 /Maptool/Bin/*.pdb
 /Maptool/Bin/*.cso
+/Maptool/Bin/Engine.dll
+/Client/Bin/*.exe
+/Client/Bin/*.cso
+/Client/Bin/Engine.dll
 
 # Uncomment if you have tasks that rely on *.refresh files to move binaries
 # (https://github.com/github/gitignore/pull/3736)
