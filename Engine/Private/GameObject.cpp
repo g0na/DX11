@@ -129,6 +129,7 @@ void CGameObject::Free()
 		Safe_Release(Pair.second);
 	m_mapComponents.clear();
 
+	Safe_Release(m_pStateMachine);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

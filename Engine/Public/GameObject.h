@@ -1,6 +1,7 @@
 #pragma once
 #include "Base.h"
 #include "Transform.h"
+#include "StateMachine.h"
 
 NS_BEGIN(Engine)
 
@@ -26,6 +27,7 @@ public:
 	virtual HRESULT	Render();
 
 public:
+	CStateMachine* Get_StateMachine() { return m_pStateMachine; }
 	CComponent* Get_Component(const _wstring& strComponentTag) { return m_mapComponents[strComponentTag]; }
 	
 	template<typename T>
@@ -44,6 +46,7 @@ protected:
 	_tchar										m_szName[MAX_PATH] = {};
 	map<const _wstring, class CComponent*>		m_mapComponents;
 	CTransform*									m_pTransformCom = { nullptr };
+	CStateMachine*								m_pStateMachine = { nullptr };
 
 	_bool					m_bIsGrounded = {};
 	_bool					m_bIsDead = {};

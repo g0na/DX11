@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "Body.h"
 #include "Player.h"
+#include "StateMachine.h"
 
 USING(Client)
 
@@ -123,6 +124,10 @@ HRESULT CLoader::Loading_GamePlay()
 		return E_FAIL;	
 
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
+	/* For.Prototype_Component_StateMachine */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
+		CStateMachine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrain"),
@@ -130,15 +135,9 @@ HRESULT CLoader::Loading_GamePlay()
 		return E_FAIL;
 
 	_matrix PreTransformMatrix = XMMatrixIdentity();
-
-	/* For.Prototype_Component_Model_Fiona */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
-	//	CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PreTransformMatrix))))
-	//	return E_FAIL;
 	
 	// 모델에 필요한 초기 상태 행렬 선언
 	PreTransformMatrix = XMMatrixIdentity();
-	//PreTransformMatrix = XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
@@ -151,7 +150,7 @@ HRESULT CLoader::Loading_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Player/Player60fps.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
-	UpdateLoadingText(TEXT("ㅅㅖ이더을(를) 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("셰이더을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxNorTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxNorTex.hlsl"), VTXNORTEX::Elements, VTXNORTEX::iNumElements))))

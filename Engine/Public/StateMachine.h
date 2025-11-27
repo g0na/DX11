@@ -15,6 +15,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual void Update_State(_float fTimeDelta);
 
 public:
 	// 상태 추가
@@ -22,7 +23,9 @@ public:
 
 	// 상태 전환
 	HRESULT Change_State(_uint iStateType);
+	// 초기 세팅용
 	void Set_State(_uint iStateType);
+		
 private:
 	map<_uint, CState*> m_mapStates;
 

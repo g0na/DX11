@@ -2,6 +2,8 @@
 #include "Client_Defines.h"
 #include "ContainerObject.h"
 
+#include "Player_Idle.h"
+
 NS_BEGIN(Client)
 
 class CPlayer final : public CContainerObject
@@ -30,7 +32,7 @@ public:
 	virtual void	Update_Late(_float fTimeDelta) override;
 	virtual HRESULT	Render() override;
 
-private:
+private:	
 	class CBody*	m_pBody = { nullptr };
 	PLAYERSTATE		m_eCurState = {};
 	PLAYERSTATE		m_ePrevState = {};
@@ -38,6 +40,7 @@ private:
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_States();
 	HRESULT Ready_PartObjects();
 	HRESULT Ready_ShaderResources();
 

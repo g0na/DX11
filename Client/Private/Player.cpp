@@ -38,6 +38,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 
     m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
     m_pBody->Set_PlayerTransform(m_pTransformCom);
+    
+    if (FAILED(Ready_States()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -49,6 +52,8 @@ void CPlayer::Update_Priority(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+    m_pStateMachine->Update_State(fTimeDelta);
+
     _char buf[128];
     sprintf_s(buf, "[Player %p] State: %d\n", this, m_eCurState);
     OutputDebugStringA(buf);
@@ -78,43 +83,43 @@ void CPlayer::Update(_float fTimeDelta)
     m_ePrevState = m_eCurState;
 
     // 입력 벡터가 영벡터가 아니라면 방향키 입력을 받았다는 뜻
-    if (!XMVector3Equal(vInputDir, XMVectorZero()) &&
-        m_eCurState != ROLL)
-    {
-        if (m_pGameInstance->Get_KeyHold(DIK_LSHIFT))
-        {
-            m_eCurState = RUN;
-        }
-        else if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
-            m_eCurState = ROLL;
-        else
-            m_eCurState = WALK;
-        
-        // 회전 관련
-        vInputDir = XMVector3Normalize(vInputDir);         
-        _float fAngle = atan2f(XMVectorGetX(vInputDir), XMVectorGetZ(vInputDir));       // 라디안 반환
-        _float fAngleDiff = fAngle - m_fCurAngle;
+    //if (!XMVector3Equal(vInputDir, XMVectorZero()) &&
+    //    m_eCurState != ROLL)
+    //{
+    //    if (m_pGameInstance->Get_KeyHold(DIK_LSHIFT))
+    //    {
+    //        m_eCurState = RUN;
+    //    }
+    //    else if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+    //        m_eCurState = ROLL;
+    //    else
+    //        m_eCurState = WALK;
+    //    
+    //    // 회전 관련
+    //    vInputDir = XMVector3Normalize(vInputDir);         
+    //    _float fAngle = atan2f(XMVectorGetX(vInputDir), XMVectorGetZ(vInputDir));       // 라디안 반환
+    //    _float fAngleDiff = fAngle - m_fCurAngle;
 
-        while (fAngleDiff > XM_PI)
-            fAngleDiff -= XM_2PI;
-        while (fAngleDiff < -XM_PI)
-            fAngleDiff += XM_2PI;
+    //    while (fAngleDiff > XM_PI)
+    //        fAngleDiff -= XM_2PI;
+    //    while (fAngleDiff < -XM_PI)
+    //        fAngleDiff += XM_2PI;
 
-        _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
-        if (abs(fDeltaAngle) > abs(fAngleDiff))
-            fDeltaAngle = fAngleDiff;
+    //    _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
+    //    if (abs(fDeltaAngle) > abs(fAngleDiff))
+    //        fDeltaAngle = fAngleDiff;
 
-        m_fCurAngle += fDeltaAngle;
-        
-        m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fCurAngle);
-    }
-    else
-    {
-        if (m_ePrevState != ROLL)
-            m_eCurState = IDLE;
-        else if (m_ePrevState == ROLL && m_pBody->Get_IsAnimFinish() == true)
-            m_eCurState = IDLE;
-    }
+    //    m_fCurAngle += fDeltaAngle;
+    //    
+    //    m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fCurAngle);
+    //}
+    //else
+    //{
+    //    if (m_ePrevState != ROLL)
+    //        m_eCurState = IDLE;
+    //    else if (m_ePrevState == ROLL && m_pBody->Get_IsAnimFinish() == true)
+    //        m_eCurState = IDLE;
+    //}
 
     __super::Update(fTimeDelta);
 
@@ -139,6 +144,20 @@ HRESULT CPlayer::Render()
 
 HRESULT CPlayer::Ready_Components()
 {
+    if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
+        TEXT("Com_StateMachine"), reinterpret_cast<CComponent**>(&m_pStateMachine))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CPlayer::Ready_States()
+{
+    if (FAILED(m_pStateMachine->Add_State(IDLE, CPlayer_Idle::Create(this, m_pBody))))
+        return E_FAIL;
+
+    m_pStateMachine->Set_State(IDLE);
+
     return S_OK;
 }
 

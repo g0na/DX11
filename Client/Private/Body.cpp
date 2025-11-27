@@ -13,6 +13,11 @@ CBody::CBody(const CBody& Prototype)
 {
 }
 
+void CBody::Set_Animation(_uint iAnimationIndex, _bool isLoop)
+{
+    m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
 HRESULT CBody::Initialize_Prototype()
 {
     return S_OK;
@@ -31,7 +36,7 @@ HRESULT CBody::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pModelCom->Set_Animation(0, true);
+    //m_pModelCom->Set_Animation(0, true);
 
     return S_OK;
 }
@@ -46,40 +51,40 @@ void CBody::Update(_float fTimeDelta)
 {
     m_bIsAnimFinish = false;
 
-    switch (*m_pParentState)
-    {
-    case CPlayer::IDLE:
-        m_pModelCom->Set_Animation(0, true);
-        break;
+    //switch (*m_pParentState)
+    //{
+    //case CPlayer::IDLE:
+    //    m_pModelCom->Set_Animation(0, true);
+    //    break;
 
-    case CPlayer::WALK:
-        m_pModelCom->Set_Animation(3, true);
-        break;
+    //case CPlayer::WALK:
+    //    m_pModelCom->Set_Animation(3, true);
+    //    break;
 
-    case CPlayer::RUN:
-        m_pModelCom->Set_Animation(12, true);
-        break;
+    //case CPlayer::RUN:
+    //    m_pModelCom->Set_Animation(12, true);
+    //    break;
 
-    case CPlayer::ROLL:
-        m_pModelCom->Set_Animation(8, false);
+    //case CPlayer::ROLL:
+    //    m_pModelCom->Set_Animation(8, false);
 
-        if (m_pModelCom->is_AnimFinished())
-            m_bIsAnimFinish = true;
+    //    if (m_pModelCom->is_AnimFinished())
+    //        m_bIsAnimFinish = true;
 
-        break;
+    //    break;
 
-    case CPlayer::ATK1:
-        m_pModelCom->Set_Animation(22, false);
-        break;
+    //case CPlayer::ATK1:
+    //    m_pModelCom->Set_Animation(22, false);
+    //    break;
 
-    case CPlayer::ATK2:
-        m_pModelCom->Set_Animation(23, false);
-        break;
+    //case CPlayer::ATK2:
+    //    m_pModelCom->Set_Animation(23, false);
+    //    break;
 
-    case CPlayer::ATK3:
-        m_pModelCom->Set_Animation(24, false);
-        break;
-    }
+    //case CPlayer::ATK3:
+    //    m_pModelCom->Set_Animation(24, false);
+    //    break;
+    //}
 
 }
 

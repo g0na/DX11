@@ -55,6 +55,9 @@
     <Filter Include="02. GameObjects\05. Player\01. Weapon">
       <UniqueIdentifier>{9c63e074-1090-4dee-8225-0cd4ea7c36dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\05. Player\02. States">
+      <UniqueIdentifier>{3d8c4669-6ca1-4bce-a566-e8b0832ba9dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
       <Filter>02. GameObjects\05. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Idle.h">
+      <Filter>02. GameObjects\05. Player\02. States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02. GameObjects\05. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Idle.cpp">
+      <Filter>02. GameObjects\05. Player\02. States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

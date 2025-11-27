@@ -5,7 +5,7 @@ NS_BEGIN(Engine)
 
 class ENGINE_DLL CState abstract : public CBase
 {
-private:
+protected:
 	CState();
 	CState(const CState& Prototype) = delete;
 	virtual ~CState() = default;
@@ -19,11 +19,11 @@ public:
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner);
 	
-	virtual void Enter() = 0;
-	virtual void Update(_float fTimeDelta) = 0;
-	virtual void Exit() = 0;
+	virtual void Enter_State() = 0;
+	virtual void Update_State(_float fTimeDelta) = 0;
+	virtual void Exit_State() = 0;
 
-private:
+protected:
 	class CGameObject*	m_pOwner = { nullptr };		// 상태의 소유자
 	_uint				m_iStateType = {};			// 상태 타입
 

@@ -29,6 +29,7 @@ public:
 
 	void Set_PlayerTransform(CTransform* pPlayerTransform) { m_pPlayerTransform = pPlayerTransform; }
 	void Set_RotationAngle(_float fRotationAngle) { m_fTargetAngle = fRotationAngle; }
+	void Set_Animation(_uint iAnimationIndex, _bool isLoop);
 
 public:
 	virtual HRESULT Initialize_Prototype() override;		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
