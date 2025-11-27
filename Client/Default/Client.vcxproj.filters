@@ -58,6 +58,12 @@
     <Filter Include="02. GameObjects\05. Player\02. States">
       <UniqueIdentifier>{3d8c4669-6ca1-4bce-a566-e8b0832ba9dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\05. Player\02. States\00. Idle">
+      <UniqueIdentifier>{afa4001f-7ec4-4a12-9794-f06481cd178e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\05. Player\02. States\01. Walk">
+      <UniqueIdentifier>{d2949763-bf27-4f18-9ac6-4029167ae352}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -112,7 +118,10 @@
       <Filter>02. GameObjects\05. Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Idle.h">
-      <Filter>02. GameObjects\05. Player\02. States</Filter>
+      <Filter>02. GameObjects\05. Player\02. States\00. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Walk.h">
+      <Filter>02. GameObjects\05. Player\02. States\01. Walk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +178,10 @@
       <Filter>02. GameObjects\05. Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Idle.cpp">
-      <Filter>02. GameObjects\05. Player\02. States</Filter>
+      <Filter>02. GameObjects\05. Player\02. States\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Walk.cpp">
+      <Filter>02. GameObjects\05. Player\02. States\01. Walk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

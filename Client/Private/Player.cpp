@@ -2,6 +2,9 @@
 #include "GameInstance.h"
 #include "Body.h"
 
+#include "Player_Idle.h"
+#include "Player_Walk.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
 {
@@ -58,31 +61,7 @@ void CPlayer::Update(_float fTimeDelta)
     sprintf_s(buf, "[Player %p] State: %d\n", this, m_eCurState);
     OutputDebugStringA(buf);
 
-    _vector vInputDir = XMVectorZero();
-
-    if (m_pGameInstance->Get_KeyHold(DIK_RIGHT))
-    {
-        vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
-    }
-
-    if (m_pGameInstance->Get_KeyHold(DIK_LEFT))
-    {
-        vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
-    }
-
-    if (m_pGameInstance->Get_KeyHold(DIK_DOWN))
-    {
-        vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
-    }
-
-    if (m_pGameInstance->Get_KeyHold(DIK_UP))
-    {
-        vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-    }
-
-    m_ePrevState = m_eCurState;
-
-    // 입력 벡터가 영벡터가 아니라면 방향키 입력을 받았다는 뜻
+    //// 입력 벡터가 영벡터가 아니라면 방향키 입력을 받았다는 뜻
     //if (!XMVector3Equal(vInputDir, XMVectorZero()) &&
     //    m_eCurState != ROLL)
     //{
@@ -154,6 +133,9 @@ HRESULT CPlayer::Ready_Components()
 HRESULT CPlayer::Ready_States()
 {
     if (FAILED(m_pStateMachine->Add_State(IDLE, CPlayer_Idle::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(WALK, CPlayer_Walk::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);

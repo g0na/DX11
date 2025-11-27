@@ -20,12 +20,11 @@ public:
 public:
 	// 상태 추가
 	HRESULT Add_State(_uint iStateType, CState* pState);
-
 	// 상태 전환
 	HRESULT Change_State(_uint iStateType);
 	// 초기 세팅용
 	void Set_State(_uint iStateType);
-		
+
 private:
 	map<_uint, CState*> m_mapStates;
 

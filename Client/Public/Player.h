@@ -2,8 +2,6 @@
 #include "Client_Defines.h"
 #include "ContainerObject.h"
 
-#include "Player_Idle.h"
-
 NS_BEGIN(Client)
 
 class CPlayer final : public CContainerObject
@@ -17,6 +15,7 @@ public:
 		ATK1,
 		ATK2,
 		ATK3,
+		END
 	};
 
 private:

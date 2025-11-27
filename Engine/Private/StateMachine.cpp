@@ -50,7 +50,7 @@ HRESULT CStateMachine::Change_State(_uint iStateType)
 	if (iter == m_mapStates.end())
 		return E_FAIL;
 
-	// 검사 후 이전 상태로 저장
+	// 검사 후 현재 상태를 이전 상태로 저장
 	m_iPrevStateType = m_iCurStateType;
 	m_pPrevState = m_pCurState;
 
@@ -73,7 +73,8 @@ void CStateMachine::Set_State(_uint iStateType)
 		return;
 
 	// 상태 입장
-	iter->second->Enter_State();
+	m_pCurState = iter->second;
+	m_pCurState->Enter_State();
 }
 
 CStateMachine* CStateMachine::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -10,12 +10,12 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CPlayer_Idle final : public CState
+class CPlayer_Walk final : public CState
 {
 private:
-	CPlayer_Idle();
-	CPlayer_Idle(const CPlayer_Idle& Prototype) = delete;
-	virtual ~CPlayer_Idle() = default;
+	CPlayer_Walk();
+	CPlayer_Walk(const CPlayer_Walk& Prototype) = delete;
+	virtual ~CPlayer_Walk() = default;
 
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner, class CBody* pBody);
@@ -25,15 +25,16 @@ public:
 	virtual void Exit_State() override;
 
 private:
-	CGameInstance*	m_pGameInstance = { nullptr };
-	CStateMachine*	m_pStateMachine = { nullptr };
-	CTransform*		m_pPlayerTransform = { nullptr };
-	class CBody*	m_pPlayerBody = { nullptr };
+	CGameInstance* m_pGameInstance = { nullptr };
+	CStateMachine* m_pStateMachine = { nullptr };
+	CTransform* m_pPlayerTransform = { nullptr };
+	class CBody* m_pPlayerBody = { nullptr };
 
+	_vector			m_vInputDir = {};
 	_float			m_fCurAngle = {};
 
 public:
-	static CPlayer_Idle* Create(class CGameObject* pOwner, CBody* pBody);
+	static CPlayer_Walk* Create(class CGameObject* pOwner, CBody* pBody);
 	virtual void Free() override;
 };
 

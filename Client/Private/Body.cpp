@@ -36,7 +36,7 @@ HRESULT CBody::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    //m_pModelCom->Set_Animation(0, true);
+    m_pModelCom->Set_Animation(CPlayer::END, false);
 
     return S_OK;
 }
@@ -100,7 +100,8 @@ void CBody::Update_Late(_float fTimeDelta)
     // 로컬 공간의 루트 모션 델타를 월드 공간의 벡터로 바꿔줘야 내가 바꾼 회전이 적용댐!
     _vector vRight = m_pPlayerTransform->Get_State(STATE::RIGHT);
     _vector vUp = m_pPlayerTransform->Get_State(STATE::UP);
-    _vector vLook = m_pPlayerTransform->Get_State(STATE::LOOK);
+    _vector vLook = XMVector3Equal(m_vInputDir, XMVectorZero()) ? 
+        m_pPlayerTransform->Get_State(STATE::LOOK) : XMVector3Normalize(m_vInputDir);
 
     m_vWorldDelta = vRight * fDelta.x + vUp * fDelta.y + vLook * fDelta.z;
 
