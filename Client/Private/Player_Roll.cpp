@@ -1,16 +1,16 @@
-#include "Player_Run.h"
+#include "Player_Roll.h"
 #include "Transform.h"
 #include "Player.h"
 #include "Body.h"
 #include "GameInstance.h"
 
-CPlayer_Run::CPlayer_Run()
+CPlayer_Roll::CPlayer_Roll()
     : m_pGameInstance{ CGameInstance::GetInstance() }
 {
     Safe_AddRef(m_pGameInstance);
 }
 
-HRESULT CPlayer_Run::Initialize(CGameObject* pOwner, CBody* pBody)
+HRESULT CPlayer_Roll::Initialize(CGameObject* pOwner, CBody* pBody)
 {
     __super::Initialize(pOwner);
 
@@ -29,14 +29,22 @@ HRESULT CPlayer_Run::Initialize(CGameObject* pOwner, CBody* pBody)
     return S_OK;
 }
 
-void CPlayer_Run::Enter_State()
+void CPlayer_Roll::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
-        m_pPlayerBody->Set_Animation(12, true);
+        m_pPlayerBody->Set_Animation(8, false);
+
+    m_CanRoll = false;
+    m_fCoolDown = 0.f;
 }
 
-void CPlayer_Run::Update_State(_float fTimeDelta)
+void CPlayer_Roll::Update_State(_float fTimeDelta)
 {
+    m_fCoolDown += fTimeDelta;
+
+    if (m_fCoolDown >= 1.1f)
+        m_CanRoll = true;
+
     m_vInputDir = XMVectorZero();
 
     if (m_pGameInstance->Get_KeyHold(DIK_D))
@@ -59,13 +67,10 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
         m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
     }
 
-    // 방향키 입력이 있다면
-    if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
+    if (m_CanRoll)
     {
-        // LSHIFT만 떼면 WALK로 전환
-        if (m_pGameInstance->Get_KeyUp(DIK_LSHIFT))
+        if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
             m_pStateMachine->Change_State(CPlayer::WALK);
-        
         // 회전 관련
         m_vInputDir = XMVector3Normalize(m_vInputDir);
         _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
@@ -87,26 +92,25 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
         m_pPlayerBody->Set_InputDir(m_vInputDir);
 
         if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
-            m_pStateMachine->Change_State(CPlayer::ROLL);
+            Enter_State();        
     }
-    else
-    {
-        // 방향키 입력 자체를 안하면 IDLE 상태로 전환
+
+    if (m_pPlayerBody->Get_IsAnimFinish() == true)
         m_pStateMachine->Change_State(CPlayer::IDLE);
-    }
 }
 
-void CPlayer_Run::Exit_State()
+void CPlayer_Roll::Exit_State()
 {
+    m_CanRoll = true;
 }
 
-CPlayer_Run* CPlayer_Run::Create(CGameObject* pOwner, CBody* pBody)
+CPlayer_Roll* CPlayer_Roll::Create(CGameObject* pOwner, CBody* pBody)
 {
-    CPlayer_Run* pInstance = new CPlayer_Run();
+    CPlayer_Roll* pInstance = new CPlayer_Roll();
 
     if (FAILED(pInstance->Initialize(pOwner, pBody)))
     {
-        MSG_BOX("Failed to Created : CPlayer_Run");
+        MSG_BOX("Failed to Created : CPlayer_Roll");
         Safe_Release(pInstance);
     }
 
@@ -114,7 +118,7 @@ CPlayer_Run* CPlayer_Run::Create(CGameObject* pOwner, CBody* pBody)
 
 }
 
-void CPlayer_Run::Free()
+void CPlayer_Roll::Free()
 {
     __super::Free();
 

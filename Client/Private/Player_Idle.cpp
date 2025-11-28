@@ -56,6 +56,9 @@ void CPlayer_Idle::Update_State(_float fTimeDelta)
         vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
     }
 
+    if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+        m_pStateMachine->Change_State(CPlayer::ROLL);
+
     if (!XMVector3Equal(vInputDir, XMVectorZero()))
     {
         m_pStateMachine->Change_State(CPlayer::WALK);

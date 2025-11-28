@@ -67,6 +67,9 @@
     <Filter Include="02. GameObjects\05. Player\02. States\02. Run">
       <UniqueIdentifier>{1f7e0128-01e7-4268-9394-997549024355}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\05. Player\02. States\03. Roll">
+      <UniqueIdentifier>{fba81a55-c7b5-43e4-b43f-8e80aa4371d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Run.h">
       <Filter>02. GameObjects\05. Player\02. States\02. Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Roll.h">
+      <Filter>02. GameObjects\05. Player\02. States\03. Roll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Run.cpp">
       <Filter>02. GameObjects\05. Player\02. States\02. Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Roll.cpp">
+      <Filter>02. GameObjects\05. Player\02. States\03. Roll</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

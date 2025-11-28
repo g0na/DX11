@@ -1,5 +1,4 @@
 #include "Body.h"
-//#include "Model.h"
 #include "Player.h"
 #include "GameInstance.h"
 
@@ -11,6 +10,11 @@ CBody::CBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CBody::CBody(const CBody& Prototype)
     : CPartObject { Prototype }
 {
+}
+
+const _bool CBody::Get_IsAnimFinish() const
+{
+    return m_pModelCom->is_AnimFinished();
 }
 
 void CBody::Set_Animation(_uint iAnimationIndex, _bool isLoop)
@@ -49,7 +53,6 @@ void CBody::Update_Priority(_float fTimeDelta)
 
 void CBody::Update(_float fTimeDelta)
 {
-    m_bIsAnimFinish = false;
 }
 
 void CBody::Update_Late(_float fTimeDelta)

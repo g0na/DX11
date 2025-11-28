@@ -162,6 +162,7 @@
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Idle.h" />
+    <ClInclude Include="..\Public\Player_Roll.h" />
     <ClInclude Include="..\Public\Player_Run.h" />
     <ClInclude Include="..\Public\Player_Walk.h" />
     <ClInclude Include="..\Public\Terrain.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Player_Idle.cpp" />
+    <ClCompile Include="..\Private\Player_Roll.cpp" />
     <ClCompile Include="..\Private\Player_Run.cpp" />
     <ClCompile Include="..\Private\Player_Walk.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />

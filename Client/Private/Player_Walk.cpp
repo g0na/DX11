@@ -86,6 +86,9 @@ void CPlayer_Walk::Update_State(_float fTimeDelta)
         m_pPlayerTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
 
         m_pPlayerBody->Set_InputDir(m_vInputDir);
+
+        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+            m_pStateMachine->Change_State(CPlayer::ROLL);
     }
     else
     {

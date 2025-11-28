@@ -5,6 +5,7 @@
 #include "Player_Idle.h"
 #include "Player_Walk.h"
 #include "Player_Run.h"
+#include "Player_Roll.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -103,6 +104,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(RUN, CPlayer_Run::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(ROLL, CPlayer_Roll::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);
