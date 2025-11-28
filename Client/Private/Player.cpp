@@ -4,6 +4,7 @@
 
 #include "Player_Idle.h"
 #include "Player_Walk.h"
+#include "Player_Run.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -39,6 +40,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
+    // Body에게 Player의 Transform을 전달
     m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
     m_pBody->Set_PlayerTransform(m_pTransformCom);
     
@@ -55,50 +57,12 @@ void CPlayer::Update_Priority(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+    // 상태머신 업데이트
     m_pStateMachine->Update_State(fTimeDelta);
 
     _char buf[128];
     sprintf_s(buf, "[Player %p] State: %d\n", this, m_eCurState);
     OutputDebugStringA(buf);
-
-    //// 입력 벡터가 영벡터가 아니라면 방향키 입력을 받았다는 뜻
-    //if (!XMVector3Equal(vInputDir, XMVectorZero()) &&
-    //    m_eCurState != ROLL)
-    //{
-    //    if (m_pGameInstance->Get_KeyHold(DIK_LSHIFT))
-    //    {
-    //        m_eCurState = RUN;
-    //    }
-    //    else if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
-    //        m_eCurState = ROLL;
-    //    else
-    //        m_eCurState = WALK;
-    //    
-    //    // 회전 관련
-    //    vInputDir = XMVector3Normalize(vInputDir);         
-    //    _float fAngle = atan2f(XMVectorGetX(vInputDir), XMVectorGetZ(vInputDir));       // 라디안 반환
-    //    _float fAngleDiff = fAngle - m_fCurAngle;
-
-    //    while (fAngleDiff > XM_PI)
-    //        fAngleDiff -= XM_2PI;
-    //    while (fAngleDiff < -XM_PI)
-    //        fAngleDiff += XM_2PI;
-
-    //    _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
-    //    if (abs(fDeltaAngle) > abs(fAngleDiff))
-    //        fDeltaAngle = fAngleDiff;
-
-    //    m_fCurAngle += fDeltaAngle;
-    //    
-    //    m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fCurAngle);
-    //}
-    //else
-    //{
-    //    if (m_ePrevState != ROLL)
-    //        m_eCurState = IDLE;
-    //    else if (m_ePrevState == ROLL && m_pBody->Get_IsAnimFinish() == true)
-    //        m_eCurState = IDLE;
-    //}
 
     __super::Update(fTimeDelta);
 
@@ -136,6 +100,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(WALK, CPlayer_Walk::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(RUN, CPlayer_Run::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);

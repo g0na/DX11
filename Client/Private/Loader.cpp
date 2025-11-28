@@ -147,7 +147,7 @@ HRESULT CLoader::Loading_GamePlay()
 	PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* For.Prototype_Component_Model_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Player"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Player/Player60fps.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Player/Player50.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("셰이더을(를) 로딩 중 입니다."));

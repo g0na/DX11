@@ -50,42 +50,6 @@ void CBody::Update_Priority(_float fTimeDelta)
 void CBody::Update(_float fTimeDelta)
 {
     m_bIsAnimFinish = false;
-
-    //switch (*m_pParentState)
-    //{
-    //case CPlayer::IDLE:
-    //    m_pModelCom->Set_Animation(0, true);
-    //    break;
-
-    //case CPlayer::WALK:
-    //    m_pModelCom->Set_Animation(3, true);
-    //    break;
-
-    //case CPlayer::RUN:
-    //    m_pModelCom->Set_Animation(12, true);
-    //    break;
-
-    //case CPlayer::ROLL:
-    //    m_pModelCom->Set_Animation(8, false);
-
-    //    if (m_pModelCom->is_AnimFinished())
-    //        m_bIsAnimFinish = true;
-
-    //    break;
-
-    //case CPlayer::ATK1:
-    //    m_pModelCom->Set_Animation(22, false);
-    //    break;
-
-    //case CPlayer::ATK2:
-    //    m_pModelCom->Set_Animation(23, false);
-    //    break;
-
-    //case CPlayer::ATK3:
-    //    m_pModelCom->Set_Animation(24, false);
-    //    break;
-    //}
-
 }
 
 void CBody::Update_Late(_float fTimeDelta)

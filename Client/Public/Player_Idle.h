@@ -30,8 +30,6 @@ private:
 	CTransform*		m_pPlayerTransform = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
 
-	_float			m_fCurAngle = {};
-
 public:
 	static CPlayer_Idle* Create(class CGameObject* pOwner, CBody* pBody);
 	virtual void Free() override;
