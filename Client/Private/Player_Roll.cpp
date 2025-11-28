@@ -36,38 +36,47 @@ void CPlayer_Roll::Enter_State()
 
     m_CanRoll = false;
     m_fCoolDown = 0.f;
+
+    m_vInputDir = XMVectorZero();
+    if (m_pGameInstance->Get_KeyHold(DIK_D))
+        m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_A))
+        m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_S))
+        m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_W))
+        m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
+
+    if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
+    {
+        // 회전 관련
+        m_vInputDir = XMVector3Normalize(m_vInputDir);
+        _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
+
+        *m_pCurAngle = fAngle;
+        m_pPlayerTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+        m_pPlayerBody->Set_InputDir(m_vInputDir);
+    }
 }
 
 void CPlayer_Roll::Update_State(_float fTimeDelta)
 {
     m_fCoolDown += fTimeDelta;
 
-    if (m_fCoolDown >= 1.1f)
+    if (m_fCoolDown >= 0.95f)
         m_CanRoll = true;
 
     if (m_CanRoll)
     {
         m_vInputDir = XMVectorZero();
-
         if (m_pGameInstance->Get_KeyHold(DIK_D))
-        {
             m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
-        }
-
         if (m_pGameInstance->Get_KeyHold(DIK_A))
-        {
             m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
-        }
-
         if (m_pGameInstance->Get_KeyHold(DIK_S))
-        {
             m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
-        }
-
         if (m_pGameInstance->Get_KeyHold(DIK_W))
-        {
             m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-        }
 
         if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
         {
@@ -81,7 +90,7 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
             while (fAngleDiff < -XM_PI)
                 fAngleDiff += XM_2PI;
 
-            _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
+            _float fDeltaAngle = fAngleDiff * fTimeDelta * 90.f;
             if (abs(fDeltaAngle) > abs(fAngleDiff))
                 fDeltaAngle = fAngleDiff;
 

@@ -13,9 +13,7 @@ public:
 		RUN,
 		ROLL,
 		GUARD,
-		ATK1,
-		ATK2,
-		ATK3,
+		ATTACK,
 		END
 	};
 

@@ -1,0 +1,135 @@
+#include "Player_Attack.h"
+#include "Transform.h"
+#include "Player.h"
+#include "Body.h"
+#include "GameInstance.h"
+
+CPlayer_Attack::CPlayer_Attack()
+    : m_pGameInstance{ CGameInstance::GetInstance() }
+{
+    Safe_AddRef(m_pGameInstance);
+}
+
+HRESULT CPlayer_Attack::Initialize(CGameObject* pOwner, CBody* pBody)
+{
+    __super::Initialize(pOwner);
+
+    m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
+    m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
+    m_pPlayerBody = pBody;
+
+    if (m_pStateMachine == nullptr ||
+        m_pPlayerTransform == nullptr ||
+        m_pPlayerBody == nullptr)
+        return E_FAIL;
+
+    CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
+    m_pCurAngle = pPlayer->Get_CurAnglePtr();
+
+    return S_OK;
+}
+
+void CPlayer_Attack::Enter_State()
+{
+    if (m_pPlayerBody != nullptr)
+        m_pPlayerBody->Set_Animation(25, false);
+
+    // 처음 공격 상태로 들어오면 무조건 공격 횟수 증가
+    m_iAttackCnt++;
+    m_fAttackDelay = 0.f;
+
+    m_vInputDir = XMVectorZero();
+    if (m_pGameInstance->Get_KeyHold(DIK_D))
+        m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_A))
+        m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_S))
+        m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_W))
+        m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
+
+    if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
+    {
+        // 회전 관련
+        m_vInputDir = XMVector3Normalize(m_vInputDir);
+        _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
+
+        *m_pCurAngle = fAngle;
+        m_pPlayerTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+        m_pPlayerBody->Set_InputDir(m_vInputDir);
+    }
+
+}
+
+void CPlayer_Attack::Update_State(_float fTimeDelta)
+{
+    m_fAttackDelay += fTimeDelta;
+
+    if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+    {
+        // 공격 횟수에 따른 구분
+        switch (m_iAttackCnt)
+        {
+        case 0:
+            // 최소 0.76초  최대 2.5초
+            if (m_fAttackDelay >= 0.6f)
+            {
+                m_pPlayerBody->Set_Animation(25, false);
+                m_iAttackCnt++;
+                m_fAttackDelay = 0.f;
+            }
+
+            if (m_fAttackDelay >= 2.5f)
+                m_pStateMachine->Change_State(CPlayer::IDLE);
+            break;
+
+        case 1:
+            // 최소 0.73초 최대 2.233초
+            if (m_fAttackDelay >= 0.6f)
+            {
+                m_pPlayerBody->Set_Animation(26, false);
+                m_iAttackCnt = 0;
+                m_fAttackDelay = 0.f;
+            }
+
+            if (m_fAttackDelay >= 2.233f)
+                m_pStateMachine->Change_State(CPlayer::IDLE);
+            break;
+        }
+    }
+
+    if (m_fAttackDelay >= 1.7f)
+    {
+        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+            m_pStateMachine->Change_State(CPlayer::ROLL);
+
+        m_pStateMachine->Change_State(CPlayer::IDLE);
+    }
+}
+
+void CPlayer_Attack::Exit_State()
+{
+    m_iAttackCnt = 0;
+    m_fAttackDelay = 0.f;
+}
+
+CPlayer_Attack* CPlayer_Attack::Create(CGameObject* pOwner, CBody* pBody)
+{
+    CPlayer_Attack* pInstance = new CPlayer_Attack();
+
+    if (FAILED(pInstance->Initialize(pOwner, pBody)))
+    {
+        MSG_BOX("Failed to Created : CPlayer_Attack");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+
+}
+
+void CPlayer_Attack::Free()
+{
+    __super::Free();
+
+    Safe_Release(m_pGameInstance);
+}

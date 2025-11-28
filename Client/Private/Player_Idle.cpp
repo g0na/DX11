@@ -62,6 +62,9 @@ void CPlayer_Idle::Update_State(_float fTimeDelta)
     // 막기
     else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB))
         m_pStateMachine->Change_State(CPlayer::GUARD);
+    // 공격
+    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+        m_pStateMachine->Change_State(CPlayer::ATTACK);
     // 걷기
     else if (!XMVector3Equal(vInputDir, XMVectorZero()))
     {

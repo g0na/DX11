@@ -37,13 +37,18 @@ void CPlayer_Walk::Enter_State()
 
 void CPlayer_Walk::Update_State(_float fTimeDelta)
 {
+    // 질주
     if (m_pGameInstance->Get_KeyDown(DIK_LSHIFT))
     {
         m_pStateMachine->Change_State(CPlayer::RUN);
         return;
     }
+    // 막기
     else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB))
         m_pStateMachine->Change_State(CPlayer::GUARD);
+    // 공격
+    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+        m_pStateMachine->Change_State(CPlayer::ATTACK);
 
     m_vInputDir = XMVectorZero();
 

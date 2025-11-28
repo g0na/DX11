@@ -7,6 +7,7 @@
 #include "Player_Run.h"
 #include "Player_Roll.h"
 #include "Player_Guard.h"
+#include "Player_Attack.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -114,6 +115,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(GUARD, CPlayer_Guard::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(ATTACK, CPlayer_Attack::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);

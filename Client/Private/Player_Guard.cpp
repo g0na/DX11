@@ -41,6 +41,8 @@ void CPlayer_Guard::Update_State(_float fTimeDelta)
     {
         m_pStateMachine->Change_State(CPlayer::IDLE);
     }
+    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+        m_pStateMachine->Change_State(CPlayer::ATTACK);
 }
 
 void CPlayer_Guard::Exit_State()

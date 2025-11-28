@@ -63,16 +63,12 @@ void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 	if (iAnimationIndex == m_iCurrentAnimIndex && isLoop)
 		return;
 
-	_char buf[256];
-	sprintf_s(buf, "[Set_Animation] %d -> %d\n", m_iPrevAnimIndex, m_iCurrentAnimIndex);
-	OutputDebugStringA(buf);
-
 	m_iPrevAnimIndex = m_iCurrentAnimIndex;
 	m_iCurrentAnimIndex = iAnimationIndex;
 	m_bIsAnimLoop = isLoop;
 	m_bIsAnimBlend = true;
 	m_fBlendTime = 0.f;
-	m_fBlendDuration = 0.2f;
+	m_fBlendDuration = 0.25f;
 	m_fPrevTrackPosition = 0.f;
 
 	m_vecPrevBoneTransforms.clear();
