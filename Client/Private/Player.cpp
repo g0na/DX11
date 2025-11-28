@@ -6,6 +6,7 @@
 #include "Player_Walk.h"
 #include "Player_Run.h"
 #include "Player_Roll.h"
+#include "Player_Guard.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -61,15 +62,18 @@ void CPlayer::Update(_float fTimeDelta)
     // 상태머신 업데이트
     m_pStateMachine->Update_State(fTimeDelta);
 
-    _char buf[128];
-    sprintf_s(buf, "[Player %p] State: %d\n", this, m_eCurState);
-    OutputDebugStringA(buf);
-
     __super::Update(fTimeDelta);
 
+    // 방향 디버깅
+    _char buf[128];
+    sprintf_s(buf, "Look x: %f, Look y: %f, Look z: %f\n",
+        XMVectorGetX(m_pTransformCom->Get_State(STATE::LOOK)),
+        XMVectorGetY(m_pTransformCom->Get_State(STATE::LOOK)),
+        XMVectorGetZ(m_pTransformCom->Get_State(STATE::LOOK)));
+    OutputDebugStringA(buf);
 
     // 위치 디버깅
-    sprintf_s(buf, "x: %f, y: %f, z:%f\n", 
+    sprintf_s(buf, "Pos x: %f, Pos y: %f, Pos z:%f\n", 
         XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
         XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION)));
@@ -109,6 +113,9 @@ HRESULT CPlayer::Ready_States()
     if (FAILED(m_pStateMachine->Add_State(ROLL, CPlayer_Roll::Create(this, m_pBody))))
         return E_FAIL;
 
+    if (FAILED(m_pStateMachine->Add_State(GUARD, CPlayer_Guard::Create(this, m_pBody))))
+        return E_FAIL;
+
     m_pStateMachine->Set_State(IDLE);
 
     return S_OK;
@@ -117,8 +124,7 @@ HRESULT CPlayer::Ready_States()
 HRESULT CPlayer::Ready_PartObjects()
 {
     CBody::BODY_DESC    BodyDesc{};
-    BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();     // 자신의 월드 행렬을 전달
-    BodyDesc.pParentState = reinterpret_cast<_uint*>(&m_eCurState);                     // 자신의 상태 전달
+    BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();             // 자신의 월드 행렬을 전달
     BodyDesc.fRotationPerSec = 1080.f;
 
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),

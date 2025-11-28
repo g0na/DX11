@@ -45,54 +45,58 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
     if (m_fCoolDown >= 1.1f)
         m_CanRoll = true;
 
-    m_vInputDir = XMVectorZero();
-
-    if (m_pGameInstance->Get_KeyHold(DIK_D))
-    {
-        m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
-    }
-
-    if (m_pGameInstance->Get_KeyHold(DIK_A))
-    {
-        m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
-    }
-
-    if (m_pGameInstance->Get_KeyHold(DIK_S))
-    {
-        m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
-    }
-
-    if (m_pGameInstance->Get_KeyHold(DIK_W))
-    {
-        m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-    }
-
     if (m_CanRoll)
     {
+        m_vInputDir = XMVectorZero();
+
+        if (m_pGameInstance->Get_KeyHold(DIK_D))
+        {
+            m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+        }
+
+        if (m_pGameInstance->Get_KeyHold(DIK_A))
+        {
+            m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+        }
+
+        if (m_pGameInstance->Get_KeyHold(DIK_S))
+        {
+            m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+        }
+
+        if (m_pGameInstance->Get_KeyHold(DIK_W))
+        {
+            m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
+        }
+
         if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
+        {
+            // 회전 관련
+            m_vInputDir = XMVector3Normalize(m_vInputDir);
+            _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
+            _float fAngleDiff = fAngle - *m_pCurAngle;
+
+            while (fAngleDiff > XM_PI)
+                fAngleDiff -= XM_2PI;
+            while (fAngleDiff < -XM_PI)
+                fAngleDiff += XM_2PI;
+
+            _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
+            if (abs(fDeltaAngle) > abs(fAngleDiff))
+                fDeltaAngle = fAngleDiff;
+
+            *m_pCurAngle += fDeltaAngle;
+
+            m_pPlayerTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+
+            m_pPlayerBody->Set_InputDir(m_vInputDir);
+
             m_pStateMachine->Change_State(CPlayer::WALK);
-        // 회전 관련
-        m_vInputDir = XMVector3Normalize(m_vInputDir);
-        _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
-        _float fAngleDiff = fAngle - *m_pCurAngle;
-
-        while (fAngleDiff > XM_PI)
-            fAngleDiff -= XM_2PI;
-        while (fAngleDiff < -XM_PI)
-            fAngleDiff += XM_2PI;
-
-        _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
-        if (abs(fDeltaAngle) > abs(fAngleDiff))
-            fDeltaAngle = fAngleDiff;
-
-        *m_pCurAngle += fDeltaAngle;
-
-        m_pPlayerTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
-
-        m_pPlayerBody->Set_InputDir(m_vInputDir);
+            return;
+        }
 
         if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
-            Enter_State();        
+            Enter_State();
     }
 
     if (m_pPlayerBody->Get_IsAnimFinish() == true)

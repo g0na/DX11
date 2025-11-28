@@ -12,6 +12,7 @@ public:
 		WALK,
 		RUN,
 		ROLL,
+		GUARD,
 		ATK1,
 		ATK2,
 		ATK3,
@@ -36,8 +37,6 @@ public:
 
 private:	
 	class CBody*	m_pBody = { nullptr };
-	PLAYERSTATE		m_eCurState = {};
-	PLAYERSTATE		m_ePrevState = {};
 	_float			m_fCurAngle = { 0.f };
 
 private:

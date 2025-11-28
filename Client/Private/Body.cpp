@@ -31,7 +31,6 @@ HRESULT CBody::Initialize(void* pArg)
 {
     BODY_DESC* pDesc = static_cast<BODY_DESC*>(pArg);
 
-    m_pParentState = pDesc->pParentState;
     m_fRotationSpeed = pDesc->fRotationPerSec;
 
     if (FAILED(__super::Initialize(pArg)))

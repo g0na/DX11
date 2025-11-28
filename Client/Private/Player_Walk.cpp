@@ -42,6 +42,8 @@ void CPlayer_Walk::Update_State(_float fTimeDelta)
         m_pStateMachine->Change_State(CPlayer::RUN);
         return;
     }
+    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB))
+        m_pStateMachine->Change_State(CPlayer::GUARD);
 
     m_vInputDir = XMVectorZero();
 

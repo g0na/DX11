@@ -65,6 +65,8 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
         // LSHIFT만 떼면 WALK로 전환
         if (m_pGameInstance->Get_KeyUp(DIK_LSHIFT))
             m_pStateMachine->Change_State(CPlayer::WALK);
+        else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB))
+            m_pStateMachine->Change_State(CPlayer::GUARD);
         
         // 회전 관련
         m_vInputDir = XMVector3Normalize(m_vInputDir);
