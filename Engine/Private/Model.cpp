@@ -60,7 +60,7 @@ _int CModel::Get_BoneIndex(const _char* pBoneName) const
 
 void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 {	
-	if (iAnimationIndex == m_iCurrentAnimIndex)
+	if (iAnimationIndex == m_iCurrentAnimIndex && isLoop)
 		return;
 
 	_char buf[256];
