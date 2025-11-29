@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 #include "Body.h"
 #include "Weapon.h"
+#include "WeaponCase.h"
+#include "Shield.h"
 
 #include "Player_Idle.h"
 #include "Player_Walk.h"
@@ -124,6 +126,7 @@ HRESULT CPlayer::Ready_States()
 
 HRESULT CPlayer::Ready_PartObjects()
 {
+    // Body
     CBody::BODY_DESC    BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();             // 자신의 월드 행렬을 전달
     BodyDesc.fRotationPerSec = 1080.f;
@@ -131,17 +134,31 @@ HRESULT CPlayer::Ready_PartObjects()
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
         TEXT("Part_Body"), &BodyDesc)))
         return E_FAIL;
-
-    // Body에게 Player의 Transform을 전달
-    m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
+    m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));    // Body에게 Player의 Transform을 전달
     m_pBody->Set_PlayerTransform(m_pTransformCom);
 
+    // Weapon
     CWeapon::WEAPON_DESC WeaponDesc{};
     WeaponDesc.pSocketMatrix = m_pBody->Get_SocketMatrix("R_Weapon");
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Player"),
         TEXT("Part_Weapon"), &WeaponDesc)))
+        return E_FAIL;
+
+    // WeaponCase
+    CWeaponCase::WEAPONCASE_DESC WeaponCaseDesc{};
+    WeaponCaseDesc.pSocketMatrix = m_pBody->Get_SocketMatrix("L_Wepon_Case");
+    WeaponCaseDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_WeaponCase_Player"),
+        TEXT("Part_WeaponCase"), &WeaponCaseDesc)))
+        return E_FAIL;
+
+    // Shield
+    CShield::SHIELD_DESC ShieldDesc{};
+    ShieldDesc.pSocketMatrix = m_pBody->Get_SocketMatrix("L_Shield");
+    ShieldDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Shield_Player"),
+        TEXT("Part_Shield"), &ShieldDesc)))
         return E_FAIL;
 
     return S_OK;
