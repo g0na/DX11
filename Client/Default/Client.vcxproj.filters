@@ -147,6 +147,9 @@
     <ClInclude Include="..\Public\Player_Attack.h">
       <Filter>02. GameObjects\05. Player\02. States\05. Attack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Weapon.h">
+      <Filter>02. GameObjects\05. Player\01. Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -218,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Attack.cpp">
       <Filter>02. GameObjects\05. Player\02. States\05. Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon.cpp">
+      <Filter>02. GameObjects\05. Player\01. Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,15 +12,6 @@ private:
 	virtual ~CBone() = default;
 
 public:
-	HRESULT Initialize(const aiNode* pAINode, _int iParentBoneIndex);
-	HRESULT Initialize_Binary(ifstream& file);
-	void Update_CombinedTransformMatrix(const vector<CBone*>& Bones, _fmatrix PreTransformMatrix);
-
-public:
-	HRESULT Write_To_Binary(ofstream& file);
-	HRESULT Read_From_Binary(ifstream& file);
-
-public:
 	_bool Compare_Name(const _char* pName)
 	{
 		return !strcmp(pName, m_szName);
@@ -31,6 +22,11 @@ public:
 	_matrix Get_CombinedTransformationMatrix()
 	{
 		return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
+	}
+
+	const _float4x4* Get_CombinedTransformationMatrixPtr() const
+	{
+		return &m_CombinedTransformationMatrix;
 	}
 
 	_float4x4 Get_TransformationMatrix()
@@ -47,6 +43,15 @@ public:
 	{
 		m_TransformationMatrix = TransformationMatrix;
 	}
+
+public:
+	HRESULT Initialize(const aiNode* pAINode, _int iParentBoneIndex);
+	HRESULT Initialize_Binary(ifstream& file);
+	void Update_CombinedTransformMatrix(const vector<CBone*>& Bones, _fmatrix PreTransformMatrix);
+
+public:
+	HRESULT Write_To_Binary(ofstream& file);
+	HRESULT Read_From_Binary(ifstream& file);
 
 private:
 	_char		m_szName[MAX_PATH] = {};

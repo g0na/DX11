@@ -58,6 +58,22 @@ _int CModel::Get_BoneIndex(const _char* pBoneName) const
 	return iIndex;
 }
 
+const _float4x4* CModel::Get_BoneMatrixPtr(const _char* pBoneName) const
+{
+	auto iter = find_if(m_vecBones.begin(), m_vecBones.end(), [&](CBone* pBone)->_bool
+		{
+			if (pBone->Compare_Name(pBoneName))
+				return true;
+
+			return false;
+		});
+
+	if (iter == m_vecBones.end())
+		return nullptr;
+
+	return (*iter)->Get_CombinedTransformationMatrixPtr();
+}
+
 void CModel::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 {	
 	if (iAnimationIndex == m_iCurrentAnimIndex && isLoop)

@@ -11,18 +11,14 @@ private:
 	virtual ~CModel() = default;
 
 public:
-	_uint Get_NumMeshes() const	{ return m_iNumMeshes; }
-
-	_int Get_BoneIndex(const _char* pBoneName) const;
-
-	class CMesh* Get_Mesh(_uint iIndex) { return m_vecMeshes[iIndex]; }
-
-	_vector Get_RootMotionDelta() { return m_vRootMotionDelta; }
-
-	_vector Get_AccumulatedMotionDelta() { return m_vAccumulatedMotionDelta; }
+	class CMesh*		Get_Mesh(_uint iIndex) { return m_vecMeshes[iIndex]; }
+	_uint				Get_NumMeshes() const	{ return m_iNumMeshes; }
+	_int				Get_BoneIndex(const _char* pBoneName) const;
+	_vector				Get_RootMotionDelta() { return m_vRootMotionDelta; }
+	_vector				Get_AccumulatedMotionDelta() { return m_vAccumulatedMotionDelta; }
+	const _float4x4*	Get_BoneMatrixPtr(const _char* pBoneName) const;
 
 	_bool is_AnimFinished() const { return m_bIsAnimFinished; }
-
 	_bool is_AnimLoop() const { return m_bIsAnimLoop; }
 
 	void Set_Animation(_uint iAnimationIndex, _bool isLoop = true);

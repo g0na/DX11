@@ -168,6 +168,7 @@
     <ClInclude Include="..\Public\Player_Run.h" />
     <ClInclude Include="..\Public\Player_Walk.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\Weapon.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="..\Private\Player_Run.cpp" />
     <ClCompile Include="..\Private\Player_Walk.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\Private\Weapon.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

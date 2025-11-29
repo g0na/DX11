@@ -12,6 +12,11 @@ CBody::CBody(const CBody& Prototype)
 {
 }
 
+const _float4x4* CBody::Get_SocketMatrix(const _char* pBoneName)
+{
+    return m_pModelCom->Get_BoneMatrixPtr(pBoneName);
+}
+
 const _bool CBody::Get_IsAnimFinish() const
 {
     return m_pModelCom->is_AnimFinished();

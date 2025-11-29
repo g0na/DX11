@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Body.h"
+#include "Weapon.h"
 
 #include "Player_Idle.h"
 #include "Player_Walk.h"
@@ -42,10 +43,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
-
-    // Body에게 Player의 Transform을 전달
-    m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
-    m_pBody->Set_PlayerTransform(m_pTransformCom);
     
     if (FAILED(Ready_States()))
         return E_FAIL;
@@ -133,6 +130,18 @@ HRESULT CPlayer::Ready_PartObjects()
 
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
         TEXT("Part_Body"), &BodyDesc)))
+        return E_FAIL;
+
+    // Body에게 Player의 Transform을 전달
+    m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));
+    m_pBody->Set_PlayerTransform(m_pTransformCom);
+
+    CWeapon::WEAPON_DESC WeaponDesc{};
+    WeaponDesc.pSocketMatrix = m_pBody->Get_SocketMatrix("R_Weapon");
+    WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+    if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Player"),
+        TEXT("Part_Weapon"), &WeaponDesc)))
         return E_FAIL;
 
     return S_OK;

@@ -93,7 +93,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-
 	return S_OK;
 }
 

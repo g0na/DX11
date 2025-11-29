@@ -23,9 +23,10 @@ private:
 	virtual ~CBody() = default;
 
 public:
-	const _vector Get_WorldDelta() const { return m_vWorldDelta; }
-	const _float Get_CurAngle() const { return m_fCurAngle; }
-	const _bool	Get_IsAnimFinish() const;
+	const _float4x4*		Get_SocketMatrix(const _char* pBoneName);
+	const _vector			Get_WorldDelta() const { return m_vWorldDelta; }
+	const _float			Get_CurAngle() const { return m_fCurAngle; }
+	const _bool				Get_IsAnimFinish() const;
 
 	void Set_PlayerTransform(CTransform* pPlayerTransform) { m_pPlayerTransform = pPlayerTransform; }
 	void Set_RotationAngle(_float fRotationAngle) { m_fTargetAngle = fRotationAngle; }
