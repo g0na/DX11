@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Private\ImGui_Manager.h" />
+    <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\ImGui_Panel_Scene.h" />
     <ClInclude Include="..\Public\Maptool_Defines.h" />
@@ -41,12 +42,23 @@
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Map.h" />
     <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\Public\Player_Attack.h" />
+    <ClInclude Include="..\Public\Player_Guard.h" />
+    <ClInclude Include="..\Public\Player_Idle.h" />
+    <ClInclude Include="..\Public\Player_Roll.h" />
+    <ClInclude Include="..\Public\Player_Run.h" />
+    <ClInclude Include="..\Public\Player_Walk.h" />
+    <ClInclude Include="..\Public\Shield.h" />
+    <ClInclude Include="..\Public\Weapon.h" />
+    <ClInclude Include="..\Public\WeaponCase.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Maptool.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Body.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\imgui.cpp" />
     <ClCompile Include="..\Private\imgui_demo.cpp" />
@@ -67,6 +79,16 @@
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\Map.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Player.cpp" />
+    <ClCompile Include="..\Private\Player_Attack.cpp" />
+    <ClCompile Include="..\Private\Player_Guard.cpp" />
+    <ClCompile Include="..\Private\Player_Idle.cpp" />
+    <ClCompile Include="..\Private\Player_Roll.cpp" />
+    <ClCompile Include="..\Private\Player_Run.cpp" />
+    <ClCompile Include="..\Private\Player_Walk.cpp" />
+    <ClCompile Include="..\Private\Shield.cpp" />
+    <ClCompile Include="..\Private\Weapon.cpp" />
+    <ClCompile Include="..\Private\WeaponCase.cpp" />
     <ClCompile Include="Maptool.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@ class CLayer final : public CBase
 
 public:
 	HRESULT Add_GameObject(class CGameObject* pObj);
+	HRESULT Delete_GameObject(class CGameObject* pObj);
 	void	Update_Priority(_float fTimeDelta);
 	void	Update(_float fTimeDelta);
 	void	Update_Late(_float fTimeDelta);

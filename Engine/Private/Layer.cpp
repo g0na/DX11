@@ -11,6 +11,19 @@ HRESULT CLayer::Add_GameObject(CGameObject* pObj)
 	return S_OK;
 }
 
+HRESULT CLayer::Delete_GameObject(CGameObject* pObj)
+{
+	auto iter = find(m_listObject.begin(), m_listObject.end(), pObj);
+
+	if (iter == m_listObject.end())
+		return E_FAIL;
+
+	Safe_Release(*iter);
+	m_listObject.erase(iter);
+
+	return S_OK;
+}
+
 void CLayer::Update_Priority(_float fTimeDelta)
 {
 	for (auto& pGameObject : m_listObject)

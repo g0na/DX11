@@ -221,6 +221,11 @@ CGameObject* CGameInstance::Add_GameObject_To_Layer(_uint iProtoLevelIndex, cons
 	return m_pObjectManager->Add_GameObject_To_Layer(iProtoLevelIndex, strProtoTag, iLayerLevelIndex, strLayerTag, pArg);
 }
 
+void CGameInstance::Delete_GameObject_From_Layer(CGameObject* pGameObject, _uint iLayerLevelIndex, const _wstring& strLayerTag)
+{
+	m_pObjectManager->Delete_GameObject_From_Layer(pGameObject, iLayerLevelIndex, strLayerTag);
+}
+
 map<const _wstring, class CLayer*>* CGameInstance::Get_Layers()
 {
 	return m_pObjectManager->Get_Layers();

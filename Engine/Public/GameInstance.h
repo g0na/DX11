@@ -62,6 +62,8 @@ public:
 	class CGameObject* Add_GameObject_To_Layer(_uint iProtoLevelIndex, const _wstring& strProtoTag,
 		_uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 
+	void Delete_GameObject_From_Layer(class CGameObject* pGameObject, _uint iLayerLevelIndex, const _wstring& strLayerTag);
+
 	map<const _wstring, class CLayer*>* Get_Layers();
 #pragma endregion
 

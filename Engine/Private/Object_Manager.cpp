@@ -83,6 +83,17 @@ CGameObject* CObject_Manager::Add_GameObject_To_Layer(_uint iProtoLevelIndex, co
 	return pGameObject;
 }
 
+void CObject_Manager::Delete_GameObject_From_Layer(CGameObject* pGameObject, _uint iLayerLevelIndex, const _wstring& strLayerTag)
+{
+	// 삭제하려는 오브젝트의 레이어 그룹을 검색
+	// 레이어 그룹이 없다면 바로 리턴, 있다면 오브젝트 삭제.
+	CLayer* pLayer = Find_Layer(iLayerLevelIndex, strLayerTag);
+	if (pLayer == nullptr)
+		return;
+
+	pLayer->Delete_GameObject(pGameObject);
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto iter = m_pLayers[iLevelIndex].find(strLayerTag);

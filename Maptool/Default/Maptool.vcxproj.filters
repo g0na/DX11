@@ -64,6 +64,39 @@
     <Filter Include="02. GameObjects\04. Player">
       <UniqueIdentifier>{5b1d541f-e4c0-403f-a3c6-bdf8cbd41803}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\04. Player\Shield">
+      <UniqueIdentifier>{ca4e65d2-46b2-4f02-89c6-0cc8c23b41b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\Weaponcase">
+      <UniqueIdentifier>{294609e9-f318-4eb5-ab92-41b54e0c5806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\Weapon">
+      <UniqueIdentifier>{2ad5f00a-f6ff-4932-95d7-fc85d4454135}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\Body">
+      <UniqueIdentifier>{277418e6-fbf3-4d17-9256-e4af44e0402c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\States">
+      <UniqueIdentifier>{6e414d37-c4c8-46f5-b4a1-c266a3d3837c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\States\Idle">
+      <UniqueIdentifier>{97edda17-2ad3-4eb8-9dbd-904dc60370d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\States\Walk">
+      <UniqueIdentifier>{05fa4289-b76e-4505-aac4-99657258fa2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\States\Run">
+      <UniqueIdentifier>{467037da-2a03-4461-80d2-dde49be1d15f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\States\Roll">
+      <UniqueIdentifier>{211f2efa-2a5d-4ebd-b227-313fde73330f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\States\Guard">
+      <UniqueIdentifier>{0c48b3ad-77d6-4c69-98b8-8db863e569cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Player\States\Attack">
+      <UniqueIdentifier>{8884c58b-987c-47fe-a790-27d3ce362035}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -144,6 +177,39 @@
     <ClInclude Include="..\Public\ImGui_Panel_Scene.h">
       <Filter>96. ImGui\01. Panel\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02. GameObjects\04. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Attack.h">
+      <Filter>02. GameObjects\04. Player\States\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Guard.h">
+      <Filter>02. GameObjects\04. Player\States\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Idle.h">
+      <Filter>02. GameObjects\04. Player\States\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Roll.h">
+      <Filter>02. GameObjects\04. Player\States\Roll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Run.h">
+      <Filter>02. GameObjects\04. Player\States\Run</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Walk.h">
+      <Filter>02. GameObjects\04. Player\States\Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shield.h">
+      <Filter>02. GameObjects\04. Player\Shield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon.h">
+      <Filter>02. GameObjects\04. Player\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WeaponCase.h">
+      <Filter>02. GameObjects\04. Player\Weaponcase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Body.h">
+      <Filter>02. GameObjects\04. Player\Body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maptool.cpp">
@@ -208,6 +274,39 @@
     </ClCompile>
     <ClCompile Include="..\Private\ImGui_Panel_Scene.cpp">
       <Filter>96. ImGui\01. Panel\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02. GameObjects\04. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Body.cpp">
+      <Filter>02. GameObjects\04. Player\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Attack.cpp">
+      <Filter>02. GameObjects\04. Player\States\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Guard.cpp">
+      <Filter>02. GameObjects\04. Player\States\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Idle.cpp">
+      <Filter>02. GameObjects\04. Player\States\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Roll.cpp">
+      <Filter>02. GameObjects\04. Player\States\Roll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Run.cpp">
+      <Filter>02. GameObjects\04. Player\States\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shield.cpp">
+      <Filter>02. GameObjects\04. Player\Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Walk.cpp">
+      <Filter>02. GameObjects\04. Player\States\Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon.cpp">
+      <Filter>02. GameObjects\04. Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WeaponCase.cpp">
+      <Filter>02. GameObjects\04. Player\Weaponcase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

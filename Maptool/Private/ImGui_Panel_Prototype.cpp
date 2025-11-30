@@ -40,30 +40,32 @@ void CImGui_Panel_Prototype::Render()
 
         for (auto& Pair : mapPrototypes)
         {
-            if (dynamic_cast<CGameObject*>(Pair.second) != nullptr &&
-                dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Monster")
+            if (dynamic_cast<CGameObject*>(Pair.second) != nullptr)
             {
-                _char szPrototypeName[128] = {};
-                WideCharToMultiByte(CP_ACP, 0, Pair.first.c_str(), -1, szPrototypeName, sizeof(szPrototypeName), nullptr, nullptr);
-
-                // 검색 필터 적용
-                if (strlen(search) > 0 && strstr(szPrototypeName, search) == nullptr)
-                    continue;
-
-                // 클릭 시 선택
-                if (ImGui::Selectable(szPrototypeName))
+                if (dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Monster")
                 {
-                    g_bIsCreatable = true;
-                    g_pSelectedPrototype = static_cast<CGameObject*>(Pair.second);
-                    strcpy_s(g_szSelectedPrototypeName, szPrototypeName);
-                }
+                    _char szPrototypeName[128] = {};
+                    WideCharToMultiByte(CP_ACP, 0, Pair.first.c_str(), -1, szPrototypeName, sizeof(szPrototypeName), nullptr, nullptr);
 
-                // 드래그 앤 드롭도 유지
-                if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-                {
-                    ImGui::SetDragDropPayload("PROTOTYPE_DRAG", szPrototypeName, strlen(szPrototypeName) + 1);
-                    ImGui::Text("Drag: %s", szPrototypeName);
-                    ImGui::EndDragDropSource();
+                    // 검색 필터 적용
+                    if (strlen(search) > 0 && strstr(szPrototypeName, search) == nullptr)
+                        continue;
+
+                    // 클릭 시 선택
+                    if (ImGui::Selectable(szPrototypeName))
+                    {
+                        g_bIsCreatable = true;
+                        g_pSelectedPrototype = static_cast<CGameObject*>(Pair.second);
+                        strcpy_s(g_szSelectedPrototypeName, szPrototypeName);
+                    }
+
+                    // 드래그 앤 드롭도 유지
+                    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+                    {
+                        ImGui::SetDragDropPayload("PROTOTYPE_DRAG", szPrototypeName, strlen(szPrototypeName) + 1);
+                        ImGui::Text("Drag: %s", szPrototypeName);
+                        ImGui::EndDragDropSource();
+                    }
                 }
             }
         }

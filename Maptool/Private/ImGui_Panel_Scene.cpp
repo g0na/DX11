@@ -30,6 +30,7 @@ HRESULT CImGui_Panel_Scene::Initialize()
 
 void CImGui_Panel_Scene::Render()
 {
+    CGameObject* pObjectToDelete = { nullptr };
     _uint iCurLevelID = m_pGameInstance->Get_CurLevelID();
     map<const _wstring, class CLayer*>* pLayers = m_pGameInstance->Get_Layers();
 
@@ -120,9 +121,12 @@ void CImGui_Panel_Scene::Render()
 
                             if (ImGui::BeginPopupContextItem())
                             {
+                                m_pSelectedObject = pObject;
+
                                 if (ImGui::MenuItem("Delete"))
                                 {
-                                    // TODO: 오브젝트 삭제
+                                    // 오브젝트 삭제 예약
+                                    pObjectToDelete = m_pSelectedObject;
                                 }
 
                                 ImGui::EndPopup();
@@ -165,6 +169,14 @@ void CImGui_Panel_Scene::Render()
     }
 
     ImGui::End();
+
+    // 오브젝트 삭제 처리
+    if (pObjectToDelete != nullptr)
+    {
+        m_pGameInstance->Delete_GameObject_From_Layer(m_pSelectedObject, iCurLevelID, m_pSelectedObject->Get_Layer());
+        m_pSelectedObject = nullptr;
+        m_pInspector->Set_SelectedObject(nullptr);
+    }
 
     // 오브젝트 배치 기능 (ImGui 창 밖에서 클릭 시)
     if (g_bIsCreatable &&

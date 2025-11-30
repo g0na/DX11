@@ -118,11 +118,6 @@ void CImGui_Panel_Inspector::Render()
             {
                 // TODO: 변경사항 적용
             }
-
-            if (ImGui::Button("Delete Object", ImVec2(-1, 30)))
-            {
-                // TODO: 오브젝트 삭제
-            }
         }
     }
 
