@@ -72,7 +72,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
         {
         case 0:
             // 置社 0.76段  置企 2.5段
-            if (m_fAttackDelay >= 0.6f)
+            if (m_fAttackDelay >= 0.5f)
             {
                 m_pPlayerBody->Set_Animation(25, false);
                 m_iAttackCnt++;
@@ -85,7 +85,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
 
         case 1:
             // 置社 0.73段 置企 2.233段
-            if (m_fAttackDelay >= 0.6f)
+            if (m_fAttackDelay >= 0.5f)
             {
                 m_pPlayerBody->Set_Animation(26, false);
                 m_iAttackCnt = 0;
@@ -98,13 +98,12 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
         }
     }
 
-    if (m_fAttackDelay >= 1.7f)
+    if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fAttackDelay >= 1.f)
     {
-        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
-            m_pStateMachine->Change_State(CPlayer::ROLL);
-
-        m_pStateMachine->Change_State(CPlayer::IDLE);
+        m_pStateMachine->Change_State(CPlayer::ROLL);
     }
+    else if (m_fAttackDelay >= 2.f)
+        m_pStateMachine->Change_State(CPlayer::IDLE);
 }
 
 void CPlayer_Attack::Exit_State()
