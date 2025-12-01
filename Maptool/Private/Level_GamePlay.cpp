@@ -71,9 +71,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	CameraDesc.fFarZ = 1000.f;
 	CameraDesc.fSensor = 0.1f;
 
-	//if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &CameraDesc)))
-	//	return E_FAIL;
 	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &CameraDesc) == nullptr)
 		return E_FAIL;
@@ -98,9 +95,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Background(const _wstring& strLayerTag)
 	CGameObject::GAMEOBJECT_DESC	GameObjectDesc{};
 	lstrcpy(GameObjectDesc.szName, TEXT("Map"));
 
-	//if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &GameObjectDesc)))
-	//	return E_FAIL;
 	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &GameObjectDesc) == nullptr)
 		return E_FAIL;

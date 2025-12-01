@@ -1,0 +1,97 @@
+[
+    {
+        "PrototypeTag": "Prototype_GameObject_Camera_Free",
+        "LayerTag": "Layer_Camera",
+        "Position": [
+            -2.1314828395843506,
+            16.5223331451416,
+            -13.491103172302246
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.9999997615814209,
+            1.0000005960464478,
+            1.0000007152557373
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Map",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Monster",
+        "LayerTag": "Layer_Monster",
+        "Position": [
+            7.990845203399658,
+            -2.052064895629883,
+            -29.537532806396484
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Monster",
+        "LayerTag": "Layer_Monster",
+        "Position": [
+            5.301695823669434,
+            -2.2545318603515625,
+            -23.621578216552734
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Monster",
+        "LayerTag": "Layer_Monster",
+        "Position": [
+            0.4907262325286865,
+            -2.2364444732666016,
+            -25.486312866210938
+        ],
+        "Rotation": [
+            0.0,
+            -180.0,
+            0.0
+        ],
+        "Scale": [
+            1.9995622634887695,
+            2.0,
+            1.999812126159668
+        ]
+    }
+]

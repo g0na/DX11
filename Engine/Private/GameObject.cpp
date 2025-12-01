@@ -19,6 +19,7 @@ CGameObject::CGameObject(const CGameObject& prototype)
 	, m_bIsDead { prototype.m_bIsDead }
 	, m_bIsGrounded { prototype.m_bIsGrounded }
 	, m_bIsInvincible { prototype.m_bIsInvincible }
+	, m_strPrototypeTag { prototype.m_strPrototypeTag }
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);

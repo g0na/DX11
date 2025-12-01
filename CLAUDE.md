@@ -14,6 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - Describe the approach/strategy
   - Break down the steps logically
   - Only provide actual code when user asks "코드 보여줘" or similar explicit requests
+- **File Access**: When you need to check files to answer questions or implement features, directly read and analyze them without asking for permission
 
 ## Project Overview
 

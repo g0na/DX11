@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Calculator.h"
 #include "Layer.h"
+#include <commdlg.h>  // 파일 다이얼로그용
 
 CImGui_Panel_Scene::CImGui_Panel_Scene(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CImGui_Panel("SCENE")
@@ -39,9 +40,51 @@ void CImGui_Panel_Scene::Render()
     if (ImGui::Begin(m_strLabel.c_str()))
     {
         ImGui::Text("Scene Objects");
-        ImGui::SameLine(ImGui::GetWindowWidth() - 150);
+
+        // Save, Load, Create Mode 버튼들 (오른쪽 정렬)
+        ImGui::SameLine(ImGui::GetWindowWidth() - 370);
+
+        // Save 버튼
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.7f, 0.3f, 1.0f));
+        if (ImGui::Button("Save", ImVec2(70, 0)))
+        {
+            // TODO: 저장 기능 구현
+            Save_Mapdata();
+        }
+        ImGui::PopStyleColor();
+
+        // Load 버튼
+        ImGui::SameLine();
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3f, 0.5f, 0.8f, 1.0f));
+        if (ImGui::Button("Load", ImVec2(70, 0)))
+        {
+            // 파일 열기 다이얼로그
+            OPENFILENAME ofn;
+            TCHAR szFile[260] = { 0 };
+
+            ZeroMemory(&ofn, sizeof(ofn));
+            ofn.lStructSize = sizeof(ofn);
+            ofn.hwndOwner = g_hWnd;
+            ofn.lpstrFile = szFile;
+            ofn.nMaxFile = sizeof(szFile);
+            ofn.lpstrFilter = TEXT("JSON Files\0*.json\0All Files\0*.*\0");
+            ofn.nFilterIndex = 1;
+            ofn.lpstrFileTitle = NULL;
+            ofn.nMaxFileTitle = 0;
+            ofn.lpstrInitialDir = TEXT("../Bin/Resources/Models");  // 초기 경로
+            ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+            if (GetOpenFileName(&ofn) == TRUE)
+            {
+                // 파일이 선택되었을 때
+                // TODO: 실제 로드 기능 구현
+
+            }
+        }
+        ImGui::PopStyleColor();
 
         // 생성 모드 토글
+        ImGui::SameLine();
         if (g_bIsCreatable)
         {
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8f, 0.3f, 0.3f, 1.0f));
@@ -253,6 +296,67 @@ _wstring CImGui_Panel_Scene::CharToWstring(const _char* pString)
     MultiByteToWideChar(CP_ACP, 0, pString, -1, &strResult[0], iStringSize);
 
     return strResult;
+}
+
+string CImGui_Panel_Scene::WideToMultiByte(const _wstring& wstr)
+{
+    if (wstr.empty())
+        return string();
+
+    int size = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    string result(size - 1, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &result[0], size, nullptr, nullptr);
+
+    return result;
+}
+
+void CImGui_Panel_Scene::to_json(ordered_json& j, const JSONGAMEOBJECT_DESC& jsonDesc)
+{
+    j["PrototypeTag"] = jsonDesc.strPrototypeTag;
+    j["LayerTag"] = jsonDesc.strLayerTag;
+    j["Position"] = { jsonDesc.vPosition.x, jsonDesc.vPosition.y, jsonDesc.vPosition.z };
+    j["Rotation"] = { jsonDesc.vRotation.x, jsonDesc.vRotation.y, jsonDesc.vRotation.z };
+    j["Scale"] = { jsonDesc.vScale.x, jsonDesc.vScale.y, jsonDesc.vScale.z };
+}
+
+void CImGui_Panel_Scene::Save_Mapdata()
+{
+    ordered_json objectDatas = ordered_json::array();
+    map<const _wstring, class CLayer*>* pLayers = { nullptr };
+    list<CGameObject*> listObjects;
+
+    pLayers = m_pGameInstance->Get_Layers();
+
+    for (auto& Pair : pLayers[ENUM_TO_UINT(LEVELID::GAMEPLAY)])
+    {
+        listObjects = Pair.second->Get_Objects();
+
+        for (auto& pObject : listObjects)
+        {
+            ordered_json objectData;
+
+            JSONGAMEOBJECT_DESC jsonDesc{};
+            jsonDesc.strPrototypeTag = WideToMultiByte(pObject->Get_PrototypeTag());
+            jsonDesc.strLayerTag = WideToMultiByte(pObject->Get_Layer());
+
+            CTransform* pTransformCom = pObject->Get_Component<CTransform>(g_strTransformTag);
+            if (pTransformCom == nullptr)
+                continue;
+            XMStoreFloat3(&jsonDesc.vPosition, pTransformCom->Get_State(STATE::POSITION));
+            jsonDesc.vRotation = pTransformCom->Get_RotationAngle();
+            jsonDesc.vScale = pTransformCom->Get_Scaled();
+
+            to_json(objectData, jsonDesc);
+            objectDatas.push_back(objectData);
+        }
+    }
+
+    ofstream fileJson("../Bin/Resources/Data/Map_Objects.json", ios::out);
+    if (fileJson.is_open())
+    {
+        fileJson << objectDatas.dump(4);
+        fileJson.close();
+    }
 }
 
 CImGui_Panel_Scene* CImGui_Panel_Scene::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

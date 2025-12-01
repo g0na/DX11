@@ -3,6 +3,9 @@
 #include "GameObject.h"
 #include "Transform.h"
 
+using json = nlohmann::json;
+using ordered_json = nlohmann::ordered_json;
+
 CImGui_Panel_Inspector::CImGui_Panel_Inspector()
     : CImGui_Panel("INSPECTOR")
 {
@@ -112,15 +115,9 @@ void CImGui_Panel_Inspector::Render()
             ImGui::Spacing();
             ImGui::Separator();
             ImGui::Spacing();
-
-            // 액션 버튼
-            if (ImGui::Button("Save", ImVec2(-1, 30)))
-            {
-                // TODO: 변경사항 적용
-            }
         }
     }
-
+    
     ImGui::End();
 }
 

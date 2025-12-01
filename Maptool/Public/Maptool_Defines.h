@@ -6,7 +6,6 @@
 #include <mutex>
 #include <filesystem>
 #include <iostream>
-#include "json.hpp"
 #include "GameObject.h"
 
 #pragma push_macro("new")

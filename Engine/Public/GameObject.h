@@ -13,6 +13,7 @@ public:
 		// 객체에게 공통적으로 필요한 요소
 		_tchar	szName[MAX_PATH] = {};
 	}GAMEOBJECT_DESC;
+
 protected:
 	explicit CGameObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	explicit CGameObject(const CGameObject& prototype);		// 메모리 복사를 통해 객체를 생성
@@ -27,14 +28,17 @@ public:
 	virtual HRESULT	Render();
 
 public:
-	CStateMachine* Get_StateMachine() { return m_pStateMachine; }
-	CComponent* Get_Component(const _wstring& strComponentTag) { return m_mapComponents[strComponentTag]; }
+	const _wstring&		Get_PrototypeTag() { return m_strPrototypeTag; }
+	CStateMachine*		Get_StateMachine() { return m_pStateMachine; }
+	CComponent*			Get_Component(const _wstring& strComponentTag) { return m_mapComponents[strComponentTag]; }
 	
 	template<typename T>
-	T* Get_Component(const _wstring& strComponentTag) { return dynamic_cast<T*>(Get_Component(strComponentTag)); }
+	T*					Get_Component(const _wstring& strComponentTag) { return dynamic_cast<T*>(Get_Component(strComponentTag)); }
 
-	_tchar* Get_Name() { return m_szName; }
-	const _wstring Get_Layer() const;
+	_tchar*				Get_Name() { return m_szName; }
+	const _wstring		Get_Layer() const;
+	
+	void				Set_PrototypeTag(const _wstring& strPrototypeTag) { m_strPrototypeTag = strPrototypeTag; }
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };
@@ -42,6 +46,7 @@ protected:
 	class CGameInstance*	m_pGameInstance = { nullptr };
 
 protected:
+	_wstring									m_strPrototypeTag = {};
 	LAYER										m_eLayer = { LAYER::END };
 	_tchar										m_szName[MAX_PATH] = {};
 	map<const _wstring, class CComponent*>		m_mapComponents;

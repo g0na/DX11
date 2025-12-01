@@ -10,6 +10,16 @@ NS_BEGIN(Maptool)
 
 class CImGui_Panel_Scene final : public CImGui_Panel
 {
+public:
+	typedef struct tagJSONGameObjcetDesc
+	{
+		string strPrototypeTag = {};
+		string strLayerTag = {};
+		_float3 vPosition = {};
+		_float3 vRotation = {};
+		_float3 vScale = {};
+	}JSONGAMEOBJECT_DESC;
+
 private:
 	CImGui_Panel_Scene(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CImGui_Panel_Scene();
@@ -24,6 +34,10 @@ public:
 
 private:
 	_wstring CharToWstring(const _char* pString);
+	string	WideToMultiByte(const _wstring& wstr);
+
+	void Save_Mapdata();
+	void to_json(ordered_json& j, const JSONGAMEOBJECT_DESC& jsonDesc);
 
 private:
 	ID3D11Device*						m_pDevice = { nullptr };

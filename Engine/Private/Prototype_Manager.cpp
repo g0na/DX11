@@ -21,7 +21,10 @@ HRESULT CPrototype_Manager::Add_Prototype(_uint iLevelNum, const _wstring& strPr
 	if (iLevelNum >= m_iLevelNum ||
 		Find_Prototype(iLevelNum, strPrototypeTag) != nullptr)
 		return E_FAIL;
-
+	
+	if (dynamic_cast<CGameObject*>(pPrototype) != nullptr)
+		dynamic_cast<CGameObject*>(pPrototype)->Set_PrototypeTag(strPrototypeTag);
+	
 	m_pPrototypes[iLevelNum].emplace(strPrototypeTag, pPrototype);
 
 	return S_OK;
