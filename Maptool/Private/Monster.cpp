@@ -20,13 +20,15 @@ HRESULT CMonster::Initialize_Prototype()
 
 HRESULT CMonster::Initialize(void* pArg)
 {
+	lstrcpy(m_szName, TEXT("Darkwraith"));
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pModelCom->Set_Animation(2, true);
+	m_pModelCom->Set_Animation(0, true);
 
 	return S_OK;
 }

@@ -1,4 +1,4 @@
-#include "Maptool_Defines.h"
+﻿#include "Maptool_Defines.h"
 #include "GameInstance.h"
 #include "ImGui_Panel_Prototype.h"
 #include "GameObject.h"
@@ -42,7 +42,8 @@ void CImGui_Panel_Prototype::Render()
         {
             if (dynamic_cast<CGameObject*>(Pair.second) != nullptr)
             {
-                if (dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Monster")
+                if (dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Monster" ||
+                    dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Map")
                 {
                     _char szPrototypeName[128] = {};
                     WideCharToMultiByte(CP_ACP, 0, Pair.first.c_str(), -1, szPrototypeName, sizeof(szPrototypeName), nullptr, nullptr);
@@ -71,11 +72,35 @@ void CImGui_Panel_Prototype::Render()
         }
         ImGui::EndChild();
 
-        // 하단 정보
-        //ImGui::Separator();
-        //ImGui::Text("Selected Objects : %s", m_szSelectedObj);
+        // Create on Origin 버튼
+        ImGui::Separator();
+        if (ImGui::Button("Create on Origin", ImVec2(-1, 0)))
+        {
+            // TODO: 원점에 오브젝트 생성 기능 구현
+            if (g_bIsCreatable)
+            {
+                _wstring strPrototypeName = CharToWstring(g_szSelectedPrototypeName);
+
+                // 프로토타입 이름에서 Prototype_GameObject_ 까지만 자름.
+                _wstring strObjectName = strPrototypeName.substr(21);
+                CGameObject::GAMEOBJECT_DESC GameObjectDesc{};
+                lstrcpy(GameObjectDesc.szName, strObjectName.c_str());
+
+                CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(iCurLevelID, strPrototypeName, iCurLevelID, g_pSelectedPrototype->Get_Layer(), &GameObjectDesc);
+            }
+        }
     }
     ImGui::End();
+}
+
+_wstring CImGui_Panel_Prototype::CharToWstring(const _char* pString)
+{
+    _uint iStringSize = MultiByteToWideChar(CP_ACP, 0, pString, -1, NULL, 0);
+
+    _wstring strResult(iStringSize - 1, 0);
+    MultiByteToWideChar(CP_ACP, 0, pString, -1, &strResult[0], iStringSize);
+
+    return strResult;
 }
 
 CImGui_Panel_Prototype* CImGui_Panel_Prototype::Create()

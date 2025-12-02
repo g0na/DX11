@@ -36,8 +36,10 @@ private:
 	_wstring CharToWstring(const _char* pString);
 	string	WideToMultiByte(const _wstring& wstr);
 
-	void Save_Mapdata();
+	HRESULT Save_Mapdata();
+	HRESULT Load_Mapdata(const _tchar* pFilePath);
 	void to_json(ordered_json& j, const JSONGAMEOBJECT_DESC& jsonDesc);
+	void from_json(const ordered_json& j, JSONGAMEOBJECT_DESC& jsonDesc);
 
 private:
 	ID3D11Device*						m_pDevice = { nullptr };
@@ -45,6 +47,9 @@ private:
 	CCalculator*						m_pCalculator = { nullptr };
 	CGameObject*						m_pSelectedObject = { nullptr };
 	class CImGui_Panel_Inspector*		m_pInspector = { nullptr };
+
+	_wstring							m_strJsonPath = {};
+	_float3								m_vRotationAngle{};
 
 public:
 	static CImGui_Panel_Scene* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

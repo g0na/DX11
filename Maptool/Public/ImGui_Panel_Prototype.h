@@ -18,6 +18,9 @@ public:
 	virtual HRESULT Initialize() override;
 	virtual void Render() override;
 
+public:
+	_wstring CharToWstring(const _char* pString);
+
 private:
 	CGameObject*						m_pSelectedObject = { nullptr };		// 왼쪽 창에서 선택된 원본 오브젝트
 	_char								m_szSelectedObj[128] = {};				// 왼쪽 창에서 선택된 원본 오브젝트의 키 값

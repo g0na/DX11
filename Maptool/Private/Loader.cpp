@@ -144,7 +144,7 @@ HRESULT CLoader::Loading_GamePlay()
 
 	PreTransformMatrix = DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f);
 	/* For.Prototype_Component_Model_Map */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map"),
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map1"),
 		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/testmap/testmap.fbx", PreTransformMatrix))))
 		return E_FAIL;
 	

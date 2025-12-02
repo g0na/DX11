@@ -20,6 +20,8 @@ HRESULT CMap::Initialize_Prototype()
 
 HRESULT CMap::Initialize(void* pArg)
 {
+	lstrcpy(m_szName, TEXT("Map"));
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -70,7 +72,7 @@ HRESULT CMap::Ready_Components()
 	//	TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 	//	return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map1"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 

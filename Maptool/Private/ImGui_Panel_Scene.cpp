@@ -78,7 +78,7 @@ void CImGui_Panel_Scene::Render()
             {
                 // 파일이 선택되었을 때
                 // TODO: 실제 로드 기능 구현
-
+                Load_Mapdata(ofn.lpstrFile);
             }
         }
         ImGui::PopStyleColor();
@@ -186,8 +186,12 @@ void CImGui_Panel_Scene::Render()
                             }
 
                             // Rotation
-                            ImGui::TableSetColumnIndex(2);
-                            ImGui::Text("0.0, 0.0, 0.0"); // TODO: 회전 값 구현
+                            if (pTransform)
+                            {
+                                m_vRotationAngle = pTransform->Get_RotationAngle();
+                                ImGui::TableSetColumnIndex(2);
+                                ImGui::Text("%.2f, %.2f, %.2f", m_vRotationAngle.x, m_vRotationAngle.y, m_vRotationAngle.z);
+                            }
 
                             // Scale
                             ImGui::TableSetColumnIndex(3);
@@ -319,7 +323,25 @@ void CImGui_Panel_Scene::to_json(ordered_json& j, const JSONGAMEOBJECT_DESC& jso
     j["Scale"] = { jsonDesc.vScale.x, jsonDesc.vScale.y, jsonDesc.vScale.z };
 }
 
-void CImGui_Panel_Scene::Save_Mapdata()
+void CImGui_Panel_Scene::from_json(const ordered_json& j, JSONGAMEOBJECT_DESC& jsonDesc)
+{
+    j["PrototypeTag"].get_to(jsonDesc.strPrototypeTag);
+    j["LayerTag"].get_to(jsonDesc.strLayerTag);
+
+    j["Position"][0].get_to(jsonDesc.vPosition.x);
+    j["Position"][1].get_to(jsonDesc.vPosition.y);
+    j["Position"][2].get_to(jsonDesc.vPosition.z);
+
+    j["Rotation"][0].get_to(jsonDesc.vRotation.x);
+    j["Rotation"][1].get_to(jsonDesc.vRotation.y);
+    j["Rotation"][2].get_to(jsonDesc.vRotation.z);
+
+    j["Scale"][0].get_to(jsonDesc.vScale.x);
+    j["Scale"][1].get_to(jsonDesc.vScale.y);
+    j["Scale"][2].get_to(jsonDesc.vScale.z);
+}
+
+HRESULT CImGui_Panel_Scene::Save_Mapdata()
 {
     ordered_json objectDatas = ordered_json::array();
     map<const _wstring, class CLayer*>* pLayers = { nullptr };
@@ -333,6 +355,10 @@ void CImGui_Panel_Scene::Save_Mapdata()
 
         for (auto& pObject : listObjects)
         {
+            // 일단 카메라는 저장하는 오브젝트에서 제외
+            if (pObject->Get_Layer() == TEXT("Layer_Camera"))
+                continue;
+
             ordered_json objectData;
 
             JSONGAMEOBJECT_DESC jsonDesc{};
@@ -351,12 +377,53 @@ void CImGui_Panel_Scene::Save_Mapdata()
         }
     }
 
-    ofstream fileJson("../Bin/Resources/Data/Map_Objects.json", ios::out);
-    if (fileJson.is_open())
+    if (m_strJsonPath.length() == 0)
+        m_strJsonPath = TEXT("../Bin/Resources/Data/Map_Objects.json");
+    
+    ofstream fileJson(m_strJsonPath, ios::out);
+    if (fileJson.is_open() == false)
+        return E_FAIL;
+
+    fileJson << objectDatas.dump(4);
+    fileJson.close();
+    
+    return S_OK;
+}
+
+HRESULT CImGui_Panel_Scene::Load_Mapdata(const _tchar* pFilePath)
+{
+    ifstream fileJson(pFilePath, ios::in);
+    if (fileJson.is_open() == false)
+        return E_FAIL;
+
+    m_strJsonPath = pFilePath;
+
+    ordered_json objectDatas = ordered_json::array();
+    fileJson >> objectDatas;
+    fileJson.close();
+
+    for (auto& objectData : objectDatas)
     {
-        fileJson << objectDatas.dump(4);
-        fileJson.close();
+        JSONGAMEOBJECT_DESC jsonDesc{};
+        from_json(objectData, jsonDesc);
+
+        _wstring strProtoTag = CharToWstring(jsonDesc.strPrototypeTag.c_str());
+        _wstring strLayerTag = CharToWstring(jsonDesc.strLayerTag.c_str());
+        m_vRotationAngle = jsonDesc.vRotation;
+
+        CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), strProtoTag, 
+            ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+        if (pGameObject == nullptr)
+            return E_FAIL;
+
+        CTransform* pTransformCom = pGameObject->Get_Component<CTransform>(g_strTransformTag);
+        pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(XMLoadFloat3(&jsonDesc.vPosition), 1.f));
+        pTransformCom->Set_Scale(jsonDesc.vScale.x, jsonDesc.vScale.y, jsonDesc.vScale.z);
+        pTransformCom->Rotation(jsonDesc.vRotation.x, jsonDesc.vRotation.y, jsonDesc.vRotation.z);
+        pTransformCom->Set_RotationAngle(m_vRotationAngle);
     }
+    
+    return S_OK;
 }
 
 CImGui_Panel_Scene* CImGui_Panel_Scene::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
