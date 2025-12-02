@@ -49,6 +49,8 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_States()))
         return E_FAIL;
 
+    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 5.f, 0.f, 1.f));
+
     return S_OK;
 }
 

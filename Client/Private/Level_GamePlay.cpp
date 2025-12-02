@@ -78,12 +78,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	CTransform::TRANSFORM_DESC		TransformDesc{};
-	TransformDesc.fSpeedPerSec = 5.f;
-	TransformDesc.fRotationPerSec = XMConvertToRadians(60.f);
+	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &TransformDesc);
+	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }
@@ -100,11 +99,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Background(const _wstring& strLayerTag)
 {
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
-
-
-	//if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))
-	//	return E_FAIL;
 
 	return S_OK;
 }

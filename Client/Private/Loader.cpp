@@ -3,7 +3,10 @@
 #include "GameInstance.h"
 #include "Terrain.h"
 #include "Camera_Free.h"
-#include "Monster.h"
+
+#include "Monster_Darkwraith.h"
+#include "Monster_Hollow.h"
+
 #include "Map.h"
 
 #include "Player.h"
@@ -143,13 +146,18 @@ HRESULT CLoader::Loading_GamePlay()
 	
 	// 모델에 필요한 초기 상태 행렬 선언
 	PreTransformMatrix = XMMatrixIdentity();
+	PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/test.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Darkwraith/Darkwraith.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
-	PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+	/* For.Prototype_Component_Model_Hollow */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Hollow"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Hollow/Hollow.fbx", PreTransformMatrix))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Model_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Player"),
 		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Player/Player50.fbx", PreTransformMatrix))))
@@ -197,9 +205,14 @@ HRESULT CLoader::Loading_GamePlay()
 		CCamera_Free::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Monster*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-		CMonster::Create(m_pDevice, m_pContext))))
+	/* For.Prototype_GameObject_Darkwraith */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
+		CMonster_Darkwraith::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Hollow */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
+		CMonster_Hollow::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Body_Player*/
