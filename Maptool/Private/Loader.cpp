@@ -2,8 +2,9 @@
 #include "GameInstance.h"
 #include "Camera_Free.h"
 #include "Monster.h"
+
 #include "Map.h"
-#include "Calculator.h"
+#include "Map2.h"
 
 #include "Player.h"
 #include "Body.h"
@@ -11,6 +12,7 @@
 #include "WeaponCase.h"
 #include "Shield.h"
 
+#include "Calculator.h"
 #include "StateMachine.h"
 
 USING(Maptool)
@@ -142,10 +144,14 @@ HRESULT CLoader::Loading_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Player_Shield/Player_Shield.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
-	PreTransformMatrix = DirectX::XMMatrixScaling(0.01f, 0.01f, 0.01f);
-	/* For.Prototype_Component_Model_Map */
+	/* For.Prototype_Component_Model_Map1 */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map1"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/testmap/testmap.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/map_part1/map_part1.fbx", PreTransformMatrix))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Map2 */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map2"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/map_part2/map_part2.fbx", PreTransformMatrix))))
 		return E_FAIL;
 	
 	/* For.Prototype_Component_Calculator */
@@ -173,8 +179,12 @@ HRESULT CLoader::Loading_GamePlay()
 		CMonster::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map"),
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map1"),
 		CMap::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map2"),
+		CMap2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Body_Player*/

@@ -31,9 +31,6 @@
     <Filter Include="02. GameObjects\00. Background">
       <UniqueIdentifier>{7081a513-0b7e-4342-aebf-8326937ee4e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\01. Terrain">
-      <UniqueIdentifier>{105b9693-9303-4884-b298-c0b278464526}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\02. Camera">
       <UniqueIdentifier>{b98d5e8a-4fd7-4fd3-ad43-edcfc9857603}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,15 @@
     </Filter>
     <Filter Include="02. GameObjects\04. Player\States\Attack">
       <UniqueIdentifier>{8884c58b-987c-47fe-a790-27d3ce362035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map">
+      <UniqueIdentifier>{105b9693-9303-4884-b298-c0b278464526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map1">
+      <UniqueIdentifier>{84c5a962-86ac-4c7a-9f52-f8c49c916764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map2">
+      <UniqueIdentifier>{4320963a-d42c-4ca8-9ac5-56389ae4725c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,9 +177,6 @@
     <ClInclude Include="..\Public\Monster.h">
       <Filter>02. GameObjects\03. Monster</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Map.h">
-      <Filter>02. GameObjects\01. Terrain</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\ImGui_Panel_Scene.h">
       <Filter>96. ImGui\01. Panel\Scene</Filter>
     </ClInclude>
@@ -209,6 +212,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Body.h">
       <Filter>02. GameObjects\04. Player\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map.h">
+      <Filter>02. GameObjects\01. Map\Map1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map2.h">
+      <Filter>02. GameObjects\01. Map\Map2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +278,6 @@
     <ClCompile Include="..\Private\Monster.cpp">
       <Filter>02. GameObjects\03. Monster</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Map.cpp">
-      <Filter>02. GameObjects\01. Terrain</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\ImGui_Panel_Scene.cpp">
       <Filter>96. ImGui\01. Panel\Scene</Filter>
     </ClCompile>
@@ -307,6 +313,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\WeaponCase.cpp">
       <Filter>02. GameObjects\04. Player\Weaponcase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map.cpp">
+      <Filter>02. GameObjects\01. Map\Map1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map2.cpp">
+      <Filter>02. GameObjects\01. Map\Map2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
