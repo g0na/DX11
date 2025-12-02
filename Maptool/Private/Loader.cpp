@@ -1,7 +1,9 @@
 #include "Loader.h"	
 #include "GameInstance.h"
 #include "Camera_Free.h"
-#include "Monster.h"
+
+#include "Monster_Darkwraith.h"
+#include "Monster_Hollow.h"
 
 #include "Map.h"
 #include "Map2.h"
@@ -113,10 +115,16 @@ HRESULT CLoader::Loading_GamePlay()
 	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
 	_matrix PreTransformMatrix = DirectX::XMMatrixIdentity();
-	//PreTransformMatrix *= XMMatrixScaling(0.01f, 0.01f, 0.01f);
+	PreTransformMatrix *= XMMatrixRotationY(XMConvertToRadians(180.f));
+
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/DarkWraith/test.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Darkwraith/Darkwraith.fbx", PreTransformMatrix))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Hollow */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Hollow"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Hollow/Hollow.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_StateMachine */
@@ -175,8 +183,14 @@ HRESULT CLoader::Loading_GamePlay()
 		CCamera_Free::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-		CMonster::Create(m_pDevice, m_pContext))))
+	/* For.Prototype_GameObject_Darkwraith */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
+		CMonster_Darkwraith::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Hollow */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
+		CMonster_Hollow::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map1"),

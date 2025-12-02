@@ -1,26 +1,26 @@
-#include "Monster.h"
+#include "Monster_Hollow.h"
 #include "GameInstance.h"
 
-CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Hollow::CMonster_Hollow(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
 {
 }
 
-CMonster::CMonster(const CMonster& Prototype)
+CMonster_Hollow::CMonster_Hollow(const CMonster_Hollow& Prototype)
 	: CGameObject{ Prototype }
 {
 }
 
-HRESULT CMonster::Initialize_Prototype()
+HRESULT CMonster_Hollow::Initialize_Prototype()
 {
 	m_eLayer = LAYER::MONSTER;
 
 	return S_OK;
 }
 
-HRESULT CMonster::Initialize(void* pArg)
+HRESULT CMonster_Hollow::Initialize(void* pArg)
 {
-	lstrcpy(m_szName, TEXT("Darkwraith"));
+	lstrcpy(m_szName, TEXT("Hollow"));
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -33,7 +33,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster::Update_Priority(_float fTimeDelta)
+void CMonster_Hollow::Update_Priority(_float fTimeDelta)
 {
 	if (m_pGameInstance->Get_KeyDown(DIK_1))
 		m_pModelCom->Set_Animation(0, true);
@@ -43,7 +43,7 @@ void CMonster::Update_Priority(_float fTimeDelta)
 		m_pModelCom->Set_Animation(2, true);
 }
 
-void CMonster::Update(_float fTimeDelta)
+void CMonster_Hollow::Update(_float fTimeDelta)
 {
 	m_pModelCom->Play_Animation(fTimeDelta);
 
@@ -64,12 +64,12 @@ void CMonster::Update(_float fTimeDelta)
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 }
 
-void CMonster::Update_Late(_float fTimeDelta)
+void CMonster_Hollow::Update_Late(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
 }
 
-HRESULT CMonster::Render()
+HRESULT CMonster_Hollow::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -93,14 +93,9 @@ HRESULT CMonster::Render()
 	return S_OK;
 }
 
-HRESULT CMonster::Ready_Components()
+HRESULT CMonster_Hollow::Ready_Components()
 {
-	// For Com_Model
-	//if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
-	//	TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
-	//	return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Hollow"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 
@@ -112,7 +107,7 @@ HRESULT CMonster::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CMonster::Bind_ShaderResources()
+HRESULT CMonster_Hollow::Bind_ShaderResources()
 {
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
@@ -139,33 +134,33 @@ HRESULT CMonster::Bind_ShaderResources()
 	return S_OK;
 }
 
-CMonster* CMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Hollow* CMonster_Hollow::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster* pInstance = new CMonster(pDevice, pContext);
+	CMonster_Hollow* pInstance = new CMonster_Hollow(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CMonster");
+		MSG_BOX("Failed to Created : CMonster_Hollow");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonster::Clone(void* pArg)
+CGameObject* CMonster_Hollow::Clone(void* pArg)
 {
-	CMonster* pInstance = new CMonster(*this);
+	CMonster_Hollow* pInstance = new CMonster_Hollow(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CMonster");
+		MSG_BOX("Failed to Cloned : CMonster_Hollow");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonster::Free()
+void CMonster_Hollow::Free()
 {
 	__super::Free();
 

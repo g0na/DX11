@@ -103,6 +103,12 @@
     <Filter Include="02. GameObjects\01. Map\Map2">
       <UniqueIdentifier>{4320963a-d42c-4ca8-9ac5-56389ae4725c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow">
+      <UniqueIdentifier>{311cca3b-5dd0-4aad-b141-815814239c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith">
+      <UniqueIdentifier>{f1a47217-734c-4de1-9abb-cff2536211f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -174,9 +180,6 @@
     <ClInclude Include="..\Public\ImGui_Panel_Inspector.h">
       <Filter>96. ImGui\01. Panel\Inspector</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster.h">
-      <Filter>02. GameObjects\03. Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\ImGui_Panel_Scene.h">
       <Filter>96. ImGui\01. Panel\Scene</Filter>
     </ClInclude>
@@ -218,6 +221,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Map2.h">
       <Filter>02. GameObjects\01. Map\Map2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Hollow.h">
+      <Filter>02. GameObjects\03. Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Darkwraith.h">
+      <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +284,6 @@
     <ClCompile Include="..\Private\ImGui_Panel_Inspector.cpp">
       <Filter>96. ImGui\01. Panel\Inspector</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster.cpp">
-      <Filter>02. GameObjects\03. Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\ImGui_Panel_Scene.cpp">
       <Filter>96. ImGui\01. Panel\Scene</Filter>
     </ClCompile>
@@ -319,6 +325,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Map2.cpp">
       <Filter>02. GameObjects\01. Map\Map2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Hollow.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Darkwraith.cpp">
+      <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

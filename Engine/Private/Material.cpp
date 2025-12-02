@@ -166,7 +166,8 @@ HRESULT CMaterial::Initialize(const aiMaterial* pAIMaterial, const _char* pModel
 HRESULT CMaterial::Bind_ShaderResource(CShader* pShader, const _char* pConstantName, aiTextureType eMaterialType, _uint iTextureIndex)
 {
 	if (m_vecSRVs[eMaterialType].size() == 0)
-		eMaterialType = (aiTextureType)6;
+		//eMaterialType = (aiTextureType)6;
+		return E_FAIL;
 
 	return pShader->Bind_SRV(pConstantName, m_vecSRVs[eMaterialType][iTextureIndex]);
 }

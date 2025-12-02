@@ -1,0 +1,8 @@
+Darkwraith 애니메이션
+0 - Idle
+1 - Walk
+2 - Damaged
+3 - Death
+4 - ATK1
+5 - ATK2
+6 - ATK3
