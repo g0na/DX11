@@ -18,7 +18,7 @@ HRESULT CPlayer_Idle::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
 
-    if (m_pStateMachine == nullptr || 
+    if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
         m_pPlayerBody == nullptr)
         return E_FAIL;

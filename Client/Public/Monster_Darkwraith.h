@@ -11,10 +11,24 @@ NS_BEGIN(Client)
 
 class CMonster_Darkwraith final : public CGameObject
 {
+public:
+	enum DARKWRAITHSTATE
+	{
+		IDLE,
+		WALK,
+		DAMAGED,
+		DEATH,
+		ATTACK,
+		END
+	};
+
 private:
 	CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CMonster_Darkwraith(const CMonster_Darkwraith& Prototype);
 	virtual ~CMonster_Darkwraith() = default;
+
+public:
+	void Set_Animation(_uint iAnimationIndex, _bool isLoop);
 
 public:
 	virtual HRESULT Initialize_Prototype() override;							// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -30,6 +44,7 @@ private:
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_States();
 	HRESULT Bind_ShaderResources();
 
 public:

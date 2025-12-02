@@ -47,7 +47,7 @@ void CPlayer_Attack::Enter_State()
         m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
     if (m_pGameInstance->Get_KeyHold(DIK_W))
         m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-
+    
     if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
     {
         // 회전 관련

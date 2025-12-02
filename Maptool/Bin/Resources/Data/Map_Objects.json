@@ -1,24 +1,5 @@
 [
     {
-        "PrototypeTag": "Prototype_GameObject_Map2",
-        "LayerTag": "Layer_Map",
-        "Position": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "Rotation": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "Scale": [
-            1.0,
-            1.0,
-            1.0
-        ]
-    },
-    {
         "PrototypeTag": "Prototype_GameObject_Map1",
         "LayerTag": "Layer_Map",
         "Position": [
@@ -38,12 +19,12 @@
         ]
     },
     {
-        "PrototypeTag": "Prototype_GameObject_Monster",
-        "LayerTag": "Layer_Monster",
+        "PrototypeTag": "Prototype_GameObject_Map2",
+        "LayerTag": "Layer_Map",
         "Position": [
-            2.2245852947235107,
-            1.7769925594329834,
-            15.966785430908203
+            0.0,
+            0.0,
+            0.0
         ],
         "Rotation": [
             0.0,
@@ -57,12 +38,31 @@
         ]
     },
     {
-        "PrototypeTag": "Prototype_GameObject_Monster",
+        "PrototypeTag": "Prototype_GameObject_Darkwraith",
         "LayerTag": "Layer_Monster",
         "Position": [
-            -13.152098655700684,
-            -12.336308479309082,
-            -8.552873611450195
+            1.4405467510223389,
+            1.7769927978515625,
+            19.39676284790039
+        ],
+        "Rotation": [
+            0.0,
+            -180.0,
+            0.0
+        ],
+        "Scale": [
+            0.9999120831489563,
+            1.0,
+            0.9999120831489563
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Hollow",
+        "LayerTag": "Layer_Monster",
+        "Position": [
+            2.6920909881591797,
+            1.776991367340088,
+            18.395984649658203
         ],
         "Rotation": [
             0.0,
@@ -76,12 +76,12 @@
         ]
     },
     {
-        "PrototypeTag": "Prototype_GameObject_Monster",
+        "PrototypeTag": "Prototype_GameObject_Hollow",
         "LayerTag": "Layer_Monster",
         "Position": [
-            10.957829475402832,
-            -3.9623594284057617,
-            2.295337677001953
+            2.0625808238983154,
+            1.7769927978515625,
+            16.728771209716797
         ],
         "Rotation": [
             0.0,
@@ -95,31 +95,12 @@
         ]
     },
     {
-        "PrototypeTag": "Prototype_GameObject_Monster",
+        "PrototypeTag": "Prototype_GameObject_Hollow",
         "LayerTag": "Layer_Monster",
         "Position": [
-            10.537398338317871,
-            -4.122122764587402,
-            5.278636932373047
-        ],
-        "Rotation": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "Scale": [
-            1.0,
-            1.0,
-            1.0
-        ]
-    },
-    {
-        "PrototypeTag": "Prototype_GameObject_Monster",
-        "LayerTag": "Layer_Monster",
-        "Position": [
-            2.5683372020721436,
-            -4.100177764892578,
-            13.44460391998291
+            3.9631659984588623,
+            1.7769932746887207,
+            16.34711265563965
         ],
         "Rotation": [
             0.0,

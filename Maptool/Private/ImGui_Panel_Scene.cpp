@@ -419,7 +419,7 @@ HRESULT CImGui_Panel_Scene::Load_Mapdata(const _tchar* pFilePath)
         CTransform* pTransformCom = pGameObject->Get_Component<CTransform>(g_strTransformTag);
         pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(XMLoadFloat3(&jsonDesc.vPosition), 1.f));
         pTransformCom->Set_Scale(jsonDesc.vScale.x, jsonDesc.vScale.y, jsonDesc.vScale.z);
-        pTransformCom->Rotation(jsonDesc.vRotation.x, jsonDesc.vRotation.y, jsonDesc.vRotation.z);
+        pTransformCom->Rotation(XMConvertToRadians(jsonDesc.vRotation.x), XMConvertToRadians(jsonDesc.vRotation.y), XMConvertToRadians(jsonDesc.vRotation.z));
         pTransformCom->Set_RotationAngle(m_vRotationAngle);
     }
     

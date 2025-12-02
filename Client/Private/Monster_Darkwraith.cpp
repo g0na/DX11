@@ -1,6 +1,8 @@
 #include "Monster_Darkwraith.h"
 #include "GameInstance.h"
 
+#include "Darkwraith_Idle.h"
+
 CMonster_Darkwraith::CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -9,6 +11,11 @@ CMonster_Darkwraith::CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceCont
 CMonster_Darkwraith::CMonster_Darkwraith(const CMonster_Darkwraith& Prototype)
 	: CGameObject{ Prototype }
 {
+}
+
+void CMonster_Darkwraith::Set_Animation(_uint iAnimationIndex, _bool isLoop)
+{
+	m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
 }
 
 HRESULT CMonster_Darkwraith::Initialize_Prototype()
@@ -28,8 +35,11 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_States()))
+		return E_FAIL;
+
 	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 5.f, 5.f, 1.f));
-	m_pModelCom->Set_Animation(0, true);
+	//m_pModelCom->Set_Animation(IDLE, true);
 
 	return S_OK;
 }
@@ -46,6 +56,9 @@ void CMonster_Darkwraith::Update_Priority(_float fTimeDelta)
 
 void CMonster_Darkwraith::Update(_float fTimeDelta)
 {
+	// 상태머신 업데이트
+	m_pStateMachine->Update_State(fTimeDelta);
+
 	m_pModelCom->Play_Animation(fTimeDelta);
 
 	_vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
@@ -110,6 +123,16 @@ HRESULT CMonster_Darkwraith::Ready_Components()
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
 		TEXT("Com_StateMachine"), reinterpret_cast<CComponent**>(&m_pStateMachine))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMonster_Darkwraith::Ready_States()
+{
+	if (FAILED(m_pStateMachine->Add_State(IDLE, CDarkwraith_Idle::Create(this))))
+		return E_FAIL;
+
+	m_pStateMachine->Set_State(IDLE);
 
 	return S_OK;
 }

@@ -88,6 +88,45 @@
     <Filter Include="02. GameObjects\03. Monster\Darkwraith">
       <UniqueIdentifier>{aece9d75-6c43-41f9-a175-3ad690accff9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\States">
+      <UniqueIdentifier>{211ff8e6-ca73-455f-9d06-b91359b1efcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\States">
+      <UniqueIdentifier>{35f8a93c-6556-4014-856b-4f3a96dae785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\States\00. Idle">
+      <UniqueIdentifier>{fdf4b7c0-5b7f-4615-9a85-a4fe30370238}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\States\01. Walk">
+      <UniqueIdentifier>{2e1251d1-9512-4203-9da4-30bcb7eeab0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\States\02. Damaged">
+      <UniqueIdentifier>{b69ac9d6-c295-44a6-8f8d-b1e6e1daa1a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\States\03. Death">
+      <UniqueIdentifier>{ceeb7790-9cd6-479b-8b1e-e9ba1d3e05c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\States\04. Attack">
+      <UniqueIdentifier>{1a55a532-bd89-4a36-beb2-c9092bca9367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\00. Idle">
+      <UniqueIdentifier>{0dfe979d-9db1-4359-883e-6196c9384479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\States\05. Recoil">
+      <UniqueIdentifier>{3dc73f1b-9e15-4537-8bbb-cc87f9df64f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\01. Walk">
+      <UniqueIdentifier>{e937e12a-0ba0-4045-8528-423253de2640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\02. Damaged">
+      <UniqueIdentifier>{b34f0e3c-fda0-4721-86cb-f3acbca8fa57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\03. Death">
+      <UniqueIdentifier>{3ec62626-3fdc-4a35-b1a0-2b816cd73770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\04. Attack">
+      <UniqueIdentifier>{1b217cb4-fc1c-452e-989b-1c08741f3729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -170,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Hollow.h">
       <Filter>02. GameObjects\03. Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Darkwraith_Idle.h">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\00. Idle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Hollow.cpp">
       <Filter>02. GameObjects\03. Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Darkwraith_Idle.cpp">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\00. Idle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

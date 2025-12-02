@@ -96,6 +96,7 @@ HRESULT CMonster_Hollow::Render()
 
 HRESULT CMonster_Hollow::Ready_Components()
 {
+	// For Com_Model
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Hollow"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
@@ -103,6 +104,11 @@ HRESULT CMonster_Hollow::Ready_Components()
 	// For Com_Shader
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
+	// For Com_StateMachine
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
+		TEXT("Com_StateMachine"), reinterpret_cast<CComponent**>(&m_pStateMachine))))
 		return E_FAIL;
 
 	return S_OK;
