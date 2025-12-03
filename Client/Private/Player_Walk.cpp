@@ -53,24 +53,16 @@ void CPlayer_Walk::Update_State(_float fTimeDelta)
     m_vInputDir = XMVectorZero();
 
     if (m_pGameInstance->Get_KeyHold(DIK_D))
-    {
         m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
-    }
 
     if (m_pGameInstance->Get_KeyHold(DIK_A))
-    {
         m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
-    }
 
     if (m_pGameInstance->Get_KeyHold(DIK_S))
-    {
         m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
-    }
 
     if (m_pGameInstance->Get_KeyHold(DIK_W))
-    {
         m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-    }
 
     if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
     {

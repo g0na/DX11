@@ -94,6 +94,16 @@ void CObject_Manager::Delete_GameObject_From_Layer(CGameObject* pGameObject, _ui
 	pLayer->Delete_GameObject(pGameObject);
 }
 
+CGameObject* CObject_Manager::Get_Player(_uint iLevelIndex)
+{
+	CLayer* pPlayerLayer = Find_Layer(iLevelIndex, TEXT("Layer_Player"));
+	if (pPlayerLayer == nullptr)
+		return nullptr;
+
+	// 플레이어는 무조건 하나라서 front 리턴
+	return pPlayerLayer->Get_Objects().front();
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto iter = m_pLayers[iLevelIndex].find(strLayerTag);

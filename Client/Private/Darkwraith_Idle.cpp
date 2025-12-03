@@ -31,10 +31,14 @@ void CDarkwraith_Idle::Enter_State()
 
 void CDarkwraith_Idle::Update_State(_float fTimeDelta)
 {
+    if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Is_Targeting() == true)
+        m_pStateMachine->Change_State(CMonster_Darkwraith::WALK);
 }
 
 void CDarkwraith_Idle::Exit_State()
 {
+    _vector vPlayerPos = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_PlayerPos();
+    m_pMonsterTransform->LookAt(vPlayerPos);
 }
 
 CDarkwraith_Idle* CDarkwraith_Idle::Create(CGameObject* pOwner)

@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Player.h"
 
 NS_BEGIN(Engine)
 class CModel;
@@ -28,6 +29,12 @@ private:
 	virtual ~CMonster_Darkwraith() = default;
 
 public:
+	const _vector Get_PlayerPos() const { return m_vPlayerPos; }
+	const _float Get_TargetDist() const { return m_fDistance; }
+
+	const _bool Is_Targeting() const { return m_bIsTargeting; }
+	const _bool Is_AttackReady() const { return m_bAttackReady; }
+
 	void Set_Animation(_uint iAnimationIndex, _bool isLoop);
 
 public:
@@ -39,8 +46,14 @@ public:
 	virtual HRESULT	Render() override;
 
 private:
-	CModel*		m_pModelCom = { nullptr };
-	CShader*	m_pShaderCom = { nullptr };
+	CModel*				m_pModelCom = { nullptr };
+	CShader*			m_pShaderCom = { nullptr };
+	CPlayer*			m_pPlayer = { nullptr };
+	
+	_vector				m_vPlayerPos = {};
+	_bool				m_bIsTargeting = {};
+	_bool				m_bAttackReady = {};
+	_float				m_fDistance = {};
 
 private:
 	HRESULT Ready_Components();

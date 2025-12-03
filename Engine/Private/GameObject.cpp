@@ -77,6 +77,11 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+_float CGameObject::Compute_Distance(_fvector vTargetPos)
+{
+	return XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(STATE::POSITION)));
+}
+
 const _wstring CGameObject::Get_Layer() const
 {
 	switch (m_eLayer)

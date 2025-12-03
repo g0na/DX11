@@ -24,6 +24,7 @@ public:
 	void Delete_GameObject_From_Layer(class CGameObject* pGameObject, _uint iLayerLevelIndex, const _wstring& strLayerTag);
 
 	map<const _wstring, class CLayer*>* Get_Layers() const { return m_pLayers; }
+	class CGameObject* Get_Player(_uint iLevelIndex);
 
 private:
 	ID3D11Device*					m_pDevice = { nullptr };

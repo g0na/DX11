@@ -213,6 +213,12 @@
     <ClInclude Include="..\Public\Darkwraith_Idle.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\00. Idle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Darkwraith_Walk.h">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\01. Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Darkwraith_Attack.h">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\04. Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -299,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Darkwraith_Idle.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Darkwraith_Walk.cpp">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\01. Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Darkwraith_Attack.cpp">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\04. Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

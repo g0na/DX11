@@ -65,6 +65,8 @@ public:
 	void Delete_GameObject_From_Layer(class CGameObject* pGameObject, _uint iLayerLevelIndex, const _wstring& strLayerTag);
 
 	map<const _wstring, class CLayer*>* Get_Layers();
+
+	class CGameObject* Get_Player(_uint iLevelIndex);
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

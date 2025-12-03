@@ -28,6 +28,9 @@ public:
 	virtual HRESULT	Render();
 
 public:
+	_float			Compute_Distance(_fvector vTargetPos);
+
+public:
 	const _wstring&		Get_PrototypeTag() { return m_strPrototypeTag; }
 	CStateMachine*		Get_StateMachine() { return m_pStateMachine; }
 	CComponent*			Get_Component(const _wstring& strComponentTag) { return m_mapComponents[strComponentTag]; }

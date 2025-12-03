@@ -230,6 +230,11 @@ map<const _wstring, class CLayer*>* CGameInstance::Get_Layers()
 {
 	return m_pObjectManager->Get_Layers();
 }
+
+CGameObject* CGameInstance::Get_Player(_uint iLevelIndex)
+{
+	return m_pObjectManager->Get_Player(iLevelIndex);
+}
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

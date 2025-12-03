@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 
 #include "Darkwraith_Idle.h"
+#include "Darkwraith_Walk.h"
+#include "Darkwraith_Attack.h"
 
 CMonster_Darkwraith::CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
@@ -27,6 +29,10 @@ HRESULT CMonster_Darkwraith::Initialize_Prototype()
 
 HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 {
+	// 플레이어 정보 세팅
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
+	Safe_AddRef(m_pPlayer);
+
 	lstrcpy(m_szName, TEXT("Darkwraith"));
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -35,27 +41,30 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_pModelCom->Set_Animation(WALK, false);
+
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 5.f, 5.f, 1.f));
-	//m_pModelCom->Set_Animation(IDLE, true);
 
 	return S_OK;
 }
 
 void CMonster_Darkwraith::Update_Priority(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyDown(DIK_1))
-		m_pModelCom->Set_Animation(0, true);
-	else if (m_pGameInstance->Get_KeyDown(DIK_2))
-		m_pModelCom->Set_Animation(1, true);
-	else if (m_pGameInstance->Get_KeyDown(DIK_3))
-		m_pModelCom->Set_Animation(2, true);
+	m_vPlayerPos = m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION);
+
+	m_fDistance = Compute_Distance(m_vPlayerPos);
 }
 
 void CMonster_Darkwraith::Update(_float fTimeDelta)
 {
+	if (m_fDistance <= 5.f)
+		m_bIsTargeting = true;
+	else
+		m_bIsTargeting = false;
+	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
 
@@ -132,6 +141,12 @@ HRESULT CMonster_Darkwraith::Ready_States()
 	if (FAILED(m_pStateMachine->Add_State(IDLE, CDarkwraith_Idle::Create(this))))
 		return E_FAIL;
 
+	if (FAILED(m_pStateMachine->Add_State(WALK, CDarkwraith_Walk::Create(this))))
+		return E_FAIL;
+
+	if (FAILED(m_pStateMachine->Add_State(ATTACK, CDarkwraith_Attack::Create(this))))
+		return E_FAIL;
+
 	m_pStateMachine->Set_State(IDLE);
 
 	return S_OK;
@@ -196,4 +211,5 @@ void CMonster_Darkwraith::Free()
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pPlayer);
 }
