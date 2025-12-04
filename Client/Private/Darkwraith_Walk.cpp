@@ -20,6 +20,8 @@ HRESULT CDarkwraith_Walk::Initialize(CGameObject* pOwner)
         m_pMonsterTransform == nullptr)
         return E_FAIL;
 
+    m_pCurAngle = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
+
     return S_OK;
 }
 
@@ -32,8 +34,24 @@ void CDarkwraith_Walk::Enter_State()
 void CDarkwraith_Walk::Update_State(_float fTimeDelta)
 {
     _vector vPlayerPos = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_PlayerPos();
-    m_pMonsterTransform->LookAt(vPlayerPos);
-    
+    _vector vTargetDir = XMVector3Normalize(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION));
+
+    _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
+    _float fAngleDiff = fAngle - *m_pCurAngle;
+
+    while (fAngleDiff > XM_PI)
+        fAngleDiff -= XM_2PI;
+    while (fAngleDiff < -XM_PI)
+        fAngleDiff += XM_2PI;
+
+    _float fDeltaAngle = fAngleDiff * fTimeDelta * 15.f;
+    if (abs(fDeltaAngle) > abs(fAngleDiff))
+        fDeltaAngle = fAngleDiff;
+
+    *m_pCurAngle += fDeltaAngle;
+
+    m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+
     if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_TargetDist() <= 3.f)
         m_pStateMachine->Change_State(CMonster_Darkwraith::ATTACK);
 
@@ -43,8 +61,6 @@ void CDarkwraith_Walk::Update_State(_float fTimeDelta)
 
 void CDarkwraith_Walk::Exit_State()
 {
-    _vector vPlayerPos = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_PlayerPos();
-    m_pMonsterTransform->LookAt(vPlayerPos);
 }
 
 CDarkwraith_Walk* CDarkwraith_Walk::Create(CGameObject* pOwner)

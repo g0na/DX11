@@ -29,10 +29,6 @@ HRESULT CMonster_Darkwraith::Initialize_Prototype()
 
 HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 {
-	// 플레이어 정보 세팅
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
-	Safe_AddRef(m_pPlayer);
-
 	lstrcpy(m_szName, TEXT("Darkwraith"));
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -48,6 +44,10 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 5.f, 5.f, 1.f));
 
+	// 플레이어 정보 세팅
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
+	Safe_AddRef(m_pPlayer);
+
 	return S_OK;
 }
 
@@ -60,7 +60,7 @@ void CMonster_Darkwraith::Update_Priority(_float fTimeDelta)
 
 void CMonster_Darkwraith::Update(_float fTimeDelta)
 {
-	if (m_fDistance <= 5.f)
+	if (m_fDistance <= 8.f)
 		m_bIsTargeting = true;
 	else
 		m_bIsTargeting = false;

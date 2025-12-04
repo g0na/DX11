@@ -30,7 +30,9 @@ private:
 	CStateMachine* m_pStateMachine = { nullptr };
 	CTransform* m_pMonsterTransform = { nullptr };
 
-	_float m_fAttackDelay = {};
+	_uint	m_iAttackCnt = {};
+	_float* m_pCurAngle = { nullptr };
+	_float	m_fAttackDelay = {};
 
 public:
 	static CDarkwraith_Attack* Create(class CGameObject* pOwner);

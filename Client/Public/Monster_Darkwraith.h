@@ -31,6 +31,7 @@ private:
 public:
 	const _vector Get_PlayerPos() const { return m_vPlayerPos; }
 	const _float Get_TargetDist() const { return m_fDistance; }
+	_float* Get_CurAnglePtr() { return &m_fCurAngle; }
 
 	const _bool Is_Targeting() const { return m_bIsTargeting; }
 	const _bool Is_AttackReady() const { return m_bAttackReady; }
@@ -53,6 +54,7 @@ private:
 	_vector				m_vPlayerPos = {};
 	_bool				m_bIsTargeting = {};
 	_bool				m_bAttackReady = {};
+	_float				m_fCurAngle = {};
 	_float				m_fDistance = {};
 
 private:

@@ -30,6 +30,9 @@ private:
 	CStateMachine* m_pStateMachine = { nullptr };
 	CTransform* m_pMonsterTransform = { nullptr };
 
+private:
+	_float* m_pCurAngle = { nullptr };
+
 public:
 	static CDarkwraith_Walk* Create(class CGameObject* pOwner);
 	virtual void Free() override;
