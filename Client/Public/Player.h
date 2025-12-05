@@ -2,6 +2,10 @@
 #include "Client_Defines.h"
 #include "ContainerObject.h"
 
+NS_BEGIN(Engine)
+class CCollider;
+NS_END
+
 NS_BEGIN(Client)
 
 class CPlayer final : public CContainerObject
@@ -35,6 +39,7 @@ public:
 
 private:	
 	class CBody*	m_pBody = { nullptr };
+	CCollider*		m_pColliderCom = { nullptr };
 	_float			m_fCurAngle = { 0.f };
 
 private:

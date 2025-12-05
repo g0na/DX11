@@ -277,7 +277,7 @@ void CGameInstance::Set_Transform(D3DTS eTransformMatrix, _fmatrix TransformMatr
 {
 	m_pPipeLine->Set_Transform(eTransformMatrix, TransformMatrix);
 }
-_float4x4 CGameInstance::Get_Transform(D3DTS eTransformMatrix)
+const _float4x4* CGameInstance::Get_Transform(D3DTS eTransformMatrix)
 {
 	return m_pPipeLine->Get_Transform(eTransformMatrix);
 }

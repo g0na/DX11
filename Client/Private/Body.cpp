@@ -1,6 +1,8 @@
 #include "Body.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include "Collider.h"
+#include "Bounding_Sphere.h"
 
 CBody::CBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject { pDevice, pContext }

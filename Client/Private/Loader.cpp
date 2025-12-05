@@ -15,6 +15,7 @@
 #include "WeaponCase.h"
 #include "Shield.h"
 
+#include "Collider.h"
 #include "StateMachine.h"
 
 USING(Client)
@@ -120,7 +121,7 @@ HRESULT CLoader::Loading_Logo()
 
 HRESULT CLoader::Loading_GamePlay()
 {
-	UpdateLoadingText(TEXT("텍스쳐를 로딩 중 입니다."));
+	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
@@ -131,11 +132,22 @@ HRESULT CLoader::Loading_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Mask.dds"), 1))))
 		return E_FAIL;	
 
-	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_StateMachine */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
 		CStateMachine::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Collider_AABB */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
+		CCollider::Create(m_pDevice, m_pContext, COLLIDER::AABB))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Collider_Sphere */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+		CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE))))
+		return E_FAIL;
+
+	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrain"),

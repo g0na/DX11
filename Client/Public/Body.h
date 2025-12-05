@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 class CModel;
 class CShader;
+class CCollider;
 NS_END
 
 NS_BEGIN(Client)

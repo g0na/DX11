@@ -21,9 +21,9 @@ public:
 			TransformMatrix);
 	}
 
-	_float4x4 Get_Transform(D3DTS eTransformMatrix)
+	const _float4x4* Get_Transform(D3DTS eTransformMatrix)
 	{
-		return m_TransformMatrices[ENUM_TO_UINT(eTransformMatrix)];
+		return &m_TransformMatrices[ENUM_TO_UINT(eTransformMatrix)];
 	}
 
 	_float4x4 Get_InverseTransform(D3DTS eTransformMatrix)

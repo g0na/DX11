@@ -9,7 +9,13 @@
 #include <DirectXTK/DDSTextureLoader.h>
 #include <DirectXTK/WICTextureLoader.h>
 #include <DirectXTK/ScreenGrab.h>
+#include <DirectXTK/PrimitiveBatch.h>
+#include <DirectXTK/Effects.h>
+#include <DirectXTK/VertexTypes.h>
+#include <DirectXTK/SpriteBatch.h>
+#include <DirectXTK/SpriteFont.h>
 #include <DirectXTex/DirectXTex.h>
+
 #include <d3dcompiler.h>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>

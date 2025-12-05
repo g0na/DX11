@@ -15,10 +15,12 @@ CComponent::CComponent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CComponent::CComponent(const CComponent& Prototype)
 	: m_pDevice { Prototype.m_pDevice }
 	, m_pContext { Prototype.m_pContext }
+	, m_pGameInstance { Prototype.m_pGameInstance }
 	, m_bIsClone { true }
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CComponent::Initialize_Prototype()

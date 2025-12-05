@@ -124,6 +124,21 @@
     <Filter Include="01. Utility\05. Component\05. State\00. StateMachine">
       <UniqueIdentifier>{8e4bd18f-0d5d-4cee-b4fd-adddc1b3f7d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\06. Collider">
+      <UniqueIdentifier>{95cb7f9a-8bc0-4725-903e-dfefa5a1f08c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\06. Collider\Bounding">
+      <UniqueIdentifier>{20c08e7b-653e-48d3-91fc-cab0c2996314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\06. Collider\DebugDraw">
+      <UniqueIdentifier>{217028ed-16b5-46df-8aea-ce0a82e5f880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\06. Collider\Bounding\AABB">
+      <UniqueIdentifier>{ebfbfcdf-e8fb-4486-9c70-407410a1816c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\06. Collider\Bounding\Sphere">
+      <UniqueIdentifier>{c49d83eb-2220-4aac-942a-2d137d4370c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -233,6 +248,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\StateMachine.cpp">
       <Filter>01. Utility\05. Component\05. State\00. StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider.cpp">
+      <Filter>01. Utility\05. Component\06. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DebugDraw.cpp">
+      <Filter>01. Utility\05. Component\06. Collider\DebugDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bounding.cpp">
+      <Filter>01. Utility\05. Component\06. Collider\Bounding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bounding_AABB.cpp">
+      <Filter>01. Utility\05. Component\06. Collider\Bounding\AABB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bounding_Sphere.cpp">
+      <Filter>01. Utility\05. Component\06. Collider\Bounding\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +391,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\StateMachine.h">
       <Filter>01. Utility\05. Component\05. State\00. StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider.h">
+      <Filter>01. Utility\05. Component\06. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DebugDraw.h">
+      <Filter>01. Utility\05. Component\06. Collider\DebugDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bounding.h">
+      <Filter>01. Utility\05. Component\06. Collider\Bounding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bounding_AABB.h">
+      <Filter>01. Utility\05. Component\06. Collider\Bounding\AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bounding_Sphere.h">
+      <Filter>01. Utility\05. Component\06. Collider\Bounding\Sphere</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

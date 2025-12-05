@@ -4,6 +4,8 @@
 #include "Weapon.h"
 #include "WeaponCase.h"
 #include "Shield.h"
+#include "Bounding_Sphere.h"
+#include "Collider.h"
 
 #include "Player_Idle.h"
 #include "Player_Walk.h"
@@ -19,9 +21,7 @@ CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CPlayer::CPlayer(const CPlayer& Prototype)
     : CContainerObject { Prototype }
-    , m_pBody { Prototype.m_pBody }
 {
-    Safe_AddRef(m_pBody);
 }
 
 HRESULT CPlayer::Initialize_Prototype()
@@ -64,6 +64,9 @@ void CPlayer::Update(_float fTimeDelta)
     // 상태머신 업데이트
     m_pStateMachine->Update_State(fTimeDelta);
 
+    // 콜라이더 업데이트
+    m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
     __super::Update(fTimeDelta);
 
     // 방향 디버깅
@@ -85,10 +88,16 @@ void CPlayer::Update(_float fTimeDelta)
 void CPlayer::Update_Late(_float fTimeDelta)
 {
     __super::Update_Late(fTimeDelta);
+
+    m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
 HRESULT CPlayer::Render()
 {
+#ifdef _DEBUG
+    m_pColliderCom->Render();
+#endif
+
     return S_OK;
 }
 
@@ -96,6 +105,15 @@ HRESULT CPlayer::Ready_Components()
 {
     if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
         TEXT("Com_StateMachine"), reinterpret_cast<CComponent**>(&m_pStateMachine))))
+        return E_FAIL;
+
+    // For Com_Collider
+    CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+    SphereDesc.fRadius = 0.5f;
+    SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius, 0.f);
+
+    if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+        TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -201,5 +219,5 @@ void CPlayer::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pBody);
+    Safe_Release(m_pColliderCom);
 }
