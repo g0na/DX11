@@ -7,6 +7,7 @@
 #include "Input_Device.h"
 #include "Renderer.h"
 #include "PipeLine.h"
+#include "Collision_Manager.h"
 #include "GameObject.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
@@ -62,6 +63,11 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	// 빛 매니저 초기화
 	m_pLightManager = CLight_Manager::Create();
 	if (m_pLightManager == nullptr)
+		return E_FAIL;
+
+	// 충돌 매니저 초기화
+	m_pCollisionManager = CCollision_Manager::Create();
+	if (m_pCollisionManager == nullptr)
 		return E_FAIL;
 
 	return S_OK;
@@ -231,6 +237,11 @@ map<const _wstring, class CLayer*>* CGameInstance::Get_Layers()
 	return m_pObjectManager->Get_Layers();
 }
 
+list<class CGameObject*> CGameInstance::Get_ObjectList(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObjectManager->Get_ObjectList(iLevelIndex, strLayerTag);
+}
+
 CGameObject* CGameInstance::Get_Player(_uint iLevelIndex)
 {
 	return m_pObjectManager->Get_Player(iLevelIndex);
@@ -249,6 +260,12 @@ HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
 }
 #pragma endregion
 
+#pragma region COLLISION_MANAGER
+void CGameInstance::Check_Collision(list<CGameObject*> pDstList, list<CGameObject*> pSrcList)
+{
+	m_pCollisionManager->Check_Collision(pDstList, pSrcList);
+}
+#pragma endregion
 
 #pragma region RENDERER
 HRESULT CGameInstance::Add_RenderObject(RENDERGROUP eRenderGroup, CGameObject* pObj)
@@ -292,6 +309,7 @@ _float4x4 CGameInstance::Get_InverseTransform(D3DTS eTransformMatrix)
 
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pCollisionManager);
 	Safe_Release(m_pLightManager);
 	Safe_Release(m_pTimerManager);
 	Safe_Release(m_pLevelManager);

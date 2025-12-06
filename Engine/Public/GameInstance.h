@@ -66,6 +66,8 @@ public:
 
 	map<const _wstring, class CLayer*>* Get_Layers();
 
+	list<class CGameObject*> Get_ObjectList(_uint iLevelIndex, const _wstring& strLayerTag);
+
 	class CGameObject* Get_Player(_uint iLevelIndex);
 #pragma endregion
 
@@ -73,6 +75,11 @@ public:
 public:
 	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+#pragma endregion
+
+#pragma region COLLISION_MANAGER
+public:
+	void Check_Collision(list<CGameObject*> pDstList, list<CGameObject*> pSrcList);
 #pragma endregion
 
 #pragma region RENDERER
@@ -99,6 +106,7 @@ private:
 	class CLight_Manager*		m_pLightManager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CPipeLine*			m_pPipeLine = { nullptr };
+	class CCollision_Manager*	m_pCollisionManager = { nullptr };
 
 public:
 	void Release_Engine();

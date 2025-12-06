@@ -104,6 +104,13 @@ CGameObject* CObject_Manager::Get_Player(_uint iLevelIndex)
 	return pPlayerLayer->Get_Objects().front();
 }
 
+list<class CGameObject*> CObject_Manager::Get_ObjectList(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+
+	return pLayer->Get_Objects();
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto iter = m_pLayers[iLevelIndex].find(strLayerTag);

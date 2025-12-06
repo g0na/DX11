@@ -17,6 +17,10 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
+	const COLLIDER			Get_ColType() const { return m_eType; }
+	class CBounding*		Get_Bounding() const { return m_pBounding; }
+
+public:
 	void Update(_fmatrix WorldMatrix);
 	_bool Intersect(CCollider* pTargetCollider);
 	

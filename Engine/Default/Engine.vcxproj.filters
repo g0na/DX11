@@ -139,6 +139,9 @@
     <Filter Include="01. Utility\05. Component\06. Collider\Bounding\Sphere">
       <UniqueIdentifier>{c49d83eb-2220-4aac-942a-2d137d4370c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\06. Collider\00. Manager">
+      <UniqueIdentifier>{af1471e1-8e4f-4d20-8353-94782c8792c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -263,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Bounding_Sphere.cpp">
       <Filter>01. Utility\05. Component\06. Collider\Bounding\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collision_Manager.cpp">
+      <Filter>01. Utility\05. Component\06. Collider\00. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -406,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Bounding_Sphere.h">
       <Filter>01. Utility\05. Component\06. Collider\Bounding\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collision_Manager.h">
+      <Filter>01. Utility\05. Component\06. Collider\00. Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

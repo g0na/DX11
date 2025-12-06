@@ -82,6 +82,26 @@ _float CGameObject::Compute_Distance(_fvector vTargetPos)
 	return XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(STATE::POSITION)));
 }
 
+HRESULT CGameObject::Add_CollisionList(CGameObject* pOtherObject)
+{
+	if (pOtherObject == nullptr)
+		return E_FAIL;
+
+	m_listCollidingObjects.push_back(pOtherObject);
+
+	return S_OK;
+}
+
+HRESULT CGameObject::Remove_CollisionList(CGameObject* pOtherObject)
+{
+	if (pOtherObject == nullptr)
+		return E_FAIL;
+
+	m_listCollidingObjects.remove(pOtherObject);
+
+	return S_OK;
+}
+
 const _wstring CGameObject::Get_Layer() const
 {
 	switch (m_eLayer)

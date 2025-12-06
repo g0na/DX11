@@ -26,6 +26,8 @@ public:
 	map<const _wstring, class CLayer*>* Get_Layers() const { return m_pLayers; }
 	class CGameObject* Get_Player(_uint iLevelIndex);
 
+	list<class CGameObject*> Get_ObjectList(_uint iLevelIndex, const _wstring& strLayerTag);
+
 private:
 	ID3D11Device*					m_pDevice = { nullptr };
 	ID3D11DeviceContext*			m_pContext = { nullptr };

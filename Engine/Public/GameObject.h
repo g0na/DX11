@@ -27,8 +27,23 @@ public:
 	virtual void	Update_Late(_float fTimeDelta);
 	virtual HRESULT	Render();
 
+	virtual void OnCollisionEnter(CGameObject* pOtherObject) {};
+	virtual void OnCollisionExit(CGameObject* pOtherObject) {};
+
 public:
 	_float			Compute_Distance(_fvector vTargetPos);
+
+	HRESULT Add_CollisionList(CGameObject* pOtherObject);
+	HRESULT Remove_CollisionList(CGameObject* pOtherObject);
+
+	// 충돌 중인 리스트를 순회하며 특정 객체와 충돌 중인지 판단
+	_bool IsCollidingWith(CGameObject* pOtherObject)
+	{
+		if (find(m_listCollidingObjects.begin(), m_listCollidingObjects.end(), pOtherObject) == m_listCollidingObjects.end())
+			return false;
+		else
+			return true;
+	}
 
 public:
 	const _wstring&		Get_PrototypeTag() { return m_strPrototypeTag; }
@@ -40,6 +55,7 @@ public:
 
 	_tchar*				Get_Name() { return m_szName; }
 	const _wstring		Get_Layer() const;
+	_bool				Get_IsCollisionEnabled() const { return m_bIsCollisionEnabled; }
 	
 	void				Set_PrototypeTag(const _wstring& strPrototypeTag) { m_strPrototypeTag = strPrototypeTag; }
 
@@ -47,18 +63,22 @@ protected:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 	class CGameInstance*	m_pGameInstance = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
+	CStateMachine*			m_pStateMachine = { nullptr };
 
 protected:
 	_wstring									m_strPrototypeTag = {};
 	LAYER										m_eLayer = { LAYER::END };
 	_tchar										m_szName[MAX_PATH] = {};
 	map<const _wstring, class CComponent*>		m_mapComponents;
-	CTransform*									m_pTransformCom = { nullptr };
-	CStateMachine*								m_pStateMachine = { nullptr };
 
 	_bool					m_bIsGrounded = {};
 	_bool					m_bIsDead = {};
 	_bool					m_bIsInvincible = {};
+	_bool					m_bIsCollisionEnabled = {};
+
+	// 현재 객체와 충돌 중인 객체들의 리스트
+	list<CGameObject*>		m_listCollidingObjects;
 
 protected:
 	/// <summary>
