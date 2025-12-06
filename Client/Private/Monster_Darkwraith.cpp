@@ -5,6 +5,9 @@
 #include "Darkwraith_Walk.h"
 #include "Darkwraith_Attack.h"
 
+#include "Bounding_Sphere.h"
+#include "Collider.h"
+
 CMonster_Darkwraith::CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject{ pDevice, pContext }
 {
@@ -68,6 +71,9 @@ void CMonster_Darkwraith::Update(_float fTimeDelta)
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
 
+	// 콜라이더 업데이트
+	m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
 	m_pModelCom->Play_Animation(fTimeDelta);
 
 	_vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
@@ -113,6 +119,10 @@ HRESULT CMonster_Darkwraith::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	m_pColliderCom->Render();
+#endif
+
 	return S_OK;
 }
 
@@ -131,6 +141,15 @@ HRESULT CMonster_Darkwraith::Ready_Components()
 	// For Com_StateMachine
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
 		TEXT("Com_StateMachine"), reinterpret_cast<CComponent**>(&m_pStateMachine))))
+		return E_FAIL;
+
+	// For Com_Collider
+	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+	SphereDesc.fRadius = 0.4f;
+	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius + 0.8f, 0.f);
+
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
 		return E_FAIL;
 
 	return S_OK;
