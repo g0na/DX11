@@ -51,6 +51,8 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
 	Safe_AddRef(m_pPlayer);
 
+	m_bIsCollisionEnabled = true;
+
 	return S_OK;
 }
 

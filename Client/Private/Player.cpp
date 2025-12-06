@@ -51,6 +51,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 
     m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 5.f, 0.f, 1.f));
 
+    m_bIsCollisionEnabled = true;
+
     return S_OK;
 }
 
@@ -99,6 +101,16 @@ HRESULT CPlayer::Render()
 #endif
 
     return S_OK;
+}
+
+void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
+{
+    if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
+        int a = 10;
+}
+
+void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
+{
 }
 
 HRESULT CPlayer::Ready_Components()
