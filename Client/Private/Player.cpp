@@ -35,6 +35,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     Desc.fSpeedPerSec = 5.f;
     Desc.fRotationPerSec = XMConvertToRadians(90.f);
 
+    m_eLayer = LAYER::PLAYER;
     m_bIsDead = false;
 
     if (FAILED(__super::Initialize(&Desc)))
@@ -111,10 +112,13 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
 
 void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
 {
+    if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
+        int a = 10;
 }
 
 HRESULT CPlayer::Ready_Components()
 {
+    // For Com_StateMachine
     if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
         TEXT("Com_StateMachine"), reinterpret_cast<CComponent**>(&m_pStateMachine))))
         return E_FAIL;

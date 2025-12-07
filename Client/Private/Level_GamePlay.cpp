@@ -1,6 +1,7 @@
 #include "Level_GamePlay.h"
 #include "GameInstance.h"
 #include "Camera_Free.h"
+#include "Player.h"
 
 USING(Client)
 
@@ -31,7 +32,12 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	// Player, Monster 面倒 眉农
 	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
+		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
+
+	// Player_Weapon, Monster 面倒 眉农
+	m_pGameInstance->Check_Collision(dynamic_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)))->Get_PartObjects(),
 		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
 }
 

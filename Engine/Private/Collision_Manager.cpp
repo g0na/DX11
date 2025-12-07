@@ -41,6 +41,11 @@ void CCollision_Manager::Collision_Sphere(CGameObject* pDst, CGameObject* pSrc)
 
 			pSrc->Add_CollisionList(pDst);
 			pSrc->OnCollisionEnter(pDst);
+
+		#ifdef _DEBUG
+			pDst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(true);
+			pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(true);
+		#endif
 		}
 	}
 	else
@@ -53,6 +58,11 @@ void CCollision_Manager::Collision_Sphere(CGameObject* pDst, CGameObject* pSrc)
 
 			pSrc->Remove_CollisionList(pSrc);
 			pSrc->OnCollisionExit(pSrc);
+
+		#ifdef _DEBUG
+			pDst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(false);
+			pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(false);
+		#endif
 		}
 	}
 }

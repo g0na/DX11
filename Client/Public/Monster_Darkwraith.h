@@ -47,6 +47,10 @@ public:
 	virtual void	Update_Late(_float fTimeDelta) override;
 	virtual HRESULT	Render() override;
 
+public:
+	virtual void OnCollisionEnter(CGameObject* pOtherObject) override;
+	virtual void OnCollisionExit(CGameObject* pOtherObject) override;
+
 private:
 	CModel*				m_pModelCom = { nullptr };
 	CShader*			m_pShaderCom = { nullptr };

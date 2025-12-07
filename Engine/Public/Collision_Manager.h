@@ -11,9 +11,9 @@ private:
 	virtual ~CCollision_Manager() = default;
 
 public:
-	void Check_Collision(list<CGameObject*> pDstList, list<CGameObject*> pSrcList);
-	void Collision_Sphere(CGameObject* pDst, CGameObject* pSrc);
-	_bool Check_Sphere(CGameObject* pDst, CGameObject* pSrc);
+	void	Check_Collision(list<CGameObject*> pDstList, list<CGameObject*> pSrcList);
+	void	Collision_Sphere(CGameObject* pDst, CGameObject* pSrc);
+	_bool	Check_Sphere(CGameObject* pDst, CGameObject* pSrc);
 
 public:
 	static CCollision_Manager* Create();

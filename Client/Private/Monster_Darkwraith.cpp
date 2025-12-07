@@ -128,6 +128,18 @@ HRESULT CMonster_Darkwraith::Render()
 	return S_OK;
 }
 
+void CMonster_Darkwraith::OnCollisionEnter(CGameObject* pOtherObject)
+{
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
+	{
+		int a = 10;
+	}
+}
+
+void CMonster_Darkwraith::OnCollisionExit(CGameObject* pOtherObject)
+{
+}
+
 HRESULT CMonster_Darkwraith::Ready_Components()
 {
 	// For Com_Model
@@ -230,6 +242,7 @@ void CMonster_Darkwraith::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pPlayer);

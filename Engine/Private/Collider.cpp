@@ -63,13 +63,6 @@ void CCollider::Update(_fmatrix WorldMatrix)
 	m_pBounding->Update(WorldMatrix);
 }
 
-_bool CCollider::Intersect(CCollider* pTargetCollider)
-{
-	m_isColl = m_pBounding->Intersect(pTargetCollider->m_eType, pTargetCollider->m_pBounding);
-
-	return m_isColl;
-}
-
 CCollider* CCollider::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, COLLIDER eType)
 {
 	CCollider* pInstance = new CCollider(pDevice, pContext);

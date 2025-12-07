@@ -1,5 +1,7 @@
 #include "Weapon.h"
 #include "GameInstance.h"
+#include "Bounding_AABB.h"
+#include "Collider.h"
 
 CWeapon::CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject { pDevice, pContext }
@@ -30,6 +32,9 @@ HRESULT CWeapon::Initialize(void* pArg)
 
 	m_pTransformCom->Rotation(XMConvertToRadians(90.0f), 0.f, 0.f);
 
+	m_eLayer = LAYER::WEAPON;
+	m_bIsCollisionEnabled = true;
+
 	return S_OK;
 }
 
@@ -48,6 +53,8 @@ void CWeapon::Update(_float fTimeDelta)
 	_matrix ParentMatrix = SocketMatrix * XMLoadFloat4x4(m_pParentMatrix);
 
 	__super::SetUp_CombinedWorldMatrix(ParentMatrix);
+
+	m_pColliderCom->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
 }
 
 void CWeapon::Update_Late(_float fTimeDelta)
@@ -73,6 +80,8 @@ HRESULT CWeapon::Render()
 		m_pModelCom->Render(i);
 	}
 
+	m_pColliderCom->Render();
+
 	return S_OK;
 }
 
@@ -86,6 +95,15 @@ HRESULT CWeapon::Ready_Components()
 	/* For Com_Shader */
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
+	// For Com_Collider
+	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+	SphereDesc.fRadius = 0.1f;
+	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius - 1.f, 0.f);
+
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
 		return E_FAIL;
 		
 	return S_OK;
@@ -148,6 +166,7 @@ void CWeapon::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 }

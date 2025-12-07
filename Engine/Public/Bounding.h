@@ -18,7 +18,6 @@ protected:
 public:
 	HRESULT Initialize();
 	virtual void Update(_fmatrix WorldMatrix) = 0;
-	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pTarget) = 0;
 
 #ifdef _DEBUG
 public:

@@ -27,18 +27,6 @@ void CBounding_AABB::Update(_fmatrix WorldMatrix)
 	m_pOriginalDesc->Transform(*m_pDesc, TransformMatrix);
 }
 
-_bool CBounding_AABB::Intersect(COLLIDER eTargetType, CBounding* pTarget)
-{
-	_bool	isColl = { false };
-
-	switch (eTargetType)
-	{
-	case COLLIDER::SPHERE:
-		break;
-	}
-    return _bool();
-}
-
 HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl)
 {
 	DX::Draw(pBatch, *m_pDesc, isColl == true ? XMVectorSet(1.f, 0.f, 0.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));

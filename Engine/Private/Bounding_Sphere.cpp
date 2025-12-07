@@ -22,24 +22,6 @@ void CBounding_Sphere::Update(_fmatrix WorldMatrix)
 	m_pOriginalDesc->Transform(*m_pDesc, WorldMatrix);
 }
 
-_bool CBounding_Sphere::Intersect(COLLIDER eTargetType, CBounding* pTarget)
-{
-	_bool isColl = { false };
-
-	switch (eTargetType)
-	{
-	case COLLIDER::AABB:
-		isColl = m_pDesc->Intersects(*static_cast<CBounding_AABB*>(pTarget)->Get_Desc());
-		break;
-
-	case COLLIDER::SPHERE:
-		isColl = m_pDesc->Intersects(*static_cast<CBounding_Sphere*>(pTarget)->Get_Desc());
-		break;
-	}
-
-	return _bool();
-}
-
 HRESULT CBounding_Sphere::Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl)
 {
 	DX::Draw(pBatch, *m_pDesc, isColl == true ? XMVectorSet(1.f, 0.f, 0.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));

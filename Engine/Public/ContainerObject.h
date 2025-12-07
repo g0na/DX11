@@ -11,6 +11,9 @@ protected:
 	CContainerObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CContainerObject(const CContainerObject& Prototype);
 	virtual ~CContainerObject() = default;
+	
+public:
+	list<CGameObject*>	Get_PartObjects() { return m_listPartObjects; }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -22,7 +25,8 @@ public:
 
 private:
 	map<const _wstring, class CPartObject*>		m_mapPartObjects;
-	
+	list<CGameObject*>							m_listPartObjects;
+
 protected:
 	HRESULT Add_PartObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strPartObjTag, void* pArg);
 

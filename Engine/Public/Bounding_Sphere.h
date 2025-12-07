@@ -21,7 +21,6 @@ public:
 public:
 	HRESULT Initialize(const BOUNDING_DESC* pInitialDesc);
 	virtual void Update(_fmatrix WorldMatrix) override;
-	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pTarget) override;
 
 #ifdef _DEBUG
 	virtual HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl) override;

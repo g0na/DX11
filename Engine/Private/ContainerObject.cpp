@@ -59,6 +59,7 @@ HRESULT CContainerObject::Add_PartObject(_uint iPrototypeLevelIndex, const _wstr
 		return E_FAIL;
 
 	m_mapPartObjects.emplace(strPartObjTag, pPartObject);
+	m_listPartObjects.push_back(pPartObject);
 
 	return S_OK;
 }

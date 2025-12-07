@@ -180,6 +180,11 @@ _float CGameInstance::Get_TimeDelta(const _tchar* pTimerTag)
 	return m_pTimerManager->Get_TimeDelta(pTimerTag);
 }
 
+_uint CGameInstance::Get_FPS(const _tchar* pTimerTag)
+{
+	return m_pTimerManager->Get_FPS(pTimerTag);
+}
+
 HRESULT CGameInstance::Add_Timer(const _tchar* pTimerTag)
 {
 	return m_pTimerManager->Add_Timer(pTimerTag);

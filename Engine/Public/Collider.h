@@ -20,9 +20,10 @@ public:
 	const COLLIDER			Get_ColType() const { return m_eType; }
 	class CBounding*		Get_Bounding() const { return m_pBounding; }
 
+	void					Set_IsColl(_bool isColl) { m_isColl = isColl; }
+
 public:
 	void Update(_fmatrix WorldMatrix);
-	_bool Intersect(CCollider* pTargetCollider);
 	
 private:
 	COLLIDER				m_eType = {};

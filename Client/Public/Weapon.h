@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 class CModel;
 class CShader;
+class CCollider;
 NS_END
 
 NS_BEGIN(Client)
@@ -38,6 +39,7 @@ private:
 private:
 	CModel*			m_pModelCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
+	CCollider*		m_pColliderCom = { nullptr };
 
 private:
 	const _float4x4* m_pSocketMatrix = { nullptr };

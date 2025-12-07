@@ -109,6 +109,9 @@ const _wstring CGameObject::Get_Layer() const
 	case LAYER::PLAYER:
 		return TEXT("Layer_Player");
 
+	case LAYER::WEAPON:
+		return TEXT("Layer_Weapon");
+
 	case LAYER::MONSTER:
 		return TEXT("Layer_Monster");
 
