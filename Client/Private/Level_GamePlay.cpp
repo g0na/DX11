@@ -38,7 +38,10 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 HRESULT CLevel_GamePlay::Render()
 {
 #ifdef _DEBUG
-	SetWindowText(g_hWnd, TEXT("게임 플레이 레벨입니다."));
+	//SetWindowText(g_hWnd, TEXT("게임 플레이 레벨입니다."));
+	wchar_t szBuffer[255];
+	swprintf_s(szBuffer, 255, L"FPS: %d, DT: %.8f", m_pGameInstance->Get_FPS(TEXT("Timer_60")), m_pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
+	SetWindowText(g_hWnd, szBuffer);
 #endif
 
 	return S_OK;
@@ -80,10 +83,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 

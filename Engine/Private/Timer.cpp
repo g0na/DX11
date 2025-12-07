@@ -34,6 +34,16 @@ void CTimer::Update_Timer()
 	m_fTimeDelta = (m_FrameTime.QuadPart - m_LastTime.QuadPart) / (_float)m_CpuTick.QuadPart;
 
 	m_LastTime = m_FrameTime;
+
+	m_iFrameCnt++;
+	m_fTimeElapsed += m_fTimeDelta;
+
+	if (m_fTimeElapsed >= 1.f)
+	{
+		m_iCurrentFPS = m_iFrameCnt;
+		m_iFrameCnt = 0;
+		m_fTimeElapsed -= 1.f;
+	}
 }
 
 CTimer* CTimer::Create()

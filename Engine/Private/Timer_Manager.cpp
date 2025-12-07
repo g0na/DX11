@@ -14,6 +14,15 @@ _float CTimer_Manager::Get_TimeDelta(const _tchar* pTimerTag)
 	return pTimer->Get_TimeDelta();
 }
 
+_uint CTimer_Manager::Get_FPS(const _tchar* pTimerTag)
+{
+	CTimer* pTimer = Find_Timer(pTimerTag);
+	if (pTimer == nullptr)
+		return 0;
+
+	return pTimer->Get_FPS();
+}
+
 HRESULT CTimer_Manager::Add_Timer(const _tchar* pTimerTag)
 {
 	CTimer* pTimer = Find_Timer(pTimerTag);

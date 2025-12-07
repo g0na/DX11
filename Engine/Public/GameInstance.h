@@ -40,6 +40,7 @@ public:
 #pragma region TIMER_MANAGER
 public:
 	_float		Get_TimeDelta(const _tchar* pTimerTag);
+	_uint		Get_FPS(const _tchar* pTimerTag);
 	HRESULT		Add_Timer(const _tchar* pTimerTag);
 	void		Compute_TimeDelta(const _tchar* pTimerTag);
 #pragma endregion

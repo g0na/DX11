@@ -10,7 +10,8 @@ private:
 	~CTimer_Manager() = default;
 
 public:
-	_float		Get_TimeDelta(const _tchar* pTimerTag);
+	_float			Get_TimeDelta(const _tchar* pTimerTag);
+	_uint		Get_FPS(const _tchar* pTimerTag);
 
 public:
 	HRESULT		Add_Timer(const _tchar* pTimerTag);

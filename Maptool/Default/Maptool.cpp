@@ -70,7 +70,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
     {
-        MSG_BOX("Failed to Add Timer_144");
+        MSG_BOX("Failed to Add Timer_60");
         return FALSE;
     }
 
