@@ -5,6 +5,8 @@
 #include "Camera_Free.h"
 
 #include "Monster_Darkwraith.h"
+#include "Weapon_Darkwraith.h"
+
 #include "Monster_Hollow.h"
 
 #include "Map.h"
@@ -220,6 +222,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
 		CMonster_Darkwraith::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Weapon_Darkwraith */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Darkwraith"),
+		CWeapon_Darkwraith::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Hollow */

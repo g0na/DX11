@@ -56,6 +56,7 @@ public:
 	_tchar*				Get_Name() { return m_szName; }
 	const _wstring		Get_Layer() const;
 	_bool				Get_IsCollisionEnabled() const { return m_bIsCollisionEnabled; }
+	_uint				Get_CollidingObjectsCnt() const { return m_listCollidingObjects.size(); }
 	
 	void				Set_PrototypeTag(const _wstring& strPrototypeTag) { m_strPrototypeTag = strPrototypeTag; }
 

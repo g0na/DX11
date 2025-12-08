@@ -5,17 +5,24 @@
 #include "Darkwraith_Walk.h"
 #include "Darkwraith_Attack.h"
 
+#include "Weapon_Darkwraith.h"
+
 #include "Bounding_Sphere.h"
 #include "Collider.h"
 
 CMonster_Darkwraith::CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject{ pDevice, pContext }
+	: CContainerObject{ pDevice, pContext }
 {
 }
 
 CMonster_Darkwraith::CMonster_Darkwraith(const CMonster_Darkwraith& Prototype)
-	: CGameObject{ Prototype }
+	: CContainerObject{ Prototype }
 {
+}
+
+const _float4x4* CMonster_Darkwraith::Get_SocketMatrix(const _char* pBoneName)
+{
+	return m_pModelCom->Get_BoneMatrixPtr(pBoneName);
 }
 
 void CMonster_Darkwraith::Set_Animation(_uint iAnimationIndex, _bool isLoop)
@@ -40,6 +47,9 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_PartObjects()))
+		return E_FAIL;
+
 	m_pModelCom->Set_Animation(WALK, false);
 
 	if (FAILED(Ready_States()))
@@ -58,6 +68,8 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 
 void CMonster_Darkwraith::Update_Priority(_float fTimeDelta)
 {
+	__super::Update_Priority(fTimeDelta);
+
 	m_vPlayerPos = m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION);
 
 	m_fDistance = Compute_Distance(m_vPlayerPos);
@@ -73,8 +85,8 @@ void CMonster_Darkwraith::Update(_float fTimeDelta)
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
 
-	// 콜라이더 업데이트
-	m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+	// PartObjects 업데이트
+	__super::Update(fTimeDelta);
 
 	m_pModelCom->Play_Animation(fTimeDelta);
 
@@ -93,10 +105,15 @@ void CMonster_Darkwraith::Update(_float fTimeDelta)
 	_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 	vPosition += vWorldDelta;
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+
+	// 콜라이더 업데이트
+	m_pColliderBody->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
 void CMonster_Darkwraith::Update_Late(_float fTimeDelta)
 {
+	__super::Update_Late(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
 }
 
@@ -122,7 +139,7 @@ HRESULT CMonster_Darkwraith::Render()
 	}
 
 #ifdef _DEBUG
-	m_pColliderCom->Render();
+	m_pColliderBody->Render();
 #endif
 
 	return S_OK;
@@ -163,7 +180,7 @@ HRESULT CMonster_Darkwraith::Ready_Components()
 	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius + 0.8f, 0.f);
 
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
+		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderBody), &SphereDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -181,6 +198,19 @@ HRESULT CMonster_Darkwraith::Ready_States()
 		return E_FAIL;
 
 	m_pStateMachine->Set_State(IDLE);
+
+	return S_OK;
+}
+
+HRESULT CMonster_Darkwraith::Ready_PartObjects()
+{
+	// Weapon
+	CWeapon_Darkwraith::WEAPON_DARKWRAITH_DESC WeaponDesc{};
+	WeaponDesc.pSocketMatrix = Get_SocketMatrix("R_Weapon");
+	WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+	if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Darkwraith"),
+		TEXT("Part_Weapon_Darkwraith"), &WeaponDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -242,7 +272,7 @@ void CMonster_Darkwraith::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pColliderBody);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pPlayer);

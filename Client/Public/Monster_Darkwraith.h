@@ -1,6 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "ContainerObject.h"
 #include "Player.h"
 
 NS_BEGIN(Engine)
@@ -11,7 +11,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CMonster_Darkwraith final : public CGameObject
+class CMonster_Darkwraith final : public CContainerObject
 {
 public:
 	enum DARKWRAITHSTATE
@@ -30,6 +30,7 @@ private:
 	virtual ~CMonster_Darkwraith() = default;
 
 public:
+	const _float4x4* Get_SocketMatrix(const _char* pBoneName);
 	const _vector Get_PlayerPos() const { return m_vPlayerPos; }
 	const _float Get_TargetDist() const { return m_fDistance; }
 	_float* Get_CurAnglePtr() { return &m_fCurAngle; }
@@ -54,7 +55,7 @@ public:
 private:
 	CModel*				m_pModelCom = { nullptr };
 	CShader*			m_pShaderCom = { nullptr };
-	CCollider*			m_pColliderCom = { nullptr };
+	CCollider*			m_pColliderBody = { nullptr };
 	CPlayer*			m_pPlayer = { nullptr };
 	
 	_vector				m_vPlayerPos = {};
@@ -66,6 +67,7 @@ private:
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_States();
+	HRESULT Ready_PartObjects();
 	HRESULT Bind_ShaderResources();
 
 public:

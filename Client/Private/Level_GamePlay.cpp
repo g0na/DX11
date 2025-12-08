@@ -39,6 +39,22 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	// Player_Weapon, Monster 面倒 眉农
 	m_pGameInstance->Check_Collision(dynamic_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)))->Get_PartObjects(),
 		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
+
+	// Player, Monster_Weapon 面倒 眉农
+	list<CGameObject*> MonsterList = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
+	list<CGameObject*> PartList = {};
+	for (auto& Monster : MonsterList)
+	{
+		for (auto& Part : dynamic_cast<CContainerObject*>(Monster)->Get_PartObjects())
+		{
+			if (Part == nullptr)
+				continue;
+
+			PartList.push_back(Part);
+		}
+	}
+
+	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")), PartList);
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -92,8 +108,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }

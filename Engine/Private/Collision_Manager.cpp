@@ -21,6 +21,11 @@ void CCollision_Manager::Check_Collision(list<CGameObject*> pDstList, list<CGame
 			if (Dst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Get_ColType() == COLLIDER::SPHERE &&
 				Src->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Get_ColType() == COLLIDER::SPHERE)
 			{
+				// 콜라이더가 활성화 되어있을 때만 구 충돌 검사
+				if (Dst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Is_Active() == false ||
+					Src->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Is_Active() == false)
+					continue;
+
 				// 구 충돌
 				Collision_Sphere(Dst, Src);
 			}
@@ -41,11 +46,6 @@ void CCollision_Manager::Collision_Sphere(CGameObject* pDst, CGameObject* pSrc)
 
 			pSrc->Add_CollisionList(pDst);
 			pSrc->OnCollisionEnter(pDst);
-
-		#ifdef _DEBUG
-			pDst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(true);
-			pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(true);
-		#endif
 		}
 	}
 	else
@@ -56,15 +56,16 @@ void CCollision_Manager::Collision_Sphere(CGameObject* pDst, CGameObject* pSrc)
 			pDst->Remove_CollisionList(pSrc);
 			pDst->OnCollisionExit(pSrc);
 
-			pSrc->Remove_CollisionList(pSrc);
-			pSrc->OnCollisionExit(pSrc);
-
-		#ifdef _DEBUG
-			pDst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(false);
-			pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(false);
-		#endif
+			pSrc->Remove_CollisionList(pDst);
+			pSrc->OnCollisionExit(pDst);
 		}
 	}
+
+
+#ifdef _DEBUG
+		pDst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(pDst->Get_CollidingObjectsCnt() != 0);
+		pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(pSrc->Get_CollidingObjectsCnt() != 0);
+#endif
 }
 
 _bool CCollision_Manager::Check_Sphere(CGameObject* pDst, CGameObject* pSrc)

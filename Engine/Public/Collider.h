@@ -19,8 +19,10 @@ public:
 public:
 	const COLLIDER			Get_ColType() const { return m_eType; }
 	class CBounding*		Get_Bounding() const { return m_pBounding; }
+	const _bool				Is_Active() const { return m_isActive; }
 
 	void					Set_IsColl(_bool isColl) { m_isColl = isColl; }
+	void					Set_Active(_bool isActive) { m_isActive = isActive; }
 
 public:
 	void Update(_fmatrix WorldMatrix);
@@ -28,7 +30,9 @@ public:
 private:
 	COLLIDER				m_eType = {};
 	class CBounding*		m_pBounding = { nullptr };
+
 	_bool					m_isColl = {};
+	_bool					m_isActive = { true };
 
 public:
 	static CCollider* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, COLLIDER eType);
