@@ -32,6 +32,10 @@ public:
 	virtual void	Update_Late(_float fTimeDelta) override;
 	virtual HRESULT	Render() override;
 
+public:
+	virtual void OnCollisionEnter(CGameObject* pOtherObject) override;
+	virtual void OnCollisionExit(CGameObject* pOtherObject) override;
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();

@@ -127,6 +127,9 @@
     <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\04. Attack">
       <UniqueIdentifier>{1b217cb4-fc1c-452e-989b-1c08741f3729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\00. Weapon">
+      <UniqueIdentifier>{04512931-fb5e-46ac-bf87-9c41cc93873d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Darkwraith_Attack.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\04. Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Darkwraith.h">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\00. Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Darkwraith_Attack.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\04. Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Darkwraith.cpp">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\00. Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

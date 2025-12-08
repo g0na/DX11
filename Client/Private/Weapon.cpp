@@ -1,6 +1,5 @@
 #include "Weapon.h"
 #include "GameInstance.h"
-#include "Bounding_AABB.h"
 #include "Collider.h"
 
 CWeapon::CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -83,6 +82,16 @@ HRESULT CWeapon::Render()
 	m_pColliderCom->Render();
 
 	return S_OK;
+}
+
+void CWeapon::OnCollisionEnter(CGameObject* pOtherObject)
+{
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
+		int a = 10;
+}
+
+void CWeapon::OnCollisionExit(CGameObject* pOtherObject)
+{
 }
 
 HRESULT CWeapon::Ready_Components()

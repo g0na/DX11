@@ -67,10 +67,16 @@ void CPlayer::Update(_float fTimeDelta)
     // 상태머신 업데이트
     m_pStateMachine->Update_State(fTimeDelta);
 
+    // PartObject들 업데이트
+    __super::Update(fTimeDelta);
+
     // 콜라이더 업데이트
     m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
-    __super::Update(fTimeDelta);
+
+
+
+
 
     // 방향 디버깅
     _char buf[128];

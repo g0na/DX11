@@ -59,10 +59,6 @@ void CBody::Update_Priority(_float fTimeDelta)
 
 void CBody::Update(_float fTimeDelta)
 {
-}
-
-void CBody::Update_Late(_float fTimeDelta)
-{
     m_pModelCom->Play_Animation(fTimeDelta);
 
     _vector vRootMotionDelta = m_pModelCom->Get_RootMotionDelta();
@@ -73,7 +69,7 @@ void CBody::Update_Late(_float fTimeDelta)
     // 로컬 공간의 루트 모션 델타를 월드 공간의 벡터로 바꿔줘야 내가 바꾼 회전이 적용댐!
     _vector vRight = m_pPlayerTransform->Get_State(STATE::RIGHT);
     _vector vUp = m_pPlayerTransform->Get_State(STATE::UP);
-    _vector vLook = XMVector3Equal(m_vInputDir, XMVectorZero()) ? 
+    _vector vLook = XMVector3Equal(m_vInputDir, XMVectorZero()) ?
         m_pPlayerTransform->Get_State(STATE::LOOK) : XMVector3Normalize(m_vInputDir);
 
     m_vWorldDelta = vRight * fDelta.x + vUp * fDelta.y + vLook * fDelta.z;
@@ -82,7 +78,10 @@ void CBody::Update_Late(_float fTimeDelta)
     vPosition += m_vWorldDelta;
 
     m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
+}
 
+void CBody::Update_Late(_float fTimeDelta)
+{
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
