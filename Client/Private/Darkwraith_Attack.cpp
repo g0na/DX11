@@ -30,13 +30,14 @@ void CDarkwraith_Attack::Enter_State()
 {
     if (m_pOwner != nullptr)
         dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(4, false);
-
-    m_iAttackCnt++;
 }
 
 void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 {
-    _vector vPlayerPos = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_PlayerPos();
+    if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false) == true)
+        m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);
+
+    _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
     _vector vTargetDir = XMVector3Normalize(XMVectorSetW(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION), 0.f));
     _vector vLook = XMVector3Normalize(m_pMonsterTransform->Get_State(STATE::LOOK));
 
@@ -66,8 +67,11 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         else if (m_fAttackDelay >= 1.666f)
         {
             // 거리가 멀어지면 걷기로 변경
-            if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_TargetDist() > 6.f)
+            if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
+            {
                 m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
+                return;
+            }
 
             dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(4, false);
             m_iAttackCnt++;
@@ -97,8 +101,11 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         else if (m_fAttackDelay >= 1.5f)
         {
             // 거리가 멀어지면 걷기로 변경
-            if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_TargetDist() > 6.f)
+            if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
+            {
                 m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
+                return;
+            }
 
             dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(5, false);
             m_iAttackCnt++;
@@ -127,8 +134,11 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         }
         else if (m_fAttackDelay >= 1.166f)
         {
-            if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_TargetDist() > 6.f)
+            if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
+            {
                 m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
+                return;
+            }
 
             dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(6, false);
             m_iAttackCnt = 0;

@@ -18,12 +18,29 @@ public:
 	virtual void Update_State(_float fTimeDelta);
 
 public:
+	_bool	Get_BoolData(_wstring strBoolTag, _bool bValue);
+	_int	Get_IntData(_wstring strIntTag, _int iValue);
+	_float	Get_FloatData(_wstring strFloatTag, _float fValue);
+	_vector Get_VectorData(_wstring strVectorTag, _vector vecValue);
+
+	void	Set_BoolData(_wstring strBoolTag, _bool bValue);
+	void	Set_IntData(_wstring strIntTag, _int iValue);
+	void	Set_FloatData(_wstring strFloatTag, _float fValue);
+	void	Set_VectorData(_wstring strVectorTag, _vector vecValue);
+
+public:
 	// 상태 추가
 	HRESULT Add_State(_uint iStateType, CState* pState);
 	// 상태 전환
 	HRESULT Change_State(_uint iStateType);
 	// 초기 세팅용
 	void Set_State(_uint iStateType);
+
+private:
+	map<_wstring, _bool>	m_mapBoolData;
+	map<_wstring, _int>		m_mapIntData;
+	map<_wstring, _float>	m_mapFloatData;
+	map<_wstring, _vector>	m_mapVectorData;
 
 private:
 	map<_uint, CState*> m_mapStates;

@@ -61,9 +61,6 @@
     <Filter Include="02. GameObjects\05. Player\99. States\00. Idle">
       <UniqueIdentifier>{afa4001f-7ec4-4a12-9794-f06481cd178e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\01. Walk">
-      <UniqueIdentifier>{d2949763-bf27-4f18-9ac6-4029167ae352}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\05. Player\99. States\02. Run">
       <UniqueIdentifier>{1f7e0128-01e7-4268-9394-997549024355}</UniqueIdentifier>
     </Filter>
@@ -129,6 +126,9 @@
     </Filter>
     <Filter Include="02. GameObjects\03. Monster\Darkwraith\00. Weapon">
       <UniqueIdentifier>{04512931-fb5e-46ac-bf87-9c41cc93873d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\05. Player\99. States\01. Walk">
+      <UniqueIdentifier>{d2949763-bf27-4f18-9ac6-4029167ae352}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +225,9 @@
     <ClInclude Include="..\Public\Weapon_Darkwraith.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith\00. Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Darkwraith_Damaged.h">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -320,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Darkwraith.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith\00. Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Darkwraith_Damaged.cpp">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

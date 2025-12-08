@@ -14,6 +14,8 @@ public:
 	void	Check_Collision(list<CGameObject*> pDstList, list<CGameObject*> pSrcList);
 	void	Collision_Sphere(CGameObject* pDst, CGameObject* pSrc);
 	_bool	Check_Sphere(CGameObject* pDst, CGameObject* pSrc);
+	_bool	Check_Sphere_Bounding(class CBounding_Sphere* pDst, class  CBounding_Sphere* pSrc);
+	_bool	Check_Sphere_Multi(class CCollider* pDst, const vector<class CCollider*>* pSrcList);
 
 public:
 	static CCollision_Manager* Create();

@@ -1,6 +1,7 @@
 #include "Weapon.h"
 #include "GameInstance.h"
 #include "Collider.h"
+#include "Monster_Darkwraith.h"
 
 CWeapon::CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject { pDevice, pContext }
@@ -53,7 +54,10 @@ void CWeapon::Update(_float fTimeDelta)
 
 	__super::SetUp_CombinedWorldMatrix(ParentMatrix);
 
-	m_pColliderCom->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
+	for (auto& pCollider : m_vecColliders)
+		pCollider->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
+
+	//m_pColliderCom->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
 }
 
 void CWeapon::Update_Late(_float fTimeDelta)
@@ -79,7 +83,10 @@ HRESULT CWeapon::Render()
 		m_pModelCom->Render(i);
 	}
 
-	m_pColliderCom->Render();
+	for (auto& pCollider : m_vecColliders)
+		pCollider->Render();
+
+	//m_pColliderCom->Render();
 
 	return S_OK;
 }
@@ -87,7 +94,9 @@ HRESULT CWeapon::Render()
 void CWeapon::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
-		int a = 10;
+	{
+		dynamic_cast<CMonster_Darkwraith*>(pOtherObject)->Set_Damaged(true);
+	}
 }
 
 void CWeapon::OnCollisionExit(CGameObject* pOtherObject)
@@ -106,14 +115,29 @@ HRESULT CWeapon::Ready_Components()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
-	// For Com_Collider
-	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-	SphereDesc.fRadius = 0.1f;
-	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius - 1.f, 0.f);
+	/* For Com_Collider */
+	for (_uint i = 0; i < m_iColliderCnt; i++)
+	{
+		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+		SphereDesc.fRadius = 0.05f;
+		_float fOffset = SphereDesc.fRadius - 0.9f + (0.1f * i);
+		SphereDesc.vCenter = _float3(0.f, fOffset, 0.f);
 
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
-		return E_FAIL;
+		CCollider* pCollider = dynamic_cast<CCollider*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_TO_UINT(LEVELID::GAMEPLAY),
+			TEXT("Prototype_Component_Collider_Sphere"), &SphereDesc));
+		//Safe_AddRef(pCollider);
+
+		m_vecColliders.push_back(pCollider);
+	}
+
+	// For Com_Collider
+	//CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+	//SphereDesc.fRadius = 0.1f;
+	//SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius - 1.f, 0.f);
+
+	//if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+	//	TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
+	//	return E_FAIL;
 		
 	return S_OK;
 }
@@ -175,7 +199,10 @@ void CWeapon::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pColliderCom);
+	for (auto& Collider : m_vecColliders)
+		Safe_Release(Collider);
+	m_vecColliders.clear();
+
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 }

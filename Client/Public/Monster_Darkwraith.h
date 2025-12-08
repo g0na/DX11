@@ -30,15 +30,17 @@ private:
 	virtual ~CMonster_Darkwraith() = default;
 
 public:
-	const _float4x4* Get_SocketMatrix(const _char* pBoneName);
-	const _vector Get_PlayerPos() const { return m_vPlayerPos; }
-	const _float Get_TargetDist() const { return m_fDistance; }
-	_float* Get_CurAnglePtr() { return &m_fCurAngle; }
+	const _float4x4*	Get_SocketMatrix(const _char* pBoneName);
+	const _vector		Get_PlayerPos() const { return m_vPlayerPos; }
+	const _float		Get_TargetDist() const { return m_fDistance; }
+	_float*				Get_CurAnglePtr() { return &m_fCurAngle; }
+	
+	const _bool			Is_Targeting() const { return m_bIsTargeting; }
+	const _bool			Is_AttackReady() const { return m_bAttackReady; }
+	const _bool			Is_Damaged() const { return m_bIsDamaged; }
 
-	const _bool Is_Targeting() const { return m_bIsTargeting; }
-	const _bool Is_AttackReady() const { return m_bAttackReady; }
-
-	void Set_Animation(_uint iAnimationIndex, _bool isLoop);
+	void				Set_Animation(_uint iAnimationIndex, _bool isLoop);
+	void				Set_Damaged(_bool isDamaged) { m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Damaged"), true); }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;							// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -61,6 +63,7 @@ private:
 	_vector				m_vPlayerPos = {};
 	_bool				m_bIsTargeting = {};
 	_bool				m_bAttackReady = {};
+	_bool				m_bIsDamaged = {};
 	_float				m_fCurAngle = {};
 	_float				m_fDistance = {};
 

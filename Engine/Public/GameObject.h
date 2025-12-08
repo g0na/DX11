@@ -46,6 +46,7 @@ public:
 	}
 
 public:
+	virtual const vector<class CCollider*>* Get_Colliders() const { return nullptr; }
 	const _wstring&		Get_PrototypeTag() { return m_strPrototypeTag; }
 	CStateMachine*		Get_StateMachine() { return m_pStateMachine; }
 	CComponent*			Get_Component(const _wstring& strComponentTag) { return m_mapComponents[strComponentTag]; }
@@ -56,7 +57,7 @@ public:
 	_tchar*				Get_Name() { return m_szName; }
 	const _wstring		Get_Layer() const;
 	_bool				Get_IsCollisionEnabled() const { return m_bIsCollisionEnabled; }
-	_uint				Get_CollidingObjectsCnt() const { return m_listCollidingObjects.size(); }
+	_uint				Get_CollidingObjectsCnt() const { return (_uint)m_listCollidingObjects.size(); }
 	
 	void				Set_PrototypeTag(const _wstring& strPrototypeTag) { m_strPrototypeTag = strPrototypeTag; }
 

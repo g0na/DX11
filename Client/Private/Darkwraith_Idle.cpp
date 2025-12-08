@@ -31,8 +31,10 @@ void CDarkwraith_Idle::Enter_State()
 
 void CDarkwraith_Idle::Update_State(_float fTimeDelta)
 {
-    if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Is_Targeting() == true)
+    if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Targeting"), false))
         m_pStateMachine->Change_State(CMonster_Darkwraith::WALK);
+    else if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false))
+        m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);
 }
 
 void CDarkwraith_Idle::Exit_State()

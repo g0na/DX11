@@ -29,6 +29,86 @@ void CStateMachine::Update_State(_float fTimeDelta)
 	m_pCurState->Update_State(fTimeDelta);
 }
 
+_bool CStateMachine::Get_BoolData(_wstring strBoolTag, _bool bValue)
+{
+	auto iter = m_mapBoolData.find(strBoolTag);
+
+	if (iter == m_mapBoolData.end())
+		return bValue;
+
+	return iter->second;
+}
+
+_int CStateMachine::Get_IntData(_wstring strIntTag, _int iValue)
+{
+	auto iter = m_mapIntData.find(strIntTag);
+
+	if (iter == m_mapIntData.end())
+		return iValue;
+
+	return iter->second;
+}
+
+_float CStateMachine::Get_FloatData(_wstring strFloatTag, _float fValue)
+{
+	auto iter = m_mapFloatData.find(strFloatTag);
+
+	if (iter == m_mapFloatData.end())
+		return fValue;
+
+	return iter->second;
+}
+
+_vector CStateMachine::Get_VectorData(_wstring strVectorTag, _vector vecValue)
+{
+	auto iter = m_mapVectorData.find(strVectorTag);
+
+	if (iter == m_mapVectorData.end())
+		return vecValue;
+
+	return iter->second;
+}
+
+void CStateMachine::Set_BoolData(_wstring strBoolTag, _bool bValue)
+{
+	auto iter = m_mapBoolData.find(strBoolTag);
+
+	if (iter == m_mapBoolData.end())
+		m_mapBoolData.emplace(strBoolTag, bValue);
+	else
+		iter->second = bValue;	
+}
+
+void CStateMachine::Set_IntData(_wstring strIntTag, _int iValue)
+{
+	auto iter = m_mapIntData.find(strIntTag);
+
+	if (iter == m_mapIntData.end())
+		m_mapIntData.emplace(strIntTag, iValue);
+	else
+		iter->second = iValue;
+}
+
+void CStateMachine::Set_FloatData(_wstring strFloatTag, _float fValue)
+{
+	auto iter = m_mapFloatData.find(strFloatTag);
+
+	if (iter == m_mapFloatData.end())
+		m_mapFloatData.emplace(strFloatTag, fValue);
+	else
+		iter->second = fValue;
+}
+
+void CStateMachine::Set_VectorData(_wstring strVectorTag, _vector vecValue)
+{
+	auto iter = m_mapVectorData.find(strVectorTag);
+
+	if (iter == m_mapVectorData.end())
+		m_mapVectorData.emplace(strVectorTag, vecValue);
+	else
+		iter->second = vecValue;
+}
+
 HRESULT CStateMachine::Add_State(_uint iStateType, CState* pState)
 {
 	if (pState == nullptr)

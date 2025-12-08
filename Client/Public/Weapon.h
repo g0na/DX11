@@ -25,6 +25,9 @@ private:
 	virtual ~CWeapon() = default;
 
 public:
+	virtual const vector<CCollider*>* Get_Colliders() const { return &m_vecColliders; }
+
+public:
 	virtual HRESULT Initialize_Prototype() override;		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
 	virtual HRESULT Initialize(void* pArg) override;							// 원형 객체를 복제할 때 호출되는 함수. 추가적인 초기화를 위해서
 	virtual void	Update_Priority(_float fTimeDelta) override;
@@ -41,12 +44,13 @@ private:
 	HRESULT Bind_ShaderResources();
 
 private:
-	CModel*			m_pModelCom = { nullptr };
-	CShader*		m_pShaderCom = { nullptr };
-	CCollider*		m_pColliderCom = { nullptr };
+	CModel*					m_pModelCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	vector<CCollider*>		m_vecColliders;
 
 private:
-	const _float4x4* m_pSocketMatrix = { nullptr };
+	const _float4x4*	m_pSocketMatrix = { nullptr };
+	const _uint			m_iColliderCnt = 5;
 
 public:
 	static CWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

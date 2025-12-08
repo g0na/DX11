@@ -33,30 +33,32 @@ void CDarkwraith_Walk::Enter_State()
 
 void CDarkwraith_Walk::Update_State(_float fTimeDelta)
 {
-    _vector vPlayerPos = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_PlayerPos();
-    _vector vTargetDir = XMVector3Normalize(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION));
+    _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
+	_vector vTargetDir = XMVector3Normalize(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION));
 
-    _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
-    _float fAngleDiff = fAngle - *m_pCurAngle;
+	_float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
+	_float fAngleDiff = fAngle - *m_pCurAngle;
 
-    while (fAngleDiff > XM_PI)
-        fAngleDiff -= XM_2PI;
-    while (fAngleDiff < -XM_PI)
-        fAngleDiff += XM_2PI;
+	while (fAngleDiff > XM_PI)
+		fAngleDiff -= XM_2PI;
+	while (fAngleDiff < -XM_PI)
+		fAngleDiff += XM_2PI;
 
-    _float fDeltaAngle = fAngleDiff * fTimeDelta * 15.f;
-    if (abs(fDeltaAngle) > abs(fAngleDiff))
-        fDeltaAngle = fAngleDiff;
+	_float fDeltaAngle = fAngleDiff * fTimeDelta * 15.f;
+	if (abs(fDeltaAngle) > abs(fAngleDiff))
+		fDeltaAngle = fAngleDiff;
 
-    *m_pCurAngle += fDeltaAngle;
+	*m_pCurAngle += fDeltaAngle;
 
-    m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+	m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
 
-    if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_TargetDist() <= 3.f)
-        m_pStateMachine->Change_State(CMonster_Darkwraith::ATTACK);
+	if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false) == true)
+		m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);
 
-    if (dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Is_Targeting() == false)
-        m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
+	if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Targeting"), false) == false)
+		m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
+	else if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) <= 3.f)
+		m_pStateMachine->Change_State(CMonster_Darkwraith::ATTACK); 
 }
 
 void CDarkwraith_Walk::Exit_State()

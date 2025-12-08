@@ -4,6 +4,7 @@
 #include "Darkwraith_Idle.h"
 #include "Darkwraith_Walk.h"
 #include "Darkwraith_Attack.h"
+#include "Darkwraith_Damaged.h"
 
 #include "Weapon_Darkwraith.h"
 
@@ -71,16 +72,16 @@ void CMonster_Darkwraith::Update_Priority(_float fTimeDelta)
 	__super::Update_Priority(fTimeDelta);
 
 	m_vPlayerPos = m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION);
+	m_pStateMachine->Set_VectorData(TEXT("Player_Position"), m_vPlayerPos);
 
 	m_fDistance = Compute_Distance(m_vPlayerPos);
 }
 
 void CMonster_Darkwraith::Update(_float fTimeDelta)
 {
-	if (m_fDistance <= 8.f)
-		m_bIsTargeting = true;
-	else
-		m_bIsTargeting = false;
+	// BlackBoard에 데이터 저장
+	m_pStateMachine->Set_FloatData(TEXT("Darkwraith_Distance"), m_fDistance);
+	m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Targeting"), m_fDistance <= 8.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
@@ -195,6 +196,9 @@ HRESULT CMonster_Darkwraith::Ready_States()
 		return E_FAIL;
 
 	if (FAILED(m_pStateMachine->Add_State(ATTACK, CDarkwraith_Attack::Create(this))))
+		return E_FAIL;
+
+	if (FAILED(m_pStateMachine->Add_State(DAMAGED, CDarkwraith_Damaged::Create(this))))
 		return E_FAIL;
 
 	m_pStateMachine->Set_State(IDLE);
