@@ -6,6 +6,7 @@ NS_BEGIN(Engine)
 class CModel;
 class CShader;
 class CCollider;
+class CAnimation;
 NS_END
 
 NS_BEGIN(Client)

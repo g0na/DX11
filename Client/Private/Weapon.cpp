@@ -81,8 +81,11 @@ HRESULT CWeapon::Render()
 		m_pModelCom->Render(i);
 	}
 
-	for (auto& pCollider : m_vecColliders)
-		pCollider->Render();
+	if (m_bIsCollisionEnabled == true)
+	{
+		for (auto& pCollider : m_vecColliders)
+			pCollider->Render();
+	}
 
 	return S_OK;
 }
@@ -97,6 +100,10 @@ void CWeapon::OnCollisionEnter(CGameObject* pOtherObject)
 
 void CWeapon::OnCollisionExit(CGameObject* pOtherObject)
 {
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
+	{
+		dynamic_cast<CMonster_Darkwraith*>(pOtherObject)->Set_Damaged(false);
+	}
 }
 
 HRESULT CWeapon::Ready_Components()
@@ -115,8 +122,8 @@ HRESULT CWeapon::Ready_Components()
 	for (_uint i = 0; i < m_iColliderCnt; i++)
 	{
 		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-		SphereDesc.fRadius = 0.05f;
-		_float fOffset = SphereDesc.fRadius - 0.9f + (0.15f * i);
+		SphereDesc.fRadius = 0.1f;
+		_float fOffset = SphereDesc.fRadius - 0.9f + (0.2f * i);
 		SphereDesc.vCenter = _float3(0.f, fOffset, 0.f);
 
 		CCollider* pCollider = dynamic_cast<CCollider*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_TO_UINT(LEVELID::GAMEPLAY),

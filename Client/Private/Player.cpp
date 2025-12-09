@@ -94,6 +94,7 @@ void CPlayer::Update_Late(_float fTimeDelta)
 {
     __super::Update_Late(fTimeDelta);
 
+    // 몬스터와 충돌 시 슬라이딩
     if (m_pCollidingObject != nullptr)
     {
         // 루트 모션 이동 벡터
@@ -111,15 +112,15 @@ void CPlayer::Update_Late(_float fTimeDelta)
         _float fCollisionDepth = fPlayerRadius + fMonsterRadius - XMVectorGetX(XMVector3Length(vCollisionNormal));
         if (fCollisionDepth > 0.f)
         {
-            // 겹친 만큼 밀어내고
+            // 겹친 만큼 밀어내고 (선형 보간 해야 부드러움)
             _vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
             _vector vAfterPosition = vPosition + XMVectorSetW(XMVectorScale(vNormal, fCollisionDepth), 0.f);
-            vAfterPosition = XMVectorLerp(vPosition, vAfterPosition, 0.5f);
+            vAfterPosition = XMVectorLerp(vPosition, vAfterPosition, 0.2f);
 
             // 슬라이딩
             _float fDot = XMVectorGetX(XMVector3Dot(vMoveDistance, vNormal));
             _vector vSliding = vMoveDistance - XMVectorScale(vNormal, fDot);
-            vAfterPosition += XMVectorSetW(vSliding, 0.f);
+            vAfterPosition = XMVectorLerp(vAfterPosition, vAfterPosition + XMVectorSetW(vSliding, 0.f), 0.2f);
 
             m_pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(vAfterPosition, 1.f));
         }

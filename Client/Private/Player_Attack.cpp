@@ -2,7 +2,9 @@
 #include "Transform.h"
 #include "Player.h"
 #include "Body.h"
+#include "Weapon.h"
 #include "GameInstance.h"
+#include "Animation.h"
 
 CPlayer_Attack::CPlayer_Attack()
     : m_pGameInstance{ CGameInstance::GetInstance() }
@@ -17,6 +19,7 @@ HRESULT CPlayer_Attack::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
+    Safe_AddRef(m_pPlayerBody);
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
@@ -25,6 +28,7 @@ HRESULT CPlayer_Attack::Initialize(CGameObject* pOwner, CBody* pBody)
 
     CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
     m_pCurAngle = pPlayer->Get_CurAnglePtr();
+    m_pPlayerWeapon = static_cast<CWeapon*>(pPlayer->Find_PartObject(TEXT("Part_Weapon")));
 
     return S_OK;
 }
@@ -75,6 +79,9 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             if (m_fAttackDelay >= 0.6f)
             {
                 m_pPlayerBody->Set_Animation(25, false);
+
+                // 무기 콜라이더 활성화
+
                 m_iAttackCnt++;
                 m_fAttackDelay = 0.f;
             }
@@ -88,8 +95,12 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             if (m_fAttackDelay >= 0.6f)
             {
                 m_pPlayerBody->Set_Animation(26, false);
+
+                // 무기 콜라이더 활성화
+
                 m_iAttackCnt = 0;
                 m_fAttackDelay = 0.f;
+                m_pPlayerWeapon->Set_CollisionEnabled(false);
             }
 
             if (m_fAttackDelay >= 2.233f)
@@ -129,5 +140,6 @@ void CPlayer_Attack::Free()
 {
     __super::Free();
 
+    Safe_Release(m_pPlayerBody);
     Safe_Release(m_pGameInstance);
 }

@@ -60,6 +60,7 @@ public:
 	_uint				Get_CollidingObjectsCnt() const { return (_uint)m_listCollidingObjects.size(); }
 	
 	void				Set_PrototypeTag(const _wstring& strPrototypeTag) { m_strPrototypeTag = strPrototypeTag; }
+	void				Set_CollisionEnabled(_bool isEnabled) { m_bIsCollisionEnabled = isEnabled; }
 
 protected:
 	ID3D11Device*			m_pDevice = { nullptr };

@@ -17,6 +17,7 @@ HRESULT CPlayer_Run::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
+    Safe_AddRef(m_pPlayerBody);
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
@@ -124,5 +125,6 @@ void CPlayer_Run::Free()
 {
     __super::Free();
 
+    Safe_Release(m_pPlayerBody);
     Safe_Release(m_pGameInstance);
 }

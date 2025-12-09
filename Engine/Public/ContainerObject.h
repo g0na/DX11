@@ -30,7 +30,7 @@ private:
 protected:
 	HRESULT Add_PartObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strPartObjTag, void* pArg);
 
-protected:
+public:
 	class CPartObject* Find_PartObject(const _wstring& strPartTag);
 
 public:
