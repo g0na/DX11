@@ -69,6 +69,11 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
 {
     m_fAttackDelay += fTimeDelta;
 
+    if (m_fAttackDelay >= 0.5f && m_fAttackDelay < 0.6f)
+        m_pPlayerWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+    else
+        m_pPlayerWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+
     if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
     {
         // 공격 횟수에 따른 구분
@@ -79,8 +84,6 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             if (m_fAttackDelay >= 0.6f)
             {
                 m_pPlayerBody->Set_Animation(25, false);
-
-                // 무기 콜라이더 활성화
 
                 m_iAttackCnt++;
                 m_fAttackDelay = 0.f;
@@ -96,11 +99,8 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             {
                 m_pPlayerBody->Set_Animation(26, false);
 
-                // 무기 콜라이더 활성화
-
                 m_iAttackCnt = 0;
                 m_fAttackDelay = 0.f;
-                m_pPlayerWeapon->Set_CollisionEnabled(false);
             }
 
             if (m_fAttackDelay >= 2.233f)
@@ -119,6 +119,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
 
 void CPlayer_Attack::Exit_State()
 {
+    m_pPlayerWeapon->Set_CollisionEnabled(false);
     m_iAttackCnt = 0;
     m_fAttackDelay = 0.f;
 }

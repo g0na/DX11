@@ -30,7 +30,7 @@ HRESULT CWeapon_Darkwraith::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_eLayer = LAYER::WEAPON;
-	m_bIsCollisionEnabled = true;
+	m_bIsCollisionEnabled = false;
 
 	return S_OK;
 }
@@ -62,8 +62,11 @@ void CWeapon_Darkwraith::Update_Late(_float fTimeDelta)
 
 HRESULT CWeapon_Darkwraith::Render()
 {
-	for (auto& pCollider : m_vecColliders)
-		pCollider->Render();
+	if (m_bIsCollisionEnabled == true)
+	{
+		for (auto& pCollider : m_vecColliders)
+			pCollider->Render();
+	}
 
 	return S_OK;
 }

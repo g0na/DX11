@@ -130,6 +130,9 @@
     <Filter Include="02. GameObjects\05. Player\99. States\01. Walk">
       <UniqueIdentifier>{d2949763-bf27-4f18-9ac6-4029167ae352}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\05. Player\99. States\06. Damaged">
+      <UniqueIdentifier>{3252e67f-113e-4465-8f0a-dd6db9fca39f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

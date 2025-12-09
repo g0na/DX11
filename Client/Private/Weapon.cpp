@@ -33,7 +33,7 @@ HRESULT CWeapon::Initialize(void* pArg)
 	m_pTransformCom->Rotation(XMConvertToRadians(90.0f), 0.f, 0.f);
 
 	m_eLayer = LAYER::WEAPON;
-	m_bIsCollisionEnabled = true;
+	m_bIsCollisionEnabled = false;
 
 	return S_OK;
 }

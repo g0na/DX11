@@ -26,9 +26,10 @@ public:
 	virtual void Exit_State() override;
 
 private:
-	CGameInstance* m_pGameInstance = { nullptr };
-	CStateMachine* m_pStateMachine = { nullptr };
-	CTransform* m_pMonsterTransform = { nullptr };
+	CGameInstance*		m_pGameInstance = { nullptr };
+	CStateMachine*		m_pStateMachine = { nullptr };
+	CTransform*			m_pMonsterTransform = { nullptr };
+	class CWeapon*		m_pMonsterWeapon = { nullptr };
 
 	_uint	m_iAttackCnt = {};
 	_float* m_pCurAngle = { nullptr };
