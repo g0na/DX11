@@ -51,7 +51,8 @@ void CWeapon_Darkwraith::Update(_float fTimeDelta)
 
 	__super::SetUp_CombinedWorldMatrix(ParentMatrix);
 
-	m_pColliderCom->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
+	for (auto& pCollider : m_vecColliders)
+		pCollider->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
 }
 
 void CWeapon_Darkwraith::Update_Late(_float fTimeDelta)
@@ -61,7 +62,8 @@ void CWeapon_Darkwraith::Update_Late(_float fTimeDelta)
 
 HRESULT CWeapon_Darkwraith::Render()
 {
-	m_pColliderCom->Render();
+	for (auto& pCollider : m_vecColliders)
+		pCollider->Render();
 
 	return S_OK;
 }
@@ -78,15 +80,20 @@ void CWeapon_Darkwraith::OnCollisionExit(CGameObject* pOtherObject)
 
 HRESULT CWeapon_Darkwraith::Ready_Components()
 {
-	// For Com_Collider
-	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-	SphereDesc.fRadius = 0.1f;
-	SphereDesc.vCenter = _float3(0.f, 0.f, -1.f);
+	/* For Com_Collider */
+	for (_uint i = 0; i < m_iColliderCnt; i++)
+	{
+		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+		SphereDesc.fRadius = 0.1f;
+		_float fOffset = SphereDesc.fRadius - 1.2f + (0.2f * i);
+		SphereDesc.vCenter = _float3(0.f, 0.f, fOffset);
 
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
-		return E_FAIL;
-		
+		CCollider* pCollider = dynamic_cast<CCollider*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_TO_UINT(LEVELID::GAMEPLAY),
+			TEXT("Prototype_Component_Collider_Sphere"), &SphereDesc));
+
+		m_vecColliders.push_back(pCollider);
+	}
+
 	return S_OK;
 }
 
@@ -120,5 +127,7 @@ void CWeapon_Darkwraith::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pColliderCom);
+	for (auto& pCollider : m_vecColliders)
+		Safe_Release(pCollider);
+	m_vecColliders.clear();
 }

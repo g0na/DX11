@@ -56,8 +56,6 @@ void CWeapon::Update(_float fTimeDelta)
 
 	for (auto& pCollider : m_vecColliders)
 		pCollider->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
-
-	//m_pColliderCom->Update(XMLoadFloat4x4(&m_CombinedWorldMartix));
 }
 
 void CWeapon::Update_Late(_float fTimeDelta)
@@ -85,8 +83,6 @@ HRESULT CWeapon::Render()
 
 	for (auto& pCollider : m_vecColliders)
 		pCollider->Render();
-
-	//m_pColliderCom->Render();
 
 	return S_OK;
 }
@@ -120,24 +116,14 @@ HRESULT CWeapon::Ready_Components()
 	{
 		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
 		SphereDesc.fRadius = 0.05f;
-		_float fOffset = SphereDesc.fRadius - 0.9f + (0.1f * i);
+		_float fOffset = SphereDesc.fRadius - 0.9f + (0.15f * i);
 		SphereDesc.vCenter = _float3(0.f, fOffset, 0.f);
 
 		CCollider* pCollider = dynamic_cast<CCollider*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_TO_UINT(LEVELID::GAMEPLAY),
 			TEXT("Prototype_Component_Collider_Sphere"), &SphereDesc));
-		//Safe_AddRef(pCollider);
 
 		m_vecColliders.push_back(pCollider);
 	}
-
-	// For Com_Collider
-	//CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-	//SphereDesc.fRadius = 0.1f;
-	//SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius - 1.f, 0.f);
-
-	//if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
-	//	TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
-	//	return E_FAIL;
 		
 	return S_OK;
 }
@@ -199,8 +185,8 @@ void CWeapon::Free()
 {
 	__super::Free();
 
-	for (auto& Collider : m_vecColliders)
-		Safe_Release(Collider);
+	for (auto& pCollider : m_vecColliders)
+		Safe_Release(pCollider);
 	m_vecColliders.clear();
 
 	Safe_Release(m_pShaderCom);

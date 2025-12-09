@@ -44,6 +44,9 @@ public:
 private:	
 	class CBody*	m_pBody = { nullptr };
 	CCollider*		m_pColliderCom = { nullptr };
+	CGameObject*	m_pCollidingObject = { nullptr };
+
+	_vector			m_vPrevPosition = {};
 	_float			m_fCurAngle = { 0.f };
 
 private:

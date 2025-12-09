@@ -64,6 +64,9 @@ void CPlayer::Update_Priority(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+    // 루트 모션 적용 이전의 위치 저장
+    m_vPrevPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
     // 상태머신 업데이트
     m_pStateMachine->Update_State(fTimeDelta);
 
@@ -85,18 +88,42 @@ void CPlayer::Update(_float fTimeDelta)
         XMVectorGetY(m_pTransformCom->Get_State(STATE::LOOK)),
         XMVectorGetZ(m_pTransformCom->Get_State(STATE::LOOK)));
     OutputDebugStringA(buf);
-
-    // 위치 디버깅
-    sprintf_s(buf, "Pos x: %f, Pos y: %f, Pos z:%f\n", 
-        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
-        XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
-        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION)));
-    OutputDebugStringA(buf);
 }
 
 void CPlayer::Update_Late(_float fTimeDelta)
 {
     __super::Update_Late(fTimeDelta);
+
+    if (m_pCollidingObject != nullptr)
+    {
+        // 루트 모션 이동 벡터
+        _vector vMoveDistance = m_pTransformCom->Get_State(STATE::POSITION) - m_vPrevPosition;
+
+        // 충돌 법선 벡터 구하고 정규화
+        _vector vCollisionNormal = m_pTransformCom->Get_State(STATE::POSITION) - m_pCollidingObject->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION);
+        _vector vNormal = XMVector3Normalize(vCollisionNormal);
+
+        // 겹친 길이
+        _float fPlayerRadius = static_cast<CBounding_Sphere*>(m_pColliderCom->Get_Bounding())->Get_Desc()->Radius;
+        _float fMonsterRadius = static_cast<CBounding_Sphere*>(m_pCollidingObject->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Get_Bounding())->Get_Desc()->Radius;
+
+        // 겹친 상태 판단 후 겹친 만큼 플레이어 위치 보정
+        _float fCollisionDepth = fPlayerRadius + fMonsterRadius - XMVectorGetX(XMVector3Length(vCollisionNormal));
+        if (fCollisionDepth > 0.f)
+        {
+            // 겹친 만큼 밀어내고
+            _vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+            _vector vAfterPosition = vPosition + XMVectorSetW(XMVectorScale(vNormal, fCollisionDepth), 0.f);
+            vAfterPosition = XMVectorLerp(vPosition, vAfterPosition, 0.5f);
+
+            // 슬라이딩
+            _float fDot = XMVectorGetX(XMVector3Dot(vMoveDistance, vNormal));
+            _vector vSliding = vMoveDistance - XMVectorScale(vNormal, fDot);
+            vAfterPosition += XMVectorSetW(vSliding, 0.f);
+
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(vAfterPosition, 1.f));
+        }
+    }
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
@@ -113,13 +140,17 @@ HRESULT CPlayer::Render()
 void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
 {
     if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
-        int a = 10;
+    {
+        m_pCollidingObject = pOtherObject;
+    }
 }
 
 void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
 {
     if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
-        int a = 10;
+    {
+        m_pCollidingObject = nullptr;
+    }
 }
 
 HRESULT CPlayer::Ready_Components()
