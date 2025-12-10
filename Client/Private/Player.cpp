@@ -13,6 +13,7 @@
 #include "Player_Roll.h"
 #include "Player_Guard.h"
 #include "Player_Attack.h"
+#include "Player_Damaged.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -144,6 +145,15 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
     {
         m_pCollidingObject = pOtherObject;
     }
+    
+    if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
+    {
+        // 피격 당했는데 가드 중이었다면
+        if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
+            m_pStateMachine->Set_BoolData(TEXT("Player_Guard_Success"), true);
+        else
+            Set_Damaged(true);
+    }
 }
 
 void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
@@ -151,6 +161,12 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
     if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
     {
         m_pCollidingObject = nullptr;
+    }
+
+    if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
+    {
+        Set_Damaged(false);
+        m_pStateMachine->Set_BoolData(TEXT("Player_Guard_Success"), false);
     }
 }
 
@@ -191,6 +207,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(ATTACK, CPlayer_Attack::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(DAMAGED, CPlayer_Damaged::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);

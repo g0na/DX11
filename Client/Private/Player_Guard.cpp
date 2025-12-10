@@ -34,10 +34,15 @@ void CPlayer_Guard::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
         m_pPlayerBody->Set_Animation(1, true);
+
+    m_pStateMachine->Set_BoolData(TEXT("Player_Guard"), true);
 }
 
 void CPlayer_Guard::Update_State(_float fTimeDelta)
 {
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Success"), false) == true)
+        m_pPlayerBody->Set_Animation(2, false);
+
     if (m_pGameInstance->Get_MouseBtnUp(MOUSEKEYSTATE::RB))
     {
         m_pStateMachine->Change_State(CPlayer::IDLE);
@@ -48,6 +53,7 @@ void CPlayer_Guard::Update_State(_float fTimeDelta)
 
 void CPlayer_Guard::Exit_State()
 {
+    m_pStateMachine->Set_BoolData(TEXT("Player_Guard"), false);
 }
 
 CPlayer_Guard* CPlayer_Guard::Create(CGameObject* pOwner, CBody* pBody)

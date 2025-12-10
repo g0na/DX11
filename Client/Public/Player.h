@@ -18,6 +18,9 @@ public:
 		ROLL,
 		GUARD,
 		ATTACK,
+		DAMAGED,
+		DEATH,
+		HEAL,
 		END
 	};
 
@@ -27,7 +30,9 @@ private:
 	virtual ~CPlayer() = default;
 
 public:
-	_float* Get_CurAnglePtr() { return &m_fCurAngle; }
+	_float*				Get_CurAnglePtr() { return &m_fCurAngle; }
+	const _bool			Is_Damaged() const { return m_bIsDamaged; }
+	void				Set_Damaged(_bool isDamaged) { m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), isDamaged); }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -47,7 +52,10 @@ private:
 	CGameObject*	m_pCollidingObject = { nullptr };
 
 	_vector			m_vPrevPosition = {};
+
 	_float			m_fCurAngle = { 0.f };
+	
+	_bool			m_bIsDamaged = {};
 
 private:
 	HRESULT Ready_Components();

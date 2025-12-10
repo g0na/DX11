@@ -231,6 +231,9 @@
     <ClInclude Include="..\Public\Darkwraith_Damaged.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Player_Damaged.h">
+      <Filter>02. GameObjects\05. Player\99. States\06. Damaged</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -329,6 +332,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Darkwraith_Damaged.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Damaged.cpp">
+      <Filter>02. GameObjects\05. Player\99. States\06. Damaged</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

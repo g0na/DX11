@@ -42,7 +42,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 
 	// Player, Monster_Weapon 충돌 체크
 	list<CGameObject*> MonsterList = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
-	list<CGameObject*> PartList = {};
+	list<CGameObject*> MonsterPartList = {};
 	for (auto& Monster : MonsterList)
 	{
 		for (auto& Part : dynamic_cast<CContainerObject*>(Monster)->Get_PartObjects())
@@ -50,11 +50,11 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 			if (Part == nullptr)
 				continue;
 
-			PartList.push_back(Part);
+			MonsterPartList.push_back(Part);
 		}
 	}
 
-	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")), PartList);
+	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")), MonsterPartList);
 }
 
 HRESULT CLevel_GamePlay::Render()

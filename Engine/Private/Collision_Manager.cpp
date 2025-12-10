@@ -14,6 +14,9 @@ void CCollision_Manager::Check_Collision(list<CGameObject*> pDstList, list<CGame
 
 		for (auto& Src : pSrcList)
 		{
+			if (Src->Get_IsCollisionEnabled() == false)
+				continue;
+
 			// 콜라이더 존재 여부 확인
 			const vector<CCollider*>* pDstColliders = Dst->Get_Colliders();
 			const vector<CCollider*>* pSrcColliders = Src->Get_Colliders();

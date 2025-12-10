@@ -30,7 +30,6 @@ private:
 	CStateMachine* m_pStateMachine = { nullptr };
 	CTransform* m_pMonsterTransform = { nullptr };
 
-	_uint	m_iDamagedCnt = {};
 	_float* m_pCurAngle = { nullptr };
 
 public:

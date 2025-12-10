@@ -3,6 +3,7 @@
 #include "Monster_Darkwraith.h"
 #include "GameInstance.h"
 #include "Model.h"
+#include "Animation.h"
 #include "Weapon.h"
 
 CDarkwraith_Attack::CDarkwraith_Attack()
@@ -17,9 +18,11 @@ HRESULT CDarkwraith_Attack::Initialize(CGameObject* pOwner)
 
     m_pMonsterTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
+    m_pMonsterModel = m_pOwner->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
-        m_pMonsterTransform == nullptr)
+        m_pMonsterTransform == nullptr ||
+        m_pMonsterModel == nullptr)
         return E_FAIL;
 
     m_pCurAngle = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
@@ -49,14 +52,41 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 
     m_fAttackDelay += fTimeDelta;
 
+    _uint iCurAnimIndex = m_pMonsterModel->Get_CurAnimIndex();
+    switch (iCurAnimIndex)
+    {
+    case 4:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.6f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.765f)
+            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+        else
+            m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+
+    case 5:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.366f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.53f)
+            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+        else
+            m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+
+    case 6:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.366f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.56f)
+            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+        else
+            m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+
+    default:
+        m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+    }
+
     switch (m_iAttackCnt)
     {
     case 0:
-        if (m_fAttackDelay >= 0.6f && m_fAttackDelay < 0.765f)
-            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
-        else
-            m_pMonsterWeapon->Set_CollisionEnabled(false);               // 무기 콜라이더 비활성화
-
         if (m_fAttackDelay < 0.2f)
         {
             _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
@@ -90,51 +120,41 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         }
         break;
 
-    case 1:
-        if (m_fAttackDelay >= 0.366f && m_fAttackDelay < 0.53f)
-            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
-        else
-            m_pMonsterWeapon->Set_CollisionEnabled(false);               // 무기 콜라이더 비활성화
+	case 1:
+		if (m_fAttackDelay < 0.2f)
+		{
+			_float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
+			_float fAngleDiff = fAngle - *m_pCurAngle;
 
-        if (m_fAttackDelay < 0.2f)
-        {
-            _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
-            _float fAngleDiff = fAngle - *m_pCurAngle;
+			while (fAngleDiff > XM_PI)
+				fAngleDiff -= XM_2PI;
+			while (fAngleDiff < -XM_PI)
+				fAngleDiff += XM_2PI;
 
-            while (fAngleDiff > XM_PI)
-                fAngleDiff -= XM_2PI;
-            while (fAngleDiff < -XM_PI)
-                fAngleDiff += XM_2PI;
+			_float fDeltaAngle = fAngleDiff * fTimeDelta * 15.f;
+			if (abs(fDeltaAngle) > abs(fAngleDiff))
+				fDeltaAngle = fAngleDiff;
 
-            _float fDeltaAngle = fAngleDiff * fTimeDelta * 15.f;
-            if (abs(fDeltaAngle) > abs(fAngleDiff))
-                fDeltaAngle = fAngleDiff;
+			*m_pCurAngle += fDeltaAngle;
 
-            *m_pCurAngle += fDeltaAngle;
+			m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+		}
+		else if (m_fAttackDelay >= 1.5f)
+		{
+			// 거리가 멀어지면 걷기로 변경
+			if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
+			{
+				m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
+				return;
+			}
 
-            m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
-        }
-        else if (m_fAttackDelay >= 1.5f)
-        {
-            // 거리가 멀어지면 걷기로 변경
-            if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
-            {
-                m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
-                return;
-            }
-
-            dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(5, false);
-            m_iAttackCnt++;
-            m_fAttackDelay = 0.f;
-        }
-        break;
+			dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(5, false);
+			m_iAttackCnt++;
+			m_fAttackDelay = 0.f;
+		}
+		break;
 
     case 2:
-        if (m_fAttackDelay >= 0.366f && m_fAttackDelay < 0.56f)
-            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
-        else
-            m_pMonsterWeapon->Set_CollisionEnabled(false);               // 무기 콜라이더 비활성화
-
         if (m_fAttackDelay < 0.2f)
         {
             _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환

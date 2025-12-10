@@ -38,6 +38,10 @@ void CPlayer_Run::Enter_State()
 
 void CPlayer_Run::Update_State(_float fTimeDelta)
 {
+    // ÇÇ°Ý
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false))
+        m_pStateMachine->Change_State(CPlayer::DAMAGED);
+
     m_vInputDir = XMVectorZero();
 
     if (m_pGameInstance->Get_KeyHold(DIK_D))

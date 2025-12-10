@@ -1,6 +1,7 @@
 #include "Weapon_Darkwraith.h"
 #include "GameInstance.h"
 #include "Collider.h"
+#include "Player.h"
 
 CWeapon_Darkwraith::CWeapon_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CPartObject { pDevice, pContext }
@@ -74,11 +75,15 @@ HRESULT CWeapon_Darkwraith::Render()
 void CWeapon_Darkwraith::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
-		int a = 10;
+	{
+	}
 }
 
 void CWeapon_Darkwraith::OnCollisionExit(CGameObject* pOtherObject)
 {
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
+	{
+	}
 }
 
 HRESULT CWeapon_Darkwraith::Ready_Components()

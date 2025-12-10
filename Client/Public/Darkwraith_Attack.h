@@ -29,6 +29,7 @@ private:
 	CGameInstance*		m_pGameInstance = { nullptr };
 	CStateMachine*		m_pStateMachine = { nullptr };
 	CTransform*			m_pMonsterTransform = { nullptr };
+	CModel*				m_pMonsterModel = { nullptr };
 	class CWeapon*		m_pMonsterWeapon = { nullptr };
 
 	_uint	m_iAttackCnt = {};

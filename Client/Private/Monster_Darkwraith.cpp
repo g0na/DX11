@@ -150,12 +150,16 @@ void CMonster_Darkwraith::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
-		int a = 10;
+		Set_Damaged(true);
 	}
 }
 
 void CMonster_Darkwraith::OnCollisionExit(CGameObject* pOtherObject)
 {
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
+	{
+		Set_Damaged(false);
+	}
 }
 
 HRESULT CMonster_Darkwraith::Ready_Components()
