@@ -17,6 +17,7 @@ public:
 		RUN,
 		ROLL,
 		GUARD,
+		RECOIL,
 		ATTACK,
 		DAMAGED,
 		DEATH,

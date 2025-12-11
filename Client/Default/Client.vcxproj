@@ -170,6 +170,7 @@
     <ClInclude Include="..\Public\Player_Damaged.h" />
     <ClInclude Include="..\Public\Player_Guard.h" />
     <ClInclude Include="..\Public\Player_Idle.h" />
+    <ClInclude Include="..\Public\Player_Recoil.h" />
     <ClInclude Include="..\Public\Player_Roll.h" />
     <ClInclude Include="..\Public\Player_Run.h" />
     <ClInclude Include="..\Public\Shield.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="..\Private\Player_Damaged.cpp" />
     <ClCompile Include="..\Private\Player_Guard.cpp" />
     <ClCompile Include="..\Private\Player_Idle.cpp" />
+    <ClCompile Include="..\Private\Player_Recoil.cpp" />
     <ClCompile Include="..\Private\Player_Roll.cpp" />
     <ClCompile Include="..\Private\Player_Run.cpp" />
     <ClCompile Include="..\Private\Shield.cpp" />

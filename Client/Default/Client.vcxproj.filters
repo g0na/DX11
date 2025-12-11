@@ -133,6 +133,9 @@
     <Filter Include="02. GameObjects\05. Player\99. States\06. Damaged">
       <UniqueIdentifier>{3252e67f-113e-4465-8f0a-dd6db9fca39f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\05. Player\99. States\04. Guard\Recoil">
+      <UniqueIdentifier>{683eaff6-42c3-4070-ad6a-1a0d12858383}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -233,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Damaged.h">
       <Filter>02. GameObjects\05. Player\99. States\06. Damaged</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Recoil.h">
+      <Filter>02. GameObjects\05. Player\99. States\04. Guard\Recoil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Damaged.cpp">
       <Filter>02. GameObjects\05. Player\99. States\06. Damaged</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Recoil.cpp">
+      <Filter>02. GameObjects\05. Player\99. States\04. Guard\Recoil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

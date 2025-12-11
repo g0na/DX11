@@ -3,19 +3,17 @@
 #include "State.h"
 
 NS_BEGIN(Engine)
-class CGameInstance;
 class CStateMachine;
-class CTransform;
 NS_END
 
 NS_BEGIN(Client)
 
-class CPlayer_Guard final : public CState
+class CPlayer_Recoil final : public CState
 {
 private:
-	CPlayer_Guard();
-	CPlayer_Guard(const CPlayer_Guard& Prototype) = delete;
-	virtual ~CPlayer_Guard() = default;
+	CPlayer_Recoil();
+	CPlayer_Recoil(const CPlayer_Recoil& Prototype) = delete;
+	virtual ~CPlayer_Recoil() = default;
 
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner, class CBody* pBody);
@@ -25,16 +23,11 @@ public:
 	virtual void Exit_State() override;
 
 private:
-	CGameInstance* m_pGameInstance = { nullptr };
 	CStateMachine* m_pStateMachine = { nullptr };
-	CTransform* m_pPlayerTransform = { nullptr };
 	class CBody* m_pPlayerBody = { nullptr };
 
-	_vector			m_vInputDir = {};
-	_float*			m_pCurAngle = { nullptr };
-
 public:
-	static CPlayer_Guard* Create(class CGameObject* pOwner, CBody* pBody);
+	static CPlayer_Recoil* Create(class CGameObject* pOwner, CBody* pBody);
 	virtual void Free() override;
 };
 

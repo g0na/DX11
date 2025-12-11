@@ -12,6 +12,7 @@
 #include "Player_Run.h"
 #include "Player_Roll.h"
 #include "Player_Guard.h"
+#include "Player_Recoil.h"
 #include "Player_Attack.h"
 #include "Player_Damaged.h"
 
@@ -150,7 +151,7 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
     {
         // 피격 당했는데 가드 중이었다면
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
-            m_pStateMachine->Set_BoolData(TEXT("Player_Guard_Success"), true);
+            m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), true);
         else
             Set_Damaged(true);
     }
@@ -166,7 +167,6 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
     if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
     {
         Set_Damaged(false);
-        m_pStateMachine->Set_BoolData(TEXT("Player_Guard_Success"), false);
     }
 }
 
@@ -204,6 +204,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(GUARD, CPlayer_Guard::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(RECOIL, CPlayer_Recoil::Create(this, m_pBody))))
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(ATTACK, CPlayer_Attack::Create(this, m_pBody))))

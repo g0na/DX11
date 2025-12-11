@@ -40,10 +40,51 @@ void CPlayer_Guard::Enter_State()
 
 void CPlayer_Guard::Update_State(_float fTimeDelta)
 {
-    if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Success"), false) == true)
-        m_pPlayerBody->Set_Animation(2, false);
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true)
+    {
+        m_pStateMachine->Change_State(CPlayer::RECOIL);        
+        return;
+    }
 
-    if (m_pGameInstance->Get_MouseBtnUp(MOUSEKEYSTATE::RB))
+    m_vInputDir = XMVectorZero();
+
+    if (m_pGameInstance->Get_KeyHold(DIK_D))
+        m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_A))
+        m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_S))
+        m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+    if (m_pGameInstance->Get_KeyHold(DIK_W))
+        m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
+
+    // 방향키 입력이 있다면
+    if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
+    {
+        // 회전 관련
+        m_vInputDir = XMVector3Normalize(m_vInputDir);
+        _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
+        _float fAngleDiff = fAngle - *m_pCurAngle;
+
+        while (fAngleDiff > XM_PI)
+            fAngleDiff -= XM_2PI;
+        while (fAngleDiff < -XM_PI)
+            fAngleDiff += XM_2PI;
+
+        _float fDeltaAngle = fAngleDiff * fTimeDelta * 30.f;
+        if (abs(fDeltaAngle) > abs(fAngleDiff))
+            fDeltaAngle = fAngleDiff;
+
+        *m_pCurAngle += fDeltaAngle;
+
+        m_pPlayerTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+
+        m_pPlayerBody->Set_InputDir(m_vInputDir);
+
+        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+            m_pStateMachine->Change_State(CPlayer::ROLL);
+    }
+
+    if (m_pGameInstance->Get_MouseBtnHold(MOUSEKEYSTATE::RB) == false)
     {
         m_pStateMachine->Change_State(CPlayer::IDLE);
     }
