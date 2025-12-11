@@ -29,9 +29,9 @@ HRESULT CCamera_Free::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
-    m_fDistance = 3.f;
+    m_fDistance = 6.f;
     m_fYaw = XM_PI;             // 180도
-    m_fPitch = 0.3f;
+    m_fPitch = 0.5f;
 
     return S_OK;
 }
@@ -48,14 +48,15 @@ void CCamera_Free::Update_Priority(_float fTimeDelta)
     _float fX = m_fDistance * cos(m_fPitch) * sin(m_fYaw);
     _float fY = m_fDistance * sin(m_fPitch);
     _float fZ = m_fDistance * cos(m_fPitch) * cos(m_fYaw);
-    _vector vLocalPosition = XMVectorSet(fX, fY, fZ, 1.f);
+    _vector vLocalPosition = XMVectorSet(fX, fY, fZ, 0.f);
+    _vector vTargetPosition = m_pPlayerTransform->Get_State(STATE::POSITION) + XMVectorSet(0.f, 1.5f, 0.f, 0.f);
+    vLocalPosition += vTargetPosition;
 
     m_pTransformCom->Set_State(STATE::POSITION, vLocalPosition);
-    m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(STATE::POSITION));
+    m_pTransformCom->LookAt(vTargetPosition);
 
     // 부모의 월드 행렬을 받아 자신의 최종 변환 행렬을 계산
     __super::SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
-
 }
 
 void CCamera_Free::Update(_float fTimeDelta)
