@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "GameInstance.h"
+#include "Camera_Free.h"
 #include "Body.h"
 #include "Weapon.h"
 #include "WeaponCase.h"
@@ -222,6 +223,22 @@ HRESULT CPlayer::Ready_States()
 
 HRESULT CPlayer::Ready_PartObjects()
 {
+    CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
+    CameraDesc.vPosition = _float3(0.f, 3.f, -3.f);
+    CameraDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    XMStoreFloat3(&CameraDesc.vAt, m_pTransformCom->Get_State(STATE::LOOK));
+    CameraDesc.fSpeedPerSec = 0.f;
+    CameraDesc.fRotationPerSec = XMConvertToRadians(180.0f);
+    CameraDesc.fFovY = XMConvertToRadians(45.0f);
+    CameraDesc.fNearZ = 0.1f;
+    CameraDesc.fFarZ = 1000.f;
+    CameraDesc.fSensor = 0.1f;
+    CameraDesc.pPlayerTransform = m_pTransformCom;
+
+    if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
+        TEXT("Part_Camera"), &CameraDesc)))
+        return E_FAIL;
+
     // Body
     CBody::BODY_DESC    BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();             // 자신의 월드 행렬을 전달

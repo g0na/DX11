@@ -87,18 +87,18 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
-	CameraDesc.vPosition = _float3(0.f, 30.f, -20.f);
-	CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
-	CameraDesc.fSpeedPerSec = 25.f;
-	CameraDesc.fRotationPerSec = XMConvertToRadians(180.0f);
-	CameraDesc.fFovY = XMConvertToRadians(45.0f);
-	CameraDesc.fNearZ = 0.1f;
-	CameraDesc.fFarZ = 1000.f;
-	CameraDesc.fSensor = 0.1f;
+	//CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
+	//CameraDesc.vPosition = _float3(0.f, 30.f, -20.f);
+	//CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+	//CameraDesc.fSpeedPerSec = 25.f;
+	//CameraDesc.fRotationPerSec = XMConvertToRadians(180.0f);
+	//CameraDesc.fFovY = XMConvertToRadians(45.0f);
+	//CameraDesc.fNearZ = 0.1f;
+	//CameraDesc.fFarZ = 1000.f;
+	//CameraDesc.fSensor = 0.1f;
 
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &CameraDesc);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &CameraDesc);
 
 	return S_OK;
 }

@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 
 CCamera::CCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	: CGameObject{ pDevice, pContext }
+	: CPartObject{ pDevice, pContext }
 {
 }
 
 CCamera::CCamera(const CCamera& Prototype)
-	: CGameObject{ Prototype }
+	: CPartObject{ Prototype }
 {
 }
 

@@ -37,47 +37,11 @@
     <Filter Include="02. GameObjects\01. Terrain">
       <UniqueIdentifier>{639686cb-6df3-446f-ab56-3b76571a22b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\02. Camera">
-      <UniqueIdentifier>{356d3394-b567-4f5b-b0a9-1a7187e5bea6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\03. Monster">
       <UniqueIdentifier>{246edc41-0f31-4d9d-9a1a-cdd4c981ac4c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObjects\04. Map">
       <UniqueIdentifier>{8fe118d0-9d43-4b79-98ea-4b272f3794e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player">
-      <UniqueIdentifier>{008cfe9f-c6ed-4e36-a65e-6de9701e014a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\00. Body">
-      <UniqueIdentifier>{3980844c-4a22-4392-81b7-a381a260cc66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\01. Weapon">
-      <UniqueIdentifier>{9c63e074-1090-4dee-8225-0cd4ea7c36dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States">
-      <UniqueIdentifier>{3d8c4669-6ca1-4bce-a566-e8b0832ba9dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\00. Idle">
-      <UniqueIdentifier>{afa4001f-7ec4-4a12-9794-f06481cd178e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\02. Run">
-      <UniqueIdentifier>{1f7e0128-01e7-4268-9394-997549024355}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\03. Roll">
-      <UniqueIdentifier>{fba81a55-c7b5-43e4-b43f-8e80aa4371d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\04. Guard">
-      <UniqueIdentifier>{ba2e6eea-c8c6-45ef-8d24-ab148071687c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\05. Attack">
-      <UniqueIdentifier>{b02db44b-500c-4ca6-bd90-930851dad21a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\02. WeaponCase">
-      <UniqueIdentifier>{6c2634a8-2cc1-42a2-99b3-73e60c52d844}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObjects\05. Player\03. Shield">
-      <UniqueIdentifier>{5a17ba6a-b691-4c74-9801-767d5209c4ca}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObjects\03. Monster\Hollow">
       <UniqueIdentifier>{d0f4a36e-a6b5-4ae2-9f16-bc8efb27f412}</UniqueIdentifier>
@@ -127,14 +91,50 @@
     <Filter Include="02. GameObjects\03. Monster\Darkwraith\00. Weapon">
       <UniqueIdentifier>{04512931-fb5e-46ac-bf87-9c41cc93873d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\01. Walk">
+    <Filter Include="02. GameObjects\02. Player">
+      <UniqueIdentifier>{008cfe9f-c6ed-4e36-a65e-6de9701e014a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\00. Body">
+      <UniqueIdentifier>{3980844c-4a22-4392-81b7-a381a260cc66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\01. Weapon">
+      <UniqueIdentifier>{9c63e074-1090-4dee-8225-0cd4ea7c36dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States">
+      <UniqueIdentifier>{3d8c4669-6ca1-4bce-a566-e8b0832ba9dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\00. Idle">
+      <UniqueIdentifier>{afa4001f-7ec4-4a12-9794-f06481cd178e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\02. Run">
+      <UniqueIdentifier>{1f7e0128-01e7-4268-9394-997549024355}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\03. Roll">
+      <UniqueIdentifier>{fba81a55-c7b5-43e4-b43f-8e80aa4371d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\04. Guard">
+      <UniqueIdentifier>{ba2e6eea-c8c6-45ef-8d24-ab148071687c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\04. Guard\Recoil">
+      <UniqueIdentifier>{683eaff6-42c3-4070-ad6a-1a0d12858383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\05. Attack">
+      <UniqueIdentifier>{b02db44b-500c-4ca6-bd90-930851dad21a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\01. Walk">
       <UniqueIdentifier>{d2949763-bf27-4f18-9ac6-4029167ae352}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\06. Damaged">
+    <Filter Include="02. GameObjects\02. Player\99. States\06. Damaged">
       <UniqueIdentifier>{3252e67f-113e-4465-8f0a-dd6db9fca39f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\05. Player\99. States\04. Guard\Recoil">
-      <UniqueIdentifier>{683eaff6-42c3-4070-ad6a-1a0d12858383}</UniqueIdentifier>
+    <Filter Include="02. GameObjects\02. Player\02. WeaponCase">
+      <UniqueIdentifier>{6c2634a8-2cc1-42a2-99b3-73e60c52d844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\03. Shield">
+      <UniqueIdentifier>{5a17ba6a-b691-4c74-9801-767d5209c4ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\04. Camera">
+      <UniqueIdentifier>{8894e342-72de-4129-8c8d-614abab2ba6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,44 +174,41 @@
     <ClInclude Include="..\Public\Terrain.h">
       <Filter>02. GameObjects\01. Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Camera_Free.h">
-      <Filter>02. GameObjects\02. Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Map.h">
       <Filter>02. GameObjects\04. Map</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Body.h">
-      <Filter>02. GameObjects\05. Player\00. Body</Filter>
+      <Filter>02. GameObjects\02. Player\00. Body</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
-      <Filter>02. GameObjects\05. Player</Filter>
+      <Filter>02. GameObjects\02. Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Idle.h">
-      <Filter>02. GameObjects\05. Player\99. States\00. Idle</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\00. Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Walk.h">
-      <Filter>02. GameObjects\05. Player\99. States\01. Walk</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\01. Walk</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Run.h">
-      <Filter>02. GameObjects\05. Player\99. States\02. Run</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\02. Run</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Roll.h">
-      <Filter>02. GameObjects\05. Player\99. States\03. Roll</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\03. Roll</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Guard.h">
-      <Filter>02. GameObjects\05. Player\99. States\04. Guard</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\04. Guard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Attack.h">
-      <Filter>02. GameObjects\05. Player\99. States\05. Attack</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\05. Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon.h">
-      <Filter>02. GameObjects\05. Player\01. Weapon</Filter>
+      <Filter>02. GameObjects\02. Player\01. Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\WeaponCase.h">
-      <Filter>02. GameObjects\05. Player\02. WeaponCase</Filter>
+      <Filter>02. GameObjects\02. Player\02. WeaponCase</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Shield.h">
-      <Filter>02. GameObjects\05. Player\03. Shield</Filter>
+      <Filter>02. GameObjects\02. Player\03. Shield</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Darkwraith.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
@@ -235,10 +232,13 @@
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Damaged.h">
-      <Filter>02. GameObjects\05. Player\99. States\06. Damaged</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\06. Damaged</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player_Recoil.h">
-      <Filter>02. GameObjects\05. Player\99. States\04. Guard\Recoil</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\04. Guard\Recoil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Free.h">
+      <Filter>02. GameObjects\02. Player\04. Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -279,44 +279,41 @@
     <ClCompile Include="..\Private\Terrain.cpp">
       <Filter>02. GameObjects\01. Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Camera_Free.cpp">
-      <Filter>02. GameObjects\02. Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Map.cpp">
       <Filter>02. GameObjects\04. Map</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Body.cpp">
-      <Filter>02. GameObjects\05. Player\00. Body</Filter>
+      <Filter>02. GameObjects\02. Player\00. Body</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
-      <Filter>02. GameObjects\05. Player</Filter>
+      <Filter>02. GameObjects\02. Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Idle.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\00. Idle</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\00. Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Walk.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\01. Walk</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\01. Walk</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Run.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\02. Run</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\02. Run</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Roll.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\03. Roll</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\03. Roll</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Guard.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\04. Guard</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\04. Guard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Attack.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\05. Attack</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\05. Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon.cpp">
-      <Filter>02. GameObjects\05. Player\01. Weapon</Filter>
+      <Filter>02. GameObjects\02. Player\01. Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\WeaponCase.cpp">
-      <Filter>02. GameObjects\05. Player\02. WeaponCase</Filter>
+      <Filter>02. GameObjects\02. Player\02. WeaponCase</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Shield.cpp">
-      <Filter>02. GameObjects\05. Player\03. Shield</Filter>
+      <Filter>02. GameObjects\02. Player\03. Shield</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Darkwraith.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
@@ -340,10 +337,13 @@
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Damaged.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\06. Damaged</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\06. Damaged</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player_Recoil.cpp">
-      <Filter>02. GameObjects\05. Player\99. States\04. Guard\Recoil</Filter>
+      <Filter>02. GameObjects\02. Player\99. States\04. Guard\Recoil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Free.cpp">
+      <Filter>02. GameObjects\02. Player\04. Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

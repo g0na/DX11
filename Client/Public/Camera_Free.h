@@ -14,6 +14,7 @@ class CCamera_Free final : public CCamera
 public:
 	typedef struct tagCameraFreeDesc : public CCamera::CAMERA_DESC
 	{
+		CTransform* pPlayerTransform;
 		_float		fSensor;
 	}CAMERA_FREE_DESC;
 
@@ -31,7 +32,12 @@ public:
 	virtual HRESULT Render();
 
 private:
+	CTransform*		m_pPlayerTransform = { nullptr };
+
 	_float			m_fSensor = {};
+	_float			m_fDistance = {};
+	_float			m_fYaw = {};
+	_float			m_fPitch = {};
 
 public:
 	static CCamera_Free* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

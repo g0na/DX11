@@ -1,13 +1,13 @@
 #pragma once
 
-#include "GameObject.h"
+#include "PartObject.h"
 
 NS_BEGIN(Engine)
 
-class ENGINE_DLL CCamera abstract : public CGameObject
+class ENGINE_DLL CCamera abstract : public CPartObject
 {
 public:
-	typedef struct tagCameraDesc : public CGameObject::GAMEOBJECT_DESC
+	typedef struct tagCameraDesc : public CPartObject::PARTOBJECT_DESC
 	{
 		_float3		vPosition;
 		_float3		vAt;

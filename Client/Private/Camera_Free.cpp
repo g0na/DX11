@@ -22,54 +22,45 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 {
     CAMERA_FREE_DESC* pDesc = static_cast<CAMERA_FREE_DESC*>(pArg);
 
+    m_pPlayerTransform = pDesc->pPlayerTransform;
+    Safe_AddRef(m_pPlayerTransform);
     m_fSensor = pDesc->fSensor;
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
+
+    m_fDistance = 3.f;
+    m_fYaw = XM_PI;             // 180도
+    m_fPitch = 0.3f;
 
     return S_OK;
 }
 
 void CCamera_Free::Update_Priority(_float fTimeDelta)
 {
-    if (m_pGameInstance->Get_DIKeyState(DIK_UP) & 0x80)
-    {
-        m_pTransformCom->Go_Straight(fTimeDelta);
-    }
-
-    if (m_pGameInstance->Get_DIKeyState(DIK_DOWN) & 0x80)
-    {
-        m_pTransformCom->Go_Backward(fTimeDelta);
-    }
-
-    if (m_pGameInstance->Get_DIKeyState(DIK_LEFT) & 0x80)
-    {
-        m_pTransformCom->Go_Left(fTimeDelta);
-    }
-
-    if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT) & 0x80)
-    {
-        m_pTransformCom->Go_Right(fTimeDelta);
-    }
-
     _long    MouseMove = {};
 
     if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::X))
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fSensor * MouseMove * fTimeDelta);
-    }
-
+        m_fYaw += (m_fSensor * MouseMove * fTimeDelta);
     if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::Y))
-    {
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), m_fSensor * MouseMove * fTimeDelta);
-    }
+        m_fPitch += (m_fSensor * MouseMove * fTimeDelta);
 
-    __super::Update_PipeLine();
+    _float fX = m_fDistance * cos(m_fPitch) * sin(m_fYaw);
+    _float fY = m_fDistance * sin(m_fPitch);
+    _float fZ = m_fDistance * cos(m_fPitch) * cos(m_fYaw);
+    _vector vLocalPosition = XMVectorSet(fX, fY, fZ, 1.f);
+
+    m_pTransformCom->Set_State(STATE::POSITION, vLocalPosition);
+    m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(STATE::POSITION));
+
+    // 부모의 월드 행렬을 받아 자신의 최종 변환 행렬을 계산
+    __super::SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
+
 }
 
 void CCamera_Free::Update(_float fTimeDelta)
 {
-
+    __super::Update_PipeLine();
 }
 
 void CCamera_Free::Update_Late(_float fTimeDelta)
@@ -113,4 +104,5 @@ void CCamera_Free::Free()
 {
     __super::Free();
 
+    Safe_Release(m_pPlayerTransform);
 }
