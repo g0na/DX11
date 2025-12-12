@@ -142,6 +142,15 @@
     <Filter Include="01. Utility\05. Component\06. Collider\00. Manager">
       <UniqueIdentifier>{af1471e1-8e4f-4d20-8353-94782c8792c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\01. VI Buffer\02. Cell">
+      <UniqueIdentifier>{dc2ea109-3563-4b0c-8677-c363448f38f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\07. Navigation">
+      <UniqueIdentifier>{0815f91f-6ad4-4bb3-9e51-20637a8c18e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\07. Navigation\Cell">
+      <UniqueIdentifier>{0d197163-2140-4622-a256-c2a518344b38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -269,6 +278,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Collision_Manager.cpp">
       <Filter>01. Utility\05. Component\06. Collider\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cell.cpp">
+      <Filter>01. Utility\05. Component\01. VI Buffer\02. Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cell.cpp">
+      <Filter>01. Utility\05. Component\07. Navigation\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Navigation.cpp">
+      <Filter>01. Utility\05. Component\07. Navigation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +433,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Collision_Manager.h">
       <Filter>01. Utility\05. Component\06. Collider\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cell.h">
+      <Filter>01. Utility\05. Component\01. VI Buffer\02. Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Cell.h">
+      <Filter>01. Utility\05. Component\07. Navigation\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Navigation.h">
+      <Filter>01. Utility\05. Component\07. Navigation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
