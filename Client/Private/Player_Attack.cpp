@@ -5,6 +5,7 @@
 #include "Weapon.h"
 #include "GameInstance.h"
 #include "Animation.h"
+#include "Camera_Free.h"
 
 CPlayer_Attack::CPlayer_Attack()
     : m_pGameInstance{ CGameInstance::GetInstance() }
@@ -20,10 +21,13 @@ HRESULT CPlayer_Attack::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
     Safe_AddRef(m_pPlayerBody);
+    m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
+    Safe_AddRef(m_pPlayerCamera);
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
-        m_pPlayerBody == nullptr)
+        m_pPlayerBody == nullptr ||
+        m_pPlayerCamera == nullptr)
         return E_FAIL;
 
     CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
@@ -42,16 +46,21 @@ void CPlayer_Attack::Enter_State()
     m_iAttackCnt++;
     m_fAttackDelay = 0.f;
 
+    _vector vCameraLook = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::LOOK);
+    vCameraLook = XMVector3Normalize(XMVectorSetY(vCameraLook, 0.f));
+    _vector vCameraRight = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::RIGHT);
+    vCameraRight = XMVector3Normalize(XMVectorSetY(vCameraRight, 0.f));
+
     m_vInputDir = XMVectorZero();
     if (m_pGameInstance->Get_KeyHold(DIK_D))
-        m_vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+        m_vInputDir += vCameraRight;
     if (m_pGameInstance->Get_KeyHold(DIK_A))
-        m_vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+        m_vInputDir -= vCameraRight;
     if (m_pGameInstance->Get_KeyHold(DIK_S))
-        m_vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+        m_vInputDir -= vCameraLook;
     if (m_pGameInstance->Get_KeyHold(DIK_W))
-        m_vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-    
+        m_vInputDir += vCameraLook;
+
     if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
     {
         // 회전 관련
@@ -146,5 +155,6 @@ void CPlayer_Attack::Free()
     __super::Free();
 
     Safe_Release(m_pPlayerBody);
+    Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pGameInstance);
 }

@@ -30,6 +30,7 @@ private:
 	CTransform*		m_pPlayerTransform = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
 	class CWeapon*	m_pPlayerWeapon = { nullptr };
+	class CCamera_Free* m_pPlayerCamera = { nullptr };
 
 	_vector			m_vInputDir = {};
 	_float*			m_pCurAngle = { nullptr };

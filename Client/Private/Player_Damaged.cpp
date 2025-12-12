@@ -37,9 +37,7 @@ void CPlayer_Damaged::Enter_State()
 
 void CPlayer_Damaged::Update_State(_float fTimeDelta)
 {
-  /*  if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) == true)
-        Enter_State();
-    else */if (m_pPlayerBody->Get_IsAnimFinish() == true)
+    if (m_pPlayerBody->Get_IsAnimFinish() == true)
         m_pStateMachine->Change_State(CPlayer::IDLE);
 }
 

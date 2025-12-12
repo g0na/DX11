@@ -29,6 +29,7 @@ private:
 	CStateMachine*	m_pStateMachine = { nullptr };
 	CTransform*		m_pPlayerTransform = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
+	class CCamera_Free* m_pPlayerCamera = { nullptr };
 
 public:
 	static CPlayer_Idle* Create(class CGameObject* pOwner, CBody* pBody);

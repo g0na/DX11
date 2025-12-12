@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Body.h"
 #include "GameInstance.h"
+#include "Camera_Free.h"
 
 CPlayer_Idle::CPlayer_Idle()
     : m_pGameInstance { CGameInstance::GetInstance() }
@@ -18,10 +19,13 @@ HRESULT CPlayer_Idle::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
     Safe_AddRef(m_pPlayerBody);
+    m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
+    Safe_AddRef(m_pPlayerCamera);
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
-        m_pPlayerBody == nullptr)
+        m_pPlayerBody == nullptr ||
+        m_pPlayerCamera == nullptr)
         return E_FAIL;
 
     return S_OK;
@@ -39,28 +43,21 @@ void CPlayer_Idle::Update_State(_float fTimeDelta)
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false))
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
 
+    _vector vCameraLook = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::LOOK);
+    vCameraLook = XMVector3Normalize(XMVectorSetY(vCameraLook, 0.f));
+    _vector vCameraRight = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::RIGHT);
+    vCameraRight = XMVector3Normalize(XMVectorSetY(vCameraRight, 0.f));
+
     _vector vInputDir = XMVectorZero();
-
     if (m_pGameInstance->Get_KeyHold(DIK_D))
-    {
-        vInputDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
-    }
-
+        vInputDir += vCameraRight;
     if (m_pGameInstance->Get_KeyHold(DIK_A))
-    {
-        vInputDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
-    }
-
+        vInputDir -= vCameraRight;
     if (m_pGameInstance->Get_KeyHold(DIK_S))
-    {
-        vInputDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
-    }
-
+        vInputDir -= vCameraLook;
     if (m_pGameInstance->Get_KeyHold(DIK_W))
-    {
-        vInputDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-    }
-    
+        vInputDir += vCameraLook;
+
     // ±¸¸£±â
     if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
         m_pStateMachine->Change_State(CPlayer::ROLL);
@@ -99,5 +96,6 @@ void CPlayer_Idle::Free()
     __super::Free();
 
     Safe_Release(m_pPlayerBody);
+    Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pGameInstance);
 }
