@@ -17,6 +17,8 @@ public:
 
 public:
 	_vector Get_Point(CELLPOINT ePoint) const { return XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(ePoint)]); }
+	_int Get_Neighbor(LINE eLine) const { return m_iNeighbors[ENUM_TO_UINT(eLine)]; }
+	_int Get_Index() const { return m_iIndex; }
 
 	void Set_Neighbor(LINE eLine, CCell* pNeighbor) 
 	{

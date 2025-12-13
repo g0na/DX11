@@ -12,21 +12,41 @@ public:
 		_int iCurrentCellIndex = { -1 };
 	}NAVIGATION_DESC;
 
+	typedef struct tagNvmHeader
+	{
+		_uint iUnknown;
+		_uint iVertexCount;
+		_uint iVertexOffset;
+		_uint iCellCount;
+		_uint iCellOffset;
+		_uint iDataEnd;
+	}NVM_HEADER;
+
+
+	typedef struct tagNvmCell
+	{
+		_int iVertexIndices[3];
+		_int iNeighborIndices[3];
+		_uint iFlags;
+	}NVM_CELL;
+
 private:
 	CNavigation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CNavigation(const CNavigation& Prototype);
 	virtual ~CNavigation() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype(const _tchar* pNavigationData, const _tchar* pNavigationNeighborData);
+	virtual HRESULT Initialize_Prototype(const vector<const _tchar*>& pNavigationData);
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
+	HRESULT Load_NVM(const _tchar* pNavigationData, _uint iCellOffset);
 	_vector SetOn_Navigation(_fvector vWorldPos);
 	_bool CanMove(_fvector vResultPos);
 
 private:
 	HRESULT SetUp_Neighbors(const _tchar* pNavigationNeighborData = nullptr);
+	HRESULT SetUp_BorderNeighbors();
 
 #ifdef _DEBUG
 public:

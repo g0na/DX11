@@ -41,7 +41,7 @@ public:
 private:
 	_float4x4		m_TransformMatrices[ENUM_TO_UINT(D3DTS::END)] = {};
 	_float4x4		m_TransformInverseMatrices[ENUM_TO_UINT(D3DTS::END)] = {};
-	_float4			m_vCamPosition;
+	_float4			m_vCamPosition = {};
 
 public:
 	static CPipeLine* Create();

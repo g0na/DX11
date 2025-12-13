@@ -151,6 +151,9 @@
     <Filter Include="01. Utility\05. Component\07. Navigation\Cell">
       <UniqueIdentifier>{0d197163-2140-4622-a256-c2a518344b38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\98. ShaderFiles">
+      <UniqueIdentifier>{72d47016-327e-410a-bfec-4fbb21cb3141}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -443,5 +446,10 @@
     <ClInclude Include="..\Public\Navigation.h">
       <Filter>01. Utility\05. Component\07. Navigation</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
+      <Filter>01. Utility\98. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
