@@ -63,7 +63,7 @@ private:
 	static const _float4x4*		m_pParentMatrix;
 
 public:
-	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationData, const _tchar* pNavigationNeighborData = nullptr);
+	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const vector<const _tchar*>& pNavigationData);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 };

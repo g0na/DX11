@@ -12,6 +12,8 @@ CBody::CBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CBody::CBody(const CBody& Prototype)
     : CPartObject { Prototype }
 {
+    Safe_AddRef(m_pPlayerTransform);
+    Safe_AddRef(m_pPlayerNavigation);
 }
 
 const _float4x4* CBody::Get_SocketMatrix(const _char* pBoneName)
@@ -77,7 +79,12 @@ void CBody::Update(_float fTimeDelta)
     _vector vPosition = m_pPlayerTransform->Get_State(STATE::POSITION);
     vPosition += m_vWorldDelta;
 
-    m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
+    if (m_pPlayerNavigation == nullptr ||
+        m_pPlayerNavigation->CanMove(vPosition) == true)
+    {
+        m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
+        m_pPlayerTransform->Set_State(STATE::POSITION, m_pPlayerNavigation->SetOn_Navigation(vPosition));
+    }    
 }
 
 void CBody::Update_Late(_float fTimeDelta)
@@ -180,6 +187,9 @@ CGameObject* CBody::Clone(void* pArg)
 void CBody::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pPlayerTransform);
+    Safe_Release(m_pPlayerNavigation);
 
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pModelCom);

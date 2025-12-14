@@ -7,6 +7,7 @@
 #include "Shield.h"
 #include "Bounding_Sphere.h"
 #include "Collider.h"
+#include "Navigation.h"
 
 #include "Player_Idle.h"
 #include "Player_Walk.h"
@@ -53,7 +54,8 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_States()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 5.f, 0.f, 1.f));
+    //x: -11.812585, y : -15.249994, z : -45.795914
+    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, 15.24f, -45.8f, 1.f));
 
     m_bIsCollisionEnabled = true;
 
@@ -78,24 +80,19 @@ void CPlayer::Update(_float fTimeDelta)
 
     // 콜라이더 업데이트
     m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
-
-
-
-
-
-
-    // 방향 디버깅
-    _char buf[128];
-    sprintf_s(buf, "Look x: %f, Look y: %f, Look z: %f\n",
-        XMVectorGetX(m_pTransformCom->Get_State(STATE::LOOK)),
-        XMVectorGetY(m_pTransformCom->Get_State(STATE::LOOK)),
-        XMVectorGetZ(m_pTransformCom->Get_State(STATE::LOOK)));
-    OutputDebugStringA(buf);
 }
 
 void CPlayer::Update_Late(_float fTimeDelta)
 {
     __super::Update_Late(fTimeDelta);
+
+    // 방향 디버깅
+    _char buf[128];
+    sprintf_s(buf, "x: %f, y: %f, z: %f\n",
+        XMVectorGetX(m_pNavigationCom->SetOn_Navigation(m_pTransformCom->Get_State(STATE::POSITION))),
+        XMVectorGetY(m_pNavigationCom->SetOn_Navigation(m_pTransformCom->Get_State(STATE::POSITION))),
+        XMVectorGetZ(m_pNavigationCom->SetOn_Navigation(m_pTransformCom->Get_State(STATE::POSITION))));
+    OutputDebugStringA(buf);
 
     // 몬스터와 충돌 시 슬라이딩
     if (m_pCollidingObject != nullptr)
@@ -136,6 +133,7 @@ HRESULT CPlayer::Render()
 {
 #ifdef _DEBUG
     m_pColliderCom->Render();
+    m_pNavigationCom->Render();
 #endif
 
     return S_OK;
@@ -187,6 +185,15 @@ HRESULT CPlayer::Ready_Components()
         TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
         return E_FAIL;
 
+    // For Com_Navigation
+    CNavigation::NAVIGATION_DESC NavigationDesc{};
+    NavigationDesc.iCurrentCellIndex = 0;
+    NavigationDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+    if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
+        TEXT("Com_Navigation"), reinterpret_cast<CComponent**>(&m_pNavigationCom), &NavigationDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -223,6 +230,7 @@ HRESULT CPlayer::Ready_States()
 
 HRESULT CPlayer::Ready_PartObjects()
 {
+    // Camera
     CCamera_Free::CAMERA_FREE_DESC		CameraDesc{};
     CameraDesc.vPosition = _float3(0.f, 3.f, -3.f);
     CameraDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
@@ -249,6 +257,7 @@ HRESULT CPlayer::Ready_PartObjects()
         return E_FAIL;
     m_pBody = static_cast<CBody*>(Find_PartObject(TEXT("Part_Body")));    // Body에게 Player의 Transform을 전달
     m_pBody->Set_PlayerTransform(m_pTransformCom);
+    m_pBody->Set_PlayerNavigation(m_pNavigationCom);
 
     // Weapon
     CWeapon::WEAPON_DESC WeaponDesc{};
@@ -313,4 +322,5 @@ void CPlayer::Free()
     __super::Free();
 
     Safe_Release(m_pColliderCom);
+    Safe_Release(m_pNavigationCom);
 }

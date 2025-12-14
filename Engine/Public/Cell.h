@@ -12,7 +12,7 @@ private:
 public:
 	HRESULT Initialize(const _float3* pPoints, _int iIndex);
 	_bool Compare(_fvector vSrcPoint, _fvector vDstPoint);
-	_bool isIn(_fvector vResultPos, _int* pNeightborIndex);
+	_bool isIn(_fvector vResultPos, _int* pNeighborIndex);
 	_float Compute_Height(_vector vCellPos);
 
 public:

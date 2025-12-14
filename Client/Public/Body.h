@@ -7,6 +7,7 @@ class CModel;
 class CShader;
 class CCollider;
 class CAnimation;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
@@ -31,6 +32,7 @@ public:
 	const _bool				Get_IsAnimFinish() const;
 
 	void Set_PlayerTransform(CTransform* pPlayerTransform) { m_pPlayerTransform = pPlayerTransform; }
+	void Set_PlayerNavigation(CNavigation* pPlayerNavigation) { m_pPlayerNavigation = pPlayerNavigation; }
 	void Set_RotationAngle(_float fRotationAngle) { m_fTargetAngle = fRotationAngle; }
 	void Set_Animation(_uint iAnimationIndex, _bool isLoop);
 	void Set_InputDir(_vector vInputDir) { m_vInputDir = vInputDir; }
@@ -44,10 +46,11 @@ public:
 	virtual HRESULT	Render() override;
 
 private:
-	CModel*		m_pModelCom = { nullptr };
-	CShader*	m_pShaderCom = { nullptr };
-	CCollider*	m_pColliderCom = { nullptr };
-	CTransform* m_pPlayerTransform = { nullptr };
+	CModel*			m_pModelCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+	CCollider*		m_pColliderCom = { nullptr };
+	CTransform*		m_pPlayerTransform = { nullptr };
+	CNavigation*	m_pPlayerNavigation = { nullptr };
 
 private:
 	const _uint*					m_pParentState = { nullptr };

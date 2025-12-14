@@ -4,6 +4,7 @@
 
 NS_BEGIN(Engine)
 class CCollider;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
@@ -50,6 +51,7 @@ public:
 private:	
 	class CBody*	m_pBody = { nullptr };
 	CCollider*		m_pColliderCom = { nullptr };
+	CNavigation*	m_pNavigationCom = { nullptr };
 	CGameObject*	m_pCollidingObject = { nullptr };
 
 	_vector			m_vPrevPosition = {};

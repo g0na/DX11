@@ -37,45 +37,47 @@ HRESULT CCell::Initialize(const _float3* pPoints, _int iIndex)
 
 _bool CCell::Compare(_fvector vSrcPoint, _fvector vDstPoint)
 {
-    if (XMVector3Equal(vSrcPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::A)])) == true)
+    _vector vEpsilon = XMVectorSet(0.01f, 0.01f, 0.01f, 0.01f);
+
+    if (XMVector3NearEqual(vSrcPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::A)]), vEpsilon) == true)
     {
-        if (XMVector3Equal(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::B)])) == true)
+        if (XMVector3NearEqual(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::B)]), vEpsilon) == true)
             return true;
 
-        if (XMVector3Equal(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::C)])) == true)
+        if (XMVector3NearEqual(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::C)]), vEpsilon) == true)
             return true;
     }
 
-    if (XMVector3Equal(vSrcPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::B)])) == true)
+    if (XMVector3NearEqual(vSrcPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::B)]), vEpsilon) == true)
     {
-        if (XMVector3Equal(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::C)])) == true)
+        if (XMVector3NearEqual(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::C)]), vEpsilon) == true)
             return true;
 
-        if (XMVector3Equal(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::A)])) == true)
+        if (XMVector3NearEqual(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::A)]), vEpsilon) == true)
             return true;
     }
 
-    if (XMVector3Equal(vSrcPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::C)])) == true)
+    if (XMVector3NearEqual(vSrcPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::C)]), vEpsilon) == true)
     {
-        if (XMVector3Equal(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::A)])) == true)
+        if (XMVector3NearEqual(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::A)]), vEpsilon) == true)
             return true;
 
-        if (XMVector3Equal(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::B)])) == true)
+        if (XMVector3NearEqual(vDstPoint, XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(CELLPOINT::B)]), vEpsilon) == true)
             return true;
     }
 
     return false;
 }
 
-_bool CCell::isIn(_fvector vResultPos, _int* pNeightborIndex)
+_bool CCell::isIn(_fvector vResultPos, _int* pNeighborIndex)
 {
     for (_uint i = 0; i < ENUM_TO_UINT(LINE::END); i++)
     {
         _vector vDir = XMVector3Normalize(vResultPos - XMLoadFloat3(&m_vPoints[i]));
 
-        if (XMVectorGetX(XMVector3Dot(vDir, XMLoadFloat3(&m_vNormals[i]))))
+        if (XMVectorGetX(XMVector3Dot(vDir, XMLoadFloat3(&m_vNormals[i]))) > 0.f)
         {
-            *pNeightborIndex = m_iNeighbors[i];
+            *pNeighborIndex = m_iNeighbors[i];
 
             return false;
         }

@@ -10,6 +10,7 @@
 #include "Monster_Hollow.h"
 
 #include "Map.h"
+#include "Navigation.h"
 
 #include "Player.h"
 #include "Body.h"
@@ -206,6 +207,35 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_Component_Shader_VtxAnimMesh */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxAnimMesh.hlsl"), VTXANIMMESH::Elements, VTXANIMMESH::iNumElements))))
+		return E_FAIL;
+
+	UpdateLoadingText(TEXT("네비게이션을(를) 로딩 중 입니다."));
+	vector<const _tchar*> navigationDatas;
+	navigationDatas.reserve(19);
+
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0000B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0001B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0003B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0004B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0005B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0006B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0007B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0008B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0009B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0010B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0011B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0013B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0014B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0015B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0016B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0050B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0052B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0053B1A18.nvm"));
+	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0054B1A18.nvm"));
+
+	/* For.Prototype_Component_Navigation */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
+		CNavigation::Create(m_pDevice, m_pContext, navigationDatas))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("객체원형을(를) 로딩 중 입니다."));

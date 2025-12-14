@@ -6,6 +6,7 @@ NS_BEGIN(Engine)
 class CVIBuffer_Terrain;
 class CShader;
 class CTexture;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
@@ -27,6 +28,7 @@ public:
 
 private:
 	CVIBuffer_Terrain*		m_pVIBufferCom = { nullptr };
+	CNavigation*			m_pNavigationCom = { nullptr };
 	CShader*				m_pShaderCom = { nullptr };
 	CTexture*				m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::END)] = {nullptr};
 

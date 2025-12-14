@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Model.h"
+#include "Navigation.h"
 
 NS_BEGIN(Engine)
 

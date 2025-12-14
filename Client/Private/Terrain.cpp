@@ -54,6 +54,10 @@ HRESULT CTerrain::Render()
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
+#ifdef _DEBUG
+    m_pNavigationCom->Render();
+#endif
+
     return S_OK;
 }
 
@@ -77,6 +81,15 @@ HRESULT CTerrain::Ready_Components()
     // Com_Texture_Mask Ãß°¡
     if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain_Mask"),
         TEXT("Com_Texture_Mask"), reinterpret_cast<CComponent**>(&m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::MASK)]))))
+        return E_FAIL;
+
+    /* For.Com_Navigation */
+    CNavigation::NAVIGATION_DESC        NavigationDesc{};
+    NavigationDesc.iCurrentCellIndex = -1;
+    NavigationDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+    if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
+        TEXT("Com_Navigation"), reinterpret_cast<CComponent**>(&m_pNavigationCom), &NavigationDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -150,5 +163,6 @@ void CTerrain::Free()
         Safe_Release(pTexture);
 
     Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pNavigationCom);
     Safe_Release(m_pShaderCom);
 }

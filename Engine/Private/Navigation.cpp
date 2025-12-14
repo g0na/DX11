@@ -108,7 +108,7 @@ HRESULT CNavigation::Load_NVM(const _tchar* pNavigationData, _uint iCellOffset)
         for (_uint j = 0; j < 3; j++)
         {
             // 이웃이 있다면 Offset 만큼 더하고 없다면 -1로 설정
-            iNeighbors[i] = (cellDesc.iNeighborIndices[j] >= 0) ?
+            iNeighbors[j] = (cellDesc.iNeighborIndices[j] >= 0) ?
                 cellDesc.iNeighborIndices[j] + iCellOffset : -1;
         }
 
@@ -140,7 +140,7 @@ _bool CNavigation::CanMove(_fvector vResultPos)
     _int iNeighborIndex = { -1 };
 
     // 셀을 나갔다
-    if (m_vecCells[m_iCurrentCellIndex]->isIn(vResultPos, &iNeighborIndex))
+    if (m_vecCells[m_iCurrentCellIndex]->isIn(vCellPos, &iNeighborIndex) == false)
     {
         // 이웃이 없다면
         if (iNeighborIndex == -1)
@@ -151,7 +151,7 @@ _bool CNavigation::CanMove(_fvector vResultPos)
         {
             while (true)
             {
-                if (m_vecCells[iNeighborIndex]->isIn(vResultPos, &iNeighborIndex))
+                if (m_vecCells[iNeighborIndex]->isIn(vCellPos, &iNeighborIndex))
                     break;
 
                 if (iNeighborIndex == -1)
@@ -284,11 +284,11 @@ HRESULT CNavigation::Render()
 #endif // _DEBUG
 
 
-CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationData, const _tchar* pNavigationNeighborData)
+CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const vector<const _tchar*>& pNavigationData)
 {
     CNavigation* pInstance = new CNavigation(pDevice, pContext);
 
-    if (FAILED(pInstance->Initialize_Prototype(pNavigationData, pNavigationNeighborData)))
+    if (FAILED(pInstance->Initialize_Prototype(pNavigationData)))
     {
         MSG_BOX("Failed to Created : CNavigation");
         Safe_Release(pInstance);
