@@ -80,25 +80,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	//CGameObject::GAMEOBJECT_DESC	GameObjectDesc{};
-	//lstrcpy(GameObjectDesc.szName, TEXT("Darkwraith"));
-
-	//if (FAILED(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &GameObjectDesc)))
-	//	return E_FAIL;
-
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Background(const _wstring& strLayerTag)
 {
-	//CGameObject::GAMEOBJECT_DESC	GameObjectDesc{};
-	//lstrcpy(GameObjectDesc.szName, TEXT("Map"));
-
-	//if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag, &GameObjectDesc) == nullptr)
-	//	return E_FAIL;
-
 	return S_OK;
 }
 

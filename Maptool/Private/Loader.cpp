@@ -29,42 +29,17 @@ CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	Safe_AddRef(m_pGameInstance);
 }
 
-// 보조 스레드의 작업 시작점
-//_uint APIENTRY ThreadMain(void* pArg)
-//{
-//	// 전달받은 this를 받는다
-//	CLoader* pLoader = static_cast<CLoader*>(pArg);
-//
-//	// 전달받은 매개 변수에 따라서 로딩을 시작한다.
-//	if (FAILED(pLoader->Loading()))
-//		return 1;
-//
-//	return 0;
-//}
-
 HRESULT CLoader::Initialize(LEVELID eLoadingLevelID)
 {
 	m_eLoadingLevelID = eLoadingLevelID;
 
 	m_Thread = thread(&CLoader::Loading, this);
 
-	// 작업 공간(임계 영역)을 준비
-	//InitializeCriticalSection(&m_CriticalSection);
-
-	// 보조 스레드를 생성하는 함수
-	//m_hThread = (HANDLE)_beginthreadex(nullptr, 0, ThreadMain, this, 0, nullptr);
-
-	//if (m_hThread == 0)
-	//	return E_FAIL;
-
 	return S_OK;
 }
 
 HRESULT CLoader::Loading()
 { 
-	// 보조 스레드가 작업 공간을 사용한다고 선언 (잠금)
-	//EnterCriticalSection(&m_CriticalSection);
-	
 	// COM 라이브러리 초기화
 	CoInitializeEx(nullptr, 0);
 
@@ -82,9 +57,6 @@ HRESULT CLoader::Loading()
 
 		break;
 	}
-
-	// 작업 공간 사용이 끝났음을 선언 (잠금 해제)
-	//LeaveCriticalSection(&m_CriticalSection);
 
 	if (FAILED(hr))
 		return E_FAIL;
@@ -154,12 +126,12 @@ HRESULT CLoader::Loading_GamePlay()
 
 	/* For.Prototype_Component_Model_Map1 */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map1"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/map_part1/map_part1.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/map_part1/map_part1_texFixed.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Map2 */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map2"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/map_part2/map_part2.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/map_part2/map_part2_LightFixed.fbx", PreTransformMatrix))))
 		return E_FAIL;
 	
 	/* For.Prototype_Component_Calculator */
@@ -250,15 +222,6 @@ CLoader* CLoader::Create(LEVELID eNextLevelID, ID3D11Device* pDevice, ID3D11Devi
 void CLoader::Free()
 {
 	__super::Free();
-
-	// 보조 스레드의 작업이 완전히 마칠 때까지 기다린다.
-	//WaitForSingleObject(m_hThread, INFINITE);
-
-	// 사용했던 작업 공간 (임계 영역)을 정리한다.
-	//DeleteCriticalSection(&m_CriticalSection);
-
-	// 보조 스레드의 핸들을 정리한다.
-	//CloseHandle(m_hThread);
 
 	if (m_Thread.joinable())
 		m_Thread.join();

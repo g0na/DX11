@@ -79,12 +79,14 @@ void CBody::Update(_float fTimeDelta)
     _vector vPosition = m_pPlayerTransform->Get_State(STATE::POSITION);
     vPosition += m_vWorldDelta;
 
-    if (m_pPlayerNavigation == nullptr ||
+/*    if (m_pPlayerNavigation == nullptr ||
         m_pPlayerNavigation->CanMove(vPosition) == true)
     {
         m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
         m_pPlayerTransform->Set_State(STATE::POSITION, m_pPlayerNavigation->SetOn_Navigation(vPosition));
-    }    
+    }  */  
+
+    m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
 }
 
 void CBody::Update_Late(_float fTimeDelta)

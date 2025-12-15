@@ -1,0 +1,11 @@
+Boss 애니메이션
+0 - IDLE
+1 - WALK
+2 - BACKSTEP
+3 - DEATH
+4 - ATK1
+5 - ATK2
+6 - ATK3
+7 - ATK4
+8 - JumpATK
+9 - FlyATK
