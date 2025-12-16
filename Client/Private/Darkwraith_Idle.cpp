@@ -26,7 +26,7 @@ HRESULT CDarkwraith_Idle::Initialize(CGameObject* pOwner)
 void CDarkwraith_Idle::Enter_State()
 {
     if (m_pOwner != nullptr)
-        dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(0, true);
+        static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(0, true);
 }
 
 void CDarkwraith_Idle::Update_State(_float fTimeDelta)

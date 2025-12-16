@@ -19,7 +19,7 @@ HRESULT CDarkwraith_Damaged::Initialize(CGameObject* pOwner)
     if (m_pStateMachine == nullptr)
         return E_FAIL;
 
-    m_pCurAngle = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
+    m_pCurAngle = static_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
 
     return S_OK;
 }
@@ -27,7 +27,7 @@ HRESULT CDarkwraith_Damaged::Initialize(CGameObject* pOwner)
 void CDarkwraith_Damaged::Enter_State()
 {
     if (m_pOwner != nullptr)
-        dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(2, false);
+        static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(2, false);
 }
 
 void CDarkwraith_Damaged::Update_State(_float fTimeDelta)

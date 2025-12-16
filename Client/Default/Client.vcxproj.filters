@@ -88,9 +88,6 @@
     <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\04. Attack">
       <UniqueIdentifier>{1b217cb4-fc1c-452e-989b-1c08741f3729}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\03. Monster\Darkwraith\00. Weapon">
-      <UniqueIdentifier>{04512931-fb5e-46ac-bf87-9c41cc93873d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\02. Player">
       <UniqueIdentifier>{008cfe9f-c6ed-4e36-a65e-6de9701e014a}</UniqueIdentifier>
     </Filter>
@@ -135,6 +132,18 @@
     </Filter>
     <Filter Include="02. GameObjects\02. Player\04. Camera">
       <UniqueIdentifier>{8894e342-72de-4129-8c8d-614abab2ba6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss">
+      <UniqueIdentifier>{f123c87b-961a-4c90-8809-cea37aac6bb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\Weapon">
+      <UniqueIdentifier>{c95a43d4-3282-4894-a621-17473aec952b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States">
+      <UniqueIdentifier>{8950d182-42c5-4172-968b-4cc63936bd9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Darkwraith\Weapon">
+      <UniqueIdentifier>{04512931-fb5e-46ac-bf87-9c41cc93873d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +235,7 @@
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\04. Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Weapon_Darkwraith.h">
-      <Filter>02. GameObjects\03. Monster\Darkwraith\00. Weapon</Filter>
+      <Filter>02. GameObjects\03. Monster\Darkwraith\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Darkwraith_Damaged.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
@@ -239,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Free.h">
       <Filter>02. GameObjects\02. Player\04. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Boss.h">
+      <Filter>02. GameObjects\03. Monster\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -331,7 +343,7 @@
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\04. Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Darkwraith.cpp">
-      <Filter>02. GameObjects\03. Monster\Darkwraith\00. Weapon</Filter>
+      <Filter>02. GameObjects\03. Monster\Darkwraith\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Darkwraith_Damaged.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\02. Damaged</Filter>
@@ -344,6 +356,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Free.cpp">
       <Filter>02. GameObjects\02. Player\04. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Boss.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

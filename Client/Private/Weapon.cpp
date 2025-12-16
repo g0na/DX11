@@ -94,7 +94,8 @@ void CWeapon::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
 	{
-		dynamic_cast<CMonster_Darkwraith*>(pOtherObject)->Set_Damaged(true);
+		if (dynamic_cast<CMonster_Darkwraith*>(pOtherObject) != nullptr)
+			dynamic_cast<CMonster_Darkwraith*>(pOtherObject)->Set_Damaged(true);
 	}
 }
 
@@ -102,6 +103,7 @@ void CWeapon::OnCollisionExit(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
 	{
+		if (dynamic_cast<CMonster_Darkwraith*>(pOtherObject) != nullptr)
 		dynamic_cast<CMonster_Darkwraith*>(pOtherObject)->Set_Damaged(false);
 	}
 }

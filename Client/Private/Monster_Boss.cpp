@@ -1,46 +1,46 @@
-#include "Monster_Darkwraith.h"
+#include "Monster_Boss.h"
 #include "GameInstance.h"
 
-#include "Darkwraith_Idle.h"
-#include "Darkwraith_Walk.h"
-#include "Darkwraith_Attack.h"
-#include "Darkwraith_Damaged.h"
-
-#include "Weapon_Darkwraith.h"
+//#include "Boss_Idle.h"
+//#include "Boss_Walk.h"
+//#include "Boss_Attack.h"
+//#include "Boss_Damaged.h"
+//
+//#include "Weapon_Boss.h"
 
 #include "Bounding_Sphere.h"
 #include "Collider.h"
 
-CMonster_Darkwraith::CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Boss::CMonster_Boss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CContainerObject{ pDevice, pContext }
 {
 }
 
-CMonster_Darkwraith::CMonster_Darkwraith(const CMonster_Darkwraith& Prototype)
+CMonster_Boss::CMonster_Boss(const CMonster_Boss& Prototype)
 	: CContainerObject{ Prototype }
 {
 }
 
-const _float4x4* CMonster_Darkwraith::Get_SocketMatrix(const _char* pBoneName)
+const _float4x4* CMonster_Boss::Get_SocketMatrix(const _char* pBoneName)
 {
 	return m_pModelCom->Get_BoneMatrixPtr(pBoneName);
 }
 
-void CMonster_Darkwraith::Set_Animation(_uint iAnimationIndex, _bool isLoop)
+void CMonster_Boss::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 {
 	m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
 }
 
-HRESULT CMonster_Darkwraith::Initialize_Prototype()
+HRESULT CMonster_Boss::Initialize_Prototype()
 {
 	m_eLayer = LAYER::MONSTER;
 
 	return S_OK;
 }
 
-HRESULT CMonster_Darkwraith::Initialize(void* pArg)
+HRESULT CMonster_Boss::Initialize(void* pArg)
 {
-	lstrcpy(m_szName, TEXT("Darkwraith"));
+	lstrcpy(m_szName, TEXT("Boss"));
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -67,7 +67,7 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster_Darkwraith::Update_Priority(_float fTimeDelta)
+void CMonster_Boss::Update_Priority(_float fTimeDelta)
 {
 	__super::Update_Priority(fTimeDelta);
 
@@ -77,11 +77,11 @@ void CMonster_Darkwraith::Update_Priority(_float fTimeDelta)
 	m_fDistance = Compute_Distance(m_vPlayerPos);
 }
 
-void CMonster_Darkwraith::Update(_float fTimeDelta)
+void CMonster_Boss::Update(_float fTimeDelta)
 {
 	// BlackBoard에 데이터 저장
-	m_pStateMachine->Set_FloatData(TEXT("Darkwraith_Distance"), m_fDistance);
-	m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Targeting"), m_fDistance <= 8.f);
+	m_pStateMachine->Set_FloatData(TEXT("Boss_Distance"), m_fDistance);
+	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 8.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
@@ -111,14 +111,14 @@ void CMonster_Darkwraith::Update(_float fTimeDelta)
 	m_pColliderBody->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
-void CMonster_Darkwraith::Update_Late(_float fTimeDelta)
+void CMonster_Boss::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
 
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
 }
 
-HRESULT CMonster_Darkwraith::Render()
+HRESULT CMonster_Boss::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -146,7 +146,7 @@ HRESULT CMonster_Darkwraith::Render()
 	return S_OK;
 }
 
-void CMonster_Darkwraith::OnCollisionEnter(CGameObject* pOtherObject)
+void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
@@ -154,7 +154,7 @@ void CMonster_Darkwraith::OnCollisionEnter(CGameObject* pOtherObject)
 	}
 }
 
-void CMonster_Darkwraith::OnCollisionExit(CGameObject* pOtherObject)
+void CMonster_Boss::OnCollisionExit(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
@@ -162,10 +162,10 @@ void CMonster_Darkwraith::OnCollisionExit(CGameObject* pOtherObject)
 	}
 }
 
-HRESULT CMonster_Darkwraith::Ready_Components()
+HRESULT CMonster_Boss::Ready_Components()
 {
 	// For Com_Model
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Boss"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 
@@ -191,18 +191,18 @@ HRESULT CMonster_Darkwraith::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CMonster_Darkwraith::Ready_States()
+HRESULT CMonster_Boss::Ready_States()
 {
-	if (FAILED(m_pStateMachine->Add_State(IDLE, CDarkwraith_Idle::Create(this))))
+	if (FAILED(m_pStateMachine->Add_State(IDLE, CBoss_Idle::Create(this))))
 		return E_FAIL;
 
-	if (FAILED(m_pStateMachine->Add_State(WALK, CDarkwraith_Walk::Create(this))))
+	if (FAILED(m_pStateMachine->Add_State(WALK, CBoss_Walk::Create(this))))
 		return E_FAIL;
 
-	if (FAILED(m_pStateMachine->Add_State(ATTACK, CDarkwraith_Attack::Create(this))))
+	if (FAILED(m_pStateMachine->Add_State(ATTACK, CBoss_Attack::Create(this))))
 		return E_FAIL;
 
-	if (FAILED(m_pStateMachine->Add_State(DAMAGED, CDarkwraith_Damaged::Create(this))))
+	if (FAILED(m_pStateMachine->Add_State(DAMAGED, CBoss_Damaged::Create(this))))
 		return E_FAIL;
 
 	m_pStateMachine->Set_State(IDLE);
@@ -210,20 +210,20 @@ HRESULT CMonster_Darkwraith::Ready_States()
 	return S_OK;
 }
 
-HRESULT CMonster_Darkwraith::Ready_PartObjects()
+HRESULT CMonster_Boss::Ready_PartObjects()
 {
 	// Weapon
-	CWeapon_Darkwraith::WEAPON_DARKWRAITH_DESC WeaponDesc{};
+	CWeapon_Boss::WEAPON_DARKWRAITH_DESC WeaponDesc{};
 	WeaponDesc.pSocketMatrix = Get_SocketMatrix("R_Weapon");
 	WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-	if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Darkwraith"),
-		TEXT("Part_Weapon_Darkwraith"), &WeaponDesc)))
+	if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Boss"),
+		TEXT("Part_Weapon_Boss"), &WeaponDesc)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CMonster_Darkwraith::Bind_ShaderResources()
+HRESULT CMonster_Boss::Bind_ShaderResources()
 {
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
@@ -250,33 +250,33 @@ HRESULT CMonster_Darkwraith::Bind_ShaderResources()
 	return S_OK;
 }
 
-CMonster_Darkwraith* CMonster_Darkwraith::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMonster_Boss* CMonster_Boss::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMonster_Darkwraith* pInstance = new CMonster_Darkwraith(pDevice, pContext);
+	CMonster_Boss* pInstance = new CMonster_Boss(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CMonster_Darkwraith");
+		MSG_BOX("Failed to Created : CMonster_Boss");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonster_Darkwraith::Clone(void* pArg)
+CGameObject* CMonster_Boss::Clone(void* pArg)
 {
-	CMonster_Darkwraith* pInstance = new CMonster_Darkwraith(*this);
+	CMonster_Boss* pInstance = new CMonster_Boss(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CMonster_Darkwraith");
+		MSG_BOX("Failed to Cloned : CMonster_Boss");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonster_Darkwraith::Free()
+void CMonster_Boss::Free()
 {
 	__super::Free();
 

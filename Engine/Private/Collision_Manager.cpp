@@ -120,8 +120,8 @@ void CCollision_Manager::Collision_Sphere(CGameObject* pDst, CGameObject* pSrc)
 
 _bool CCollision_Manager::Check_Sphere(CGameObject* pDst, CGameObject* pSrc)
 {
-	CBounding_Sphere* pDstSphere = dynamic_cast<CBounding_Sphere*>(pDst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Get_Bounding());
-	CBounding_Sphere* pSrcSphere = dynamic_cast<CBounding_Sphere*>(pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Get_Bounding());
+	CBounding_Sphere* pDstSphere = static_cast<CBounding_Sphere*>(pDst->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Get_Bounding());
+	CBounding_Sphere* pSrcSphere = static_cast<CBounding_Sphere*>(pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Get_Bounding());
 	if (pDstSphere == nullptr ||
 		pSrcSphere == nullptr)
 		return false;
@@ -153,7 +153,7 @@ _bool CCollision_Manager::Check_Sphere_Bounding(CBounding_Sphere* pDst, CBoundin
 
 _bool CCollision_Manager::Check_Sphere_Multi(CCollider* pDst, const vector<CCollider*>* pSrcList)
 {
-	CBounding_Sphere* pDstSphere = dynamic_cast<CBounding_Sphere*>(pDst->Get_Bounding());
+	CBounding_Sphere* pDstSphere = static_cast<CBounding_Sphere*>(pDst->Get_Bounding());
 	if (pDstSphere == nullptr)
 		return false;
 
@@ -162,7 +162,7 @@ _bool CCollision_Manager::Check_Sphere_Multi(CCollider* pDst, const vector<CColl
 		if (pCollider == nullptr || pCollider->Is_Active() == false)
 			continue;
 
-		if (Check_Sphere_Bounding(pDstSphere, dynamic_cast<CBounding_Sphere*>(pCollider->Get_Bounding())) == true)
+		if (Check_Sphere_Bounding(pDstSphere, static_cast<CBounding_Sphere*>(pCollider->Get_Bounding())) == true)
 			return true;
 		else
 			continue;

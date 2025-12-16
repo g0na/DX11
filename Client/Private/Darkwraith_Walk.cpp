@@ -20,7 +20,7 @@ HRESULT CDarkwraith_Walk::Initialize(CGameObject* pOwner)
         m_pMonsterTransform == nullptr)
         return E_FAIL;
 
-    m_pCurAngle = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
+    m_pCurAngle = static_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
 
     return S_OK;
 }
@@ -28,7 +28,7 @@ HRESULT CDarkwraith_Walk::Initialize(CGameObject* pOwner)
 void CDarkwraith_Walk::Enter_State()
 {
     if (m_pOwner != nullptr)
-        dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(1, true);
+        static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(1, true);
 }
 
 void CDarkwraith_Walk::Update_State(_float fTimeDelta)

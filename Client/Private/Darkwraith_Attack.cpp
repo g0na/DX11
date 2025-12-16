@@ -25,9 +25,8 @@ HRESULT CDarkwraith_Attack::Initialize(CGameObject* pOwner)
         m_pMonsterModel == nullptr)
         return E_FAIL;
 
-    m_pCurAngle = dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
-
     CMonster_Darkwraith* pDarkwraith = static_cast<CMonster_Darkwraith*>(m_pOwner);
+    m_pCurAngle = pDarkwraith->Get_CurAnglePtr();
     m_pMonsterWeapon = static_cast<CWeapon*>(pDarkwraith->Find_PartObject(TEXT("Part_Weapon_Darkwraith")));
 
     return S_OK;
@@ -36,7 +35,7 @@ HRESULT CDarkwraith_Attack::Initialize(CGameObject* pOwner)
 void CDarkwraith_Attack::Enter_State()
 {
     if (m_pOwner != nullptr)
-        dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(4, false);
+        static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(4, false);
     
     m_iAttackCnt++;
 }
@@ -114,7 +113,7 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
                 return;
             }
 
-            dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(4, false);
+            static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(4, false);
             m_iAttackCnt++;
             m_fAttackDelay = 0.f;
         }
@@ -148,7 +147,7 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 				return;
 			}
 
-			dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(5, false);
+            static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(5, false);
 			m_iAttackCnt++;
 			m_fAttackDelay = 0.f;
 		}
@@ -175,7 +174,7 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         }
         else if (m_fAttackDelay >= 1.166f)
         {
-            dynamic_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(6, false);
+            static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(6, false);
             m_iAttackCnt = 0;
             m_fAttackDelay = 0.f;
         }
