@@ -1,5 +1,4 @@
 #include "Darkwraith_Idle.h"
-#include "Transform.h"
 #include "Monster_Darkwraith.h"
 #include "GameInstance.h"
 
@@ -13,11 +12,9 @@ HRESULT CDarkwraith_Idle::Initialize(CGameObject* pOwner)
 {
     __super::Initialize(pOwner);
 
-    m_pMonsterTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
 
-    if (m_pStateMachine == nullptr ||
-        m_pMonsterTransform == nullptr)
+    if (m_pStateMachine == nullptr)
         return E_FAIL;
 
     return S_OK;

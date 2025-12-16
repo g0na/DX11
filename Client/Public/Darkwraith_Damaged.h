@@ -6,7 +6,6 @@ NS_BEGIN(Engine)
 class CGameInstance;
 class CStateMachine;
 class CTransform;
-class CModel;
 NS_END
 
 NS_BEGIN(Client)

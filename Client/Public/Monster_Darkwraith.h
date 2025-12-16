@@ -35,10 +35,6 @@ public:
 	const _float		Get_TargetDist() const { return m_fDistance; }
 	_float*				Get_CurAnglePtr() { return &m_fCurAngle; }
 	
-	const _bool			Is_Targeting() const { return m_bIsTargeting; }
-	const _bool			Is_AttackReady() const { return m_bAttackReady; }
-	const _bool			Is_Damaged() const { return m_bIsDamaged; }
-
 	void				Set_Animation(_uint iAnimationIndex, _bool isLoop);
 	void				Set_Damaged(_bool isDamaged) { m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Damaged"), isDamaged); }
 

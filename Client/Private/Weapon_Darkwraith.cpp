@@ -63,11 +63,13 @@ void CWeapon_Darkwraith::Update_Late(_float fTimeDelta)
 
 HRESULT CWeapon_Darkwraith::Render()
 {
+#ifdef _DEBUG
 	if (m_bIsCollisionEnabled == true)
 	{
 		for (auto& pCollider : m_vecColliders)
 			pCollider->Render();
 	}
+#endif // _DEBUG
 
 	return S_OK;
 }

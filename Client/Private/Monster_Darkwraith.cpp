@@ -115,7 +115,7 @@ void CMonster_Darkwraith::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
 
-	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
+	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
 HRESULT CMonster_Darkwraith::Render()

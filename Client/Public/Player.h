@@ -33,7 +33,6 @@ private:
 
 public:
 	_float*				Get_CurAnglePtr() { return &m_fCurAngle; }
-	const _bool			Is_Damaged() const { return m_bIsDamaged; }
 	void				Set_Damaged(_bool isDamaged) { m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), isDamaged); }
 
 public:
