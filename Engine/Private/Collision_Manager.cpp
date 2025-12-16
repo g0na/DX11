@@ -111,7 +111,7 @@ void CCollision_Manager::Collision_Sphere(CGameObject* pDst, CGameObject* pSrc)
 	if (pSrcColliders != nullptr && pSrcColliders->size() > 0)
 	{
 		for (auto& pCollider : *pSrcColliders)
-			pCollider->Set_IsColl(pDst->Get_CollidingObjectsCnt() != 0);
+			pCollider->Set_IsColl(pSrc->Get_CollidingObjectsCnt() != 0);
 	}
 	else
 		pSrc->Get_Component<CCollider>(TEXT("Com_Collider_Sphere"))->Set_IsColl(pSrc->Get_CollidingObjectsCnt() != 0);
