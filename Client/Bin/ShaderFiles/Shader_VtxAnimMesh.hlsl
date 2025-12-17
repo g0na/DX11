@@ -1,9 +1,6 @@
-matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+#include "Engine_Shader_Defines.hlsli"
 
-// vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-// vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-// vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-// vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
+matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 vector g_vLightDir;
 vector g_vLightDiffuse;
@@ -19,20 +16,6 @@ vector g_vCamPosition;
 
 // 메시 한 덩어리가 이용하는 뼈들
 matrix g_BoneMatrices[512];
-
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = wrap;
-    AddressV = wrap;
-};
-
-sampler PointSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_POINT;
-    AddressU = wrap;
-    AddressV = wrap;
-};
 
 struct VS_IN
 {
@@ -122,7 +105,12 @@ technique11 DefaultTechnique
 {
     pass Default
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 

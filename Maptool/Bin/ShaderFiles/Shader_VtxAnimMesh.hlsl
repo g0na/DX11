@@ -1,9 +1,6 @@
-matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+#include "Engine_Shader_Defines.hlsli"
 
-// vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-// vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-// vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-// vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
+matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 vector g_vLightDir;
 vector g_vLightDiffuse;
@@ -19,20 +16,6 @@ vector g_vCamPosition;
 
 // 메시 한 덩어리가 이용하는 뼈들
 matrix g_BoneMatrices[512];
-
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = wrap;
-    AddressV = wrap;
-};
-
-sampler PointSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_POINT;
-    AddressU = wrap;
-    AddressV = wrap;
-};
 
 struct VS_IN
 {
@@ -65,13 +48,14 @@ VS_OUT VS_MAIN(VS_IN In)
     g_BoneMatrices[In.vBlendIndex.w] * fWeightW;
     
     vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+    vector vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
     
     matrix matWV, matWVP;
     matWV = mul(g_WorldMatrix, g_ViewMatrix);
     matWVP = mul(matWV, g_ProjMatrix);
     
     Out.vPosition = mul(vPosition, matWVP);
-    Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
+    Out.vNormal = normalize(mul(vNormal, g_WorldMatrix));
     Out.vTexCoord = In.vTexCoord;
     Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);      // 픽셀의 위치는 뷰포트이기 때문에 월드 공간으로 변환해서 넘겨준다.
     
@@ -104,12 +88,12 @@ PS_OUT PS_MAIN(PS_IN In)
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
     
-    float fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
+    float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
     
     float4 vLook = In.vWorldPos - g_vCamPosition;
-    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+    float4 vReflect = reflect(normalize(g_vLightDir), In.vNormal);
     
-    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 50);
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, normalize(vReflect)), 0.f), 50);
     
     Out.vColor = g_vLightDiffuse * vMtrlDiffuse * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) +
     (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
@@ -121,7 +105,12 @@ technique11 DefaultTechnique
 {
     pass Default
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 

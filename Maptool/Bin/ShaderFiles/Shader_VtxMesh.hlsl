@@ -1,12 +1,6 @@
-// 버텍스 셰이더
-// 정점 셰이더는 정점을 가지고 논다 라는 말과 비슷하다.
+#include "Engine_Shader_Defines.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-
-// vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-// vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-// vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-// vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
 vector g_vLightDir;
 vector g_vLightDiffuse;
@@ -19,20 +13,6 @@ vector g_vMtrlAmbient = vector(0.3f, 0.3f, 0.3f, 1.f);
 vector g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
 vector g_vCamPosition;
-
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = wrap;
-    AddressV = wrap;
-};
-
-sampler PointSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_POINT;
-    AddressU = wrap;
-    AddressV = wrap;
-};
 
 struct VS_IN
 {
@@ -103,6 +83,8 @@ PS_OUT PS_MAIN(PS_IN In)
     Out.vColor = g_vLightDiffuse * vMtrlDiffuse * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) +
     (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
     
+    Out.vColor.a = 1.f;
+    
     return Out;
 }
 
@@ -110,7 +92,12 @@ technique11 DefaultTechnique
 {
     pass Default
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
