@@ -1,12 +1,11 @@
 #include "Monster_Boss.h"
 #include "GameInstance.h"
 
-//#include "Boss_Idle.h"
-//#include "Boss_Walk.h"
-//#include "Boss_Attack.h"
-//#include "Boss_Damaged.h"
-//
-//#include "Weapon_Boss.h"
+#include "Boss_Idle.h"
+#include "Boss_Walk.h"
+#include "Boss_Attack.h"
+
+#include "Weapon_Boss.h"
 
 #include "Bounding_Sphere.h"
 #include "Collider.h"
@@ -81,7 +80,7 @@ void CMonster_Boss::Update(_float fTimeDelta)
 {
 	// BlackBoard에 데이터 저장
 	m_pStateMachine->Set_FloatData(TEXT("Boss_Distance"), m_fDistance);
-	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 8.f);
+	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 18.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
@@ -115,7 +114,7 @@ void CMonster_Boss::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
 
-	m_pGameInstance->Add_RenderObject(RENDERGROUP::BLEND, this);
+	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
 HRESULT CMonster_Boss::Render()
@@ -181,8 +180,8 @@ HRESULT CMonster_Boss::Ready_Components()
 
 	// For Com_Collider
 	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-	SphereDesc.fRadius = 0.4f;
-	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius + 0.8f, 0.f);
+	SphereDesc.fRadius = 2.f;
+	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius + 1.f, 0.f);
 
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderBody), &SphereDesc)))
@@ -202,9 +201,6 @@ HRESULT CMonster_Boss::Ready_States()
 	if (FAILED(m_pStateMachine->Add_State(ATTACK, CBoss_Attack::Create(this))))
 		return E_FAIL;
 
-	if (FAILED(m_pStateMachine->Add_State(DAMAGED, CBoss_Damaged::Create(this))))
-		return E_FAIL;
-
 	m_pStateMachine->Set_State(IDLE);
 
 	return S_OK;
@@ -213,8 +209,8 @@ HRESULT CMonster_Boss::Ready_States()
 HRESULT CMonster_Boss::Ready_PartObjects()
 {
 	// Weapon
-	CWeapon_Boss::WEAPON_DARKWRAITH_DESC WeaponDesc{};
-	WeaponDesc.pSocketMatrix = Get_SocketMatrix("R_Weapon");
+	CWeapon_Boss::WEAPON_BOSS_DESC WeaponDesc{};
+	WeaponDesc.pSocketMatrix = Get_SocketMatrix("R_weapon");
 	WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 	if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Boss"),
 		TEXT("Part_Weapon_Boss"), &WeaponDesc)))

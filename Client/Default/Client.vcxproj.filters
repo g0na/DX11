@@ -145,6 +145,27 @@
     <Filter Include="02. GameObjects\03. Monster\Darkwraith\Weapon">
       <UniqueIdentifier>{04512931-fb5e-46ac-bf87-9c41cc93873d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States\01. Walk">
+      <UniqueIdentifier>{8b1af9ff-065b-4c60-a4d2-fb0c46883699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States\00. Idle">
+      <UniqueIdentifier>{cad5b5ba-2c0b-4619-be85-5969d9915ea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States\02. Backstep">
+      <UniqueIdentifier>{f1adc9d3-1020-4a9f-91b7-f52831e403e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States\03. Death">
+      <UniqueIdentifier>{a98e0709-e109-4aa3-897e-e2d56f53dd84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States\04. Attack">
+      <UniqueIdentifier>{acbe0bfb-ccee-470f-b629-246976acd539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States\05. DashAttack">
+      <UniqueIdentifier>{b69b921c-a121-4727-bf0a-6fd0f6ce86b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\States\06. FlyAttack">
+      <UniqueIdentifier>{aea6a3a3-d827-40e1-a3c8-71896b94065e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -251,6 +272,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\Monster_Boss.h">
       <Filter>02. GameObjects\03. Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Boss.h">
+      <Filter>02. GameObjects\03. Monster\Boss\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Idle.h">
+      <Filter>02. GameObjects\03. Monster\Boss\States\00. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Walk.h">
+      <Filter>02. GameObjects\03. Monster\Boss\States\01. Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Attack.h">
+      <Filter>02. GameObjects\03. Monster\Boss\States\04. Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +392,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Boss.cpp">
       <Filter>02. GameObjects\03. Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Boss.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Idle.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\States\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Walk.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\States\01. Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Attack.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\States\04. Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

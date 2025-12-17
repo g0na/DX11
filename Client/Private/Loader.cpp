@@ -7,6 +7,9 @@
 #include "Monster_Darkwraith.h"
 #include "Weapon_Darkwraith.h"
 
+#include "Monster_Boss.h"
+#include "Weapon_Boss.h"
+
 #include "Monster_Hollow.h"
 
 #include "Map.h"
@@ -149,7 +152,7 @@ HRESULT CLoader::Loading_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
 		CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE))))
 		return E_FAIL;
-
+	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
@@ -157,11 +160,14 @@ HRESULT CLoader::Loading_GamePlay()
 		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
 		return E_FAIL;
 
-	_matrix PreTransformMatrix = XMMatrixIdentity();
-	
 	// 모델에 필요한 초기 상태 행렬 선언
-	PreTransformMatrix = XMMatrixIdentity();
+	_matrix PreTransformMatrix = XMMatrixIdentity();
 	PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+	/* For.Prototype_Component_Model_Boss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Boss"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Boss/Boss.fbx", PreTransformMatrix))))
+		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Darkwraith"),
@@ -212,7 +218,7 @@ HRESULT CLoader::Loading_GamePlay()
 	UpdateLoadingText(TEXT("네비게이션을(를) 로딩 중 입니다."));
 	vector<const _tchar*> navigationDatas;
 	navigationDatas.reserve(19);
-
+#pragma region NAVIGATION_DATAS
 	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0000B1A18.nvm"));
 	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0001B1A18.nvm"));
 	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0003B1A18.nvm"));
@@ -232,6 +238,7 @@ HRESULT CLoader::Loading_GamePlay()
 	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0052B1A18.nvm"));
 	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0053B1A18.nvm"));
 	navigationDatas.push_back(TEXT("../Bin/DataFiles/n0054B1A18.nvm"));
+#pragma endregion
 
 	/* For.Prototype_Component_Navigation */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
@@ -257,6 +264,16 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Weapon_Darkwraith */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Darkwraith"),
 		CWeapon_Darkwraith::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Boss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
+		CMonster_Boss::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Weapon_Boss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Boss"),
+		CWeapon_Boss::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Hollow */

@@ -452,4 +452,9 @@
       <Filter>01. Utility\98. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine_Shader_Defines.hlsli">
+      <Filter>01. Utility\98. ShaderFiles</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -151,6 +151,9 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Background.h" />
     <ClInclude Include="..\Public\Body.h" />
+    <ClInclude Include="..\Public\Boss_Attack.h" />
+    <ClInclude Include="..\Public\Boss_Idle.h" />
+    <ClInclude Include="..\Public\Boss_Walk.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Darkwraith_Attack.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="..\Public\Player_Walk.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Weapon.h" />
+    <ClInclude Include="..\Public\Weapon_Boss.h" />
     <ClInclude Include="..\Public\Weapon_Darkwraith.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -188,6 +192,9 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Background.cpp" />
     <ClCompile Include="..\Private\Body.cpp" />
+    <ClCompile Include="..\Private\Boss_Attack.cpp" />
+    <ClCompile Include="..\Private\Boss_Idle.cpp" />
+    <ClCompile Include="..\Private\Boss_Walk.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Attack.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Damaged.cpp" />
@@ -215,6 +222,7 @@
     <ClCompile Include="..\Private\Player_Walk.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\Weapon.cpp" />
+    <ClCompile Include="..\Private\Weapon_Boss.cpp" />
     <ClCompile Include="..\Private\Weapon_Darkwraith.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
