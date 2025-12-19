@@ -7,5 +7,5 @@ Boss 애니메이션
 5 - ATK2
 6 - ATK3
 7 - ATK4
-8 - JumpATK
+8 - DashATK
 9 - FlyATK

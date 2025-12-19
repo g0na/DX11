@@ -161,18 +161,18 @@ void CRenderer::Draw_Lights()
 	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return;
 
-	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrixInv", m_pGameInstance->Get_InverseTransform(D3DTS::VIEW))))
-		return;
-	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrixInv", m_pGameInstance->Get_InverseTransform(D3DTS::PROJ))))
-		return;
-	if (FAILED(m_pShader->Bind_RawValue("g_vCamPosition", m_pGameInstance->Get_CamPosition(), sizeof(_float4))))
-		return;
-	//if (FAILED(m_pGameInstance->Bind_PipeLineInverseMatrix(m_pShader, "g_ViewMatrixInv", D3DTS::VIEW)))
+	//if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrixInv", m_pGameInstance->Get_InverseTransform(D3DTS::VIEW))))
 	//	return;
-	//if (FAILED(m_pGameInstance->Bind_PipeLineInverseMatrix(m_pShader, "g_ProjMatrixInv", D3DTS::PROJ)))
+	//if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrixInv", m_pGameInstance->Get_InverseTransform(D3DTS::PROJ))))
 	//	return;
-	//if (FAILED(m_pGameInstance->Bind_CamPosition(m_pShader, "g_vCamPosition")))
+	//if (FAILED(m_pShader->Bind_RawValue("g_vCamPosition", m_pGameInstance->Get_CamPosition(), sizeof(_float4))))
 	//	return;
+	if (FAILED(m_pGameInstance->Bind_PipeLineInverseMatrix(m_pShader, "g_ViewMatrixInv", D3DTS::VIEW)))
+		return;
+	if (FAILED(m_pGameInstance->Bind_PipeLineInverseMatrix(m_pShader, "g_ProjMatrixInv", D3DTS::PROJ)))
+		return;
+	if (FAILED(m_pGameInstance->Bind_CamPosition(m_pShader, "g_vCamPosition")))
+		return;
 
 	if (FAILED(m_pGameInstance->Bind_RT_ShaderResource(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
 		return;
@@ -263,7 +263,7 @@ void CRenderer::Render_Debug()
 	{
 		if (pDebugCom != nullptr)
 		{
-			pDebugCom->Render();
+			//pDebugCom->Render();
 			Safe_Release(pDebugCom);
 		}
 	}

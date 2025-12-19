@@ -86,14 +86,6 @@ void CPlayer::Update_Late(_float fTimeDelta)
 {
     __super::Update_Late(fTimeDelta);
 
-    // 디버깅
-    _char buf[128];
-    sprintf_s(buf, "x: %f, y: %f, z: %f\n",
-        XMVectorGetX(m_pNavigationCom->SetOn_Navigation(m_pTransformCom->Get_State(STATE::POSITION))),
-        XMVectorGetY(m_pNavigationCom->SetOn_Navigation(m_pTransformCom->Get_State(STATE::POSITION))),
-        XMVectorGetZ(m_pNavigationCom->SetOn_Navigation(m_pTransformCom->Get_State(STATE::POSITION))));
-    OutputDebugStringA(buf);
-
     // 몬스터와 충돌 시 슬라이딩
     if (m_pCollidingObject != nullptr)
     {

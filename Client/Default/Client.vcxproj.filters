@@ -166,6 +166,9 @@
     <Filter Include="02. GameObjects\03. Monster\Boss\States\06. FlyAttack">
       <UniqueIdentifier>{aea6a3a3-d827-40e1-a3c8-71896b94065e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Boss\FlyCollider">
+      <UniqueIdentifier>{9fe7e170-60fe-4170-b5b5-ae6ff6f3eacb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -284,6 +287,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\Boss_Attack.h">
       <Filter>02. GameObjects\03. Monster\Boss\States\04. Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_FlyAttack.h">
+      <Filter>02. GameObjects\03. Monster\Boss\States\06. FlyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FlyCollider_Boss.h">
+      <Filter>02. GameObjects\03. Monster\Boss\FlyCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_DashAttack.h">
+      <Filter>02. GameObjects\03. Monster\Boss\States\05. DashAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Backstep.h">
+      <Filter>02. GameObjects\03. Monster\Boss\States\02. Backstep</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -404,6 +419,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Attack.cpp">
       <Filter>02. GameObjects\03. Monster\Boss\States\04. Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_FlyAttack.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\States\06. FlyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FlyCollider_Boss.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\FlyCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_DashAttack.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\States\05. DashAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Backstep.cpp">
+      <Filter>02. GameObjects\03. Monster\Boss\States\02. Backstep</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

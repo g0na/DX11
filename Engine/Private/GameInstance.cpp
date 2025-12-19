@@ -20,6 +20,8 @@ CGameInstance::CGameInstance()
 #pragma region ENGINE
 HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** ppDevice, ID3D11DeviceContext** ppDeviceContext)
 {
+	srand(_uint(time(NULL)));
+
 	// 그래픽 디바이스 초기화
 	m_pGraphicDevice = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.eWinMode, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY, ppDevice, ppDeviceContext);
 	if (m_pGraphicDevice == nullptr)

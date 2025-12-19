@@ -3,9 +3,13 @@
 
 #include "Boss_Idle.h"
 #include "Boss_Walk.h"
+#include "Boss_Backstep.h"
 #include "Boss_Attack.h"
+#include "Boss_DashAttack.h"
+#include "Boss_FlyAttack.h"
 
 #include "Weapon_Boss.h"
+#include "FlyCollider_Boss.h"
 
 #include "Bounding_Sphere.h"
 #include "Collider.h"
@@ -80,7 +84,7 @@ void CMonster_Boss::Update(_float fTimeDelta)
 {
 	// BlackBoard에 데이터 저장
 	m_pStateMachine->Set_FloatData(TEXT("Boss_Distance"), m_fDistance);
-	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 18.f);
+	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 25.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
@@ -108,6 +112,11 @@ void CMonster_Boss::Update(_float fTimeDelta)
 
 	// 콜라이더 업데이트
 	m_pColliderBody->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
+	// 디버깅
+	_char buf[128];
+	sprintf_s(buf, "Distance : %f\n", m_fDistance);
+	OutputDebugStringA(buf);
 }
 
 void CMonster_Boss::Update_Late(_float fTimeDelta)
@@ -202,7 +211,16 @@ HRESULT CMonster_Boss::Ready_States()
 	if (FAILED(m_pStateMachine->Add_State(WALK, CBoss_Walk::Create(this))))
 		return E_FAIL;
 
+	if (FAILED(m_pStateMachine->Add_State(BACKSTEP, CBoss_Backstep::Create(this))))
+		return E_FAIL;
+
 	if (FAILED(m_pStateMachine->Add_State(ATTACK, CBoss_Attack::Create(this))))
+		return E_FAIL;
+
+	if (FAILED(m_pStateMachine->Add_State(DASHATTACK, CBoss_DashAttack::Create(this))))
+		return E_FAIL;
+
+	if (FAILED(m_pStateMachine->Add_State(FLYATTACK, CBoss_FlyAttack::Create(this))))
 		return E_FAIL;
 
 	m_pStateMachine->Set_State(IDLE);
@@ -218,6 +236,14 @@ HRESULT CMonster_Boss::Ready_PartObjects()
 	WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 	if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Boss"),
 		TEXT("Part_Weapon_Boss"), &WeaponDesc)))
+		return E_FAIL;
+
+	// Fly Collider
+	CFlyCollider_Boss::FLYCOLLIDER_BOSS_DESC FlyColliderDesc{};
+	FlyColliderDesc.pSocketMatrix = Get_SocketMatrix("Spine");
+	FlyColliderDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+	if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_FlyCollider_Boss"),
+		TEXT("Part_FlyCollider_Boss"), &FlyColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;

@@ -5,16 +5,18 @@
 NS_BEGIN(Engine)
 class CGameInstance;
 class CStateMachine;
+class CTransform;
+class CModel;
 NS_END
 
 NS_BEGIN(Client)
 
-class CBoss_Idle final : public CState
+class CBoss_FlyAttack final : public CState
 {
 private:
-	CBoss_Idle();
-	CBoss_Idle(const CBoss_Idle& Prototype) = delete;
-	virtual ~CBoss_Idle() = default;
+	CBoss_FlyAttack();
+	CBoss_FlyAttack(const CBoss_FlyAttack& Prototype) = delete;
+	virtual ~CBoss_FlyAttack() = default;
 
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner);
@@ -26,9 +28,15 @@ public:
 private:
 	CGameInstance*					m_pGameInstance = { nullptr };
 	CStateMachine*					m_pStateMachine = { nullptr };
+	CTransform*						m_pMonsterTransform = { nullptr };
+	CModel*							m_pMonsterModel = { nullptr };
+	class CFlyCollider_Boss*		m_pFlyCollider = { nullptr };
+
+	_float* m_pCurAngle = { nullptr };
+	_float	m_fFlyAttackDelay = {};
 
 public:
-	static CBoss_Idle* Create(class CGameObject* pOwner);
+	static CBoss_FlyAttack* Create(class CGameObject* pOwner);
 	virtual void Free() override;
 };
 

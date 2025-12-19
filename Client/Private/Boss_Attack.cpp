@@ -52,24 +52,32 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 4:
-        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.6f &&
-            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.765f)
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.5f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
         else
             m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
         break;
 
     case 5:
-        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.366f &&
-            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.53f)
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.4f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
         else
             m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
         break;
 
     case 6:
-        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.366f &&
-            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.56f)
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.37f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.73f)
+            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+        else
+            m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+
+    case 7:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.03f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.33f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
         else
             m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
@@ -83,7 +91,7 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
     switch (m_iAttackCnt)
     {
     case 0:
-        if (m_fAttackDelay < 0.2f)
+        if (m_fAttackDelay >= 1.f && m_fAttackDelay < 2.2f)
         {
             _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
             _float fAngleDiff = fAngle - *m_pCurAngle;
@@ -101,18 +109,19 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
 
             m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
         }
-        else if (m_fAttackDelay >= 2.2f)
+        else if (m_fAttackDelay >= 3.5f)
         {
             // 거리가 멀어지면 걷기로 변경
-            if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) > 10.f)
+            if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) > 14.f)
             {
                 m_pStateMachine->Change_State(CMonster_Boss::IDLE);
                 return;
             }
 
             static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(4, false);
-            m_iAttackCnt++;
-            m_fAttackDelay = 0.f;
+            /*m_iAttackCnt++;
+            m_fAttackDelay = 0.f;*/
+            m_pStateMachine->Change_State(CMonster_Boss::IDLE);
         }
         break;
 
@@ -135,10 +144,10 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
 
 			m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
 		}
-		else if (m_fAttackDelay >= 2.f)
+		else if (m_fAttackDelay >= 2.13f)
 		{
 			// 거리가 멀어지면 걷기로 변경
-			if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) > 10.f)
+			if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) > 14.f)
 			{
 				m_pStateMachine->Change_State(CMonster_Boss::IDLE);
 				return;
@@ -169,13 +178,55 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
 
             m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
         }
-        else if (m_fAttackDelay >= 2.2f)
+        else if (m_fAttackDelay >= 2.5f)
         {
+            // 거리가 멀어지면 걷기로 변경
+            if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) > 14.f)
+            {
+                m_pStateMachine->Change_State(CMonster_Boss::IDLE);
+                return;
+            }
+
             static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(6, false);
+            m_iAttackCnt++;
+            m_fAttackDelay = 0.f;
+        }
+        break;
+
+    case 3:
+        if (m_fAttackDelay < 1.65f)
+        {
+            _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
+            _float fAngleDiff = fAngle - *m_pCurAngle;
+
+            while (fAngleDiff > XM_PI)
+                fAngleDiff -= XM_2PI;
+            while (fAngleDiff < -XM_PI)
+                fAngleDiff += XM_2PI;
+
+            _float fDeltaAngle = fAngleDiff * fTimeDelta * 15.f;
+            if (abs(fDeltaAngle) > abs(fAngleDiff))
+                fDeltaAngle = fAngleDiff;
+
+            *m_pCurAngle += fDeltaAngle;
+
+            m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+        }
+        else if (m_fAttackDelay >= 2.4f)
+        {
+            // 거리가 멀어지면 걷기로 변경
+            if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) > 14.f)
+            {
+                m_pStateMachine->Change_State(CMonster_Boss::IDLE);
+                return;
+            }
+
+            static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(7, false);
             m_iAttackCnt = 0;
             m_fAttackDelay = 0.f;
         }
         break;
+
     }
 }
 

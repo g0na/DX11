@@ -31,7 +31,7 @@ HRESULT CWeapon_Boss::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_eLayer = LAYER::WEAPON;
-	m_bIsCollisionEnabled = true;
+	//m_bIsCollisionEnabled = true;
 
 	return S_OK;
 }
@@ -68,7 +68,7 @@ void CWeapon_Boss::Update_Late(_float fTimeDelta)
 
 HRESULT CWeapon_Boss::Render()
 {
-	m_bIsCollisionEnabled = true;
+	//m_bIsCollisionEnabled = true;
 #ifdef _DEBUG
 	if (m_bIsCollisionEnabled == true)
 	{
@@ -100,7 +100,7 @@ HRESULT CWeapon_Boss::Ready_Components()
 	for (_uint i = 0; i < m_iColliderCnt; i++)
 	{
 		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-		SphereDesc.fRadius = 0.7f;
+		SphereDesc.fRadius = 1.2f;
 		_float fOffset = SphereDesc.fRadius - 1.4f - (1.4f * i);
 		SphereDesc.vCenter = _float3(0.f, fOffset, 0.f);
 

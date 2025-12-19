@@ -152,6 +152,9 @@
     <ClInclude Include="..\Public\Background.h" />
     <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Boss_Attack.h" />
+    <ClInclude Include="..\Public\Boss_Backstep.h" />
+    <ClInclude Include="..\Public\Boss_DashAttack.h" />
+    <ClInclude Include="..\Public\Boss_FlyAttack.h" />
     <ClInclude Include="..\Public\Boss_Idle.h" />
     <ClInclude Include="..\Public\Boss_Walk.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
@@ -160,6 +163,7 @@
     <ClInclude Include="..\Public\Darkwraith_Damaged.h" />
     <ClInclude Include="..\Public\Darkwraith_Idle.h" />
     <ClInclude Include="..\Public\Darkwraith_Walk.h" />
+    <ClInclude Include="..\Public\FlyCollider_Boss.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
@@ -193,6 +197,9 @@
     <ClCompile Include="..\Private\Background.cpp" />
     <ClCompile Include="..\Private\Body.cpp" />
     <ClCompile Include="..\Private\Boss_Attack.cpp" />
+    <ClCompile Include="..\Private\Boss_Backstep.cpp" />
+    <ClCompile Include="..\Private\Boss_DashAttack.cpp" />
+    <ClCompile Include="..\Private\Boss_FlyAttack.cpp" />
     <ClCompile Include="..\Private\Boss_Idle.cpp" />
     <ClCompile Include="..\Private\Boss_Walk.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
@@ -200,6 +207,7 @@
     <ClCompile Include="..\Private\Darkwraith_Damaged.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Idle.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Walk.cpp" />
+    <ClCompile Include="..\Private\FlyCollider_Boss.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />

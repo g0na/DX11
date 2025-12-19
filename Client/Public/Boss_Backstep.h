@@ -9,12 +9,12 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CBoss_Idle final : public CState
+class CBoss_Backstep final : public CState
 {
 private:
-	CBoss_Idle();
-	CBoss_Idle(const CBoss_Idle& Prototype) = delete;
-	virtual ~CBoss_Idle() = default;
+	CBoss_Backstep();
+	CBoss_Backstep(const CBoss_Backstep& Prototype) = delete;
+	virtual ~CBoss_Backstep() = default;
 
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner);
@@ -27,8 +27,10 @@ private:
 	CGameInstance*					m_pGameInstance = { nullptr };
 	CStateMachine*					m_pStateMachine = { nullptr };
 
+	_float							m_fTimeElapsed = {};
+
 public:
-	static CBoss_Idle* Create(class CGameObject* pOwner);
+	static CBoss_Backstep* Create(class CGameObject* pOwner);
 	virtual void Free() override;
 };
 

@@ -52,10 +52,19 @@ void CBoss_Walk::Update_State(_float fTimeDelta)
 
 	m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
 
-	if (m_pStateMachine->Get_BoolData(TEXT("Boss_Targeting"), false) == false)
-		m_pStateMachine->Change_State(CMonster_Boss::IDLE);
-	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 10.f)
+    if (m_pStateMachine->Get_BoolData(TEXT("Boss_Targeting"), false) == false)
+        m_pStateMachine->Change_State(CMonster_Boss::IDLE);
+    else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 6.f)
+    {
+        if (m_pGameInstance->Random(1.f, 10.f) >= 6.f)
+            m_pStateMachine->Change_State(CMonster_Boss::FLYATTACK);
+        else
+            m_pStateMachine->Change_State(CMonster_Boss::BACKSTEP);
+    }
+	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 14.f)
 		m_pStateMachine->Change_State(CMonster_Boss::ATTACK);
+	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 18.f)
+		m_pStateMachine->Change_State(CMonster_Boss::DASHATTACK);
 }
 
 void CBoss_Walk::Exit_State()

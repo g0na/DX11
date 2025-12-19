@@ -9,6 +9,7 @@
 
 #include "Monster_Boss.h"
 #include "Weapon_Boss.h"
+#include "FlyCollider_Boss.h"
 
 #include "Monster_Hollow.h"
 
@@ -274,6 +275,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Weapon_Boss */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Boss"),
 		CWeapon_Boss::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_FlyCollider_Boss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_FlyCollider_Boss"),
+		CFlyCollider_Boss::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Hollow */
