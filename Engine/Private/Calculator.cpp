@@ -84,12 +84,12 @@ _vector CCalculator::Picking_OnMesh(HWND hWnd, CMesh* pMeshCom, CTransform* pTra
 	
 	// 투영 -> 뷰스페이스
 	_float4x4 ProjInverseMatrix;
-	ProjInverseMatrix = m_pGameInstance->Get_InverseTransform(D3DTS::PROJ);
+	ProjInverseMatrix = *m_pGameInstance->Get_InverseTransform(D3DTS::PROJ);
 	vMousePos = XMVector3TransformCoord(vMousePos, XMLoadFloat4x4(&ProjInverseMatrix));
 	
 	// 뷰 스페이스 -> 월드
 	_float4x4 ViewInverseMatrix;
-	ViewInverseMatrix = m_pGameInstance->Get_InverseTransform(D3DTS::VIEW);
+	ViewInverseMatrix = *m_pGameInstance->Get_InverseTransform(D3DTS::VIEW);
 
 	_vector	vRayPos = { 0.f, 0.f, 0.f, 1.f };
 	_vector vRayDir = vMousePos - vRayPos;

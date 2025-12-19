@@ -48,7 +48,6 @@ public:
 private:
 	CModel*			m_pModelCom = { nullptr };
 	CShader*		m_pShaderCom = { nullptr };
-	CCollider*		m_pColliderCom = { nullptr };
 	CTransform*		m_pPlayerTransform = { nullptr };
 	CNavigation*	m_pPlayerNavigation = { nullptr };
 

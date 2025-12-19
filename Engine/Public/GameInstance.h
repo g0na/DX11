@@ -15,7 +15,7 @@ private:
 public:
 	HRESULT					Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** ppDevice, ID3D11DeviceContext** ppDeviceContext);
 	void					Update_Engine(const _float& fTimeDelta);
-	HRESULT					Draw_Begin(const _float4& vColor);
+	HRESULT					Draw_Begin(const _float4* pClearColor);
 	HRESULT					Draw();
 	HRESULT					Draw_End();
 	void					Clear(_uint iLevelID);		// 정해진 레벨의 자원을 정리한다.
@@ -76,6 +76,7 @@ public:
 public:
 	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+	void Render_Lights(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
@@ -86,6 +87,11 @@ public:
 #pragma region RENDERER
 public:
 	HRESULT	Add_RenderObject(RENDERGROUP eRenderGroup, class CGameObject* pObj);
+
+#ifdef _DEBUG
+public:
+	HRESULT Add_DebugComponent(class CComponent* pComponent);
+#endif // _DEBUG
 #pragma endregion
 
 #pragma region PIPELINE
@@ -94,8 +100,24 @@ public:
 	HRESULT Bind_CamPosition(class CShader* pShader, const _char* pConstant);
 	void Set_Transform(D3DTS eTransformMatrix, _fmatrix TransformMatrix);
 	const _float4x4* Get_Transform(D3DTS eTransformMatrix);
-	_float4x4 Get_InverseTransform(D3DTS eTransformMatrix);
+	const _float4x4* Get_InverseTransform(D3DTS eTransformMatrix);
+	const _float4* Get_CamPosition();
 #pragma endregion
+
+#pragma region TARGET_MANAGER
+	HRESULT Add_RenderTarget(const _wstring& strTargetTag, _uint iWidth, _uint iHeight, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
+	HRESULT Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
+	HRESULT Begin_MRT(const _wstring& strMRTTag);
+	HRESULT End_MRT();
+	HRESULT Bind_RT_ShaderResource(const _wstring& strTargetTag, class CShader* pShader, const _char* pConstantName);
+
+#ifdef _DEBUG
+	HRESULT Ready_RT_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
+	HRESULT Debug_RT_Render(const _wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
+#endif // _DEBUG
+
+#pragma endregion
+
 
 private:
 	class CGraphic_Device*		m_pGraphicDevice = { nullptr };
@@ -108,6 +130,7 @@ private:
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CPipeLine*			m_pPipeLine = { nullptr };
 	class CCollision_Manager*	m_pCollisionManager = { nullptr };
+	class CTarget_Manager*		m_pTargetManager = { nullptr };
 
 public:
 	void Release_Engine();

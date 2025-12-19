@@ -1,18 +1,7 @@
 #include "Engine_Shader_Defines.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-
-vector g_vLightDir;
-vector g_vLightDiffuse;
-vector g_vLightAmbient;
-vector g_vLightSpecular;
-
 Texture2D g_DiffuseTexture;
-
-vector g_vMtrlAmbient = vector(0.3f, 0.3f, 0.3f, 1.f);
-vector g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
-vector g_vCamPosition;
 
 struct VS_IN
 {
@@ -62,7 +51,8 @@ struct PS_IN
 
 struct PS_OUT
 {   
-    vector vColor : SV_TARGET0;
+    vector vDiffuse : SV_TARGET0;
+    vector vNormal : SV_TARGET1;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -72,18 +62,9 @@ PS_OUT PS_MAIN(PS_IN In)
     // g_DiffuseTexture.Sample(어떤 방식으로 샘플링할지, 어디의 색을 얻어올지)
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
-    
-    float fShade = max(dot(normalize(g_vLightDir) * -1.f, normalize(In.vNormal)), 0.f);
-    
-    float4 vLook = In.vWorldPos - g_vCamPosition;
-    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-    
-    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 50);
-    
-    Out.vColor = g_vLightDiffuse * vMtrlDiffuse * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) +
-    (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
-    
-    Out.vColor.a = 1.f;
+        
+    Out.vDiffuse = vMtrlDiffuse;
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
     
     return Out;
 }

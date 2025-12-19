@@ -154,6 +154,12 @@
     <Filter Include="01. Utility\05. Component\02. Shader">
       <UniqueIdentifier>{47cfcfe8-5c02-4938-8276-75ed8609b6d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\08. RenderTargets">
+      <UniqueIdentifier>{6ac41855-12ec-4e54-b85b-564f324876a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\08. RenderTargets\Manager">
+      <UniqueIdentifier>{f8775284-636a-46e8-b93b-27bd341aebac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -290,6 +296,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Navigation.cpp">
       <Filter>01. Utility\05. Component\07. Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RenderTarget.cpp">
+      <Filter>01. Utility\08. RenderTargets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Target_Manager.cpp">
+      <Filter>01. Utility\08. RenderTargets\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,14 +458,23 @@
     <ClInclude Include="..\Public\Navigation.h">
       <Filter>01. Utility\05. Component\07. Navigation</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RenderTarget.h">
+      <Filter>01. Utility\08. RenderTargets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Target_Manager.h">
+      <Filter>01. Utility\08. RenderTargets\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
       <Filter>01. Utility\98. ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
+      <Filter>01. Utility\98. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine_Shader_Defines.hlsli">
+    <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli">
       <Filter>01. Utility\98. ShaderFiles</Filter>
     </None>
   </ItemGroup>

@@ -126,6 +126,11 @@ void CPlayer::Update_Late(_float fTimeDelta)
         }
     }
 
+#ifdef _DEBUG
+    m_pGameInstance->Add_DebugComponent(m_pColliderCom);
+    m_pGameInstance->Add_DebugComponent(m_pNavigationCom);
+#endif // _DEBUG
+
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 

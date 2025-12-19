@@ -26,10 +26,12 @@ public:
 		return &m_TransformMatrices[ENUM_TO_UINT(eTransformMatrix)];
 	}
 
-	_float4x4 Get_InverseTransform(D3DTS eTransformMatrix)
+	const _float4x4* Get_InverseTransform(D3DTS eTransformMatrix)
 	{
-		return m_TransformInverseMatrices[ENUM_TO_UINT(eTransformMatrix)];
+		return &m_TransformInverseMatrices[ENUM_TO_UINT(eTransformMatrix)];
 	}
+
+	const _float4* Get_CamPosition() { return &m_vCamPosition; }
 
 public:
 	HRESULT Bind_PipeLineMatrix(class CShader* pShader, const _char* pConstantName, D3DTS eTransformMatrix);

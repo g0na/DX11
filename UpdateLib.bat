@@ -5,3 +5,5 @@ xcopy			/y			.\Engine\Bin\Engine.dll				.\Maptool\Bin\
 xcopy			/y			.\Engine\Bin\Engine.lib				.\EngineSDK\Lib\
 xcopy			/y			.\Engine\ThirdPartyLib\*.lib		.\EngineSDK\Lib\
 xcopy			/y/s		.\Engine\Public\*.*					.\EngineSDK\Inc\
+
+xcopy			/y			.\Engine\Bin\ShaderFiles\*.*		.\Client\Bin\ShaderFiles\

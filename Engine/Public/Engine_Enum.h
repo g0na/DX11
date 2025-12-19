@@ -5,7 +5,7 @@ namespace Engine
 {
 	enum class WINMODE { FULL, WIN };
 	enum class PROTOTYPE { GAMEOBJECT, COMPONENT };
-	enum class RENDERGROUP { PRIORITY, NONBLEND, BLEND, UI, END};
+	enum class RENDERGROUP { PRIORITY, NONBLEND, NONLIGHT, BLEND, UI, END};
 	enum class STATE { RIGHT, UP, LOOK, POSITION, END };
 	enum class D3DTS { VIEW, PROJ, END };
 	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
@@ -16,5 +16,6 @@ namespace Engine
 	enum class LINE { AB, BC, CA, END };
 	enum class LAYER { PLAYER, WEAPON, MONSTER, OBJECT, MAP, CAMERA, END };
 	enum class COLLIDER { SPHERE, AABB, OBB, END };
+	enum class DEFERRED { DEBUG, DIRECTIONAL, POINT, COMBINED, END };
 }
 #endif // Engine_Enum_h__

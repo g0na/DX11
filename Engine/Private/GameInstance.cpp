@@ -8,6 +8,7 @@
 #include "Renderer.h"
 #include "PipeLine.h"
 #include "Collision_Manager.h"
+#include "Target_Manager.h"
 #include "GameObject.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
@@ -49,6 +50,11 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	m_pObjectManager = CObject_Manager::Create(*ppDevice, *ppDeviceContext, EngineDesc.iLevelNum);
 	if (m_pObjectManager == nullptr)
 		return E_FAIL;
+
+	// 타겟 매니저 초기화
+	m_pTargetManager = CTarget_Manager::Create(*ppDevice, *ppDeviceContext);
+	if (m_pTargetManager == nullptr)
+		return E_FAIL;
 	
 	// 렌더러 초기화
 	m_pRenderer = CRenderer::Create(*ppDevice, *ppDeviceContext);
@@ -83,9 +89,9 @@ void CGameInstance::Update_Engine(const _float& fTimeDelta)
 	m_pLevelManager->Update_Level(fTimeDelta);
 }
 
-HRESULT CGameInstance::Draw_Begin(const _float4& vColor)
+HRESULT CGameInstance::Draw_Begin(const _float4* pClearColor)
 {
-	if (FAILED(m_pGraphicDevice->Clear_BackBuffer_View(&vColor)))
+	if (FAILED(m_pGraphicDevice->Clear_BackBuffer_View(pClearColor)))
 		return E_FAIL;
 
 	if (FAILED(m_pGraphicDevice->Clear_DepthStencil_View()))
@@ -263,6 +269,10 @@ HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
 {
 	return m_pLightManager->Add_Light(LightDesc);
 }
+void CGameInstance::Render_Lights(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+	m_pLightManager->Render(pShader, pVIBuffer);
+}
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
@@ -277,6 +287,14 @@ HRESULT CGameInstance::Add_RenderObject(RENDERGROUP eRenderGroup, CGameObject* p
 {
 	return m_pRenderer->Add_RenderObject(eRenderGroup, pObj);
 }
+
+#ifdef _DEBUG
+HRESULT CGameInstance::Add_DebugComponent(CComponent* pComponent)
+{
+	return m_pRenderer->Add_DebugComponent(pComponent);
+}
+#endif // _DEBUG
+
 #pragma endregion
 
 #pragma region PIPELINE
@@ -304,12 +322,54 @@ const _float4x4* CGameInstance::Get_Transform(D3DTS eTransformMatrix)
 	return m_pPipeLine->Get_Transform(eTransformMatrix);
 }
 
-_float4x4 CGameInstance::Get_InverseTransform(D3DTS eTransformMatrix)
+const _float4x4* CGameInstance::Get_InverseTransform(D3DTS eTransformMatrix)
 {
 	return m_pPipeLine->Get_InverseTransform(eTransformMatrix);
 }
+const _float4* CGameInstance::Get_CamPosition()
+{
+	return m_pPipeLine->Get_CamPosition();
+}
+#pragma endregion
 
-#pragma region
+#pragma region TARGET_MANAGER
+HRESULT CGameInstance::Add_RenderTarget(const _wstring& strTargetTag, _uint iWidth, _uint iHeight, DXGI_FORMAT ePixelFormat, const _float4& vClearColor)
+{
+	return m_pTargetManager->Add_RenderTarget(strTargetTag, iWidth, iHeight, ePixelFormat, vClearColor);
+}
+
+HRESULT CGameInstance::Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag)
+{
+	return m_pTargetManager->Add_MRT(strMRTTag, strTargetTag);
+}
+
+HRESULT CGameInstance::Begin_MRT(const _wstring& strMRTTag)
+{
+	return m_pTargetManager->Begin_MRT(strMRTTag);
+}
+
+HRESULT CGameInstance::End_MRT()
+{
+	return m_pTargetManager->End_MRT();
+}
+
+HRESULT CGameInstance::Bind_RT_ShaderResource(const _wstring& strTargetTag, CShader* pShader, const _char* pConstantName)
+{
+	return m_pTargetManager->Bind_ShaderResource(strTargetTag, pShader, pConstantName);
+}
+
+#ifdef _DEBUG
+HRESULT CGameInstance::Ready_RT_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
+{
+	return m_pTargetManager->Ready_Debug(strTargetTag, fX, fY, fSizeX, fSizeY);
+}
+
+HRESULT CGameInstance::Debug_RT_Render(const _wstring& strMRTTag, CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+	return m_pTargetManager->Render(strMRTTag, pShader, pVIBuffer);
+}
+#endif // _DEBUG
+#pragma endregion
 
 
 void CGameInstance::Release_Engine()
@@ -321,6 +381,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pPrototypeManager);
 	Safe_Release(m_pRenderer);
+	Safe_Release(m_pTargetManager);
 	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pInputDevice);
 	Safe_Release(m_pGraphicDevice);

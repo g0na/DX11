@@ -114,6 +114,10 @@ void CMonster_Boss::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
 
+#ifdef _DEBUG
+	m_pGameInstance->Add_DebugComponent(m_pColliderBody);
+#endif // _DEBUG
+
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
@@ -226,21 +230,6 @@ HRESULT CMonster_Boss::Bind_ShaderResources()
 	if (FAILED(m_pGameInstance->Bind_PipeLineMatrix(m_pShaderCom, "g_ViewMatrix", D3DTS::VIEW)))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Bind_PipeLineMatrix(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Bind_CamPosition(m_pShaderCom, "g_vCamPosition")))
-		return E_FAIL;
-
-	const LIGHT_DESC* pLightDesc = m_pGameInstance->Get_LightDesc(0);
-	if (pLightDesc == nullptr)
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightDir", &pLightDesc->vDirection, sizeof(_float4))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightDiffuse", &pLightDesc->vDiffuse, sizeof(_float4))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightAmbient", &pLightDesc->vAmbient, sizeof(_float4))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightSpecular", &pLightDesc->vSpecular, sizeof(_float4))))
 		return E_FAIL;
 
 	return S_OK;

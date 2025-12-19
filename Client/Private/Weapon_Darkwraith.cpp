@@ -58,6 +58,11 @@ void CWeapon_Darkwraith::Update(_float fTimeDelta)
 
 void CWeapon_Darkwraith::Update_Late(_float fTimeDelta)
 {
+#ifdef _DEBUG
+	for (_uint i = 0; i < m_iColliderCnt; i++)
+		m_pGameInstance->Add_DebugComponent(m_vecColliders[i]);
+#endif // _DEBUG
+
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 

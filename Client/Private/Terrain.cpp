@@ -37,7 +37,7 @@ void CTerrain::Update(_float fTimeDelta)
 
 void CTerrain::Update_Late(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderObject(RENDERGROUP::UI, this);
+    m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
 HRESULT CTerrain::Render()
@@ -103,22 +103,6 @@ HRESULT CTerrain::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Bind_PipeLineMatrix(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
 		return E_FAIL;
-    if (FAILED(m_pGameInstance->Bind_CamPosition(m_pShaderCom, "g_vCamPosition")))
-        return E_FAIL;
-
-    const LIGHT_DESC* pLightDesc = m_pGameInstance->Get_LightDesc(0);
-    if (pLightDesc == nullptr)
-        return E_FAIL;
-
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightDir", &pLightDesc->vDirection, sizeof(_float4))))
-        return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightDiffuse", &pLightDesc->vDiffuse, sizeof(_float4))))
-        return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightAmbient", &pLightDesc->vAmbient, sizeof(_float4))))
-        return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_vLightSpecular", &pLightDesc->vSpecular, sizeof(_float4))))
-        return E_FAIL;
-
 
     if (FAILED(m_pTextureCom[ENUM_TO_UINT(TERRAINTEX::DIFFUSE)]->Bind_ShaderResources(m_pShaderCom, "g_DiffuseTexture")))
 		return E_FAIL;

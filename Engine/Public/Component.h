@@ -13,6 +13,7 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
+	virtual HRESULT Render() { return S_OK; }
 
 protected:
 	class CGameInstance*	m_pGameInstance = { nullptr };
