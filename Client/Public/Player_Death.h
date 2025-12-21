@@ -6,17 +6,16 @@ NS_BEGIN(Engine)
 class CGameInstance;
 class CStateMachine;
 class CTransform;
-class CModel;
 NS_END
 
 NS_BEGIN(Client)
 
-class CPlayer_Damaged final : public CState
+class CPlayer_Death final : public CState
 {
 private:
-	CPlayer_Damaged();
-	CPlayer_Damaged(const CPlayer_Damaged& Prototype) = delete;
-	virtual ~CPlayer_Damaged() = default;
+	CPlayer_Death();
+	CPlayer_Death(const CPlayer_Death& Prototype) = delete;
+	virtual ~CPlayer_Death() = default;
 
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner, class CBody* pBody);
@@ -28,13 +27,12 @@ public:
 private:
 	CGameInstance*	m_pGameInstance = { nullptr };
 	CStateMachine*	m_pStateMachine = { nullptr };
-	CModel*			m_pPlayerModel = { nullptr };
+	CTransform*		m_pPlayerTransform = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
-
-	_float* m_pCurAngle = { nullptr };
+	class CCamera_Free* m_pPlayerCamera = { nullptr };
 
 public:
-	static CPlayer_Damaged* Create(class CGameObject* pOwner, class CBody* pBody);
+	static CPlayer_Death* Create(class CGameObject* pOwner, CBody* pBody);
 	virtual void Free() override;
 };
 

@@ -169,6 +169,9 @@
     <Filter Include="02. GameObjects\03. Monster\Boss\FlyCollider">
       <UniqueIdentifier>{9fe7e170-60fe-4170-b5b5-ae6ff6f3eacb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\07. Death">
+      <UniqueIdentifier>{ae8f50c8-b72f-4cf3-b2c5-82d8d77a9f4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -299,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Boss_Backstep.h">
       <Filter>02. GameObjects\03. Monster\Boss\States\02. Backstep</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Death.h">
+      <Filter>02. GameObjects\02. Player\99. States\07. Death</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -431,6 +437,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Backstep.cpp">
       <Filter>02. GameObjects\03. Monster\Boss\States\02. Backstep</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Death.cpp">
+      <Filter>02. GameObjects\02. Player\99. States\07. Death</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

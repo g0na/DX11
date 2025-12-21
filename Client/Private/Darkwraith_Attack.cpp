@@ -43,7 +43,10 @@ void CDarkwraith_Attack::Enter_State()
 void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 {
     if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false) == true)
+    {
         m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);
+        return;
+    }
 
     _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
     _vector vTargetDir = XMVector3Normalize(XMVectorSetW(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION), 0.f));
@@ -78,6 +81,14 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
             m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
         break;
 
+    case 7:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.73f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.87f)
+            m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+        else
+            m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+
     default:
         m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
         break;
@@ -104,7 +115,7 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 
             m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
         }
-        else if (m_fAttackDelay >= 1.666f)
+        else if (m_fAttackDelay >= 2.4f)
         {
             // 거리가 멀어지면 걷기로 변경
             if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
@@ -138,7 +149,7 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 
 			m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
 		}
-		else if (m_fAttackDelay >= 1.5f)
+		else if (m_fAttackDelay >= 0.8f)
 		{
 			// 거리가 멀어지면 걷기로 변경
 			if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
@@ -172,9 +183,43 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 
             m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
         }
-        else if (m_fAttackDelay >= 1.166f)
+        else if (m_fAttackDelay >= 0.6f)
         {
+            // 거리가 멀어지면 걷기로 변경
+            if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
+            {
+                m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
+                return;
+            }
+
             static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(6, false);
+            m_iAttackCnt++;
+            m_fAttackDelay = 0.f;
+        }
+        break;
+
+    case 3:
+        if (m_fAttackDelay < 0.2f)
+        {
+            _float fAngle = atan2f(XMVectorGetX(vTargetDir), XMVectorGetZ(vTargetDir));       // 라디안 반환
+            _float fAngleDiff = fAngle - *m_pCurAngle;
+
+            while (fAngleDiff > XM_PI)
+                fAngleDiff -= XM_2PI;
+            while (fAngleDiff < -XM_PI)
+                fAngleDiff += XM_2PI;
+
+            _float fDeltaAngle = fAngleDiff * fTimeDelta * 15.f;
+            if (abs(fDeltaAngle) > abs(fAngleDiff))
+                fDeltaAngle = fAngleDiff;
+
+            *m_pCurAngle += fDeltaAngle;
+
+            m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+        }
+        else if (m_fAttackDelay >= 0.6f)
+        {
+            static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(7, false);
             m_iAttackCnt = 0;
             m_fAttackDelay = 0.f;
         }

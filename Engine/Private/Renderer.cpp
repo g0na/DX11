@@ -161,12 +161,6 @@ void CRenderer::Draw_Lights()
 	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
 		return;
 
-	//if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrixInv", m_pGameInstance->Get_InverseTransform(D3DTS::VIEW))))
-	//	return;
-	//if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrixInv", m_pGameInstance->Get_InverseTransform(D3DTS::PROJ))))
-	//	return;
-	//if (FAILED(m_pShader->Bind_RawValue("g_vCamPosition", m_pGameInstance->Get_CamPosition(), sizeof(_float4))))
-	//	return;
 	if (FAILED(m_pGameInstance->Bind_PipeLineInverseMatrix(m_pShader, "g_ViewMatrixInv", D3DTS::VIEW)))
 		return;
 	if (FAILED(m_pGameInstance->Bind_PipeLineInverseMatrix(m_pShader, "g_ProjMatrixInv", D3DTS::PROJ)))
@@ -279,8 +273,8 @@ void CRenderer::Render_Debug()
 
 	if (FAILED(m_pGameInstance->Debug_RT_Render(TEXT("MRT_GameObject"), m_pShader, m_pVIBuffer)))
 		return;
-	if (FAILED(m_pGameInstance->Debug_RT_Render(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
-		return;
+	//if (FAILED(m_pGameInstance->Debug_RT_Render(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
+	//	return;
 }
 #endif // _DEBUG
 

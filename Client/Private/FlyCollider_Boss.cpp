@@ -29,7 +29,7 @@ HRESULT CFlyCollider_Boss::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_eLayer = LAYER::WEAPON;
+	m_eLayer = LAYER::WEAPON_BOSS;
 	//m_bIsCollisionEnabled = true;
 
 	return S_OK;
@@ -56,10 +56,6 @@ void CFlyCollider_Boss::Update(_float fTimeDelta)
 
 void CFlyCollider_Boss::Update_Late(_float fTimeDelta)
 {
-#ifdef _DEBUG
-	m_pGameInstance->Add_DebugComponent(m_pColliderCom);
-#endif // _DEBUG
-
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
@@ -92,8 +88,8 @@ HRESULT CFlyCollider_Boss::Ready_Components()
 {
 	/* For Com_Collider */
 	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-	SphereDesc.fRadius = 5.5f;
-	SphereDesc.vCenter = _float3(-3.f, 1.f, 0.f);
+	SphereDesc.fRadius = 5.f;
+	SphereDesc.vCenter = _float3(0.f, 0.f, 1.f);
 
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))

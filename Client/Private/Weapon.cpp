@@ -61,13 +61,6 @@ void CWeapon::Update(_float fTimeDelta)
 void CWeapon::Update_Late(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
-
-#ifdef _DEBUG
-	for (_uint i = 0; i < m_iColliderCnt; i++)
-	{
-		m_pGameInstance->Add_DebugComponent(m_vecColliders[i]);
-	}
-#endif // _DEBUG
 }
 
 HRESULT CWeapon::Render()
@@ -88,11 +81,13 @@ HRESULT CWeapon::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
 	if (m_bIsCollisionEnabled == true)
 	{
 		for (auto& pCollider : m_vecColliders)
 			pCollider->Render();
 	}
+#endif // _DEBUG
 
 	return S_OK;
 }

@@ -17,6 +17,7 @@
 #include "Player_Recoil.h"
 #include "Player_Attack.h"
 #include "Player_Damaged.h"
+#include "Player_Death.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -26,6 +27,19 @@ CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 CPlayer::CPlayer(const CPlayer& Prototype)
     : CContainerObject { Prototype }
 {
+}
+
+void CPlayer::Set_Damaged(_bool isDamaged, _uint iDamage)
+{
+    m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), isDamaged);
+    m_iHp -= iDamage;
+
+    if (m_iHp <= 0)
+    {
+        m_bIsDead = true;
+        m_pStateMachine->Set_BoolData(TEXT("Player_Dead"), true);
+        return;
+    }
 }
 
 HRESULT CPlayer::Initialize_Prototype()
@@ -41,6 +55,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
     m_eLayer = LAYER::PLAYER;
     m_bIsDead = false;
+    m_iHp = 100;
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
@@ -107,21 +122,16 @@ void CPlayer::Update_Late(_float fTimeDelta)
             // 겹친 만큼 밀어내고 (선형 보간 해야 부드러움)
             _vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
             _vector vAfterPosition = vPosition + XMVectorSetW(XMVectorScale(vNormal, fCollisionDepth), 0.f);
-            vAfterPosition = XMVectorLerp(vPosition, vAfterPosition, 0.2f);
+            vAfterPosition = XMVectorLerp(vPosition, vAfterPosition, 0.1f);
 
             // 슬라이딩
             _float fDot = XMVectorGetX(XMVector3Dot(vMoveDistance, vNormal));
             _vector vSliding = vMoveDistance - XMVectorScale(vNormal, fDot);
-            vAfterPosition = XMVectorLerp(vAfterPosition, vAfterPosition + XMVectorSetW(vSliding, 0.f), 0.2f);
+            vAfterPosition = XMVectorLerp(vAfterPosition, vAfterPosition + XMVectorSetW(vSliding, 0.f), 0.05f);
 
             m_pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(vAfterPosition, 1.f));
         }
     }
-
-#ifdef _DEBUG
-    m_pGameInstance->Add_DebugComponent(m_pColliderCom);
-    m_pGameInstance->Add_DebugComponent(m_pNavigationCom);
-#endif // _DEBUG
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
@@ -129,7 +139,9 @@ void CPlayer::Update_Late(_float fTimeDelta)
 HRESULT CPlayer::Render()
 {
 #ifdef _DEBUG
-    m_pColliderCom->Render();
+    if (m_bIsCollisionEnabled == true)
+        m_pColliderCom->Render();
+
     m_pNavigationCom->Render();
 #endif
 
@@ -149,7 +161,19 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
             m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), true);
         else
-            Set_Damaged(true);
+            Set_Damaged(true, 0);
+    }
+
+    if (pOtherObject->Get_Layer() == TEXT("Layer_BossWeapon"))
+    {
+        // 피격 당했는데 가드 중이었다면
+        if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
+            m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), true);
+        else
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Player_Knockback"), true);
+            Set_Damaged(true, 0);
+        }
     }
 }
 
@@ -162,7 +186,7 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
 
     if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
     {
-        Set_Damaged(false);
+        Set_Damaged(false, 0);
     }
 }
 
@@ -218,6 +242,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(DAMAGED, CPlayer_Damaged::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(DEATH, CPlayer_Death::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);

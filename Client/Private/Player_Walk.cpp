@@ -37,13 +37,18 @@ HRESULT CPlayer_Walk::Initialize(CGameObject* pOwner, CBody* pBody)
 void CPlayer_Walk::Enter_State()
 {
 	if (m_pPlayerBody != nullptr)
-		m_pPlayerBody->Set_Animation(3, true);
+		m_pPlayerBody->Set_Animation(4, true);
 }
 
 void CPlayer_Walk::Update_State(_float fTimeDelta)
 {
+    // 사망
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Dead"), false) == true)
+        m_pStateMachine->Change_State(CPlayer::DEATH);
+
     // 피격
-    if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false))
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) ||
+        m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
 
     // 질주

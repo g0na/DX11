@@ -30,8 +30,7 @@ HRESULT CWeapon_Boss::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_eLayer = LAYER::WEAPON;
-	//m_bIsCollisionEnabled = true;
+	m_eLayer = LAYER::WEAPON_BOSS;
 
 	return S_OK;
 }
@@ -58,11 +57,6 @@ void CWeapon_Boss::Update(_float fTimeDelta)
 
 void CWeapon_Boss::Update_Late(_float fTimeDelta)
 {
-#ifdef _DEBUG
-	for (_uint i = 0; i < m_iColliderCnt; i++)
-		m_pGameInstance->Add_DebugComponent(m_vecColliders[i]);
-#endif // _DEBUG
-
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
@@ -82,14 +76,14 @@ HRESULT CWeapon_Boss::Render()
 
 void CWeapon_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 {
-	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
 	}
 }
 
 void CWeapon_Boss::OnCollisionExit(CGameObject* pOtherObject)
 {
-	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
 	}
 }
@@ -100,13 +94,15 @@ HRESULT CWeapon_Boss::Ready_Components()
 	for (_uint i = 0; i < m_iColliderCnt; i++)
 	{
 		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-		SphereDesc.fRadius = 1.2f;
-		_float fOffset = SphereDesc.fRadius - 1.4f - (1.4f * i);
+		SphereDesc.fRadius = 1.5f;
+		_float fOffset = SphereDesc.fRadius - 1.4f - (1.5f * i);
 		SphereDesc.vCenter = _float3(0.f, fOffset, 0.f);
 
-		if (i == m_iColliderCnt - 1)
+		if (i == 0)
+			SphereDesc.fRadius = 3.f;
+		else if (i == m_iColliderCnt - 1)
 		{
-			SphereDesc.fRadius = 1.4f;
+			SphereDesc.fRadius = 1.5f;
 			SphereDesc.vCenter = _float3(-0.9f, fOffset - 0.35f, 0.f);
 		}
 

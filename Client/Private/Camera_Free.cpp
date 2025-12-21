@@ -29,7 +29,7 @@ HRESULT CCamera_Free::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
-    m_fDistance = 6.f;
+    m_fDistance = 4.f;
     m_fYaw = XM_PI;             // 180µµ
     m_fPitch = 0.5f;
 

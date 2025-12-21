@@ -114,18 +114,14 @@ void CMonster_Boss::Update(_float fTimeDelta)
 	m_pColliderBody->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
 	// µð¹ö±ë
-	_char buf[128];
-	sprintf_s(buf, "Distance : %f\n", m_fDistance);
-	OutputDebugStringA(buf);
+	//_char buf[128];
+	//sprintf_s(buf, "Distance : %f\n", m_fDistance);
+	//OutputDebugStringA(buf);
 }
 
 void CMonster_Boss::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
-
-#ifdef _DEBUG
-	m_pGameInstance->Add_DebugComponent(m_pColliderBody);
-#endif // _DEBUG
 
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
@@ -193,8 +189,8 @@ HRESULT CMonster_Boss::Ready_Components()
 
 	// For Com_Collider
 	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-	SphereDesc.fRadius = 2.f;
-	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius + 1.f, 0.f);
+	SphereDesc.fRadius = 3.5f;
+	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius + 0.5f, 0.f);
 
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderBody), &SphereDesc)))
@@ -240,7 +236,7 @@ HRESULT CMonster_Boss::Ready_PartObjects()
 
 	// Fly Collider
 	CFlyCollider_Boss::FLYCOLLIDER_BOSS_DESC FlyColliderDesc{};
-	FlyColliderDesc.pSocketMatrix = Get_SocketMatrix("Spine");
+	FlyColliderDesc.pSocketMatrix = Get_SocketMatrix("c2230");
 	FlyColliderDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 	if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_FlyCollider_Boss"),
 		TEXT("Part_FlyCollider_Boss"), &FlyColliderDesc)))

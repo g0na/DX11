@@ -33,7 +33,7 @@ private:
 
 public:
 	_float*				Get_CurAnglePtr() { return &m_fCurAngle; }
-	void				Set_Damaged(_bool isDamaged) { m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), isDamaged); }
+	void				Set_Damaged(_bool isDamaged, _uint iDamage);
 
 public:
 	virtual HRESULT Initialize_Prototype() override;		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -57,6 +57,8 @@ private:
 
 	_float			m_fCurAngle = { 0.f };
 	
+	_int			m_iHp = {};
+
 	_bool			m_bIsDamaged = {};
 
 private:

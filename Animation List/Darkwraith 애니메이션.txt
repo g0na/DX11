@@ -6,3 +6,4 @@ Darkwraith 애니메이션
 4 - ATK1
 5 - ATK2
 6 - ATK3
+7 - ATK4

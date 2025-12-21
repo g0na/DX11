@@ -115,10 +115,6 @@ void CMonster_Darkwraith::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
 
-#ifdef _DEBUG
-	m_pGameInstance->Add_DebugComponent(m_pColliderBody);
-#endif // _DEBUG
-
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 

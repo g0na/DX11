@@ -48,7 +48,7 @@ void CBoss_FlyAttack::Update_State(_float fTimeDelta)
 
     _uint iCurAnimIndex = m_pMonsterModel->Get_CurAnimIndex();
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.33f &&
-        m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 4.165f)
+        m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 4.f)
         m_pFlyCollider->Set_CollisionEnabled(true);                 // 콜라이더 활성화
     else
         m_pFlyCollider->Set_CollisionEnabled(false);                // 콜라이더 비활성화

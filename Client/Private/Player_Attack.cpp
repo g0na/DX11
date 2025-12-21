@@ -40,7 +40,7 @@ HRESULT CPlayer_Attack::Initialize(CGameObject* pOwner, CBody* pBody)
 void CPlayer_Attack::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
-        m_pPlayerBody->Set_Animation(25, false);
+        m_pPlayerBody->Set_Animation(26, false);
 
     // 처음 공격 상태로 들어오면 무조건 공격 횟수 증가
     m_iAttackCnt++;
@@ -77,8 +77,12 @@ void CPlayer_Attack::Enter_State()
 void CPlayer_Attack::Update_State(_float fTimeDelta)
 {
     // 피격
-    if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false))
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) ||
+        m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
+    {
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
+        return;
+    }
 
     m_fAttackDelay += fTimeDelta;
 
@@ -96,7 +100,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             // 최소 0.76초  최대 2.5초
             if (m_fAttackDelay >= 0.6f)
             {
-                m_pPlayerBody->Set_Animation(25, false);
+                m_pPlayerBody->Set_Animation(26, false);
 
                 m_iAttackCnt++;
                 m_fAttackDelay = 0.f;
@@ -110,7 +114,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             // 최소 0.73초 최대 2.233초
             if (m_fAttackDelay >= 0.6f)
             {
-                m_pPlayerBody->Set_Animation(26, false);
+                m_pPlayerBody->Set_Animation(27, false);
 
                 m_iAttackCnt = 0;
                 m_fAttackDelay = 0.f;

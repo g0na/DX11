@@ -14,7 +14,7 @@ namespace Engine
 	enum class MODEL { NONANIM, ANIM }; 
 	enum class CELLPOINT { A, B, C, END };
 	enum class LINE { AB, BC, CA, END };
-	enum class LAYER { PLAYER, WEAPON, MONSTER, OBJECT, MAP, CAMERA, END };
+	enum class LAYER { PLAYER, WEAPON, WEAPON_BOSS, MONSTER, OBJECT, MAP, CAMERA, END };
 	enum class COLLIDER { SPHERE, AABB, OBB, END };
 	enum class DEFERRED { DEBUG, DIRECTIONAL, POINT, COMBINED, END };
 }

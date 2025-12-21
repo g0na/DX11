@@ -119,8 +119,6 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
             }
 
             static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(4, false);
-            /*m_iAttackCnt++;
-            m_fAttackDelay = 0.f;*/
             m_pStateMachine->Change_State(CMonster_Boss::IDLE);
         }
         break;
@@ -154,8 +152,8 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
 			}
 
             static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(5, false);
-			m_iAttackCnt++;
-			m_fAttackDelay = 0.f;
+            m_iAttackCnt++;
+            m_fAttackDelay = 0.f;
 		}
 		break;
 
@@ -188,8 +186,14 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
             }
 
             static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(6, false);
-            m_iAttackCnt++;
-            m_fAttackDelay = 0.f;
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 6.f)
+            {
+                m_iAttackCnt++;
+                m_fAttackDelay = 0.f;
+            }
+            else
+                m_pStateMachine->Change_State(CMonster_Boss::IDLE);
         }
         break;
 
@@ -226,7 +230,6 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
             m_fAttackDelay = 0.f;
         }
         break;
-
     }
 }
 

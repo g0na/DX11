@@ -56,10 +56,15 @@ void CBoss_Walk::Update_State(_float fTimeDelta)
         m_pStateMachine->Change_State(CMonster_Boss::IDLE);
     else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 6.f)
     {
-        if (m_pGameInstance->Random(1.f, 10.f) >= 6.f)
+        if (m_pGameInstance->Random(1.f, 10.f) >= 7.f)
             m_pStateMachine->Change_State(CMonster_Boss::FLYATTACK);
         else
-            m_pStateMachine->Change_State(CMonster_Boss::BACKSTEP);
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pStateMachine->Change_State(CMonster_Boss::BACKSTEP);
+            else
+                m_pStateMachine->Change_State(CMonster_Boss::ATTACK);
+        }
     }
 	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 14.f)
 		m_pStateMachine->Change_State(CMonster_Boss::ATTACK);

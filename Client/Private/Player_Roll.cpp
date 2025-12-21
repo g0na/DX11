@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "Player.h"
 #include "Body.h"
+#include "Animation.h"
 #include "GameInstance.h"
 #include "Camera_Free.h"
 
@@ -21,11 +22,13 @@ HRESULT CPlayer_Roll::Initialize(CGameObject* pOwner, CBody* pBody)
     Safe_AddRef(m_pPlayerBody);
     m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
     Safe_AddRef(m_pPlayerCamera);
+    m_pPlayerModel = m_pPlayerBody->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
         m_pPlayerBody == nullptr ||
-        m_pPlayerCamera == nullptr)
+        m_pPlayerCamera == nullptr ||
+        m_pPlayerModel == nullptr)
         return E_FAIL;
 
     CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
@@ -37,7 +40,7 @@ HRESULT CPlayer_Roll::Initialize(CGameObject* pOwner, CBody* pBody)
 void CPlayer_Roll::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
-        m_pPlayerBody->Set_Animation(8, false);
+        m_pPlayerBody->Set_Animation(9, false);
 
     m_CanRoll = false;
     m_fCoolDown = 0.f;
@@ -71,7 +74,24 @@ void CPlayer_Roll::Enter_State()
 
 void CPlayer_Roll::Update_State(_float fTimeDelta)
 {
+    // »ç¸Á
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Dead"), false) == true)
+        m_pStateMachine->Change_State(CPlayer::DEATH);
+
+    // ÇÇ°Ý
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false) == true)
+    {
+        m_pStateMachine->Change_State(CPlayer::DAMAGED);
+        return;
+    }
+
     m_fCoolDown += fTimeDelta;
+
+    if (m_pPlayerModel->Get_Animation(8)->Get_CurrentTrackPosition() >= 0.133f &&
+        m_pPlayerModel->Get_Animation(8)->Get_CurrentTrackPosition() <= 0.433f)
+        static_cast<CPlayer*>(m_pOwner)->Set_CollisionEnabled(false);
+    else
+        static_cast<CPlayer*>(m_pOwner)->Set_CollisionEnabled(true);
 
     if (m_fCoolDown >= 0.95f)
         m_CanRoll = true;

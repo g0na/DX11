@@ -112,6 +112,9 @@ const _wstring CGameObject::Get_Layer() const
 	case LAYER::WEAPON:
 		return TEXT("Layer_Weapon");
 
+	case LAYER::WEAPON_BOSS:
+		return TEXT("Layer_BossWeapon");
+
 	case LAYER::MONSTER:
 		return TEXT("Layer_Monster");
 
