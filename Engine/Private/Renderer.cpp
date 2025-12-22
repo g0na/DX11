@@ -120,7 +120,7 @@ void CRenderer::Draw_Priority()
 	// Priority 리스트를 순회 하면서 그려준다.
 	for (auto& RenderObject : m_listRenderObj[ENUM_TO_UINT(RENDERGROUP::PRIORITY)])
 	{
-		if (RenderObject != nullptr)
+		if (RenderObject != nullptr && RenderObject->Get_IsActive())
 			RenderObject->Render();
 
 		Safe_Release(RenderObject);
@@ -137,7 +137,7 @@ void CRenderer::Draw_Nonblend()
 	// Nonblend 리스트를 순회 하면서 그려준다.
 	for (auto& RenderObject : m_listRenderObj[ENUM_TO_UINT(RENDERGROUP::NONBLEND)])
 	{
-		if (RenderObject != nullptr)
+		if (RenderObject != nullptr && RenderObject->Get_IsActive())
 			RenderObject->Render();
 
 		Safe_Release(RenderObject);
@@ -220,7 +220,7 @@ void CRenderer::Draw_Blend()
 	// Blend 리스트를 순회 하면서 그려준다.
 	for (auto& RenderObject : m_listRenderObj[ENUM_TO_UINT(RENDERGROUP::BLEND)])
 	{
-		if (RenderObject != nullptr)
+		if (RenderObject != nullptr && RenderObject->Get_IsActive())
 			RenderObject->Render();
 
 		Safe_Release(RenderObject);
@@ -233,7 +233,7 @@ void CRenderer::Draw_UI()
 	// UI 리스트를 순회 하면서 그려준다.
 	for (auto& RenderObject : m_listRenderObj[ENUM_TO_UINT(RENDERGROUP::UI)])
 	{
-		if (RenderObject != nullptr)
+		if (RenderObject != nullptr && RenderObject->Get_IsActive())
 			RenderObject->Render();
 
 		Safe_Release(RenderObject);
