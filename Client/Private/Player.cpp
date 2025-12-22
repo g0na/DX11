@@ -18,6 +18,9 @@
 #include "Player_Attack.h"
 #include "Player_Damaged.h"
 #include "Player_Death.h"
+#include "Player_HealStart.h"
+#include "Player_Healing.h"
+#include "Player_HealEnd.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -32,9 +35,9 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 void CPlayer::Set_Damaged(_bool isDamaged, _uint iDamage)
 {
     m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), isDamaged);
-    m_iHp -= iDamage;
+    m_iCurHp -= iDamage;
 
-    if (m_iHp <= 0)
+    if (m_iCurHp <= 0)
     {
         m_bIsDead = true;
         m_pStateMachine->Set_BoolData(TEXT("Player_Dead"), true);
@@ -55,7 +58,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 
     m_eLayer = LAYER::PLAYER;
     m_bIsDead = false;
-    m_iHp = 100;
+    m_iMaxHp = 100;
+    m_iCurHp = m_iMaxHp;
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
@@ -157,6 +161,10 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
     
     if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
     {
+        // 무적 상태라면 반환
+        if (m_pStateMachine->Get_BoolData(TEXT("Player_Invincible"), false) == true)
+            return;
+
         // 피격 당했는데 가드 중이었다면
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
             m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), true);
@@ -166,9 +174,13 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
 
     if (pOtherObject->Get_Layer() == TEXT("Layer_BossWeapon"))
     {
+        // 무적 상태라면 반환
+        if (m_pStateMachine->Get_BoolData(TEXT("Player_Invincible"), false) == true)
+            return;
+
         // 피격 당했는데 가드 중이었다면
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
-            m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), true);
+            m_pStateMachine->Set_BoolData(TEXT("Player_Guard_Knockback"), true);
         else
         {
             m_pStateMachine->Set_BoolData(TEXT("Player_Knockback"), true);
@@ -188,6 +200,14 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
     {
         Set_Damaged(false, 0);
     }
+}
+
+void CPlayer::Heal(_uint iHealAmount)
+{
+    m_iCurHp += iHealAmount;
+
+    if (m_iCurHp >= m_iMaxHp)
+        m_iCurHp = m_iMaxHp;
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -245,6 +265,15 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(DEATH, CPlayer_Death::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(HEAL_START, CPlayer_HealStart::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(HEAL_ING, CPlayer_Healing::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(HEAL_END, CPlayer_HealEnd::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);

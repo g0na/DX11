@@ -18,9 +18,7 @@ HRESULT CPlayer_Run::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
-    Safe_AddRef(m_pPlayerBody);
     m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
-    Safe_AddRef(m_pPlayerCamera);
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
@@ -78,7 +76,7 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
         // 공격
         else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
             m_pStateMachine->Change_State(CPlayer::ATTACK);
-        
+
         // 회전 관련
         m_vInputDir = XMVector3Normalize(m_vInputDir);
         _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
@@ -131,7 +129,5 @@ void CPlayer_Run::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pPlayerBody);
-    Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pGameInstance);
 }

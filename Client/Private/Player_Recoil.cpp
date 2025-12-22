@@ -1,6 +1,8 @@
 #include "Player_Recoil.h"
 #include "Player.h"
 #include "Body.h"
+#include "Animation.h"
+#include "Model.h"
 
 CPlayer_Recoil::CPlayer_Recoil()
 {
@@ -12,10 +14,11 @@ HRESULT CPlayer_Recoil::Initialize(CGameObject* pOwner, CBody* pBody)
 
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
-    Safe_AddRef(m_pPlayerBody);
+    m_pPlayerModel = m_pPlayerBody->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
-        m_pPlayerBody == nullptr)
+        m_pPlayerBody == nullptr ||
+        m_pPlayerModel == nullptr)
         return E_FAIL;
 
     return S_OK;
@@ -23,7 +26,13 @@ HRESULT CPlayer_Recoil::Initialize(CGameObject* pOwner, CBody* pBody)
 
 void CPlayer_Recoil::Enter_State()
 {
-    if (m_pPlayerBody != nullptr)
+    if (m_pPlayerBody == nullptr)
+        return;
+
+    // 넉백 유무에 따른 애니메이션 재생
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Knockback"), false) == true)
+        m_pPlayerBody->Set_Animation(3, false);
+    else
         m_pPlayerBody->Set_Animation(2, false);
 
     m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), false);
@@ -31,20 +40,31 @@ void CPlayer_Recoil::Enter_State()
 
 void CPlayer_Recoil::Update_State(_float fTimeDelta)
 {
-    // 막다가 공격 또 들어오면 다시
+    // 무적
+    if (m_pPlayerModel->Get_Animation(3)->Get_CurrentTrackPosition() <= 0.833f)
+        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
+
+    // 반동 애니 재생 중 반동 상태 재진입
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true)
     {
         Enter_State();
         return;
     }
 
-    if (m_pPlayerBody->Get_IsAnimFinish() == true)
+    // 무적 해제 및 상태 종료
+    if (m_pPlayerModel->Get_Animation(3)->Get_CurrentTrackPosition() >= 1.566f)
+    {
+        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), false);
+        m_pStateMachine->Change_State(CPlayer::GUARD);
+    }
+    else if (m_pPlayerBody->Get_IsAnimFinish() == true)
         m_pStateMachine->Change_State(CPlayer::GUARD);
 }
 
 void CPlayer_Recoil::Exit_State()
 {
     m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), false);
+    m_pStateMachine->Set_BoolData(TEXT("Player_Guard_Knockback"), false);
 }
 
 CPlayer_Recoil* CPlayer_Recoil::Create(CGameObject* pOwner, CBody* pBody)
@@ -63,6 +83,4 @@ CPlayer_Recoil* CPlayer_Recoil::Create(CGameObject* pOwner, CBody* pBody)
 void CPlayer_Recoil::Free()
 {
     __super::Free();
-
-    Safe_Release(m_pPlayerBody);
 }

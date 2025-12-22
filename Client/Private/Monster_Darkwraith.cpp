@@ -56,7 +56,7 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 0.f, 5.f, 1.f));
+	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(20.f, 0.f, 5.f, 1.f));
 
 	// 플레이어 정보 세팅
 	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));

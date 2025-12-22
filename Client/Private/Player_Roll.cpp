@@ -19,9 +19,7 @@ HRESULT CPlayer_Roll::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
-    Safe_AddRef(m_pPlayerBody);
     m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
-    Safe_AddRef(m_pPlayerCamera);
     m_pPlayerModel = m_pPlayerBody->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
@@ -87,13 +85,14 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
 
     m_fCoolDown += fTimeDelta;
 
-    if (m_pPlayerModel->Get_Animation(8)->Get_CurrentTrackPosition() >= 0.133f &&
-        m_pPlayerModel->Get_Animation(8)->Get_CurrentTrackPosition() <= 0.433f)
-        static_cast<CPlayer*>(m_pOwner)->Set_CollisionEnabled(false);
+    // 무적 상태 조정
+    if (m_pPlayerModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 0.4f)
+        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
     else
-        static_cast<CPlayer*>(m_pOwner)->Set_CollisionEnabled(true);
+        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), false);
 
-    if (m_fCoolDown >= 0.95f)
+    // 키 입력 가능상황
+    if (m_fCoolDown >= 1.1f)
         m_CanRoll = true;
 
     if (m_CanRoll)
@@ -165,7 +164,5 @@ void CPlayer_Roll::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pPlayerBody);
-    Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pGameInstance);
 }

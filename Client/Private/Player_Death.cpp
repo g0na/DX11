@@ -15,17 +15,9 @@ HRESULT CPlayer_Death::Initialize(CGameObject* pOwner, CBody* pBody)
 {
     __super::Initialize(pOwner);
 
-    m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
-    m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
-    Safe_AddRef(m_pPlayerBody);
-    m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
-    Safe_AddRef(m_pPlayerCamera);
 
-    if (m_pStateMachine == nullptr ||
-        m_pPlayerTransform == nullptr ||
-        m_pPlayerBody == nullptr ||
-        m_pPlayerCamera == nullptr)
+    if (m_pPlayerBody == nullptr)
         return E_FAIL;
 
     return S_OK;
@@ -64,7 +56,5 @@ void CPlayer_Death::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pPlayerBody);
-    Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pGameInstance);
 }

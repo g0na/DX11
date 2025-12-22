@@ -18,9 +18,7 @@ HRESULT CPlayer_Idle::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
-    Safe_AddRef(m_pPlayerBody);
     m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
-    Safe_AddRef(m_pPlayerCamera);
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
@@ -72,6 +70,9 @@ void CPlayer_Idle::Update_State(_float fTimeDelta)
     // 공격
     else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
         m_pStateMachine->Change_State(CPlayer::ATTACK);
+    // 회복
+    else if (m_pGameInstance->Get_KeyDown(DIK_R))
+        m_pStateMachine->Change_State(CPlayer::HEAL_START);
     // 걷기
     else if (!XMVector3Equal(vInputDir, XMVectorZero()))
     {
@@ -100,7 +101,5 @@ void CPlayer_Idle::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pPlayerBody);
-    Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pGameInstance);
 }

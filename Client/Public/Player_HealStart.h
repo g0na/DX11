@@ -3,18 +3,18 @@
 #include "State.h"
 
 NS_BEGIN(Engine)
+class CGameInstance;
 class CStateMachine;
-class CModel;
 NS_END
 
 NS_BEGIN(Client)
 
-class CPlayer_Recoil final : public CState
+class CPlayer_HealStart final : public CState
 {
 private:
-	CPlayer_Recoil();
-	CPlayer_Recoil(const CPlayer_Recoil& Prototype) = delete;
-	virtual ~CPlayer_Recoil() = default;
+	CPlayer_HealStart();
+	CPlayer_HealStart(const CPlayer_HealStart& Prototype) = delete;
+	virtual ~CPlayer_HealStart() = default;
 
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner, class CBody* pBody);
@@ -24,12 +24,12 @@ public:
 	virtual void Exit_State() override;
 
 private:
+	CGameInstance*	m_pGameInstance = { nullptr };
 	CStateMachine*	m_pStateMachine = { nullptr };
-	CModel*			m_pPlayerModel = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
 
 public:
-	static CPlayer_Recoil* Create(class CGameObject* pOwner, CBody* pBody);
+	static CPlayer_HealStart* Create(class CGameObject* pOwner, CBody* pBody);
 	virtual void Free() override;
 };
 

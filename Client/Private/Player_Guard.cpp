@@ -18,9 +18,7 @@ HRESULT CPlayer_Guard::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
-    Safe_AddRef(m_pPlayerBody);
     m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
-    Safe_AddRef(m_pPlayerCamera);
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
@@ -44,7 +42,8 @@ void CPlayer_Guard::Enter_State()
 
 void CPlayer_Guard::Update_State(_float fTimeDelta)
 {
-    if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true)
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true ||
+        m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Knockback"), false) == true)
     {
         m_pStateMachine->Change_State(CPlayer::RECOIL);        
         return;
@@ -123,7 +122,5 @@ void CPlayer_Guard::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pPlayerBody);
-    Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pGameInstance);
 }

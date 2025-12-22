@@ -22,7 +22,7 @@ public:
 		ATTACK,
 		DAMAGED,
 		DEATH,
-		HEAL,
+		HEAL_START, HEAL_ING, HEAL_END,
 		END
 	};
 
@@ -47,6 +47,8 @@ public:
 	virtual void OnCollisionEnter(CGameObject* pOtherObject) override;
 	virtual void OnCollisionExit(CGameObject* pOtherObject) override;
 
+	void Heal(_uint iHealAmount);
+
 private:	
 	class CBody*	m_pBody = { nullptr };
 	CCollider*		m_pColliderCom = { nullptr };
@@ -57,7 +59,8 @@ private:
 
 	_float			m_fCurAngle = { 0.f };
 	
-	_int			m_iHp = {};
+	_int			m_iMaxHp = {};
+	_int			m_iCurHp = {};
 
 	_bool			m_bIsDamaged = {};
 

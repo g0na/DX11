@@ -172,6 +172,9 @@
     <Filter Include="02. GameObjects\02. Player\99. States\07. Death">
       <UniqueIdentifier>{ae8f50c8-b72f-4cf3-b2c5-82d8d77a9f4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\08. Heal">
+      <UniqueIdentifier>{be3b79a9-bcc0-466c-ad4f-7075f7e952ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -305,6 +308,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Death.h">
       <Filter>02. GameObjects\02. Player\99. States\07. Death</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_HealStart.h">
+      <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_HealEnd.h">
+      <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Healing.h">
+      <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -440,6 +452,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Death.cpp">
       <Filter>02. GameObjects\02. Player\99. States\07. Death</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_HealStart.cpp">
+      <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_HealEnd.cpp">
+      <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Healing.cpp">
+      <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

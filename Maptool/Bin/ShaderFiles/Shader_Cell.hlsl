@@ -26,7 +26,7 @@ VS_OUT VS_MAIN(VS_IN In)
 
 struct PS_IN
 {
-    float4 vPosition : SV_POSITION; 
+    float4 vPosition : SV_POSITION;
 };
 
 struct PS_OUT

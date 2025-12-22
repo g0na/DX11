@@ -31,6 +31,12 @@ DepthStencilState DSS_Default
     DepthFunc = LESS_EQUAL;
 };
 
+DepthStencilState DSS_None
+{
+    DepthEnable = false;
+    DepthWriteMask = zero;
+};
+
 DepthStencilState DSS_Sky
 {
     DepthEnable = false;
@@ -49,5 +55,15 @@ BlendState BS_AlphaBlend
 
     SrcBlend = src_alpha;
     DestBlend = inv_src_alpha;
+    BlendOp = add;
+};
+
+BlendState BS_Blend
+{
+    BlendEnable[0] = true;
+    BlendEnable[1] = true;
+
+    SrcBlend = one;
+    DestBlend = one;
     BlendOp = add;
 };
