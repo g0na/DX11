@@ -34,10 +34,19 @@ HRESULT CBoss_Attack::Initialize(CGameObject* pOwner)
 
 void CBoss_Attack::Enter_State()
 {
-    if (m_pOwner != nullptr)
+    if (m_pOwner == nullptr)
+        return;
+
+    if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+    {
         static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(4, false);
-    
-    m_iAttackCnt++;
+        m_iAttackCnt++;
+    }
+    else
+    {
+        static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(6, false);
+        m_iAttackCnt = 3;
+    }
 }
 
 void CBoss_Attack::Update_State(_float fTimeDelta)
@@ -187,7 +196,7 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
 
             static_cast<CMonster_Boss*>(m_pOwner)->Set_Animation(6, false);
 
-            if (m_pGameInstance->Random(1.f, 10.f) >= 6.f)
+            if (m_pGameInstance->Random(1.f, 10.f) >= 3.f)
             {
                 m_iAttackCnt++;
                 m_fAttackDelay = 0.f;

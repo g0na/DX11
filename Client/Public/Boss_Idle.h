@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 class CGameInstance;
 class CStateMachine;
+class CTransform;
 NS_END
 
 NS_BEGIN(Client)
@@ -26,6 +27,11 @@ public:
 private:
 	CGameInstance*					m_pGameInstance = { nullptr };
 	CStateMachine*					m_pStateMachine = { nullptr };
+	CTransform*						m_pMonsterTransform = { nullptr };
+
+private:
+	_float*		m_pCurAngle = { nullptr };
+	_float		m_fCoolDown = {};
 
 public:
 	static CBoss_Idle* Create(class CGameObject* pOwner);
