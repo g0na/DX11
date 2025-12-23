@@ -30,7 +30,8 @@ private:
 	CTransform* m_pMonsterTransform = { nullptr };
 
 private:
-	_float* m_pCurAngle = { nullptr };
+	_float*		m_pCurAngle = { nullptr };
+	_float		m_fCoolDown = {};
 
 public:
 	static CBoss_Walk* Create(class CGameObject* pOwner);

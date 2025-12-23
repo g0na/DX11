@@ -33,6 +33,8 @@ void CDarkwraith_Walk::Enter_State()
 
 void CDarkwraith_Walk::Update_State(_float fTimeDelta)
 {
+    m_fCoolDown += fTimeDelta;
+
     _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
 	_vector vTargetDir = XMVector3Normalize(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION));
 
@@ -57,12 +59,14 @@ void CDarkwraith_Walk::Update_State(_float fTimeDelta)
 
 	if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Targeting"), false) == false)
 		m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
-	else if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) <= 3.f)
+	else if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) <= 3.f &&
+             m_fCoolDown >= 1.f)
 		m_pStateMachine->Change_State(CMonster_Darkwraith::ATTACK); 
 }
 
 void CDarkwraith_Walk::Exit_State()
 {
+    m_fCoolDown = 0.f;
 }
 
 CDarkwraith_Walk* CDarkwraith_Walk::Create(CGameObject* pOwner)

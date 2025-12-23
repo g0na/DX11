@@ -33,6 +33,8 @@ void CBoss_Walk::Enter_State()
 
 void CBoss_Walk::Update_State(_float fTimeDelta)
 {
+    m_fCoolDown += fTimeDelta;
+
     // »ç¸Á
     if (m_pStateMachine->Get_BoolData(TEXT("Boss_Dead"), false) == true)
         m_pStateMachine->Change_State(CMonster_Boss::DEATH);
@@ -59,9 +61,11 @@ void CBoss_Walk::Update_State(_float fTimeDelta)
 
     if (m_pStateMachine->Get_BoolData(TEXT("Boss_Targeting"), false) == false)
         m_pStateMachine->Change_State(CMonster_Boss::IDLE);
-    else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 6.f)
+    else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 6.f &&
+             m_fCoolDown >= 1.f)
     {
-        if (m_pGameInstance->Random(1.f, 10.f) >= 7.f)
+        if (m_pGameInstance->Random(1.f, 10.f) >= 7.f && 
+            m_fCoolDown >= 1.f)
             m_pStateMachine->Change_State(CMonster_Boss::FLYATTACK);
         else
         {
@@ -71,14 +75,17 @@ void CBoss_Walk::Update_State(_float fTimeDelta)
                 m_pStateMachine->Change_State(CMonster_Boss::ATTACK);
         }
     }
-	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 14.f)
+	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 14.f && 
+             m_fCoolDown >= 1.f)
 		m_pStateMachine->Change_State(CMonster_Boss::ATTACK);
-	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 18.f)
+	else if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 18.f && 
+             m_fCoolDown >= 1.f)
 		m_pStateMachine->Change_State(CMonster_Boss::DASHATTACK);
 }
 
 void CBoss_Walk::Exit_State()
 {
+    m_fCoolDown = 0.f;
 }
 
 CBoss_Walk* CBoss_Walk::Create(CGameObject* pOwner)

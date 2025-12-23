@@ -31,6 +31,7 @@ private:
 
 private:
 	_float* m_pCurAngle = { nullptr };
+	_float	m_fCoolDown = {};
 
 public:
 	static CDarkwraith_Walk* Create(class CGameObject* pOwner);

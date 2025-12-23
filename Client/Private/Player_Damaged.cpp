@@ -44,18 +44,16 @@ void CPlayer_Damaged::Enter_State()
     }
 
     // 피격
-    if (m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
-    {
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false) == true)
         m_pPlayerBody->Set_Animation(15, false);
-    }
     else
         m_pPlayerBody->Set_Animation(14, false);
-
-    m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), false);
 }
 
 void CPlayer_Damaged::Update_State(_float fTimeDelta)
 {
+    m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), false);
+
     // 무적
     if (m_pPlayerModel->Get_Animation(15)->Get_CurrentTrackPosition() <= 3.6f)
         m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
@@ -67,7 +65,7 @@ void CPlayer_Damaged::Update_State(_float fTimeDelta)
         return;
     }
     
-    // 무적 해제 및 상태 끝
+    // 넉백 일 때 무적 해제 및 상태 끝
     if (m_pPlayerModel->Get_Animation(15)->Get_CurrentTrackPosition() > 3.6f)
     {
         m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), false);

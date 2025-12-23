@@ -31,7 +31,6 @@ private:
 
 private:
 	_float*		m_pCurAngle = { nullptr };
-	_float		m_fCoolDown = {};
 
 public:
 	static CBoss_Idle* Create(class CGameObject* pOwner);
