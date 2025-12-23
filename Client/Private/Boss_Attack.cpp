@@ -51,6 +51,10 @@ void CBoss_Attack::Enter_State()
 
 void CBoss_Attack::Update_State(_float fTimeDelta)
 {
+    // »ç¸Á
+    if (m_pStateMachine->Get_BoolData(TEXT("Boss_Dead"), false) == true)
+        m_pStateMachine->Change_State(CMonster_Boss::DEATH);
+
     _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
     _vector vTargetDir = XMVector3Normalize(XMVectorSetW(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION), 0.f));
     _vector vLook = XMVector3Normalize(m_pMonsterTransform->Get_State(STATE::LOOK));

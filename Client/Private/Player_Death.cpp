@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "Body.h"
 #include "GameInstance.h"
-#include "Camera_Free.h"
 
 CPlayer_Death::CPlayer_Death()
     : m_pGameInstance { CGameInstance::GetInstance() }

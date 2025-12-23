@@ -154,6 +154,7 @@
     <ClInclude Include="..\Public\Boss_Attack.h" />
     <ClInclude Include="..\Public\Boss_Backstep.h" />
     <ClInclude Include="..\Public\Boss_DashAttack.h" />
+    <ClInclude Include="..\Public\Boss_Death.h" />
     <ClInclude Include="..\Public\Boss_FlyAttack.h" />
     <ClInclude Include="..\Public\Boss_Idle.h" />
     <ClInclude Include="..\Public\Boss_Walk.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="..\Private\Boss_Attack.cpp" />
     <ClCompile Include="..\Private\Boss_Backstep.cpp" />
     <ClCompile Include="..\Private\Boss_DashAttack.cpp" />
+    <ClCompile Include="..\Private\Boss_Death.cpp" />
     <ClCompile Include="..\Private\Boss_FlyAttack.cpp" />
     <ClCompile Include="..\Private\Boss_Idle.cpp" />
     <ClCompile Include="..\Private\Boss_Walk.cpp" />

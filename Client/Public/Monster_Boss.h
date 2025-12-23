@@ -38,7 +38,7 @@ public:
 	_float*				Get_CurAnglePtr() { return &m_fCurAngle; }
 	
 	void				Set_Animation(_uint iAnimationIndex, _bool isLoop);
-	void				Set_Damaged(_bool isDamaged) { m_pStateMachine->Set_BoolData(TEXT("Boss_Damaged"), isDamaged); }
+	void				Set_Damaged(_uint iDamage);
 
 public:
 	virtual HRESULT Initialize_Prototype() override;							// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -59,9 +59,13 @@ private:
 	CPlayer*			m_pPlayer = { nullptr };
 	
 	_vector				m_vPlayerPos = {};
+
 	_bool				m_bIsTargeting = {};
 	_bool				m_bAttackReady = {};
 	_bool				m_bIsDamaged = {};
+
+	_int				m_iHp = {};
+
 	_float				m_fCurAngle = {};
 	_float				m_fDistance = {};
 

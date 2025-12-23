@@ -7,6 +7,7 @@
 #include "Boss_Attack.h"
 #include "Boss_DashAttack.h"
 #include "Boss_FlyAttack.h"
+#include "Boss_Death.h"
 
 #include "Weapon_Boss.h"
 #include "FlyCollider_Boss.h"
@@ -32,6 +33,18 @@ const _float4x4* CMonster_Boss::Get_SocketMatrix(const _char* pBoneName)
 void CMonster_Boss::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 {
 	m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
+void CMonster_Boss::Set_Damaged(_uint iDamage)
+{
+	m_iHp -= iDamage;
+
+	if (m_iHp <= 0)
+	{
+		m_bIsDead = true;
+		m_pStateMachine->Set_BoolData(TEXT("Boss_Dead"), true);
+		return;
+	}
 }
 
 HRESULT CMonster_Boss::Initialize_Prototype()
@@ -66,6 +79,7 @@ HRESULT CMonster_Boss::Initialize(void* pArg)
 	Safe_AddRef(m_pPlayer);
 
 	m_bIsCollisionEnabled = true;
+	m_iHp = 1000;
 
 	return S_OK;
 }
@@ -158,7 +172,7 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
-		Set_Damaged(true);
+		Set_Damaged(1000);
 	}
 }
 
@@ -166,7 +180,6 @@ void CMonster_Boss::OnCollisionExit(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
-		Set_Damaged(false);
 	}
 }
 
@@ -217,6 +230,9 @@ HRESULT CMonster_Boss::Ready_States()
 		return E_FAIL;
 
 	if (FAILED(m_pStateMachine->Add_State(FLYATTACK, CBoss_FlyAttack::Create(this))))
+		return E_FAIL;
+
+	if (FAILED(m_pStateMachine->Add_State(DEATH, CBoss_Death::Create(this))))
 		return E_FAIL;
 
 	m_pStateMachine->Set_State(IDLE);
