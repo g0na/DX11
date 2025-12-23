@@ -28,7 +28,7 @@ void CLayer::Update_Priority(_float fTimeDelta)
 {
 	for (auto& pGameObject : m_listObject)
 	{
-		if (pGameObject != nullptr)
+		if (pGameObject != nullptr && pGameObject->Get_IsActive())
 			pGameObject->Update_Priority(fTimeDelta);
 	}
 }
@@ -37,7 +37,7 @@ void CLayer::Update(_float fTimeDelta)
 {
 	for (auto& pGameObject : m_listObject)
 	{
-		if (pGameObject != nullptr)
+		if (pGameObject != nullptr && pGameObject->Get_IsActive())
 			pGameObject->Update(fTimeDelta);
 	}
 }
@@ -46,7 +46,7 @@ void CLayer::Update_Late(_float fTimeDelta)
 {
 	for (auto& pGameObject : m_listObject)
 	{
-		if (pGameObject != nullptr)
+		if (pGameObject != nullptr && pGameObject->Get_IsActive())
 			pGameObject->Update_Late(fTimeDelta);
 	}
 }

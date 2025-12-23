@@ -163,6 +163,7 @@
     <ClInclude Include="..\Public\Darkwraith_Damaged.h" />
     <ClInclude Include="..\Public\Darkwraith_Idle.h" />
     <ClInclude Include="..\Public\Darkwraith_Walk.h" />
+    <ClInclude Include="..\Public\Estus.h" />
     <ClInclude Include="..\Public\FlyCollider_Boss.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="..\Private\Darkwraith_Damaged.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Idle.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Walk.cpp" />
+    <ClCompile Include="..\Private\Estus.cpp" />
     <ClCompile Include="..\Private\FlyCollider_Boss.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />

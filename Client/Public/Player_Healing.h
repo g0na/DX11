@@ -27,6 +27,8 @@ private:
 	CGameInstance*	m_pGameInstance = { nullptr };
 	CStateMachine*	m_pStateMachine = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
+	class CEstus*	m_pEstus = { nullptr };
+	class CWeapon*	m_pWeapon = { nullptr };
 
 	_float			m_fCoolDown = {};
 

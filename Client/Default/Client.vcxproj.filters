@@ -175,6 +175,9 @@
     <Filter Include="02. GameObjects\02. Player\99. States\08. Heal">
       <UniqueIdentifier>{be3b79a9-bcc0-466c-ad4f-7075f7e952ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\02. Player\05. Estus Flask">
+      <UniqueIdentifier>{65ee6c5e-0cd6-45fd-a924-8ba739fbd8e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -317,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_Healing.h">
       <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Estus.h">
+      <Filter>02. GameObjects\02. Player\05. Estus Flask</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_Healing.cpp">
       <Filter>02. GameObjects\02. Player\99. States\08. Heal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Estus.cpp">
+      <Filter>02. GameObjects\02. Player\05. Estus Flask</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

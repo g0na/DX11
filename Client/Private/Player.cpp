@@ -5,6 +5,7 @@
 #include "Weapon.h"
 #include "WeaponCase.h"
 #include "Shield.h"
+#include "Estus.h"
 #include "Bounding_Sphere.h"
 #include "Collider.h"
 #include "Navigation.h"
@@ -334,6 +335,14 @@ HRESULT CPlayer::Ready_PartObjects()
     ShieldDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
     if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Shield_Player"),
         TEXT("Part_Shield"), &ShieldDesc)))
+        return E_FAIL;
+
+    // Estus
+    CEstus::ESTUS_DESC EstusDesc{};
+    EstusDesc.pSocketMatrix = m_pBody->Get_SocketMatrix("R_Hand");
+    EstusDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    if (FAILED(__super::Add_PartObject(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Estus"),
+        TEXT("Part_Estus"), &EstusDesc)))
         return E_FAIL;
 
     return S_OK;

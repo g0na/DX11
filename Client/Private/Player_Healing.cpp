@@ -1,6 +1,8 @@
 #include "Player_Healing.h"
 #include "Player.h"
 #include "Body.h"
+#include "Estus.h"
+#include "Weapon.h"
 #include "GameInstance.h"
 
 CPlayer_Healing::CPlayer_Healing()
@@ -15,12 +17,14 @@ HRESULT CPlayer_Healing::Initialize(CGameObject* pOwner, CBody* pBody)
 
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
+    m_pEstus = static_cast<CEstus*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Estus")));
+    m_pWeapon = static_cast<CWeapon*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Weapon")));
 
     if (m_pStateMachine == nullptr ||
-        m_pPlayerBody == nullptr)
+        m_pPlayerBody == nullptr ||
+        m_pEstus == nullptr ||
+        m_pWeapon == nullptr)
         return E_FAIL;
-
-    CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
 
     return S_OK;
 }
