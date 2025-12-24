@@ -170,7 +170,8 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
             m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), true);
         else
-            Set_Damaged(true, 0);
+            m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), true);
+            //Set_Damaged(true, 0);
     }
 
     if (pOtherObject->Get_Layer() == TEXT("Layer_BossWeapon"))
@@ -199,7 +200,7 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
 
     if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
     {
-        Set_Damaged(false, 0);
+        //Set_Damaged(false, 0);
     }
 }
 

@@ -40,6 +40,16 @@ void CPlayer_Recoil::Enter_State()
 
 void CPlayer_Recoil::Update_State(_float fTimeDelta)
 {
+    _uint iCurAnimIndex = m_pPlayerModel->Get_CurAnimIndex();
+    switch (iCurAnimIndex)
+    {
+    case 2:
+        break;
+
+    case 3:
+        break;
+
+    }
     // ¹«Àû
     if (m_pPlayerModel->Get_Animation(3)->Get_CurrentTrackPosition() <= 0.833f)
         m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);

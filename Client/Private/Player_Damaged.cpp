@@ -48,30 +48,39 @@ void CPlayer_Damaged::Enter_State()
         m_pPlayerBody->Set_Animation(15, false);
     else
         m_pPlayerBody->Set_Animation(14, false);
+
+    m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), false);
 }
 
 void CPlayer_Damaged::Update_State(_float fTimeDelta)
 {
-    m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), false);
-
-    // 무적
-    if (m_pPlayerModel->Get_Animation(15)->Get_CurrentTrackPosition() <= 3.6f)
-        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
-
-    // 넉백 아닐 때 다시 피격
-    if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) == true)
+    _uint iCurAnimIndex = m_pPlayerModel->Get_CurAnimIndex();
+    switch (iCurAnimIndex)
     {
-        Enter_State();
-        return;
+    case 14:        // 피격
+        // 넉백 아닐 때 다시 피격
+        if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) == true)
+        {
+            Enter_State();
+            return;
+        }
+        break;
+
+    case 15:        // 넉백
+        // 무적
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 3.6f)
+            m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
+        // 무적 해제 및 상태 끝
+        else if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() > 3.6f)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), false);
+            m_pStateMachine->Change_State(CPlayer::IDLE);
+            return;
+        }
+        break;
     }
-    
-    // 넉백 일 때 무적 해제 및 상태 끝
-    if (m_pPlayerModel->Get_Animation(15)->Get_CurrentTrackPosition() > 3.6f)
-    {
-        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), false);
-        m_pStateMachine->Change_State(CPlayer::IDLE);
-    }
-    else if (m_pPlayerBody->Get_IsAnimFinish() == true)
+        
+    if (m_pPlayerBody->Get_IsAnimFinish() == true)
         m_pStateMachine->Change_State(CPlayer::IDLE);
 }
 
