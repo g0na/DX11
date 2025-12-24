@@ -42,12 +42,18 @@ void CPlayer_Walk::Update_State(_float fTimeDelta)
 {
     // 사망
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Dead"), false) == true)
+    {
         m_pStateMachine->Change_State(CPlayer::DEATH);
+        return;
+    }
 
     // 피격
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) ||
         m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
+    {
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
+        return;
+    }
 
     // 질주
     if (m_pGameInstance->Get_KeyDown(DIK_LSHIFT))

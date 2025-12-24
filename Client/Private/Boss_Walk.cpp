@@ -37,7 +37,10 @@ void CBoss_Walk::Update_State(_float fTimeDelta)
 
     // 사망
     if (m_pStateMachine->Get_BoolData(TEXT("Boss_Dead"), false) == true)
+    {
         m_pStateMachine->Change_State(CMonster_Boss::DEATH);
+        return;
+    }
 
     // 방향 전환
     _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());

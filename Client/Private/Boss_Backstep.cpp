@@ -33,7 +33,10 @@ void CBoss_Backstep::Update_State(_float fTimeDelta)
 {
     // »ç¸Á
     if (m_pStateMachine->Get_BoolData(TEXT("Boss_Dead"), false) == true)
+    {
         m_pStateMachine->Change_State(CMonster_Boss::DEATH);
+        return;
+    }
 
     m_fTimeElapsed += fTimeDelta;
 

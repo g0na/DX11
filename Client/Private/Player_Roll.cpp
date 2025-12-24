@@ -74,7 +74,10 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
 {
     // »ç¸Á
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Dead"), false) == true)
+    {
         m_pStateMachine->Change_State(CPlayer::DEATH);
+        return;
+    }
 
     // ÇÇ°Ý
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false) == true)

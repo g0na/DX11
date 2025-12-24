@@ -81,7 +81,7 @@ void CMonster_Darkwraith::Update(_float fTimeDelta)
 {
 	// BlackBoard에 데이터 저장
 	m_pStateMachine->Set_FloatData(TEXT("Darkwraith_Distance"), m_fDistance);
-	m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Targeting"), m_fDistance <= 8.f);
+	m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Targeting"), m_fDistance <= 6.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);

@@ -41,12 +41,18 @@ void CPlayer_HealStart::Update_State(_float fTimeDelta)
 
     // 사망
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Dead"), false) == true)
+    {
         m_pStateMachine->Change_State(CPlayer::DEATH);
+        return;
+    }
 
     // 피격
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) ||
         m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
+    {
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
+        return;
+    }
 
     // 에스트병 활성화, 무기 비활성화
     if (m_fHealTime >= 0.166f)

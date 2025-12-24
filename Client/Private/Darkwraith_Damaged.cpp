@@ -28,13 +28,19 @@ void CDarkwraith_Damaged::Enter_State()
 {
     if (m_pOwner != nullptr)
         static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(2, false);
+
+    m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Damaged"), false);
 }
 
 void CDarkwraith_Damaged::Update_State(_float fTimeDelta)
 {
     if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false) == true)
+    {
         Enter_State();
-    else if (m_pOwner->Get_Component<CModel>(TEXT("Com_Model"))->is_AnimFinished() == true)
+        return;
+    }
+    
+    if (m_pOwner->Get_Component<CModel>(TEXT("Com_Model"))->is_AnimFinished() == true)
         m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);
 }
 

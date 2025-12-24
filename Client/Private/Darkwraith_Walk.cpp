@@ -55,7 +55,10 @@ void CDarkwraith_Walk::Update_State(_float fTimeDelta)
 	m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
 
 	if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false) == true)
-		m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);
+    {
+        m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);
+        return;
+    }
 
 	if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Targeting"), false) == false)
 		m_pStateMachine->Change_State(CMonster_Darkwraith::IDLE);

@@ -44,30 +44,30 @@ void CPlayer_Recoil::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 2:
+        // 반동 애니 재생 중 반동 상태 재진입
+        if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true)
+        {
+            Enter_State();
+            return;
+        }
         break;
 
     case 3:
+        // 무적
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.833f)
+            m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
+
+        // 무적 해제 및 상태 종료
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.566f)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), false);
+            m_pStateMachine->Change_State(CPlayer::GUARD);
+            return;
+        }
         break;
-
-    }
-    // 무적
-    if (m_pPlayerModel->Get_Animation(3)->Get_CurrentTrackPosition() <= 0.833f)
-        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
-
-    // 반동 애니 재생 중 반동 상태 재진입
-    if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true)
-    {
-        Enter_State();
-        return;
     }
 
-    // 무적 해제 및 상태 종료
-    if (m_pPlayerModel->Get_Animation(3)->Get_CurrentTrackPosition() >= 1.566f)
-    {
-        m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), false);
-        m_pStateMachine->Change_State(CPlayer::GUARD);
-    }
-    else if (m_pPlayerBody->Get_IsAnimFinish() == true)
+    if (m_pPlayerBody->Get_IsAnimFinish() == true)
         m_pStateMachine->Change_State(CPlayer::GUARD);
 }
 

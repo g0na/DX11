@@ -43,18 +43,27 @@ void CPlayer_Healing::Update_State(_float fTimeDelta)
 
     // »ç¸Á
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Dead"), false) == true)
+    {
         m_pStateMachine->Change_State(CPlayer::DEATH);
+        return;
+    }
 
     // ÇÇ°Ý
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) ||
         m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
+    {
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
+        return;
+    }
 
     // ¿¬¼ÓÀ¸·Î ¸Ô±â
     if (m_pGameInstance->Get_KeyDown(DIK_R))
     {
         if (m_fCoolDown >= 0.667f)
+        {
             Enter_State();
+            return;
+        }
     }
 
     // ¿¡½ºÆ® ¸Ô±â
