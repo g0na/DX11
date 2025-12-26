@@ -42,6 +42,8 @@ void CMonster_Darkwraith::Set_Damaged(_uint iDamage)
 		m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Dead"), true);
 		return;
 	}
+	else
+		m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Damaged"), true);
 }
 
 HRESULT CMonster_Darkwraith::Initialize_Prototype()
@@ -76,6 +78,7 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	Safe_AddRef(m_pPlayer);
 
 	m_bIsCollisionEnabled = true;
+	m_iHp = 5;
 
 	return S_OK;
 }

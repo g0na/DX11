@@ -6,4 +6,4 @@ Hollow 애니메이션
 4 - ATK1
 5 - ATK2
 6 - ATK3
-7 - Recoil
+7 - Recoil (방패 쳤을 때)

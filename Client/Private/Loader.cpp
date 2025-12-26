@@ -12,6 +12,7 @@
 #include "FlyCollider_Boss.h"
 
 #include "Monster_Hollow.h"
+#include "Weapon_Hollow.h"
 
 #include "Map.h"
 #include "Navigation.h"
@@ -292,6 +293,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Hollow */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
 		CMonster_Hollow::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Weapon_Hollow */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Weapon_Hollow"),
+		CWeapon_Hollow::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Body_Player*/

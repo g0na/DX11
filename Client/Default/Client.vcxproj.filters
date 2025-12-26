@@ -73,9 +73,6 @@
     <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\00. Idle">
       <UniqueIdentifier>{0dfe979d-9db1-4359-883e-6196c9384479}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\03. Monster\Hollow\States\05. Recoil">
-      <UniqueIdentifier>{3dc73f1b-9e15-4537-8bbb-cc87f9df64f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\03. Monster\Darkwraith\States\01. Walk">
       <UniqueIdentifier>{e937e12a-0ba0-4045-8528-423253de2640}</UniqueIdentifier>
     </Filter>
@@ -178,6 +175,9 @@
     <Filter Include="02. GameObjects\02. Player\05. Estus Flask">
       <UniqueIdentifier>{65ee6c5e-0cd6-45fd-a924-8ba739fbd8e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\03. Monster\Hollow\Weapon">
+      <UniqueIdentifier>{289b7506-91b6-4ecb-9bbe-bf5c85d47ff6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -255,9 +255,6 @@
     <ClInclude Include="..\Public\Monster_Darkwraith.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Monster_Hollow.h">
-      <Filter>02. GameObjects\03. Monster\Hollow</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Darkwraith_Idle.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\00. Idle</Filter>
     </ClInclude>
@@ -329,6 +326,27 @@
     </ClInclude>
     <ClInclude Include="..\Public\Darkwraith_Death.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\03. Death</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hollow_Walk.h">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\01. Walk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hollow_Idle.h">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\00. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hollow_Death.h">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\03. Death</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hollow_Damaged.h">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\02. Damaged</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hollow_Attack.h">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\04. Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster_Hollow.h">
+      <Filter>02. GameObjects\03. Monster\Hollow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Weapon_Hollow.h">
+      <Filter>02. GameObjects\03. Monster\Hollow\Weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -408,9 +426,6 @@
     <ClCompile Include="..\Private\Monster_Darkwraith.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Monster_Hollow.cpp">
-      <Filter>02. GameObjects\03. Monster\Hollow</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Darkwraith_Idle.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\00. Idle</Filter>
     </ClCompile>
@@ -482,6 +497,27 @@
     </ClCompile>
     <ClCompile Include="..\Private\Darkwraith_Death.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith\States\03. Death</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hollow_Attack.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\04. Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hollow_Damaged.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\02. Damaged</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hollow_Death.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\03. Death</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hollow_Idle.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hollow_Walk.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow\States\01. Walk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster_Hollow.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Weapon_Hollow.cpp">
+      <Filter>02. GameObjects\03. Monster\Hollow\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

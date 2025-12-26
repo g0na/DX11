@@ -1,14 +1,14 @@
-#include "Darkwraith_Idle.h"
-#include "Monster_Darkwraith.h"
+#include "Hollow_Idle.h"
+#include "Monster_Hollow.h"
 #include "GameInstance.h"
 
-CDarkwraith_Idle::CDarkwraith_Idle()
+CHollow_Idle::CHollow_Idle()
     : m_pGameInstance { CGameInstance::GetInstance() }
 {
     Safe_AddRef(m_pGameInstance);
 }
 
-HRESULT CDarkwraith_Idle::Initialize(CGameObject* pOwner)
+HRESULT CHollow_Idle::Initialize(CGameObject* pOwner)
 {
     __super::Initialize(pOwner);
 
@@ -19,23 +19,23 @@ HRESULT CDarkwraith_Idle::Initialize(CGameObject* pOwner)
         m_pMonsterTransform == nullptr)
         return E_FAIL;
 
-    m_pCurAngle = static_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
+    m_pCurAngle = static_cast<CMonster_Hollow*>(m_pOwner)->Get_CurAnglePtr();
 
     return S_OK;
 }
 
-void CDarkwraith_Idle::Enter_State()
+void CHollow_Idle::Enter_State()
 {
     if (m_pOwner != nullptr)
-        static_cast<CMonster_Darkwraith*>(m_pOwner)->Set_Animation(0, true);
+        static_cast<CMonster_Hollow*>(m_pOwner)->Set_Animation(0, true);
 }
 
-void CDarkwraith_Idle::Update_State(_float fTimeDelta)
+void CHollow_Idle::Update_State(_float fTimeDelta)
 {
     // »ç¸Á
-    if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Dead"), false) == true)
+    if (m_pStateMachine->Get_BoolData(TEXT("Hollow_Dead"), false) == true)
     {
-        m_pStateMachine->Change_State(CMonster_Darkwraith::DEATH);
+        m_pStateMachine->Change_State(CMonster_Hollow::DEATH);
         return;
     }
 
@@ -58,37 +58,37 @@ void CDarkwraith_Idle::Update_State(_float fTimeDelta)
 
     *m_pCurAngle += fDeltaAngle;
 
-    if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Targeting"), false))
+    if (m_pStateMachine->Get_BoolData(TEXT("Hollow_Targeting"), false))
     {
-        if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false))
-            m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);
+        if (m_pStateMachine->Get_BoolData(TEXT("Hollow_Damaged"), false))
+            m_pStateMachine->Change_State(CMonster_Hollow::DAMAGED);
 
         if (m_fCoolDown >= 1.5f)
-            m_pStateMachine->Change_State(CMonster_Darkwraith::WALK);
+            m_pStateMachine->Change_State(CMonster_Hollow::WALK);
         else
             m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
-    }
+    } 
 }
 
-void CDarkwraith_Idle::Exit_State()
+void CHollow_Idle::Exit_State()
 {
     m_fCoolDown = 0.f;
 }
 
-CDarkwraith_Idle* CDarkwraith_Idle::Create(CGameObject* pOwner)
+CHollow_Idle* CHollow_Idle::Create(CGameObject* pOwner)
 {
-    CDarkwraith_Idle* pInstance = new CDarkwraith_Idle();
+    CHollow_Idle* pInstance = new CHollow_Idle();
 
     if (FAILED(pInstance->Initialize(pOwner)))
     {
-        MSG_BOX("Failed to Created : CDarkwraith_Idle");
+        MSG_BOX("Failed to Created : CHollow_Idle");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CDarkwraith_Idle::Free()
+void CHollow_Idle::Free()
 {
     __super::Free();
 

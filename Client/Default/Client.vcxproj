@@ -167,6 +167,11 @@
     <ClInclude Include="..\Public\Darkwraith_Walk.h" />
     <ClInclude Include="..\Public\Estus.h" />
     <ClInclude Include="..\Public\FlyCollider_Boss.h" />
+    <ClInclude Include="..\Public\Hollow_Attack.h" />
+    <ClInclude Include="..\Public\Hollow_Damaged.h" />
+    <ClInclude Include="..\Public\Hollow_Death.h" />
+    <ClInclude Include="..\Public\Hollow_Idle.h" />
+    <ClInclude Include="..\Public\Hollow_Walk.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
@@ -195,6 +200,7 @@
     <ClInclude Include="..\Public\Weapon.h" />
     <ClInclude Include="..\Public\Weapon_Boss.h" />
     <ClInclude Include="..\Public\Weapon_Darkwraith.h" />
+    <ClInclude Include="..\Public\Weapon_Hollow.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -218,6 +224,11 @@
     <ClCompile Include="..\Private\Darkwraith_Walk.cpp" />
     <ClCompile Include="..\Private\Estus.cpp" />
     <ClCompile Include="..\Private\FlyCollider_Boss.cpp" />
+    <ClCompile Include="..\Private\Hollow_Attack.cpp" />
+    <ClCompile Include="..\Private\Hollow_Damaged.cpp" />
+    <ClCompile Include="..\Private\Hollow_Death.cpp" />
+    <ClCompile Include="..\Private\Hollow_Idle.cpp" />
+    <ClCompile Include="..\Private\Hollow_Walk.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
@@ -246,6 +257,7 @@
     <ClCompile Include="..\Private\Weapon.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss.cpp" />
     <ClCompile Include="..\Private\Weapon_Darkwraith.cpp" />
+    <ClCompile Include="..\Private\Weapon_Hollow.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

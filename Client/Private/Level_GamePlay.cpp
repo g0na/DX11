@@ -98,8 +98,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }
