@@ -5,6 +5,7 @@
 #include "Darkwraith_Walk.h"
 #include "Darkwraith_Attack.h"
 #include "Darkwraith_Damaged.h"
+#include "Darkwraith_Death.h"
 
 #include "Weapon_Darkwraith.h"
 
@@ -29,6 +30,18 @@ const _float4x4* CMonster_Darkwraith::Get_SocketMatrix(const _char* pBoneName)
 void CMonster_Darkwraith::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 {
 	m_pModelCom->Set_Animation(iAnimationIndex, isLoop);
+}
+
+void CMonster_Darkwraith::Set_Damaged(_uint iDamage)
+{
+	m_iHp -= iDamage;
+
+	if (m_iHp <= 0)
+	{
+		m_bIsDead = true;
+		m_pStateMachine->Set_BoolData(TEXT("Darkwraith_Dead"), true);
+		return;
+	}
 }
 
 HRESULT CMonster_Darkwraith::Initialize_Prototype()
@@ -203,6 +216,9 @@ HRESULT CMonster_Darkwraith::Ready_States()
 		return E_FAIL;
 
 	if (FAILED(m_pStateMachine->Add_State(DAMAGED, CDarkwraith_Damaged::Create(this))))
+		return E_FAIL;
+
+	if (FAILED(m_pStateMachine->Add_State(DEATH, CDarkwraith_Death::Create(this))))
 		return E_FAIL;
 
 	m_pStateMachine->Set_State(IDLE);

@@ -162,6 +162,7 @@
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Darkwraith_Attack.h" />
     <ClInclude Include="..\Public\Darkwraith_Damaged.h" />
+    <ClInclude Include="..\Public\Darkwraith_Death.h" />
     <ClInclude Include="..\Public\Darkwraith_Idle.h" />
     <ClInclude Include="..\Public\Darkwraith_Walk.h" />
     <ClInclude Include="..\Public\Estus.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="..\Private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Attack.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Damaged.cpp" />
+    <ClCompile Include="..\Private\Darkwraith_Death.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Idle.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Walk.cpp" />
     <ClCompile Include="..\Private\Estus.cpp" />

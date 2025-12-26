@@ -327,6 +327,9 @@
     <ClInclude Include="..\Public\Boss_Death.h">
       <Filter>02. GameObjects\03. Monster\Boss\States\03. Death</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Darkwraith_Death.h">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\03. Death</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -476,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Death.cpp">
       <Filter>02. GameObjects\03. Monster\Boss\States\03. Death</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Darkwraith_Death.cpp">
+      <Filter>02. GameObjects\03. Monster\Darkwraith\States\03. Death</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

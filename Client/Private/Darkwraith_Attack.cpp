@@ -42,6 +42,14 @@ void CDarkwraith_Attack::Enter_State()
 
 void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 {
+    // »ç¸Á
+    if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Dead"), false) == true)
+    {
+        m_pStateMachine->Change_State(CMonster_Darkwraith::DEATH);
+        return;
+    }
+
+    // ÇÇ°Ý
     if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Damaged"), false) == true)
     {
         m_pStateMachine->Change_State(CMonster_Darkwraith::DAMAGED);

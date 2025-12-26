@@ -33,6 +33,13 @@ void CDarkwraith_Walk::Enter_State()
 
 void CDarkwraith_Walk::Update_State(_float fTimeDelta)
 {
+    // »ç¸Á
+    if (m_pStateMachine->Get_BoolData(TEXT("Darkwraith_Dead"), false) == true)
+    {
+        m_pStateMachine->Change_State(CMonster_Darkwraith::DEATH);
+        return;
+    }
+
     m_fCoolDown += fTimeDelta;
 
     _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
