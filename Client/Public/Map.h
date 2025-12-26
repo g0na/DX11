@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 class CModel;
 class CShader;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
@@ -25,8 +26,9 @@ public:
 	virtual HRESULT	Render() override;
 
 private:
-	CModel*		m_pModelCom = { nullptr };
-	CShader*	m_pShaderCom = { nullptr };
+	CModel*			m_pModelCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+	CNavigation*	m_pNavigationCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();

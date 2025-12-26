@@ -13,18 +13,20 @@ CMap::CMap(const CMap& Prototype)
 
 HRESULT CMap::Initialize_Prototype()
 {
+	m_eLayer = LAYER::MAP;
+
 	return S_OK;
 }
 
 HRESULT CMap::Initialize(void* pArg)
 {
+	lstrcpy(m_szName, TEXT("Map"));
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
-	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(10.f, 1.f, 10.f, 1.f));
 
 	return S_OK;
 }
@@ -60,23 +62,32 @@ HRESULT CMap::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	m_pNavigationCom->Render();
+#endif
+
 	return S_OK;
 }
 
 HRESULT CMap::Ready_Components()
 {
 	// For Com_Model
-	//if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
-	//	TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
-	//	return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map1"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 
 	// For Com_Shader
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMap"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
+	// For Com_Navigation
+	CNavigation::NAVIGATION_DESC	NavigationDesc{};
+	NavigationDesc.iCurrentCellIndex = -1;
+	NavigationDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
+		TEXT("Com_Navigation"), reinterpret_cast<CComponent**>(&m_pNavigationCom), &NavigationDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -84,7 +95,8 @@ HRESULT CMap::Ready_Components()
 
 HRESULT CMap::Bind_ShaderResources()
 {
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", m_Combined)))
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Bind_PipeLineMatrix(m_pShaderCom, "g_ViewMatrix", D3DTS::VIEW)))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Bind_PipeLineMatrix(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
@@ -125,4 +137,5 @@ void CMap::Free()
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pNavigationCom);
 }
