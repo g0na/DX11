@@ -41,6 +41,7 @@ DepthStencilState DSS_Sky
 {
     DepthEnable = false;
     DepthWriteMask = zero;
+    DepthFunc = LESS_EQUAL;
 };
 
 BlendState BS_Default

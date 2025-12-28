@@ -109,6 +109,18 @@
     <Filter Include="02. GameObjects\03. Monster\Darkwraith">
       <UniqueIdentifier>{f1a47217-734c-4de1-9abb-cff2536211f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map3">
+      <UniqueIdentifier>{5e4e12cb-5fbe-4c16-a27e-d65dcdb93d3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map4">
+      <UniqueIdentifier>{25a7c952-f324-4f9d-8fb6-594f46b35766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map5">
+      <UniqueIdentifier>{17cc7045-370d-451f-9749-f56c664a4332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Sky">
+      <UniqueIdentifier>{64609bcc-760d-408c-9bb0-484157a3cd9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -228,6 +240,18 @@
     <ClInclude Include="..\Public\Monster_Darkwraith.h">
       <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Map3.h">
+      <Filter>02. GameObjects\01. Map\Map3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map4.h">
+      <Filter>02. GameObjects\01. Map\Map4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map5.h">
+      <Filter>02. GameObjects\01. Map\Map5</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sky.h">
+      <Filter>02. GameObjects\01. Map\Sky</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maptool.cpp">
@@ -331,6 +355,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monster_Darkwraith.cpp">
       <Filter>02. GameObjects\03. Monster\Darkwraith</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map3.cpp">
+      <Filter>02. GameObjects\01. Map\Map3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map4.cpp">
+      <Filter>02. GameObjects\01. Map\Map4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map5.cpp">
+      <Filter>02. GameObjects\01. Map\Map5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sky.cpp">
+      <Filter>02. GameObjects\01. Map\Sky</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
