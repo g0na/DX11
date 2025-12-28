@@ -1,0 +1,249 @@
+"""
+Soulstruct Material → Principled BSDF 변환 스크립트
+
+사용법:
+1. 블렌더에서 변환할 .blend 파일 열기
+2. Scripting 탭으로 이동
+3. 이 스크립트 열기 또는 붙여넣기
+4. 아래 설정 옵션 조정 (필요시)
+5. 스크립트 실행 (Alt+P 또는 Run Script 버튼)
+"""
+
+import bpy
+import os
+
+# ============================================================
+# 설정 옵션 (필요에 따라 수정)
+# ============================================================
+
+# 텍스처 확장자 변환 설정
+CONVERT_TO_DDS = True          # True: .tga → .dds 변환, False: 원본 확장자 유지
+TARGET_EXTENSION = '.dds'       # 변환할 확장자 (.dds, .png 등)
+
+# 확장자가 없는 이미지에 확장자 추가
+ADD_EXTENSION_IF_MISSING = True
+
+# 상대 경로 사용 (FBX export시 권장)
+USE_RELATIVE_PATH = True
+
+# 물(Water) Material 설정
+WATER_BASE_COLOR = (0.1, 0.3, 0.4, 1.0)  # RGBA
+WATER_ROUGHNESS = 0.1
+WATER_IOR = 1.333
+WATER_TRANSMISSION = 0.9
+
+# ============================================================
+# 변환 함수
+# ============================================================
+
+def convert_to_principled(mat):
+    """Soulstruct Material을 Principled BSDF로 변환"""
+    if not mat or not mat.use_nodes:
+        return False
+    
+    nodes = mat.node_tree.nodes
+    links = mat.node_tree.links
+    
+    # 기존 텍스처 노드 찾기
+    diffuse_img = None
+    specular_img = None
+    normal_img = None
+    
+    # 물 Material 감지
+    is_water = 'Water' in mat.name or '水' in mat.name
+    has_transparent = any(n.type == 'BSDF_TRANSPARENT' for n in nodes)
+    has_glass = any(n.type == 'BSDF_GLASS' for n in nodes)
+    
+    for node in nodes:
+        if node.type == 'TEX_IMAGE' and node.image:
+            if node.name == 'g_Diffuse':
+                diffuse_img = node.image
+            elif node.name == 'g_Specular':
+                specular_img = node.image
+            elif node.name == 'g_Bumpmap':
+                normal_img = node.image
+    
+    # 파일명 추출
+    def get_filename(img):
+        if not img:
+            return None
+        filename = os.path.basename(img.filepath) if img.filepath else img.name
+        # 빈 파일명이면 이미지 이름 사용
+        if not filename or filename == '':
+            filename = img.name
+        return filename
+    
+    diffuse_filename = get_filename(diffuse_img)
+    specular_filename = get_filename(specular_img)
+    normal_filename = get_filename(normal_img)
+    
+    # 기존 노드 모두 삭제
+    nodes.clear()
+    
+    # 새 노드 생성
+    output_node = nodes.new('ShaderNodeOutputMaterial')
+    output_node.location = (400, 0)
+    
+    principled = nodes.new('ShaderNodeBsdfPrincipled')
+    principled.location = (0, 0)
+    
+    links.new(principled.outputs['BSDF'], output_node.inputs['Surface'])
+    
+    # UV Map 노드
+    uv_map = nodes.new('ShaderNodeUVMap')
+    uv_map.location = (-800, 0)
+    uv_map.uv_map = "UVTexture0"
+    
+    # 물 Material 처리
+    if is_water or (has_transparent and has_glass and not diffuse_img):
+        principled.inputs['Base Color'].default_value = WATER_BASE_COLOR
+        principled.inputs['Roughness'].default_value = WATER_ROUGHNESS
+        principled.inputs['IOR'].default_value = WATER_IOR
+        
+        # Blender 버전에 따라 다른 이름
+        if 'Transmission Weight' in principled.inputs:
+            principled.inputs['Transmission Weight'].default_value = WATER_TRANSMISSION
+        elif 'Transmission' in principled.inputs:
+            principled.inputs['Transmission'].default_value = WATER_TRANSMISSION
+        
+        mat.blend_method = 'BLEND'
+        
+        # Blender 4.0+ 에서는 shadow_method가 없음
+        if hasattr(mat, 'shadow_method'):
+            mat.shadow_method = 'HASHED'
+    else:
+        # Diffuse 텍스처
+        if diffuse_img and diffuse_filename:
+            if USE_RELATIVE_PATH:
+                diffuse_img.filepath = "//" + diffuse_filename
+            diff_tex = nodes.new('ShaderNodeTexImage')
+            diff_tex.location = (-400, 200)
+            diff_tex.image = diffuse_img
+            diff_tex.name = "Diffuse"
+            diff_tex.label = "Diffuse"
+            links.new(uv_map.outputs['UV'], diff_tex.inputs['Vector'])
+            links.new(diff_tex.outputs['Color'], principled.inputs['Base Color'])
+    
+    # Specular 텍스처
+    if specular_img and specular_filename:
+        if USE_RELATIVE_PATH:
+            specular_img.filepath = "//" + specular_filename
+        spec_tex = nodes.new('ShaderNodeTexImage')
+        spec_tex.location = (-400, -100)
+        spec_tex.image = specular_img
+        spec_tex.name = "Specular"
+        spec_tex.label = "Specular"
+        links.new(uv_map.outputs['UV'], spec_tex.inputs['Vector'])
+        
+        if 'Specular IOR Level' in principled.inputs:
+            links.new(spec_tex.outputs['Color'], principled.inputs['Specular IOR Level'])
+        else:
+            links.new(spec_tex.outputs['Color'], principled.inputs['Specular'])
+    
+    # Normal 텍스처
+    if normal_img and normal_filename:
+        if USE_RELATIVE_PATH:
+            normal_img.filepath = "//" + normal_filename
+        normal_img.colorspace_settings.name = 'Non-Color'
+        norm_tex = nodes.new('ShaderNodeTexImage')
+        norm_tex.location = (-400, -400)
+        norm_tex.image = normal_img
+        norm_tex.name = "Normal"
+        norm_tex.label = "Normal"
+        links.new(uv_map.outputs['UV'], norm_tex.inputs['Vector'])
+        
+        normal_map = nodes.new('ShaderNodeNormalMap')
+        normal_map.location = (-100, -400)
+        links.new(norm_tex.outputs['Color'], normal_map.inputs['Color'])
+        links.new(normal_map.outputs['Normal'], principled.inputs['Normal'])
+    
+    return True
+
+
+def convert_image_extensions():
+    """이미지 이름과 경로의 확장자 변환"""
+    changed = 0
+    
+    for img in bpy.data.images:
+        if img.name == "Render Result":
+            continue
+        
+        old_name = img.name
+        old_path = img.filepath
+        
+        # 확장자 변환 (.tga → .dds 등)
+        if CONVERT_TO_DDS:
+            # 이름 변환
+            for ext in ['.tga', '.TGA', '.png', '.PNG', '.jpg', '.JPG']:
+                if img.name.endswith(ext):
+                    img.name = img.name[:-len(ext)] + TARGET_EXTENSION
+                    break
+            
+            # 경로 변환
+            for ext in ['.tga', '.TGA', '.png', '.PNG', '.jpg', '.JPG']:
+                if img.filepath.endswith(ext):
+                    img.filepath = img.filepath[:-len(ext)] + TARGET_EXTENSION
+                    break
+        
+        # 확장자가 없는 경우 추가
+        if ADD_EXTENSION_IF_MISSING:
+            has_ext = any(img.name.endswith(e) for e in ['.dds', '.tga', '.png', '.jpg', '.DDS', '.TGA', '.PNG', '.JPG'])
+            if not has_ext:
+                img.name = img.name + TARGET_EXTENSION
+            
+            # 경로도 수정
+            if img.filepath:
+                has_path_ext = any(img.filepath.endswith(e) for e in ['.dds', '.tga', '.png', '.jpg', '.DDS', '.TGA', '.PNG', '.JPG'])
+                if not has_path_ext:
+                    if img.filepath == '//':
+                        img.filepath = '//' + img.name
+                    else:
+                        img.filepath = img.filepath + TARGET_EXTENSION
+        
+        if old_name != img.name or old_path != img.filepath:
+            changed += 1
+    
+    return changed
+
+
+# ============================================================
+# 메인 실행
+# ============================================================
+
+def main():
+    print("=" * 70)
+    print("SOULSTRUCT → PRINCIPLED BSDF 변환 시작")
+    print("=" * 70)
+    
+    # 1. Material 변환
+    print("\n[1/2] Material 변환 중...")
+    converted = 0
+    processed = set()
+    
+    for obj in bpy.data.objects:
+        if obj.type == 'MESH':
+            for mat in obj.data.materials:
+                if mat and mat.name not in processed:
+                    if convert_to_principled(mat):
+                        converted += 1
+                    processed.add(mat.name)
+    
+    print(f"  → {converted}개 Material 변환 완료")
+    
+    # 2. 이미지 확장자 변환
+    print("\n[2/2] 이미지 확장자 변환 중...")
+    changed = convert_image_extensions()
+    print(f"  → {changed}개 이미지 변환 완료")
+    
+    print("\n" + "=" * 70)
+    print("변환 완료!")
+    print("=" * 70)
+    print("\n다음 단계:")
+    print("1. File → Save As 로 저장")
+    print("2. FBX Export 시 Path Mode를 'Auto' 또는 'Copy'로 설정")
+    print(f"3. 텍스처 파일들({TARGET_EXTENSION})을 FBX와 같은 폴더에 배치")
+
+
+# 스크립트 실행
+if __name__ == "__main__":
+    main()

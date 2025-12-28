@@ -75,7 +75,7 @@ HRESULT CPlayer::Initialize(void* pArg)
         return E_FAIL;
 
     //x: -11.812585, y : -15.249994, z : -45.795914
-    //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, 15.24f, -45.8f, 1.f));
+    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, 15.24f, -45.8f, 1.f));
 
     m_bIsCollisionEnabled = true;
 

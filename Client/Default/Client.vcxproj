@@ -196,7 +196,6 @@
     <ClInclude Include="..\Public\Shield.h" />
     <ClInclude Include="..\Public\WeaponCase.h" />
     <ClInclude Include="..\Public\Player_Walk.h" />
-    <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\Weapon.h" />
     <ClInclude Include="..\Public\Weapon_Boss.h" />
     <ClInclude Include="..\Public\Weapon_Darkwraith.h" />
@@ -253,7 +252,6 @@
     <ClCompile Include="..\Private\Shield.cpp" />
     <ClCompile Include="..\Private\WeaponCase.cpp" />
     <ClCompile Include="..\Private\Player_Walk.cpp" />
-    <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\Weapon.cpp" />
     <ClCompile Include="..\Private\Weapon_Boss.cpp" />
     <ClCompile Include="..\Private\Weapon_Darkwraith.cpp" />

@@ -1,0 +1,89 @@
+"""
+Armature Modifier Apply 스크립트
+- 모든 메쉬의 Armature modifier를 Apply해서 현재 포즈로 고정
+- 본(Armature) 삭제 옵션
+
+사용법:
+1. 블렌더에서 .blend 파일 열기
+2. Scripting 탭에서 이 스크립트 실행
+"""
+
+import bpy
+
+# ============================================================
+# 설정 옵션
+# ============================================================
+
+DELETE_ARMATURES = True  # True: Apply 후 Armature 삭제, False: 유지
+
+# ============================================================
+# 메인 함수
+# ============================================================
+
+def apply_armature_modifiers():
+    print("=" * 70)
+    print("ARMATURE MODIFIER APPLY")
+    print("=" * 70)
+    
+    applied_count = 0
+    
+    # 모든 메쉬 오브젝트 처리
+    for obj in bpy.data.objects:
+        if obj.type != 'MESH':
+            continue
+        
+        # Armature modifier 찾기
+        armature_mods = [mod for mod in obj.modifiers if mod.type == 'ARMATURE']
+        
+        if not armature_mods:
+            continue
+        
+        print(f"\n처리 중: {obj.name}")
+        
+        # 오브젝트 선택 및 활성화
+        bpy.ops.object.select_all(action='DESELECT')
+        obj.select_set(True)
+        bpy.context.view_layer.objects.active = obj
+        
+        # 각 Armature modifier Apply
+        for mod in armature_mods:
+            try:
+                print(f"  Applying: {mod.name}")
+                bpy.ops.object.modifier_apply(modifier=mod.name)
+                applied_count += 1
+            except Exception as e:
+                print(f"  오류 발생: {e}")
+                # 대체 방법: modifier를 복제하고 적용
+                try:
+                    bpy.ops.object.modifier_copy(modifier=mod.name)
+                    bpy.ops.object.modifier_apply(modifier=mod.name)
+                    applied_count += 1
+                except:
+                    print(f"  건너뜀: {mod.name}")
+    
+    print(f"\n적용 완료: {applied_count}개 modifier")
+    
+    # Armature 삭제
+    if DELETE_ARMATURES:
+        print("\n" + "=" * 70)
+        print("ARMATURE 삭제 중...")
+        print("=" * 70)
+        
+        deleted = 0
+        armatures = [obj for obj in bpy.data.objects if obj.type == 'ARMATURE']
+        
+        for arm in armatures:
+            print(f"  삭제: {arm.name}")
+            bpy.data.objects.remove(arm, do_unlink=True)
+            deleted += 1
+        
+        print(f"\n삭제 완료: {deleted}개 Armature")
+    
+    print("\n" + "=" * 70)
+    print("완료! 이제 File → Save As로 저장하세요.")
+    print("=" * 70)
+
+
+# 실행
+if __name__ == "__main__":
+    apply_armature_modifiers()

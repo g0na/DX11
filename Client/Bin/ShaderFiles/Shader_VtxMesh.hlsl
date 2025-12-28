@@ -31,15 +31,15 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.vPosition = vPosition;
     Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
     Out.vTexCoord = In.vTexCoord;
-    Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);      // ÇÈ¼¿ÀÇ À§Ä¡´Â ºäÆ÷Æ®ÀÌ±â ¶§¹®¿¡ ¿ùµå °ø°£À¸·Î º¯È¯ÇØ¼­ ³Ñ°ÜÁØ´Ù.
+    Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);      // í”½ì…€ì˜ ìœ„ì¹˜ëŠ” ë·°í¬íŠ¸ì´ê¸° ë•Œë¬¸ì— ì›”ë“œ ê³µê°„ìœ¼ë¡œ ë³€í™˜í•´ì„œ ë„˜ê²¨ì¤€ë‹¤.
     
     return Out;
 }
 
-// ¾Æ·¡ °úÁ¤Àº vPosition¿¡¸¸ Àû¿ëÇÏ°í vTexCoord¿¡´Â Àû¿ëÇÏÁö ¾Ê´Â´Ù.
-// 1. Æ÷Áö¼Ç ½Ã¸àÆ½¿¡ ÇØ´çÇÏ´Â º¯¼öÀÇ w·Î ¸ðµç ¼ººÐÀ» ³ª´«´Ù. 
-// 2. ºäÆ÷Æ®·Î º¯È¯ÇÑ´Ù. (À©µµ¿ì ÁÂÇ¥·Î º¯È¯)
-// 3. ·¡½ºÅÍ¶óÀÌÁî
+// ì•„ëž˜ ê³¼ì •ì€ vPositionì—ë§Œ ì ìš©í•˜ê³  vTexCoordì—ëŠ” ì ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤.
+// 1. í¬ì§€ì…˜ ì‹œë©˜í‹±ì— í•´ë‹¹í•˜ëŠ” ë³€ìˆ˜ì˜ wë¡œ ëª¨ë“  ì„±ë¶„ì„ ë‚˜ëˆˆë‹¤. 
+// 2. ë·°í¬íŠ¸ë¡œ ë³€í™˜í•œë‹¤. (ìœˆë„ìš° ì¢Œí‘œë¡œ ë³€í™˜)
+// 3. ëž˜ìŠ¤í„°ë¼ì´ì¦ˆ
 
 struct PS_IN
 {
@@ -59,10 +59,14 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    // g_DiffuseTexture.Sample(¾î¶² ¹æ½ÄÀ¸·Î »ùÇÃ¸µÇÒÁö, ¾îµðÀÇ »öÀ» ¾ò¾î¿ÃÁö)
+    // g_DiffuseTexture.Sample(ì–´ë–¤ ë°©ì‹ìœ¼ë¡œ ìƒ˜í”Œë§í• ì§€, ì–´ë””ì˜ ìƒ‰ì„ ì–»ì–´ì˜¬ì§€)
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
         
+    // ì•ŒíŒŒ í…ŒìŠ¤íŒ…: ì•ŒíŒŒ ê°’ì´ ìž„ê³„ê°’ ì´í•˜ë©´ í”½ì…€ íê¸°
+    if (vMtrlDiffuse.a < 0.5f)
+        discard;
+    
     Out.vDiffuse = vMtrlDiffuse;
     Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
     
@@ -82,5 +86,5 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
-    // ÇÑ technique¿¡´Â Default pass ÀÌ¿Ü¿¡µµ ¿©·¯ pass°¡ µé¾î¿Ã ¼ö ÀÖ´Ù.
+    // í•œ techniqueì—ëŠ” Default pass ì´ì™¸ì—ë„ ì—¬ëŸ¬ passê°€ ë“¤ì–´ì˜¬ ìˆ˜ ìžˆë‹¤.
 }

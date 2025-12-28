@@ -131,16 +131,6 @@ HRESULT CLoader::Loading_Logo()
 HRESULT CLoader::Loading_GamePlay()
 {
 	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
-	/* For.Prototype_Component_Texture_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Tile%d.dds"), 2))))
-		return E_FAIL;
-
-	/* For.Prototype_Component_Texture_Terrain_Mask */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrain_Mask"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Mask.dds"), 1))))
-		return E_FAIL;	
-
 	/* For.Prototype_Component_StateMachine */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
 		CStateMachine::Create(m_pDevice, m_pContext))))
@@ -157,11 +147,6 @@ HRESULT CLoader::Loading_GamePlay()
 		return E_FAIL;
 	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
-
-	/* For.Prototype_Component_VIBuffer_Terrain */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
-		return E_FAIL;
 
 	// 모델에 필요한 초기 상태 행렬 선언
 	_matrix PreTransformMatrix = XMMatrixIdentity();
@@ -210,8 +195,11 @@ HRESULT CLoader::Loading_GamePlay()
 
 	PreTransformMatrix = XMMatrixIdentity();
 	/* For.Prototype_Component_Model_Map1 */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map1"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/map_part1_DDS.fbx", PreTransformMatrix))))
+	//	return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map1"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/map_part1_DDS.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/map_part2.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("셰이더을(를) 로딩 중 입니다."));
@@ -261,10 +249,6 @@ HRESULT CLoader::Loading_GamePlay()
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("객체원형을(를) 로딩 중 입니다."));
-	/* For.Prototype_GameObject_Terrain */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Terrain"),
-	//	CTerrain::Create(m_pDevice, m_pContext))))
-	//	return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera_Free */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),

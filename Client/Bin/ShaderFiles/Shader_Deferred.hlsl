@@ -172,7 +172,7 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     
     vector vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
-    if (vDiffuse.a == 0.f)
+    if (vDiffuse.a <= 0.2f)
         discard;
     
     vector vShade = g_ShadeTexture.Sample(DefaultSampler, In.vTexcoord);
