@@ -24,6 +24,12 @@ RasterizerState RS_Sky
     CullMode = FRONT;
 };
 
+RasterizerState RS_Fog
+{
+    FillMode = Solid;
+    CullMode = None;
+};
+
 DepthStencilState DSS_Default
 {
     DepthEnable = true;
@@ -40,6 +46,13 @@ DepthStencilState DSS_None
 DepthStencilState DSS_Sky
 {
     DepthEnable = false;
+    DepthWriteMask = zero;
+    DepthFunc = LESS_EQUAL;
+};
+
+DepthStencilState DSS_Fog
+{
+    DepthEnable = true;
     DepthWriteMask = zero;
     DepthFunc = LESS_EQUAL;
 };
@@ -65,6 +78,15 @@ BlendState BS_Blend
     BlendEnable[1] = true;
 
     SrcBlend = one;
+    DestBlend = one;
+    BlendOp = add;
+};
+
+BlendState BS_Fog
+{
+    BlendEnable[0] = true;
+
+    SrcBlend = src_alpha;
     DestBlend = one;
     BlendOp = add;
 };

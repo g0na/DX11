@@ -36,7 +36,7 @@ void CCamera_Free::Update_Priority(_float fTimeDelta)
     if (m_pGameInstance->Get_DIKeyState(DIK_UP) & 0x80)
     {
         if (m_pGameInstance->Get_KeyHold(DIK_RSHIFT))
-            m_pTransformCom->Go_Straight(fTimeDelta * 2.f);
+            m_pTransformCom->Go_Straight(fTimeDelta * 10.f);
         else 
             m_pTransformCom->Go_Straight(fTimeDelta);
     }
@@ -44,7 +44,7 @@ void CCamera_Free::Update_Priority(_float fTimeDelta)
     if (m_pGameInstance->Get_DIKeyState(DIK_DOWN) & 0x80)
     {
         if (m_pGameInstance->Get_KeyHold(DIK_RSHIFT))
-            m_pTransformCom->Go_Backward(fTimeDelta * 2.f);
+            m_pTransformCom->Go_Backward(fTimeDelta * 10.f);
         else
             m_pTransformCom->Go_Backward(fTimeDelta);
     }
@@ -52,7 +52,7 @@ void CCamera_Free::Update_Priority(_float fTimeDelta)
     if (m_pGameInstance->Get_DIKeyState(DIK_LEFT) & 0x80)
     {
         if (m_pGameInstance->Get_KeyHold(DIK_RSHIFT))
-            m_pTransformCom->Go_Left(fTimeDelta * 2.f);
+            m_pTransformCom->Go_Left(fTimeDelta * 10.f);
         else
             m_pTransformCom->Go_Left(fTimeDelta);
     }
@@ -60,7 +60,7 @@ void CCamera_Free::Update_Priority(_float fTimeDelta)
     if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT) & 0x80)
     {
         if (m_pGameInstance->Get_KeyHold(DIK_RSHIFT))
-            m_pTransformCom->Go_Right(fTimeDelta * 2.f);
+            m_pTransformCom->Go_Right(fTimeDelta * 10.f);
         else
             m_pTransformCom->Go_Right(fTimeDelta);
     }

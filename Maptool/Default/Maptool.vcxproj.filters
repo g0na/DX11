@@ -115,11 +115,14 @@
     <Filter Include="02. GameObjects\01. Map\Map4">
       <UniqueIdentifier>{25a7c952-f324-4f9d-8fb6-594f46b35766}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\01. Map\Map5">
-      <UniqueIdentifier>{17cc7045-370d-451f-9749-f56c664a4332}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\01. Map\Sky">
       <UniqueIdentifier>{64609bcc-760d-408c-9bb0-484157a3cd9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Fog">
+      <UniqueIdentifier>{17cc7045-370d-451f-9749-f56c664a4332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Mountain">
+      <UniqueIdentifier>{1a5c2097-0707-4dd9-ae6e-52a18654956d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,11 +249,14 @@
     <ClInclude Include="..\Public\Map4.h">
       <Filter>02. GameObjects\01. Map\Map4</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Map5.h">
-      <Filter>02. GameObjects\01. Map\Map5</Filter>
+    <ClInclude Include="..\Public\Fog.h">
+      <Filter>02. GameObjects\01. Map\Fog</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Sky.h">
       <Filter>02. GameObjects\01. Map\Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mountain.h">
+      <Filter>02. GameObjects\01. Map\Mountain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -362,11 +368,14 @@
     <ClCompile Include="..\Private\Map4.cpp">
       <Filter>02. GameObjects\01. Map\Map4</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Map5.cpp">
-      <Filter>02. GameObjects\01. Map\Map5</Filter>
+    <ClCompile Include="..\Private\Fog.cpp">
+      <Filter>02. GameObjects\01. Map\Fog</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Sky.cpp">
       <Filter>02. GameObjects\01. Map\Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mountain.cpp">
+      <Filter>02. GameObjects\01. Map\Mountain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

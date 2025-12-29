@@ -25,7 +25,7 @@
     <ClInclude Include="..\Public\ImGui_Panel_Scene.h" />
     <ClInclude Include="..\Public\Map3.h" />
     <ClInclude Include="..\Public\Map4.h" />
-    <ClInclude Include="..\Public\Map5.h" />
+    <ClInclude Include="..\Public\Fog.h" />
     <ClInclude Include="..\Public\Maptool_Defines.h" />
     <ClInclude Include="..\Public\imconfig.h" />
     <ClInclude Include="..\Public\imgui.h" />
@@ -47,6 +47,7 @@
     <ClInclude Include="..\Public\Map2.h" />
     <ClInclude Include="..\Public\Monster_Darkwraith.h" />
     <ClInclude Include="..\Public\Monster_Hollow.h" />
+    <ClInclude Include="..\Public\Mountain.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Attack.h" />
     <ClInclude Include="..\Public\Player_Guard.h" />
@@ -87,9 +88,10 @@
     <ClCompile Include="..\Private\Map2.cpp" />
     <ClCompile Include="..\Private\Map3.cpp" />
     <ClCompile Include="..\Private\Map4.cpp" />
-    <ClCompile Include="..\Private\Map5.cpp" />
+    <ClCompile Include="..\Private\Fog.cpp" />
     <ClCompile Include="..\Private\Monster_Darkwraith.cpp" />
     <ClCompile Include="..\Private\Monster_Hollow.cpp" />
+    <ClCompile Include="..\Private\Mountain.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Player_Attack.cpp" />
     <ClCompile Include="..\Private\Player_Guard.cpp" />

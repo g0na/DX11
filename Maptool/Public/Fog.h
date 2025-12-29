@@ -9,12 +9,12 @@ NS_END
 
 NS_BEGIN(Maptool)
 
-class CMap5 final : public CGameObject
+class CFog final : public CGameObject
 {
 private:
-	CMap5(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMap5(const CMap5& Prototype);
-	virtual ~CMap5() = default;
+	CFog(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CFog(const CFog& Prototype);
+	virtual ~CFog() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;							// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -33,7 +33,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CMap5* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CFog* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

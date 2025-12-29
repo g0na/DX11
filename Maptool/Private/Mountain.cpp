@@ -1,26 +1,26 @@
-#include "Map5.h"
+#include "Mountain.h"
 #include "GameInstance.h"
 
-CMap5::CMap5(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMountain::CMountain(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject { pDevice, pContext }
 {
 }
 
-CMap5::CMap5(const CMap5& Prototype)
+CMountain::CMountain(const CMountain& Prototype)
 	: CGameObject { Prototype }
 {
 }
 
-HRESULT CMap5::Initialize_Prototype()
+HRESULT CMountain::Initialize_Prototype()
 {
 	m_eLayer = LAYER::MAP;
 
 	return S_OK;
 }
 
-HRESULT CMap5::Initialize(void* pArg)
+HRESULT CMountain::Initialize(void* pArg)
 {
-	lstrcpy(m_szName, TEXT("Map5"));
+	lstrcpy(m_szName, TEXT("Mountain"));
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -31,20 +31,20 @@ HRESULT CMap5::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMap5::Update_Priority(_float fTimeDelta)
+void CMountain::Update_Priority(_float fTimeDelta)
 {
 }
 
-void CMap5::Update(_float fTimeDelta)
+void CMountain::Update(_float fTimeDelta)
 {
 }
 
-void CMap5::Update_Late(_float fTimeDelta)
+void CMountain::Update_Late(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
-HRESULT CMap5::Render()
+HRESULT CMountain::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -56,7 +56,12 @@ HRESULT CMap5::Render()
 		if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE, 0)))
 			return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin(1)))
+		if (FAILED(m_pShaderCom->Begin(4)))
+			return E_FAIL;
+
+		m_pModelCom->Render(i);
+
+		if (FAILED(m_pShaderCom->Begin(5)))
 			return E_FAIL;
 
 		m_pModelCom->Render(i);
@@ -65,10 +70,9 @@ HRESULT CMap5::Render()
 	return S_OK;
 }
 
-HRESULT CMap5::Ready_Components()
+HRESULT CMountain::Ready_Components()
 {
-	// For Com_Model
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map5"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Mountain"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
 
@@ -80,7 +84,7 @@ HRESULT CMap5::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CMap5::Bind_ShaderResources()
+HRESULT CMountain::Bind_ShaderResources()
 {
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
@@ -92,33 +96,33 @@ HRESULT CMap5::Bind_ShaderResources()
 	return S_OK;
 }
 
-CMap5* CMap5::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMountain* CMountain::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMap5* pInstance = new CMap5(pDevice, pContext);
+	CMountain* pInstance = new CMountain(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CMap5");
+		MSG_BOX("Failed to Created : CMountain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMap5::Clone(void* pArg)
+CGameObject* CMountain::Clone(void* pArg)
 {
-	CMap5* pInstance = new CMap5(*this);
+	CMountain* pInstance = new CMountain(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CMap5");
+		MSG_BOX("Failed to Cloned : CMountain");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMap5::Free()
+void CMountain::Free()
 {
 	__super::Free();
 

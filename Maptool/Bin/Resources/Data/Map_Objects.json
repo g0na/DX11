@@ -1,11 +1,11 @@
 [
     {
-        "PrototypeTag": "Prototype_GameObject_Map1",
+        "PrototypeTag": "Prototype_GameObject_Sky",
         "LayerTag": "Layer_Map",
         "Position": [
-            0.0,
-            0.0,
-            0.0
+            24.965938568115234,
+            26.689865112304688,
+            8.323566436767578
         ],
         "Rotation": [
             0.0,
@@ -19,31 +19,12 @@
         ]
     },
     {
-        "PrototypeTag": "Prototype_GameObject_Map2",
+        "PrototypeTag": "Prototype_GameObject_Mountain",
         "LayerTag": "Layer_Map",
         "Position": [
             0.0,
             0.0,
             0.0
-        ],
-        "Rotation": [
-            0.0,
-            0.0,
-            0.0
-        ],
-        "Scale": [
-            1.0,
-            1.0,
-            1.0
-        ]
-    },
-    {
-        "PrototypeTag": "Prototype_GameObject_Darkwraith",
-        "LayerTag": "Layer_Monster",
-        "Position": [
-            -39.072723388671875,
-            -4.573648452758789,
-            -19.698997497558594
         ],
         "Rotation": [
             0.0,
