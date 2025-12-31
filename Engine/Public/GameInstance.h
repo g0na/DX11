@@ -115,9 +115,16 @@ public:
 	HRESULT Ready_RT_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Debug_RT_Render(const _wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #endif // _DEBUG
-
 #pragma endregion
 
+#pragma region FONT_MANAGER
+	HRESULT Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath);
+	HRESULT Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPosition, _fvector vColor);
+#pragma endregion
+
+#pragma region UI_MANAGER
+	HRESULT		Add_UI(_wstring strUITag, class CUIObj* pUIObj);
+#pragma endregion
 
 private:
 	class CGraphic_Device*		m_pGraphicDevice = { nullptr };
@@ -131,6 +138,8 @@ private:
 	class CPipeLine*			m_pPipeLine = { nullptr };
 	class CCollision_Manager*	m_pCollisionManager = { nullptr };
 	class CTarget_Manager*		m_pTargetManager = { nullptr };
+	class CFont_Manager*		m_pFontManager = { nullptr };
+	class CUI_Manager*			m_pUIManager = { nullptr };
 
 public:
 	void Release_Engine();

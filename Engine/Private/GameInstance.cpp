@@ -9,6 +9,9 @@
 #include "PipeLine.h"
 #include "Collision_Manager.h"
 #include "Target_Manager.h"
+#include "Font_Manager.h"
+#include "UI_Manager.h"
+
 #include "GameObject.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
@@ -33,6 +36,12 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 		return E_FAIL;
 
 	// 사운드 디바이스 초기화
+	
+	// 폰트 매니저 초기화
+	m_pFontManager = CFont_Manager::Create(*ppDevice, *ppDeviceContext);
+	if (m_pFontManager == nullptr)
+		return E_FAIL;
+
 	// 타이머 매니저 초기화
 	m_pTimerManager = CTimer_Manager::Create();
 	if (m_pTimerManager == nullptr)
@@ -61,6 +70,11 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	// 렌더러 초기화
 	m_pRenderer = CRenderer::Create(*ppDevice, *ppDeviceContext);
 	if (m_pRenderer == nullptr)
+		return E_FAIL;
+
+	// UI 매니저 초기화
+	m_pUIManager = CUI_Manager::Create();
+	if (m_pUIManager == nullptr)
 		return E_FAIL;
 
 	// 파이프라인 초기화
@@ -373,9 +387,29 @@ HRESULT CGameInstance::Debug_RT_Render(const _wstring& strMRTTag, CShader* pShad
 #endif // _DEBUG
 #pragma endregion
 
+#pragma region FONT_MANAGER
+HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath)
+{
+	return m_pFontManager->Add_Font(strFontTag, pFontFilePath);
+}
+
+HRESULT CGameInstance::Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPosition, _fvector vColor)
+{
+	return m_pFontManager->Draw_Text(strFontTag, pText, vPosition, vColor);
+}
+#pragma endregion
+
+#pragma region UI_MANAGER
+HRESULT CGameInstance::Add_UI(_wstring strUITag, CUIObj* pUIObj)
+{
+	return m_pUIManager->Add_UI(strUITag, pUIObj);
+}
+#pragma endregion
 
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pUIManager);
+	Safe_Release(m_pFontManager);
 	Safe_Release(m_pCollisionManager);
 	Safe_Release(m_pLightManager);
 	Safe_Release(m_pTimerManager);

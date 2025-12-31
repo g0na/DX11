@@ -108,7 +108,7 @@ HRESULT CLoader::Loading_Logo()
 
 	// For Prototype_Component_Texture_Background
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_Component_Texture_Background"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default0.jpg"), 1))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/menu_local-tpf/Title.dds"), 1))))
 		return E_FAIL;
 	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));

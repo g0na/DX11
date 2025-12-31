@@ -27,8 +27,7 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
-	if (m_pLoader->isFinished() == true &&
-		GetAsyncKeyState(VK_RETURN) & 0x8000)
+	if (m_pLoader->isFinished() == true)
 	{
 		CLevel* pNewLevel = { nullptr };
 

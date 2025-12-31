@@ -17,6 +17,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	HRESULT Ready_Fonts();
 	HRESULT	Ready_Layer_Background(const _wstring& strLayerTag);
 
 public:

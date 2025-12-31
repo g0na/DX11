@@ -57,7 +57,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     // g_Texture.Sample(어떤 방식으로 샘플링할지, 어디의 색을 얻어올지)
     
-    vector vColor = g_Texture.Sample(DefaultSampler, In.vTexCoord * 2.f);
+    vector vColor = g_Texture.Sample(DefaultSampler, In.vTexCoord);
     
     Out.vColor = vColor.r;
     

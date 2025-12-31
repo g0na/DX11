@@ -24,10 +24,21 @@ public:
 	virtual void	Update_Late(_float fTimeDelta);
 	virtual HRESULT	Render();
 
+public:
+	virtual _float	Get_Ratio() { return m_fRatio; }
+
+	virtual void	Set_Ratio(_float fRatio) { m_fRatio = fRatio; }
+	virtual void	Set_Visible(_bool bVisible) { m_bVisible = bVisible; }
+
 protected:
 	// 직교 투영을 위한 데이터들
 	_float			m_fX{}, m_fY{}, m_fSizeX{}, m_fSizeY{};
 	_float4x4		m_ViewMatrix{}, m_ProjMatrix{};
+
+protected:
+	_bool			m_bVisible = { true };
+
+	_float			m_fRatio = {};
 
 protected:
 	// 뷰, 투영행렬을 렌더링할 때 이용할 수 있도록 세팅해주는 작업

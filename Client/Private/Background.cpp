@@ -27,7 +27,7 @@ HRESULT CBackground::Initialize(void* pArg)
 	Desc.fX = g_iWinSizeX >> 1;
 	Desc.fY = g_iWinSizeY >> 1;
 	Desc.fSizeX = g_iWinSizeX;
-	Desc.fSizeY = g_iWinSizeY;
+	Desc.fSizeY = g_iWinSizeY >> 1;
 	lstrcpy(Desc.szName, TEXT("BackGround"));
 	Desc.fSpeedPerSec = 10.f;
 	Desc.fRotationPerSec = 0.f;
@@ -43,43 +43,22 @@ HRESULT CBackground::Initialize(void* pArg)
 
 void CBackground::Update_Priority(_float fTimeDelta)
 {
-	int a = 10;
 }
 
 void CBackground::Update(_float fTimeDelta)
 {
-	int a = 10;
 }
 
 void CBackground::Update_Late(_float fTimeDelta)
 {
+	if (m_bVisible == false)
+		return;
+
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::UI, this);
 }
 
 HRESULT CBackground::Render()
 {
-#pragma region 원근 투영
-	// 원근 투영을 위해 쉐이더에 행렬을 전달해주는 과정
-	// 임의로 월드, 뷰, 투영 행렬을 만들어서 전달했다.
-	//_float4x4		WorldMat, ViewMat, ProjMat;
-
-	//XMStoreFloat4x4(&WorldMat, XMMatrixIdentity());
-	//// 계산된 뷰 행렬을 출력 (Eye, Look, Up)
-	//XMStoreFloat4x4(&ViewMat,
-	//	XMMatrixLookAtLH(XMVectorSet(0.f, 0.f, -3.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.f, 1.f, 0.f, 0.f)));
-
-	//// 원근투영 행렬을 돌려준다. (수직 시야각, 종횡비 = 너비 / 높이, 가까운 평면까지의 거리, 먼 평면까지의 거리)
-	//XMStoreFloat4x4(&ProjMat,
-	//	XMMatrixPerspectiveFovLH(XMConvertToRadians(60.f), static_cast<_float>(g_iWinSizeX) / g_iWinSizeY, 0.1f, 500.f));
-
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &WorldMat)))
-	//	return E_FAIL;
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &ViewMat)))
-	//	return E_FAIL;
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &ProjMat)))
-	//	return E_FAIL;
-#pragma endregion
-
 	// 직교 투영을 위해 쉐이더에 행렬을 전달해주는 과정!!!!!!!!!!!!!!!!!!!!!!!!!
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;

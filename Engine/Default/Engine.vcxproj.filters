@@ -160,6 +160,18 @@
     <Filter Include="01. Utility\08. RenderTargets\Manager">
       <UniqueIdentifier>{f8775284-636a-46e8-b93b-27bd341aebac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\09. UI">
+      <UniqueIdentifier>{1b621751-0e91-4c04-ae38-88c8c1fd086a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\09. UI\00. Manager">
+      <UniqueIdentifier>{287fa873-753e-458f-9857-f2e7ad5f5da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\10. Font">
+      <UniqueIdentifier>{96aceeec-f1c5-492f-a9cd-41ddd1414a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\10. Font\00. Manager">
+      <UniqueIdentifier>{0112360e-4a37-4e2d-8a12-48233c113a19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -302,6 +314,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Target_Manager.cpp">
       <Filter>01. Utility\08. RenderTargets\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Manager.cpp">
+      <Filter>01. Utility\09. UI\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Font.cpp">
+      <Filter>01. Utility\10. Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Font_Manager.cpp">
+      <Filter>01. Utility\10. Font\00. Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +484,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Target_Manager.h">
       <Filter>01. Utility\08. RenderTargets\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Manager.h">
+      <Filter>01. Utility\09. UI\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Font.h">
+      <Filter>01. Utility\10. Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Font_Manager.h">
+      <Filter>01. Utility\10. Font\00. Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

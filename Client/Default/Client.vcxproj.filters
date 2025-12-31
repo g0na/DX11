@@ -28,9 +28,6 @@
     <Filter Include="02. GameObjects">
       <UniqueIdentifier>{15daa1cb-cd87-4cf3-b8c3-82f1f2d38ae9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\00. Background">
-      <UniqueIdentifier>{5fbf98f5-3cbd-42c1-952d-9d237a29059c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{4b55862d-0090-4231-9ffa-db08028f4f61}</UniqueIdentifier>
     </Filter>
@@ -175,6 +172,12 @@
     <Filter Include="02. GameObjects\01. Map">
       <UniqueIdentifier>{8fe118d0-9d43-4b79-98ea-4b272f3794e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\00. UI">
+      <UniqueIdentifier>{5fbf98f5-3cbd-42c1-952d-9d237a29059c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\00. MainMenu">
+      <UniqueIdentifier>{31b8bcb3-99c0-4cc2-a865-dba2804528c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -206,9 +209,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_GamePlay.h">
       <Filter>01. Levels\02. GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Background.h">
-      <Filter>02. GameObjects\00. Background</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Map.h">
       <Filter>02. GameObjects\01. Map</Filter>
@@ -342,6 +342,9 @@
     <ClInclude Include="..\Public\Weapon_Hollow.h">
       <Filter>02. GameObjects\03. Monster\Hollow\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Background.h">
+      <Filter>02. GameObjects\00. UI\00. MainMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -374,9 +377,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01. Levels\02. GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Background.cpp">
-      <Filter>02. GameObjects\00. Background</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Map.cpp">
       <Filter>02. GameObjects\01. Map</Filter>
@@ -509,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Weapon_Hollow.cpp">
       <Filter>02. GameObjects\03. Monster\Hollow\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Background.cpp">
+      <Filter>02. GameObjects\00. UI\00. MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
