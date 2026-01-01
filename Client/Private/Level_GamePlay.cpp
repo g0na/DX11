@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Camera_Free.h"
 #include "Player.h"
+#include "UIObj.h"
 
 USING(Client)
 
@@ -24,7 +25,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Background(TEXT("Layer_Background"))))
+	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_UIs(TEXT("Layer_UI"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -85,6 +89,16 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PlayerHP"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_PlayerHP"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	return S_OK;
@@ -112,7 +126,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Background(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
 {
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map1"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);

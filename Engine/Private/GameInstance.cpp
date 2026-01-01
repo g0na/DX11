@@ -404,6 +404,16 @@ HRESULT CGameInstance::Add_UI(_wstring strUITag, CUIObj* pUIObj)
 {
 	return m_pUIManager->Add_UI(strUITag, pUIObj);
 }
+
+void CGameInstance::Show_UI(_wstring strUITag)
+{
+	return m_pUIManager->Show_UI(strUITag);
+}
+
+void CGameInstance::Hide_UI(_wstring strUITag)
+{
+	return m_pUIManager->Hide_UI(strUITag);
+}
 #pragma endregion
 
 void CGameInstance::Release_Engine()

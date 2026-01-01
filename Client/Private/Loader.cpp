@@ -1,8 +1,9 @@
 #include "Loader.h"	
-#include "Background.h"
 #include "GameInstance.h"
-#include "Terrain.h"
 #include "Camera_Free.h"
+
+#include "Background.h"
+#include "Player_HP.h"
 
 #include "Monster_Darkwraith.h"
 #include "Weapon_Darkwraith.h"
@@ -130,6 +131,12 @@ HRESULT CLoader::Loading_Logo()
 
 HRESULT CLoader::Loading_GamePlay()
 {
+	UpdateLoadingText(TEXT("텍스쳐를 로딩 중 입니다."));
+	// For Prototype_Component_Texture_PlayerHP
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_Component_Texture_PlayerHP"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/Menu08.dds"), 1))))
+		return E_FAIL;
+
 	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
 	/* For.Prototype_Component_StateMachine */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
@@ -249,6 +256,10 @@ HRESULT CLoader::Loading_GamePlay()
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("객체원형을(를) 로딩 중 입니다."));
+	/* For.Prototype_GameObject_PlayerHP */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_PlayerHP"),
+		CPlayer_HP::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera_Free */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),

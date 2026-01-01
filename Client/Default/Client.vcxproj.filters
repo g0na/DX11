@@ -178,6 +178,9 @@
     <Filter Include="02. GameObjects\00. UI\00. MainMenu">
       <UniqueIdentifier>{31b8bcb3-99c0-4cc2-a865-dba2804528c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\00. UI\01. PlayerHP">
+      <UniqueIdentifier>{33fd12ad-717a-40ac-913d-30fb3cbada60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -344,6 +347,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Background.h">
       <Filter>02. GameObjects\00. UI\00. MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_HP.h">
+      <Filter>02. GameObjects\00. UI\01. PlayerHP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -512,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Background.cpp">
       <Filter>02. GameObjects\00. UI\00. MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_HP.cpp">
+      <Filter>02. GameObjects\00. UI\01. PlayerHP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

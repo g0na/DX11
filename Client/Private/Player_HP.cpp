@@ -1,24 +1,24 @@
-#include "Background.h"
+#include "Player_HP.h"
 #include "GameInstance.h"
 
 USING(Client)
 
-CBackground::CBackground(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPlayer_HP::CPlayer_HP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUIObj { pDevice, pContext }
 {
 }
 
-CBackground::CBackground(const CBackground& Prototype)
+CPlayer_HP::CPlayer_HP(const CPlayer_HP& Prototype)
 	: CUIObj { Prototype }
 {
 }
 
-HRESULT CBackground::Initialize_Prototype()
+HRESULT CPlayer_HP::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CBackground::Initialize(void* pArg)
+HRESULT CPlayer_HP::Initialize(void* pArg)
 {
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
@@ -26,8 +26,8 @@ HRESULT CBackground::Initialize(void* pArg)
 	Desc.fX = g_iWinSizeX >> 1;
 	Desc.fY = g_iWinSizeY >> 1;
 	Desc.fSizeX = g_iWinSizeX;
-	Desc.fSizeY = g_iWinSizeY >> 1;
-	lstrcpy(Desc.szName, TEXT("BackGround"));
+	Desc.fSizeY = g_iWinSizeY;
+	lstrcpy(Desc.szName, TEXT("Player_HP"));
 	Desc.fSpeedPerSec = 10.f;
 	Desc.fRotationPerSec = 0.f;
 
@@ -40,15 +40,15 @@ HRESULT CBackground::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CBackground::Update_Priority(_float fTimeDelta)
+void CPlayer_HP::Update_Priority(_float fTimeDelta)
 {
 }
 
-void CBackground::Update(_float fTimeDelta)
+void CPlayer_HP::Update(_float fTimeDelta)
 {
 }
 
-void CBackground::Update_Late(_float fTimeDelta)
+void CPlayer_HP::Update_Late(_float fTimeDelta)
 {
 	if (m_bVisible == false)
 		return;
@@ -56,7 +56,7 @@ void CBackground::Update_Late(_float fTimeDelta)
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::UI, this);
 }
 
-HRESULT CBackground::Render()
+HRESULT CPlayer_HP::Render()
 {
 	// 직교 투영을 위해 쉐이더에 행렬을 전달해주는 과정!!!!!!!!!!!!!!!!!!!!!!!!!
 	if (FAILED(Bind_ShaderResources()))
@@ -74,7 +74,7 @@ HRESULT CBackground::Render()
 	return S_OK;
 }
 
-HRESULT CBackground::Ready_Components()
+HRESULT CPlayer_HP::Ready_Components()
 {
 	// Com_VIBuffer 추가
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -87,14 +87,14 @@ HRESULT CBackground::Ready_Components()
 		return E_FAIL;
 
 	// Com_Texture 추가
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_Component_Texture_Background"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_Component_Texture_PlayerHP"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CBackground::Bind_ShaderResources()
+HRESULT CPlayer_HP::Bind_ShaderResources()
 {
 	// 직교투영용 뷰, 투영 행렬을 쉐이더에 전달한다.
 	if (FAILED(__super::Bind_OrthoMatrices(m_pShaderCom, "g_ViewMatrix", "g_ProjMatrix")))
@@ -111,33 +111,33 @@ HRESULT CBackground::Bind_ShaderResources()
 	return S_OK;
 }
 
-CBackground* CBackground::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPlayer_HP* CPlayer_HP::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CBackground* pInstance = new CBackground(pDevice, pContext);
+	CPlayer_HP* pInstance = new CPlayer_HP(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CBackGround");
+		MSG_BOX("Failed to Created : CPlayer_HP");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CBackground::Clone(void* pArg)
+CGameObject* CPlayer_HP::Clone(void* pArg)
 {
-	CBackground* pInstance = new CBackground(*this);
+	CPlayer_HP* pInstance = new CPlayer_HP(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CBackGround");
+		MSG_BOX("Failed to Clone : CPlayer_HP");
 		Safe_Release(pInstance);
 	}
 	
 	return pInstance;
 }
 
-void CBackground::Free()
+void CPlayer_HP::Free()
 {
 	__super::Free();
 

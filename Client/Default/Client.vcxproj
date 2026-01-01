@@ -189,6 +189,7 @@
     <ClInclude Include="..\Public\Player_HealEnd.h" />
     <ClInclude Include="..\Public\Player_Healing.h" />
     <ClInclude Include="..\Public\Player_HealStart.h" />
+    <ClInclude Include="..\Public\Player_HP.h" />
     <ClInclude Include="..\Public\Player_Idle.h" />
     <ClInclude Include="..\Public\Player_Recoil.h" />
     <ClInclude Include="..\Public\Player_Roll.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="..\Private\Player_HealEnd.cpp" />
     <ClCompile Include="..\Private\Player_Healing.cpp" />
     <ClCompile Include="..\Private\Player_HealStart.cpp" />
+    <ClCompile Include="..\Private\Player_HP.cpp" />
     <ClCompile Include="..\Private\Player_Idle.cpp" />
     <ClCompile Include="..\Private\Player_Recoil.cpp" />
     <ClCompile Include="..\Private\Player_Roll.cpp" />
