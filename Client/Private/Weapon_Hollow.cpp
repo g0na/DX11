@@ -95,8 +95,8 @@ HRESULT CWeapon_Hollow::Ready_Components()
 	for (_uint i = 0; i < m_iColliderCnt; i++)
 	{
 		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-		SphereDesc.fRadius = 0.1f;
-		_float fOffset = SphereDesc.fRadius - 1.2f + (0.25f * i);
+		SphereDesc.fRadius = 0.2f;
+		_float fOffset = SphereDesc.fRadius - 0.8f + (0.25f * i);
 		SphereDesc.vCenter = _float3(0.f, 0.f, fOffset);
 
 		CCollider* pCollider = dynamic_cast<CCollider*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_TO_UINT(LEVELID::GAMEPLAY),
