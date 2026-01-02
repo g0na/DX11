@@ -34,6 +34,8 @@ void CPlayer_Healing::Enter_State()
     if (m_pPlayerBody != nullptr)
         m_pPlayerBody->Set_Animation(20, false);
 
+    static_cast<CPlayer*>(m_pOwner)->Heal(25.f);
+
     m_fCoolDown = 0.f;
 }
 
@@ -68,7 +70,9 @@ void CPlayer_Healing::Update_State(_float fTimeDelta)
 
     // ¿¡½ºÆ® ¸Ô±â
     if (m_pPlayerBody->Get_IsAnimFinish() == true)
+    {
         m_pStateMachine->Change_State(CPlayer::HEAL_END);
+    }
 }
 
 void CPlayer_Healing::Exit_State()

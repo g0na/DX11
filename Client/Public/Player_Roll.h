@@ -33,10 +33,12 @@ private:
 	class CBody*		m_pPlayerBody = { nullptr };
 	class CCamera_Free* m_pPlayerCamera = { nullptr };
 
+private:
 	_vector			m_vInputDir = {};
 	_float*			m_pCurAngle = { nullptr };
 	_bool			m_CanRoll = {};
 	_float			m_fCoolDown = {};
+	_float			m_fPlayerStamina = {};
 
 public:
 	static CPlayer_Roll* Create(class CGameObject* pOwner, CBody* pBody);

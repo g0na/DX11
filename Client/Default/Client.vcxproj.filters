@@ -178,8 +178,47 @@
     <Filter Include="02. GameObjects\00. UI\00. MainMenu">
       <UniqueIdentifier>{31b8bcb3-99c0-4cc2-a865-dba2804528c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\00. UI\01. PlayerHP">
+    <Filter Include="02. GameObjects\01. Map\Fog">
+      <UniqueIdentifier>{c9366696-7f52-4f76-9db4-5ba9b2b7724b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Mountain">
+      <UniqueIdentifier>{4f911886-d007-4cad-bce8-4997a2686e37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Sky">
+      <UniqueIdentifier>{0d6bc836-e91d-4d80-b041-f814bd43686f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map1">
+      <UniqueIdentifier>{592e9214-7c6e-4715-a382-12c57b8c95b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map2">
+      <UniqueIdentifier>{81a3fea0-e4b2-439a-bd5a-9e704ec67ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map3">
+      <UniqueIdentifier>{cbafe02f-ada4-4ebd-893d-9d18e55f86a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\Map4">
+      <UniqueIdentifier>{f7d92fe2-04c6-44fe-b06c-cfab5e66b14a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\01. PlayerSlot">
       <UniqueIdentifier>{33fd12ad-717a-40ac-913d-30fb3cbada60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\01. PlayerSlot\Estus">
+      <UniqueIdentifier>{3605ecd3-d4f5-48ed-8812-c784be2a6084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\01. PlayerSlot\Weapon">
+      <UniqueIdentifier>{4cd84afd-74f0-4b30-a8c2-4e287cdc33e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\01. PlayerSlot\Shield">
+      <UniqueIdentifier>{d2db6d77-ab0a-4b8e-bcab-0d6086a2f377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\02. Player_Gauge">
+      <UniqueIdentifier>{8fa5bf1b-290c-4022-8be3-d929d756df0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\02. Player_Gauge\00. Player_HP">
+      <UniqueIdentifier>{ab4ab332-32f6-4370-afca-ee131657ab04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina">
+      <UniqueIdentifier>{6e6ff22c-e9d1-4ed0-b0f8-9a06fb460d32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +251,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Level_GamePlay.h">
       <Filter>01. Levels\02. GamePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Map.h">
-      <Filter>02. GameObjects\01. Map</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Body.h">
       <Filter>02. GameObjects\02. Player\00. Body</Filter>
@@ -348,8 +384,50 @@
     <ClInclude Include="..\Public\Background.h">
       <Filter>02. GameObjects\00. UI\00. MainMenu</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Player_HP.h">
-      <Filter>02. GameObjects\00. UI\01. PlayerHP</Filter>
+    <ClInclude Include="..\Public\Player_Slot.h">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Fog.h">
+      <Filter>02. GameObjects\01. Map\Fog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mountain.h">
+      <Filter>02. GameObjects\01. Map\Mountain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sky.h">
+      <Filter>02. GameObjects\01. Map\Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map.h">
+      <Filter>02. GameObjects\01. Map\Map1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map2.h">
+      <Filter>02. GameObjects\01. Map\Map2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map3.h">
+      <Filter>02. GameObjects\01. Map\Map3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map4.h">
+      <Filter>02. GameObjects\01. Map\Map4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Estus.h">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot\Estus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Weapon.h">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Shield.h">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot\Shield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_HP.h">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\00. Player_HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_Gauge.h">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\00. Player_HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_Stamina.h">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Player_Stamina_Gauge.h">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -380,12 +458,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Logo.cpp">
       <Filter>01. Levels\01. Logo</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_GamePlay.cpp">
-      <Filter>01. Levels\02. GamePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Map.cpp">
-      <Filter>02. GameObjects\01. Map</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Body.cpp">
       <Filter>02. GameObjects\02. Player\00. Body</Filter>
@@ -519,8 +591,53 @@
     <ClCompile Include="..\Private\Background.cpp">
       <Filter>02. GameObjects\00. UI\00. MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Player_HP.cpp">
-      <Filter>02. GameObjects\00. UI\01. PlayerHP</Filter>
+    <ClCompile Include="..\Private\Player_Slot.cpp">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Fog.cpp">
+      <Filter>02. GameObjects\01. Map\Fog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mountain.cpp">
+      <Filter>02. GameObjects\01. Map\Mountain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sky.cpp">
+      <Filter>02. GameObjects\01. Map\Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map.cpp">
+      <Filter>02. GameObjects\01. Map\Map1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map2.cpp">
+      <Filter>02. GameObjects\01. Map\Map2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map3.cpp">
+      <Filter>02. GameObjects\01. Map\Map3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Map4.cpp">
+      <Filter>02. GameObjects\01. Map\Map4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Estus.cpp">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot\Estus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Weapon.cpp">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Shield.cpp">
+      <Filter>02. GameObjects\00. UI\01. PlayerSlot\Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_HP.cpp">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\00. Player_HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01. Levels\02. GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_Gauge.cpp">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\00. Player_HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_Stamina.cpp">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Player_Stamina_Gauge.cpp">
+      <Filter>02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

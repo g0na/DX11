@@ -31,6 +31,9 @@ private:
 	class CBody*	m_pPlayerBody = { nullptr };
 	class CCamera_Free* m_pPlayerCamera = { nullptr };
 
+private:
+	_float			m_fPlayerStamina = {};
+
 public:
 	static CPlayer_Idle* Create(class CGameObject* pOwner, CBody* pBody);
 	virtual void Free() override;

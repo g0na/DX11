@@ -40,6 +40,10 @@ void CPlayer_Attack::Enter_State()
     if (m_pPlayerBody != nullptr)
         m_pPlayerBody->Set_Animation(26, false);
 
+    // 스태미나 세팅
+    m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), false);
+    static_cast<CPlayer*>(m_pOwner)->Set_Stamina(20.f);
+
     // 처음 공격 상태로 들어오면 무조건 공격 횟수 증가
     m_iAttackCnt++;
     m_fAttackDelay = 0.f;
@@ -74,6 +78,9 @@ void CPlayer_Attack::Enter_State()
 
 void CPlayer_Attack::Update_State(_float fTimeDelta)
 {
+    // 스태미너 받아오기
+    m_fPlayerStamina = static_cast<CPlayer*>(m_pOwner)->Get_CurStamina();
+
     // 피격
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) ||
         m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
@@ -89,7 +96,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
     else
         m_pPlayerWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
 
-    if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+    if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && m_fPlayerStamina > 0.f)
     {
         // 공격 횟수에 따른 구분
         switch (m_iAttackCnt)
@@ -99,6 +106,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             if (m_fAttackDelay >= 0.6f)
             {
                 m_pPlayerBody->Set_Animation(26, false);
+                static_cast<CPlayer*>(m_pOwner)->Set_Stamina(20.f);
 
                 m_iAttackCnt++;
                 m_fAttackDelay = 0.f;
@@ -113,6 +121,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             if (m_fAttackDelay >= 0.6f)
             {
                 m_pPlayerBody->Set_Animation(27, false);
+                static_cast<CPlayer*>(m_pOwner)->Set_Stamina(20.f);
 
                 m_iAttackCnt = 0;
                 m_fAttackDelay = 0.f;
@@ -124,7 +133,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
         }
     }
 
-    if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fAttackDelay >= 1.f)
+    if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fAttackDelay >= 1.f && m_fPlayerStamina > 0.f)
     {
         m_pStateMachine->Change_State(CPlayer::ROLL);
     }
@@ -137,6 +146,7 @@ void CPlayer_Attack::Exit_State()
     m_pPlayerWeapon->Set_CollisionEnabled(false);
     m_iAttackCnt = 0;
     m_fAttackDelay = 0.f;
+    m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), true);
 }
 
 CPlayer_Attack* CPlayer_Attack::Create(CGameObject* pOwner, CBody* pBody)

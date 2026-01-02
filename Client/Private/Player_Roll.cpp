@@ -40,6 +40,10 @@ void CPlayer_Roll::Enter_State()
     if (m_pPlayerBody != nullptr)
         m_pPlayerBody->Set_Animation(9, false);
 
+    // 스태미나 세팅
+    m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), false);
+    static_cast<CPlayer*>(m_pOwner)->Set_Stamina(15.f);
+
     m_CanRoll = false;
     m_fCoolDown = 0.f;
 
@@ -98,6 +102,9 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
     if (m_fCoolDown >= 1.1f)
         m_CanRoll = true;
 
+    // 스태미너 받아오기
+    m_fPlayerStamina = static_cast<CPlayer*>(m_pOwner)->Get_CurStamina();
+
     if (m_CanRoll)
     {
         m_vInputDir = XMVectorZero();
@@ -136,7 +143,7 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
             return;
         }
 
-        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+        if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fPlayerStamina > 0.f)
             Enter_State();
     }
 
@@ -147,6 +154,7 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
 void CPlayer_Roll::Exit_State()
 {
     m_CanRoll = true;
+    m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), true);
 }
 
 CPlayer_Roll* CPlayer_Roll::Create(CGameObject* pOwner, CBody* pBody)

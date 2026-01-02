@@ -1,34 +1,34 @@
-#include "Player_HP.h"
+#include "UI_Weapon.h"
 #include "GameInstance.h"
 
 USING(Client)
 
-CPlayer_HP::CPlayer_HP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_Weapon::CUI_Weapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUIObj { pDevice, pContext }
 {
 }
 
-CPlayer_HP::CPlayer_HP(const CPlayer_HP& Prototype)
+CUI_Weapon::CUI_Weapon(const CUI_Weapon& Prototype)
 	: CUIObj { Prototype }
 {
 }
 
-HRESULT CPlayer_HP::Initialize_Prototype()
+HRESULT CUI_Weapon::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CPlayer_HP::Initialize(void* pArg)
+HRESULT CUI_Weapon::Initialize(void* pArg)
 {
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX >> 1;
-	Desc.fY = g_iWinSizeY >> 1;
-	Desc.fSizeX = g_iWinSizeX;
-	Desc.fSizeY = g_iWinSizeY;
-	lstrcpy(Desc.szName, TEXT("Player_HP"));
-	Desc.fSpeedPerSec = 10.f;
+	Desc.fX = g_iWinSizeX * 0.25f;
+	Desc.fY = g_iWinSizeY * 0.75f;
+	Desc.fSizeX = 76;
+	Desc.fSizeY = 119;
+	lstrcpy(Desc.szName, TEXT("UI_Weapon"));
+	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;
 
 	if (FAILED(__super::Initialize(&Desc)))
@@ -37,18 +37,20 @@ HRESULT CPlayer_HP::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	//m_bVisible = false;
+
 	return S_OK;
 }
 
-void CPlayer_HP::Update_Priority(_float fTimeDelta)
+void CUI_Weapon::Update_Priority(_float fTimeDelta)
 {
 }
 
-void CPlayer_HP::Update(_float fTimeDelta)
+void CUI_Weapon::Update(_float fTimeDelta)
 {
 }
 
-void CPlayer_HP::Update_Late(_float fTimeDelta)
+void CUI_Weapon::Update_Late(_float fTimeDelta)
 {
 	if (m_bVisible == false)
 		return;
@@ -56,7 +58,7 @@ void CPlayer_HP::Update_Late(_float fTimeDelta)
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::UI, this);
 }
 
-HRESULT CPlayer_HP::Render()
+HRESULT CUI_Weapon::Render()
 {
 	// 직교 투영을 위해 쉐이더에 행렬을 전달해주는 과정!!!!!!!!!!!!!!!!!!!!!!!!!
 	if (FAILED(Bind_ShaderResources()))
@@ -74,7 +76,7 @@ HRESULT CPlayer_HP::Render()
 	return S_OK;
 }
 
-HRESULT CPlayer_HP::Ready_Components()
+HRESULT CUI_Weapon::Ready_Components()
 {
 	// Com_VIBuffer 추가
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -87,14 +89,14 @@ HRESULT CPlayer_HP::Ready_Components()
 		return E_FAIL;
 
 	// Com_Texture 추가
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::LOGO), TEXT("Prototype_Component_Texture_PlayerHP"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_Weapon"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CPlayer_HP::Bind_ShaderResources()
+HRESULT CUI_Weapon::Bind_ShaderResources()
 {
 	// 직교투영용 뷰, 투영 행렬을 쉐이더에 전달한다.
 	if (FAILED(__super::Bind_OrthoMatrices(m_pShaderCom, "g_ViewMatrix", "g_ProjMatrix")))
@@ -111,33 +113,33 @@ HRESULT CPlayer_HP::Bind_ShaderResources()
 	return S_OK;
 }
 
-CPlayer_HP* CPlayer_HP::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_Weapon* CUI_Weapon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CPlayer_HP* pInstance = new CPlayer_HP(pDevice, pContext);
+	CUI_Weapon* pInstance = new CUI_Weapon(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CPlayer_HP");
+		MSG_BOX("Failed to Created : CUI_Weapon");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CPlayer_HP::Clone(void* pArg)
+CGameObject* CUI_Weapon::Clone(void* pArg)
 {
-	CPlayer_HP* pInstance = new CPlayer_HP(*this);
+	CUI_Weapon* pInstance = new CUI_Weapon(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CPlayer_HP");
+		MSG_BOX("Failed to Clone : CUI_Weapon");
 		Safe_Release(pInstance);
 	}
 	
 	return pInstance;
 }
 
-void CPlayer_HP::Free()
+void CUI_Weapon::Free()
 {
 	__super::Free();
 

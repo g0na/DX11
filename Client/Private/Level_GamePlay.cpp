@@ -91,8 +91,51 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PlayerHP"),
-		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_PlayerHP"),
+	// Player_Slot
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PlayerSlot"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_PlayerSlot"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Estus
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Estus"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Estus"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Weapon
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Weapon"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Weapon"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Shield
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Shield"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Shield"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Player_HP
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Player_HP"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Player_HP"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Player_Gauge
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Player_Gauge"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Player_Gauge"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Player_Stamina
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Player_Stamina"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Player_Stamina"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Player_Stamina_Gauge
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Player_Stamina_Gauge"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Player_Stamina_Gauge"),
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 
@@ -106,14 +149,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }
@@ -128,10 +171,76 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
 {
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map1"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map1"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+
+	Load_Mapdata(TEXT("../Bin/DataFiles/Map_Objects.json"));
 
 	return S_OK;
+}
+
+_wstring CLevel_GamePlay::CharToWstring(const _char* pString)
+{
+	_uint iStringSize = MultiByteToWideChar(CP_ACP, 0, pString, -1, NULL, 0);
+
+	_wstring strResult(iStringSize - 1, 0);
+	MultiByteToWideChar(CP_ACP, 0, pString, -1, &strResult[0], iStringSize);
+
+	return strResult;
+}
+
+HRESULT CLevel_GamePlay::Load_Mapdata(const _tchar* pFilePath)
+{
+	ifstream fileJson(pFilePath, ios::in);
+	if (fileJson.is_open() == false)
+		return E_FAIL;
+
+	m_strJsonPath = pFilePath;
+
+	ordered_json objectDatas = ordered_json::array();
+	fileJson >> objectDatas;
+	fileJson.close();
+
+	for (auto& objectData : objectDatas)
+	{
+		JSONGAMEOBJECT_DESC jsonDesc{};
+		from_json(objectData, jsonDesc);
+
+		_wstring strProtoTag = CharToWstring(jsonDesc.strPrototypeTag.c_str());
+		_wstring strLayerTag = CharToWstring(jsonDesc.strLayerTag.c_str());
+		m_vRotationAngle = jsonDesc.vRotation;
+
+		CGameObject* pGameObject = m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), strProtoTag,
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+		if (pGameObject == nullptr)
+			return E_FAIL;
+
+		CTransform* pTransformCom = pGameObject->Get_Component<CTransform>(g_strTransformTag);
+		pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(XMLoadFloat3(&jsonDesc.vPosition), 1.f));
+		pTransformCom->Set_Scale(jsonDesc.vScale.x, jsonDesc.vScale.y, jsonDesc.vScale.z);
+		pTransformCom->Rotation(XMConvertToRadians(jsonDesc.vRotation.x), XMConvertToRadians(jsonDesc.vRotation.y), XMConvertToRadians(jsonDesc.vRotation.z));
+		pTransformCom->Set_RotationAngle(m_vRotationAngle);
+	}
+
+	return S_OK;
+}
+
+void CLevel_GamePlay::from_json(const ordered_json& j, JSONGAMEOBJECT_DESC& jsonDesc)
+{
+	j["PrototypeTag"].get_to(jsonDesc.strPrototypeTag);
+	j["LayerTag"].get_to(jsonDesc.strLayerTag);
+
+	j["Position"][0].get_to(jsonDesc.vPosition.x);
+	j["Position"][1].get_to(jsonDesc.vPosition.y);
+	j["Position"][2].get_to(jsonDesc.vPosition.z);
+
+	j["Rotation"][0].get_to(jsonDesc.vRotation.x);
+	j["Rotation"][1].get_to(jsonDesc.vRotation.y);
+	j["Rotation"][2].get_to(jsonDesc.vRotation.z);
+
+	j["Scale"][0].get_to(jsonDesc.vScale.x);
+	j["Scale"][1].get_to(jsonDesc.vScale.y);
+	j["Scale"][2].get_to(jsonDesc.vScale.z);
 }
 
 

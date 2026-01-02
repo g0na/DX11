@@ -111,7 +111,7 @@ void CRenderer::Draw()
 	Draw_UI();
 
 #ifdef _DEBUG
-	Render_Debug();
+	//Render_Debug();
 #endif // _DEBUG
 }
 

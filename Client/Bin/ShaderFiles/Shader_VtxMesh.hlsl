@@ -31,7 +31,7 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.vPosition = vPosition;
     Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
     Out.vTexCoord = In.vTexCoord;
-    Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);      // 픽셀의 위치는 뷰포트이기 때문에 월드 공간으로 변환해서 넘겨준다.
+    Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix); // 픽셀의 위치는 뷰포트이기 때문에 월드 공간으로 변환해서 넘겨준다.
     
     return Out;
 }
@@ -50,7 +50,7 @@ struct PS_IN
 };
 
 struct PS_OUT
-{   
+{
     vector vDiffuse : SV_TARGET0;
     vector vNormal : SV_TARGET1;
 };
@@ -73,6 +73,69 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_SKY(PS_IN In)
+{
+    PS_OUT Out;
+    
+    // g_DiffuseTexture.Sample(어떤 방식으로 샘플링할지, 어디의 색을 얻어올지)
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
+    
+    //if (vMtrlDiffuse.a < 0.0025f)
+    //    discard;
+    
+    Out.vDiffuse = vMtrlDiffuse;
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    
+    return Out;
+}
+
+PS_OUT PS_FOG(PS_IN In)
+{
+    PS_OUT Out;
+    
+    // g_DiffuseTexture.Sample(어떤 방식으로 샘플링할지, 어디의 색을 얻어올지)
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
+    
+    //if (vMtrlDiffuse.a < 0.5f)
+    //    discard;
+    
+    Out.vDiffuse = vMtrlDiffuse;
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    
+    return Out;
+}
+
+PS_OUT PS_MOUNTAIN(PS_IN In)
+{
+    PS_OUT Out;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
+    
+    if (vMtrlDiffuse.a < 0.9f)
+        discard;
+    
+    Out.vDiffuse = vMtrlDiffuse;
+    Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    
+    return Out;
+}
+
+float4 PS_MOUNTAIN_SKY(PS_IN In) : SV_TARGET0
+{
+    PS_OUT Out;
+    
+    // g_DiffuseTexture.Sample(어떤 방식으로 샘플링할지, 어디의 색을 얻어올지)
+
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexCoord);
+
+    if (vMtrlDiffuse.a >= 0.9f || vMtrlDiffuse.a < 0.25f)
+        discard;
+    
+    return vMtrlDiffuse;
+}
+
 technique11 DefaultTechnique
 {
     pass Default
@@ -84,6 +147,61 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass AlphaBlend
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SKY();
+    }
+
+    pass Sky
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Sky, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SKY();
+    }
+
+    pass Fog
+    {
+        SetRasterizerState(RS_Fog);
+        SetDepthStencilState(DSS_Fog, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_FOG();
+    }
+
+    pass Mountain
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MOUNTAIN();
+    }
+
+    pass MountainSky
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MOUNTAIN_SKY();
     }
 
     // 한 technique에는 Default pass 이외에도 여러 pass가 들어올 수 있다.

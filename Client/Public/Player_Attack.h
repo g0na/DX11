@@ -32,11 +32,13 @@ private:
 	class CWeapon*	m_pPlayerWeapon = { nullptr };
 	class CCamera_Free* m_pPlayerCamera = { nullptr };
 
+private:
 	_vector			m_vInputDir = {};
 	_float*			m_pCurAngle = { nullptr };
 
 	_uint			m_iAttackCnt = {};
 	_float			m_fAttackDelay = {};
+	_float			m_fPlayerStamina = {};
 
 public:
 	static CPlayer_Attack* Create(class CGameObject* pOwner, CBody* pBody);

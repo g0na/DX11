@@ -31,9 +31,21 @@ void CPlayer_Recoil::Enter_State()
 
     // 넉백 유무에 따른 애니메이션 재생
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Knockback"), false) == true)
+    {
         m_pPlayerBody->Set_Animation(3, false);
+
+        // 스태미나 세팅
+        m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), false);
+        static_cast<CPlayer*>(m_pOwner)->Set_Stamina(30.f);
+    }
     else
+    {
         m_pPlayerBody->Set_Animation(2, false);
+
+        // 스태미나 세팅
+        m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), false);
+        static_cast<CPlayer*>(m_pOwner)->Set_Stamina(15.f);
+    }
 
     m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), false);
 }
@@ -75,6 +87,7 @@ void CPlayer_Recoil::Exit_State()
 {
     m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), false);
     m_pStateMachine->Set_BoolData(TEXT("Player_Guard_Knockback"), false);
+    m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), true);
 }
 
 CPlayer_Recoil* CPlayer_Recoil::Create(CGameObject* pOwner, CBody* pBody)

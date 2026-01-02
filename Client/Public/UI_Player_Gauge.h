@@ -10,12 +10,12 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CPlayer_HP final : public CUIObj
+class CUI_Player_Gauge final : public CUIObj
 {
 private:
-	explicit CPlayer_HP(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	explicit CPlayer_HP(const CPlayer_HP& Prototype);		// 메모리 복사를 통해서 객체를 생성
-	virtual ~CPlayer_HP() = default;
+	explicit CUI_Player_Gauge(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	explicit CUI_Player_Gauge(const CUI_Player_Gauge& Prototype);		// 메모리 복사를 통해서 객체를 생성
+	virtual ~CUI_Player_Gauge() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();					// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -35,7 +35,7 @@ private:
 	HRESULT		Bind_ShaderResources();
 
 public:
-	static	CPlayer_HP* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static	CUI_Player_Gauge* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

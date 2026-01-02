@@ -31,8 +31,10 @@ private:
 	class CBody* m_pPlayerBody = { nullptr };
 	class CCamera_Free* m_pPlayerCamera = { nullptr };
 
+private:
 	_vector			m_vInputDir = {};
 	_float*			m_pCurAngle = { nullptr };
+	_float			m_fPlayerStamina = {};
 
 public:
 	static CPlayer_Walk* Create(class CGameObject* pOwner, CBody* pBody);

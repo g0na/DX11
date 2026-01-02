@@ -36,6 +36,9 @@ void CPlayer_Run::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
         m_pPlayerBody->Set_Animation(13, true);
+
+    // 스태미나 세팅
+    m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), false);
 }
 
 void CPlayer_Run::Update_State(_float fTimeDelta)
@@ -54,6 +57,11 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
         return;
     }
+
+    static_cast<CPlayer*>(m_pOwner)->Set_Stamina(25.f * fTimeDelta);
+
+    // 스태미너 받아오기
+    m_fPlayerStamina = static_cast<CPlayer*>(m_pOwner)->Get_CurStamina();
 
     _vector vCameraLook = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::LOOK);
     vCameraLook = XMVector3Normalize(XMVectorSetY(vCameraLook, 0.f));
@@ -74,13 +82,13 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
     if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
     {
         // LSHIFT만 떼면 WALK로 전환
-        if (m_pGameInstance->Get_KeyUp(DIK_LSHIFT))
+        if (m_pGameInstance->Get_KeyUp(DIK_LSHIFT) || m_fPlayerStamina <= 0.f)
             m_pStateMachine->Change_State(CPlayer::WALK);
         // 막기
-        else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB))
+        else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB) && m_fPlayerStamina > 0.f)
             m_pStateMachine->Change_State(CPlayer::GUARD);
         // 공격
-        else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+        else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && m_fPlayerStamina > 0.f)
             m_pStateMachine->Change_State(CPlayer::ATTACK);
 
         // 회전 관련
@@ -103,7 +111,7 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
 
         m_pPlayerBody->Set_InputDir(m_vInputDir);
 
-        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+        if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fPlayerStamina > 0.f)
             m_pStateMachine->Change_State(CPlayer::ROLL);
     }
     else
@@ -115,6 +123,7 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
 
 void CPlayer_Run::Exit_State()
 {
+    m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), true);
 }
 
 CPlayer_Run* CPlayer_Run::Create(CGameObject* pOwner, CBody* pBody)

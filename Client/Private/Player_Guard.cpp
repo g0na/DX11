@@ -42,6 +42,9 @@ void CPlayer_Guard::Enter_State()
 
 void CPlayer_Guard::Update_State(_float fTimeDelta)
 {
+    // 스태미너 받아오기
+    m_fPlayerStamina = static_cast<CPlayer*>(m_pOwner)->Get_CurStamina();
+
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true ||
         m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Knockback"), false) == true)
     {
@@ -87,7 +90,7 @@ void CPlayer_Guard::Update_State(_float fTimeDelta)
 
         m_pPlayerBody->Set_InputDir(m_vInputDir);
 
-        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+        if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fPlayerStamina > 0.f)
             m_pStateMachine->Change_State(CPlayer::ROLL);
     }
 
@@ -95,7 +98,7 @@ void CPlayer_Guard::Update_State(_float fTimeDelta)
     {
         m_pStateMachine->Change_State(CPlayer::IDLE);
     }
-    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && m_fPlayerStamina > 0.f)
         m_pStateMachine->Change_State(CPlayer::ATTACK);
 }
 

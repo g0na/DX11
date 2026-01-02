@@ -55,8 +55,11 @@ void CPlayer_Walk::Update_State(_float fTimeDelta)
         return;
     }
 
+    // 스태미너 받아오기
+    m_fPlayerStamina = static_cast<CPlayer*>(m_pOwner)->Get_CurStamina();
+
     // 질주
-    if (m_pGameInstance->Get_KeyDown(DIK_LSHIFT))
+    if (m_pGameInstance->Get_KeyDown(DIK_LSHIFT) && m_fPlayerStamina > 0.f)
     {
         m_pStateMachine->Change_State(CPlayer::RUN);
         return;
@@ -65,10 +68,10 @@ void CPlayer_Walk::Update_State(_float fTimeDelta)
     else if (m_pGameInstance->Get_KeyDown(DIK_R))
         m_pStateMachine->Change_State(CPlayer::HEAL_START);
     // 막기
-    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB))
+    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::RB) && m_fPlayerStamina > 0.f)
         m_pStateMachine->Change_State(CPlayer::GUARD);
     // 공격
-    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB))
+    else if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && m_fPlayerStamina > 0.f)
         m_pStateMachine->Change_State(CPlayer::ATTACK);
 
     _vector vCameraLook = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::LOOK);
@@ -108,7 +111,7 @@ void CPlayer_Walk::Update_State(_float fTimeDelta)
 
         m_pPlayerBody->Set_InputDir(m_vInputDir);
 
-        if (m_pGameInstance->Get_KeyDown(DIK_SPACE))
+        if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fPlayerStamina > 0.f)
             m_pStateMachine->Change_State(CPlayer::ROLL);
     }
     else

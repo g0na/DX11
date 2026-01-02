@@ -36,14 +36,22 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 void CPlayer::Set_Damaged(_bool isDamaged, _uint iDamage)
 {
     m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), isDamaged);
-    m_iCurHp -= iDamage;
+    m_fCurHp -= iDamage;
 
-    if (m_iCurHp <= 0)
+    if (m_fCurHp <= 0.f)
     {
         m_bIsDead = true;
         m_pStateMachine->Set_BoolData(TEXT("Player_Dead"), true);
         return;
     }
+}
+
+void CPlayer::Set_Stamina(_float fStamina)
+{
+    m_fCurStamina -= fStamina;
+
+    if (m_fCurStamina <= 0.f)
+        m_fCurStamina = 0.f;
 }
 
 HRESULT CPlayer::Initialize_Prototype()
@@ -59,8 +67,11 @@ HRESULT CPlayer::Initialize(void* pArg)
 
     m_eLayer = LAYER::PLAYER;
     m_bIsDead = false;
-    m_iMaxHp = 100;
-    m_iCurHp = m_iMaxHp;
+
+    m_fMaxHp = 100.f;
+    m_fCurHp = m_fMaxHp;
+    m_fMaxStamina = 100.f;
+    m_fCurStamina = m_fMaxStamina;
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
@@ -138,6 +149,19 @@ void CPlayer::Update_Late(_float fTimeDelta)
         }
     }
 
+    // 체력, 스태미나 비율 계산
+    m_fHpRatio = m_fCurHp / m_fMaxHp;
+    
+    if (m_pStateMachine->Get_BoolData(TEXT("Stamina_Recovery"), false) == true)
+    {
+        m_fCurStamina += 33.f * fTimeDelta;
+
+        if (m_fCurStamina >= m_fMaxStamina)
+            m_fCurStamina = m_fMaxStamina;
+    }
+
+    m_fStaminaRatio = m_fCurStamina / m_fMaxStamina;
+
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
@@ -170,8 +194,10 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard"), false) == true)
             m_pStateMachine->Set_BoolData(TEXT("Player_Recoil"), true);
         else
+        {
             m_pStateMachine->Set_BoolData(TEXT("Player_Damaged"), true);
-            //Set_Damaged(true, 0);
+            Set_Damaged(true, 10);
+        }
     }
 
     if (pOtherObject->Get_Layer() == TEXT("Layer_BossWeapon"))
@@ -186,7 +212,7 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
         else
         {
             m_pStateMachine->Set_BoolData(TEXT("Player_Knockback"), true);
-            Set_Damaged(true, 0);
+            Set_Damaged(true, 40);
         }
     }
 }
@@ -204,12 +230,12 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
     }
 }
 
-void CPlayer::Heal(_uint iHealAmount)
+void CPlayer::Heal(_float fHealAmount)
 {
-    m_iCurHp += iHealAmount;
+    m_fCurHp += fHealAmount;
 
-    if (m_iCurHp >= m_iMaxHp)
-        m_iCurHp = m_iMaxHp;
+    if (m_fCurHp >= m_fMaxHp)
+        m_fCurHp = m_fMaxHp;
 }
 
 HRESULT CPlayer::Ready_Components()
