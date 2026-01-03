@@ -12,6 +12,7 @@
 #include "Map2.h"
 #include "Map3.h"
 #include "Map4.h"
+#include "Ladder.h"
 
 #include "Player.h"
 #include "Body.h"
@@ -164,6 +165,11 @@ HRESULT CLoader::Loading_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map4"),
 		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/map_part4.fbx", PreTransformMatrix))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Ladder */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Ladder"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/ladder.fbx", PreTransformMatrix))))
+		return E_FAIL;
 	
 	/* For.Prototype_Component_Calculator */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Calculator"),
@@ -229,6 +235,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Map4 */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map4"),
 		CMap4::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Ladder */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Ladder"),
+		CLadder::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Body_Player*/

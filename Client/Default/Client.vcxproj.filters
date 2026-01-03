@@ -220,6 +220,12 @@
     <Filter Include="02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina">
       <UniqueIdentifier>{6e6ff22c-e9d1-4ed0-b0f8-9a06fb460d32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects">
+      <UniqueIdentifier>{682ddee7-b9b5-4979-a9b5-2c23b1723468}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Ladder">
+      <UniqueIdentifier>{ac021cd6-4e44-4e00-8180-e2f56dc9eda1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -428,6 +434,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Player_Stamina_Gauge.h">
       <Filter>02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Ladder.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -638,6 +647,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Player_Stamina_Gauge.cpp">
       <Filter>02. GameObjects\00. UI\02. Player_Gauge\01. Player_Stamina</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Ladder.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

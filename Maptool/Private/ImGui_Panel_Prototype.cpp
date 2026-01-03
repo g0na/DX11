@@ -43,7 +43,8 @@ void CImGui_Panel_Prototype::Render()
             if (dynamic_cast<CGameObject*>(Pair.second) != nullptr)
             {
                 if (dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Monster" ||
-                    dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Map")
+                    dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Map" || 
+                    dynamic_cast<CGameObject*>(Pair.second)->Get_Layer() == L"Layer_Object")
                 {
                     _char szPrototypeName[128] = {};
                     WideCharToMultiByte(CP_ACP, 0, Pair.first.c_str(), -1, szPrototypeName, sizeof(szPrototypeName), nullptr, nullptr);

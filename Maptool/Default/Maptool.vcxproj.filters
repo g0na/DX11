@@ -124,6 +124,12 @@
     <Filter Include="02. GameObjects\01. Map\Mountain">
       <UniqueIdentifier>{1a5c2097-0707-4dd9-ae6e-52a18654956d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects">
+      <UniqueIdentifier>{afde39c5-d47e-45de-8e09-8f7a576ee2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Ladder">
+      <UniqueIdentifier>{b019dcb3-d497-46b3-a3b3-ba8ff5afb3e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -258,6 +264,9 @@
     <ClInclude Include="..\Public\Mountain.h">
       <Filter>02. GameObjects\01. Map\Mountain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Ladder.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maptool.cpp">
@@ -376,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mountain.cpp">
       <Filter>02. GameObjects\01. Map\Mountain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Ladder.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

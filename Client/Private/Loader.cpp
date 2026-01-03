@@ -29,6 +29,7 @@
 #include "Map2.h"
 #include "Map3.h"
 #include "Map4.h"
+#include "Ladder.h"
 #include "Navigation.h"
 
 #include "Player.h"
@@ -219,7 +220,7 @@ HRESULT CLoader::Loading_GamePlay()
 
 	/* For.Prototype_Component_Model_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Player"),
-		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Player/Player_501.fbx", PreTransformMatrix))))
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Player/Player_Final.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Model_Player_Weapon */
@@ -279,6 +280,11 @@ HRESULT CLoader::Loading_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Map4"),
 		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/map_part4.fbx", PreTransformMatrix))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Model_Ladder */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Ladder"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/ladder.fbx", PreTransformMatrix))))
+		return E_FAIL;	
 
 	UpdateLoadingText(TEXT("셰이더을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_Shader_VtxNorTex */
@@ -470,6 +476,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Map4 */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map4"),
 		CMap4::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Ladder */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Ladder"),
+		CLadder::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("로딩이 완료되었슴니다."));

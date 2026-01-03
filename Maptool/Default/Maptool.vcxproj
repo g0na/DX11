@@ -23,6 +23,7 @@
     <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
     <ClInclude Include="..\Public\ImGui_Panel_Scene.h" />
+    <ClInclude Include="..\Public\Ladder.h" />
     <ClInclude Include="..\Public\Map3.h" />
     <ClInclude Include="..\Public\Map4.h" />
     <ClInclude Include="..\Public\Fog.h" />
@@ -79,6 +80,7 @@
     <ClCompile Include="..\Private\ImGui_Panel_Scene.cpp" />
     <ClCompile Include="..\Private\imgui_tables.cpp" />
     <ClCompile Include="..\Private\imgui_widgets.cpp" />
+    <ClCompile Include="..\Private\Ladder.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
