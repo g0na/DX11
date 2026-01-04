@@ -36,7 +36,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	// Player, Monster 面倒 眉农
+	// Player, Object 面倒 眉农
 	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
 		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Object")));
 
@@ -140,6 +140,12 @@ HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 	// UI_Player_Stamina_Gauge
 	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Player_Stamina_Gauge"),
 		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Player_Stamina_Gauge"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Boss_Gauge
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Boss_Gauge"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Boss_Gauge"),
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 

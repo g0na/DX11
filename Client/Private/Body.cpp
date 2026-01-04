@@ -86,8 +86,7 @@ void CBody::Update(_float fTimeDelta)
     }
     else
     {
-        if (m_pPlayerNavigation != nullptr/* ||
-            m_pPlayerNavigation->CanMove(vPosition) == true*/)
+        if (m_pPlayerNavigation != nullptr)
         {
             vPosition = m_pPlayerNavigation->Move(m_pPlayerTransform->Get_State(STATE::POSITION), vPosition);
 
