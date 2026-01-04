@@ -42,6 +42,7 @@ public:
 public:
 	HRESULT Load_NVM(const _tchar* pNavigationData, _uint iCellOffset);
 	_vector SetOn_Navigation(_fvector vWorldPos);
+	_vector Move(_fvector vCurrentPos, _fvector vTargetPos);
 	_bool CanMove(_fvector vResultPos);
 
 private:

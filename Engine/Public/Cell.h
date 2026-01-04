@@ -12,13 +12,14 @@ private:
 public:
 	HRESULT Initialize(const _float3* pPoints, _int iIndex);
 	_bool Compare(_fvector vSrcPoint, _fvector vDstPoint);
-	_bool isIn(_fvector vResultPos, _int* pNeighborIndex);
+	_bool isIn(_fvector vResultPos, _int* pNeighborIndex, LINE* pLine);
 	_float Compute_Height(_vector vCellPos);
 
 public:
 	_vector Get_Point(CELLPOINT ePoint) const { return XMLoadFloat3(&m_vPoints[ENUM_TO_UINT(ePoint)]); }
 	_int Get_Neighbor(LINE eLine) const { return m_iNeighbors[ENUM_TO_UINT(eLine)]; }
 	_int Get_Index() const { return m_iIndex; }
+	_float3 Get_Normal(LINE eLine) const { return m_vNormals[ENUM_TO_UINT(eLine)]; }
 
 	void Set_Neighbor(LINE eLine, CCell* pNeighbor) 
 	{

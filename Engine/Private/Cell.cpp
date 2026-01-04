@@ -69,7 +69,7 @@ _bool CCell::Compare(_fvector vSrcPoint, _fvector vDstPoint)
     return false;
 }
 
-_bool CCell::isIn(_fvector vResultPos, _int* pNeighborIndex)
+_bool CCell::isIn(_fvector vResultPos, _int* pNeighborIndex, LINE* pLine)
 {
     for (_uint i = 0; i < ENUM_TO_UINT(LINE::END); i++)
     {
@@ -78,6 +78,7 @@ _bool CCell::isIn(_fvector vResultPos, _int* pNeighborIndex)
         if (XMVectorGetX(XMVector3Dot(vDir, XMLoadFloat3(&m_vNormals[i]))) > 0.f)
         {
             *pNeighborIndex = m_iNeighbors[i];
+            *pLine = static_cast<LINE>(i);
 
             return false;
         }

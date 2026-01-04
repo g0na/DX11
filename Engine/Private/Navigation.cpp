@@ -130,6 +130,91 @@ _vector CNavigation::SetOn_Navigation(_fvector vWorldPos)
     return XMVector3TransformCoord(vCellPos, XMLoadFloat4x4(m_pParentMatrix));
 }
 
+_vector CNavigation::Move(_fvector vCurrentPos, _fvector vTargetPos)
+{
+    _vector vCellPos = XMVector3TransformCoord(vTargetPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(m_pParentMatrix)));
+
+    _int iNeighborIndex = { -1 };
+    LINE eLine = LINE::END;
+
+    // 목표 위치가 현재 Cell 안에 있다면
+    if (m_vecCells[m_iCurrentCellIndex]->isIn(vCellPos, &iNeighborIndex, &eLine) == true)
+    {
+        return vTargetPos;
+    }
+    // 목표 위치가 현재 Cell 밖에 있다면
+    else
+    {
+        // 이웃이 없다면 슬라이딩
+        if (iNeighborIndex == -1)
+        {
+            // 이동 벡터
+            _vector vMoveDir = vTargetPos - vCurrentPos;
+
+            // 법선 벡터
+            _float3 vNormal = m_vecCells[m_iCurrentCellIndex]->Get_Normal(eLine);
+
+            // 슬라이딩 = 이동벡터 - (이동벡터 * 법선) x 법선
+            _vector vSliding = vMoveDir - (XMVector3Dot(vMoveDir, XMLoadFloat3(&vNormal))) * XMVector3Normalize(XMLoadFloat3(&vNormal));
+
+            _vector vFinalPos = vCurrentPos + vSliding;
+
+            _vector vSlidingCellPos = XMVector3TransformCoord(vFinalPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(m_pParentMatrix)));
+
+            _int iNewNeighbor = -1;
+            LINE eCheck = LINE::END;
+            if (m_vecCells[m_iCurrentCellIndex]->isIn(vSlidingCellPos, &iNewNeighbor, &eCheck) == true)
+                return vFinalPos;
+            else if (iNewNeighbor != -1)
+                return vFinalPos;
+            else
+                return vCurrentPos;
+        }
+        // 이웃이 있다면 이웃 Cell로 이동하고 목표 위치 반환
+        else
+        {
+            _uint iCurrentCellIndex = iNeighborIndex;
+
+            while (true)
+            {
+                if (m_vecCells[iNeighborIndex]->isIn(vCellPos, &iNeighborIndex, &eLine))
+                    break;
+
+                if (iNeighborIndex == -1)
+                {
+                    // 이동 벡터
+                    _vector vMoveDir = vTargetPos - vCurrentPos;
+
+                    // 법선 벡터
+                    _float3 vNormal = m_vecCells[iCurrentCellIndex]->Get_Normal(eLine);
+
+                    // 슬라이딩 = 이동벡터 - (이동벡터 * 법선) x 법선
+                    _vector vSliding = vMoveDir - (XMVector3Dot(vMoveDir, XMLoadFloat3(&vNormal))) * XMVector3Normalize(XMLoadFloat3(&vNormal));
+
+                    _vector vFinalPos = vCurrentPos + vSliding;
+
+                    _vector vSlidingCellPos = XMVector3TransformCoord(vFinalPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(m_pParentMatrix)));
+
+                    _int iNewNeighbor = -1;
+                    LINE eCheck = LINE::END;
+                    if (m_vecCells[iCurrentCellIndex]->isIn(vSlidingCellPos, &iNewNeighbor, &eCheck) == true)
+                        return vFinalPos;
+                    else if (iNewNeighbor != -1)
+                        return vFinalPos;
+                    else
+                        return vCurrentPos;
+                }
+
+                iCurrentCellIndex = iNeighborIndex;
+            }
+
+            m_iCurrentCellIndex = iNeighborIndex;
+
+            return vTargetPos;
+        }
+    }
+}
+
 _bool CNavigation::CanMove(_fvector vResultPos)
 {
     if (m_iCurrentCellIndex == -1)
@@ -138,9 +223,10 @@ _bool CNavigation::CanMove(_fvector vResultPos)
     _vector vCellPos = XMVector3TransformCoord(vResultPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(m_pParentMatrix)));
 
     _int iNeighborIndex = { -1 };
+    LINE eLine = LINE::END;
 
     // 셀을 나갔다
-    if (m_vecCells[m_iCurrentCellIndex]->isIn(vCellPos, &iNeighborIndex) == false)
+    if (m_vecCells[m_iCurrentCellIndex]->isIn(vCellPos, &iNeighborIndex, &eLine) == false)
     {
         // 이웃이 없다면
         if (iNeighborIndex == -1)
@@ -151,7 +237,7 @@ _bool CNavigation::CanMove(_fvector vResultPos)
         {
             while (true)
             {
-                if (m_vecCells[iNeighborIndex]->isIn(vCellPos, &iNeighborIndex))
+                if (m_vecCells[iNeighborIndex]->isIn(vCellPos, &iNeighborIndex, &eLine))
                     break;
 
                 if (iNeighborIndex == -1)
