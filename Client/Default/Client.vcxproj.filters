@@ -226,6 +226,9 @@
     <Filter Include="02. GameObjects\01. Map\00. Objects\Ladder">
       <UniqueIdentifier>{ac021cd6-4e44-4e00-8180-e2f56dc9eda1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\09. Ladder">
+      <UniqueIdentifier>{8ba36159-2cff-48a1-b194-831e30e663f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -437,6 +440,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Ladder.h">
       <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_Ladder.h">
+      <Filter>02. GameObjects\02. Player\99. States\09. Ladder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -650,6 +656,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Ladder.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_Ladder.cpp">
+      <Filter>02. GameObjects\02. Player\99. States\09. Ladder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

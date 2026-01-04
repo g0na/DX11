@@ -36,6 +36,7 @@ public:
 	void Set_RotationAngle(_float fRotationAngle) { m_fTargetAngle = fRotationAngle; }
 	void Set_Animation(_uint iAnimationIndex, _bool isLoop);
 	void Set_InputDir(_vector vInputDir) { m_vInputDir = vInputDir; }
+	void Set_IsOnLadder(_bool bIsOnLadder) { m_bIsOnLadder = bIsOnLadder; }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;		// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -60,7 +61,9 @@ private:
 	_float							m_fRotationSpeed = {};
 	_float							m_fCurAngle = {};			// 현재 각도
 	_float							m_fTargetAngle = {};		// 입력 받은 각도
+
 	_bool							m_bIsAnimFinish = { false };
+	_bool							m_bIsOnLadder = {};
 
 private:
 	HRESULT Ready_Components();

@@ -19,6 +19,7 @@
 #include "Player_Attack.h"
 #include "Player_Damaged.h"
 #include "Player_Death.h"
+#include "Player_Ladder.h"
 #include "Player_HealStart.h"
 #include "Player_Healing.h"
 #include "Player_HealEnd.h"
@@ -100,6 +101,19 @@ void CPlayer::Update_Priority(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+    // 사다리 타기 관련
+    if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bLadder)
+    {
+        m_pStateMachine->Set_BoolData(TEXT("Player_Ladder_Start"), true);
+
+        // 사다리쪽으로 위치 조정
+        _vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+        vPosition = XMVectorSetX(vPosition, -0.771973f);
+        vPosition = XMVectorSetZ(vPosition, 22.446703f);
+        m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+        int a = 10;
+    }
+
     // 루트 모션 적용 이전의 위치 저장
     m_vPrevPosition = m_pTransformCom->Get_State(STATE::POSITION);
 
@@ -163,6 +177,15 @@ void CPlayer::Update_Late(_float fTimeDelta)
     m_fStaminaRatio = m_fCurStamina / m_fMaxStamina;
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
+
+    // 디버깅
+    char buf[64] = {};
+    sprintf_s(buf, "x: %f, y: %f, z: %f\n",
+        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
+    );
+    OutputDebugStringA(buf);
 }
 
 HRESULT CPlayer::Render()
@@ -179,6 +202,12 @@ HRESULT CPlayer::Render()
 
 void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
 {
+    if (pOtherObject->Get_Layer() == TEXT("Layer_Object"))
+    {
+        // 사다리에 충돌했을 때 플래그 설정
+        m_bLadder = true;
+    }
+
     if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
     {
         m_pCollidingObject = pOtherObject;
@@ -219,6 +248,12 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
 
 void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
 {
+    if (pOtherObject->Get_Layer() == TEXT("Layer_Object"))
+    {
+        m_bLadder = false;
+        m_pStateMachine->Set_BoolData(TEXT("Player_Ladder_End"), true);
+    }
+
     if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
     {
         m_pCollidingObject = nullptr;
@@ -293,6 +328,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(DEATH, CPlayer_Death::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(LADDER, CPlayer_Ladder::Create(this, m_pBody))))
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(HEAL_START, CPlayer_HealStart::Create(this, m_pBody))))

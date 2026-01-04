@@ -38,27 +38,31 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 {
 	// Player, Monster 面倒 眉农
 	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
-		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
+		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Object")));
 
-	// Player_Weapon, Monster 面倒 眉农
-	m_pGameInstance->Check_Collision(static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)))->Get_PartObjects(),
-		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
+	//// Player, Monster 面倒 眉农
+	//m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
+	//	m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
 
-	// Player, Monster_Weapon 面倒 眉农
-	list<CGameObject*> MonsterList = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
-	list<CGameObject*> MonsterPartList = {};
-	for (auto& pMonster : MonsterList)
-	{
-		for (auto& Part : static_cast<CContainerObject*>(pMonster)->Get_PartObjects())
-		{
-			if (Part == nullptr)
-				continue;
+	//// Player_Weapon, Monster 面倒 眉农
+	//m_pGameInstance->Check_Collision(static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)))->Get_PartObjects(),
+	//	m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
 
-			MonsterPartList.push_back(Part);
-		}
-	}
+	//// Player, Monster_Weapon 面倒 眉农
+	//list<CGameObject*> MonsterList = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
+	//list<CGameObject*> MonsterPartList = {};
+	//for (auto& pMonster : MonsterList)
+	//{
+	//	for (auto& Part : static_cast<CContainerObject*>(pMonster)->Get_PartObjects())
+	//	{
+	//		if (Part == nullptr)
+	//			continue;
 
-	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")), MonsterPartList);
+	//		MonsterPartList.push_back(Part);
+	//	}
+	//}
+
+	//m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")), MonsterPartList);
 }
 
 HRESULT CLevel_GamePlay::Render()

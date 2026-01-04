@@ -77,15 +77,22 @@ void CBody::Update(_float fTimeDelta)
     m_vWorldDelta = vRight * fDelta.x + vUp * fDelta.y + vLook * fDelta.z;
 
     _vector vPosition = m_pPlayerTransform->Get_State(STATE::POSITION);
-    vPosition += m_vWorldDelta * 3.f;
+    vPosition += m_vWorldDelta;
     
-    // 네비게이션 ON/OFF
-    if (m_pPlayerNavigation == nullptr ||
-        m_pPlayerNavigation->CanMove(vPosition) == true)
+    // 사다리 위에 있으면 네비게이션 OFF
+    if (m_bIsOnLadder)
     {
         m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
-        m_pPlayerTransform->Set_State(STATE::POSITION, m_pPlayerNavigation->SetOn_Navigation(vPosition));
-    }  
+    }
+    else
+    {
+        if (m_pPlayerNavigation == nullptr ||
+            m_pPlayerNavigation->CanMove(vPosition) == true)
+        {
+            m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
+            m_pPlayerTransform->Set_State(STATE::POSITION, m_pPlayerNavigation->SetOn_Navigation(vPosition));
+        }
+    }
 
     //m_pPlayerTransform->Set_State(STATE::POSITION, vPosition);
 }

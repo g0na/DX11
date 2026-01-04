@@ -22,6 +22,7 @@ public:
 		ATTACK,
 		DAMAGED,
 		DEATH,
+		LADDER,
 		HEAL_START, HEAL_ING, HEAL_END,
 		END
 	};
@@ -75,6 +76,7 @@ private:
 	_float			m_fStaminaRatio = {};
 
 	_bool			m_bIsDamaged = {};
+	_bool			m_bLadder = {};
 
 private:
 	HRESULT Ready_Components();

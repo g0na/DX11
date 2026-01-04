@@ -32,7 +32,7 @@ HRESULT CPlayer_HealEnd::Initialize(CGameObject* pOwner, CBody* pBody)
 void CPlayer_HealEnd::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
-        m_pPlayerBody->Set_Animation(21, false);
+        m_pPlayerBody->Set_Animation(27, false);
 }
 
 void CPlayer_HealEnd::Update_State(_float fTimeDelta)

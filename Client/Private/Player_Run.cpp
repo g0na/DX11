@@ -58,7 +58,7 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
         return;
     }
 
-    static_cast<CPlayer*>(m_pOwner)->Set_Stamina(25.f * fTimeDelta);
+    static_cast<CPlayer*>(m_pOwner)->Set_Stamina(10.f * fTimeDelta);
 
     // 스태미너 받아오기
     m_fPlayerStamina = static_cast<CPlayer*>(m_pOwner)->Get_CurStamina();

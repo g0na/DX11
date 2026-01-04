@@ -38,7 +38,7 @@ HRESULT CPlayer_Attack::Initialize(CGameObject* pOwner, CBody* pBody)
 void CPlayer_Attack::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
-        m_pPlayerBody->Set_Animation(26, false);
+        m_pPlayerBody->Set_Animation(32, false);
 
     // 스태미나 세팅
     m_pStateMachine->Set_BoolData(TEXT("Stamina_Recovery"), false);
@@ -105,7 +105,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             // 최소 0.76초  최대 2.5초
             if (m_fAttackDelay >= 0.6f)
             {
-                m_pPlayerBody->Set_Animation(26, false);
+                m_pPlayerBody->Set_Animation(32, false);
                 static_cast<CPlayer*>(m_pOwner)->Set_Stamina(20.f);
 
                 m_iAttackCnt++;
@@ -120,7 +120,7 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
             // 최소 0.73초 최대 2.233초
             if (m_fAttackDelay >= 0.6f)
             {
-                m_pPlayerBody->Set_Animation(27, false);
+                m_pPlayerBody->Set_Animation(33, false);
                 static_cast<CPlayer*>(m_pOwner)->Set_Stamina(20.f);
 
                 m_iAttackCnt = 0;

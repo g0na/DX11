@@ -32,7 +32,7 @@ HRESULT CPlayer_Healing::Initialize(CGameObject* pOwner, CBody* pBody)
 void CPlayer_Healing::Enter_State()
 {
     if (m_pPlayerBody != nullptr)
-        m_pPlayerBody->Set_Animation(20, false);
+        m_pPlayerBody->Set_Animation(26, false);
 
     static_cast<CPlayer*>(m_pOwner)->Heal(25.f);
 

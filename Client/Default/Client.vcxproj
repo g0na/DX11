@@ -24,6 +24,7 @@
     <ProjectGuid>{288dd295-08c3-4a18-8eab-c5d61b0c34cf}</ProjectGuid>
     <RootNamespace>Client</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Client</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -195,6 +196,7 @@
     <ClInclude Include="..\Public\Player_HealEnd.h" />
     <ClInclude Include="..\Public\Player_Healing.h" />
     <ClInclude Include="..\Public\Player_HealStart.h" />
+    <ClInclude Include="..\Public\Player_Ladder.h" />
     <ClInclude Include="..\Public\Player_Slot.h" />
     <ClInclude Include="..\Public\Player_Idle.h" />
     <ClInclude Include="..\Public\Player_Recoil.h" />
@@ -266,6 +268,7 @@
     <ClCompile Include="..\Private\Player_HealEnd.cpp" />
     <ClCompile Include="..\Private\Player_Healing.cpp" />
     <ClCompile Include="..\Private\Player_HealStart.cpp" />
+    <ClCompile Include="..\Private\Player_Ladder.cpp" />
     <ClCompile Include="..\Private\Player_Slot.cpp" />
     <ClCompile Include="..\Private\Player_Idle.cpp" />
     <ClCompile Include="..\Private\Player_Recoil.cpp" />

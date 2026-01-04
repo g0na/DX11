@@ -28,6 +28,8 @@ HRESULT CLadder::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_bIsCollisionEnabled = true;
+
 	return S_OK;
 }
 
@@ -37,6 +39,8 @@ void CLadder::Update_Priority(_float fTimeDelta)
 
 void CLadder::Update(_float fTimeDelta)
 {
+	for (auto& pCollider : m_vecColliders)
+		pCollider->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
 void CLadder::Update_Late(_float fTimeDelta)
@@ -62,6 +66,16 @@ HRESULT CLadder::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	m_bIsCollisionEnabled = true;
+
+	if (m_bIsCollisionEnabled == true)
+	{
+		for (auto& pCollider : m_vecColliders)
+			pCollider->Render();
+	}
+#endif
+
 	return S_OK;
 }
 
@@ -86,7 +100,18 @@ HRESULT CLadder::Ready_Components()
 		return E_FAIL;
 
 	// For Com_Collider
+	for (_uint i = 0; i < m_iColliderCnt; i++)
+	{
+		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+		SphereDesc.fRadius = 0.8f;
+		_float fOffset = SphereDesc.fRadius + 0.35f + (1.6f * i);
+		SphereDesc.vCenter = _float3(0.f, fOffset, -0.4f);
 
+		CCollider* pCollider = dynamic_cast<CCollider*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ENUM_TO_UINT(LEVELID::GAMEPLAY),
+			TEXT("Prototype_Component_Collider_Sphere"), &SphereDesc));
+
+		m_vecColliders.push_back(pCollider);
+	}
 
 	return S_OK;
 }
@@ -133,7 +158,10 @@ void CLadder::Free()
 {
 	__super::Free();
 
+	for (auto& pCollider : m_vecColliders)
+		Safe_Release(pCollider);
+	m_vecColliders.clear();
+
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
-	Safe_Release(m_pColliderCom);
 }
