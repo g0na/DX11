@@ -235,6 +235,9 @@
     <Filter Include="02. GameObjects\00. UI\03. Boss\00. Boss_Guage">
       <UniqueIdentifier>{66cd9d0f-cb91-45df-af46-dd1232b3b092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\00. UI\03. Boss\01. Boss_HP">
+      <UniqueIdentifier>{4d4a157d-bbd2-4141-ba5a-32571112653c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -452,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Boss_Gauge.h">
       <Filter>02. GameObjects\00. UI\03. Boss\00. Boss_Guage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Boss_HP.h">
+      <Filter>02. GameObjects\00. UI\03. Boss\01. Boss_HP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -671,6 +677,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Boss_Gauge.cpp">
       <Filter>02. GameObjects\00. UI\03. Boss\00. Boss_Guage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Boss_HP.cpp">
+      <Filter>02. GameObjects\00. UI\03. Boss\01. Boss_HP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -24,10 +24,10 @@ HRESULT CUI_Player_Stamina::Initialize(void* pArg)
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX * 0.245f;
-	Desc.fY = g_iWinSizeY * 0.1f + 22.f;
-	Desc.fSizeX = 400.f;
-	Desc.fSizeY = 16.f;
+	Desc.fX = g_iWinSizeX * 0.276f;
+	Desc.fY = g_iWinSizeY * 0.1f + 30.f;
+	Desc.fSizeX = 600.f;
+	Desc.fSizeY = 25.f;
 	lstrcpy(Desc.szName, TEXT("UI_Player_Stamina"));
 	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;

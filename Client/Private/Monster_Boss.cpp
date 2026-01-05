@@ -37,9 +37,9 @@ void CMonster_Boss::Set_Animation(_uint iAnimationIndex, _bool isLoop)
 
 void CMonster_Boss::Set_Damaged(_uint iDamage)
 {
-	m_iHp -= iDamage;
+	m_fCurHp -= iDamage;
 
-	if (m_iHp <= 0)
+	if (m_fCurHp <= 0)
 	{
 		m_bIsDead = true;
 		m_pStateMachine->Set_BoolData(TEXT("Boss_Dead"), true);
@@ -72,14 +72,19 @@ HRESULT CMonster_Boss::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 0.f, 5.f, 1.f));
+	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 0.f, 5.f, 1.f));
+	// x: -13.734574, z : -8.797766
+	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-13.734574f, -15.24f, -8.797766f, 1.f));
 
 	// 플레이어 정보 세팅
 	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
 	Safe_AddRef(m_pPlayer);
 
 	m_bIsCollisionEnabled = true;
-	m_iHp = 1000;
+
+	// 체력 설정
+	m_fMaxHp = 1000;
+	m_fCurHp = m_fMaxHp;
 
 	return S_OK;
 }
@@ -96,9 +101,21 @@ void CMonster_Boss::Update_Priority(_float fTimeDelta)
 
 void CMonster_Boss::Update(_float fTimeDelta)
 {
+	// UI ON/OFF
+	if (m_pStateMachine->Get_BoolData(TEXT("Boss_Targeting"), false) == true)
+	{
+		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_HP"));
+		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_Gauge"));
+	}
+	else
+	{
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_Boss_HP"));
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_Boss_Gauge"));
+	}
+
 	// BlackBoard에 데이터 저장
 	m_pStateMachine->Set_FloatData(TEXT("Boss_Distance"), m_fDistance);
-	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 25.f);
+	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 15.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
@@ -137,6 +154,9 @@ void CMonster_Boss::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
 
+	// 체력, 스태미나 비율 계산
+	m_fHpRatio = m_fCurHp / m_fMaxHp;
+
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
@@ -172,7 +192,7 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
-		Set_Damaged(1000);
+		Set_Damaged(100);
 	}
 }
 

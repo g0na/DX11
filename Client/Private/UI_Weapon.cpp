@@ -23,10 +23,10 @@ HRESULT CUI_Weapon::Initialize(void* pArg)
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX * 0.25f;
+	Desc.fX = g_iWinSizeX * 0.275f;
 	Desc.fY = g_iWinSizeY * 0.75f;
-	Desc.fSizeX = 76;
-	Desc.fSizeY = 119;
+	Desc.fSizeX = 113;
+	Desc.fSizeY = 177;
 	lstrcpy(Desc.szName, TEXT("UI_Weapon"));
 	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;

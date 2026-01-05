@@ -12,6 +12,7 @@
 #include "UI_Player_Stamina_Gauge.h"
 #include "UI_Player_Stamina.h"
 #include "UI_Boss_Gauge.h"
+#include "UI_Boss_HP.h"
 
 #include "Monster_Darkwraith.h"
 #include "Weapon_Darkwraith.h"
@@ -382,6 +383,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_UI_Boss_Gauge */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Boss_Gauge"),
 		CUI_Boss_Gauge::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Boss_HP */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Boss_HP"),
+		CUI_Boss_HP::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera_Free */

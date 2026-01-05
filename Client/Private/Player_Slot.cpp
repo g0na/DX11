@@ -23,10 +23,10 @@ HRESULT CPlayer_Slot::Initialize(void* pArg)
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX * 0.15f;
+	Desc.fX = g_iWinSizeX * 0.175f;
 	Desc.fY = g_iWinSizeY * 0.75f;
-	Desc.fSizeX = 350;
-	Desc.fSizeY = 280;
+	Desc.fSizeX = 520;
+	Desc.fSizeY = 432;
 	lstrcpy(Desc.szName, TEXT("Player_Slot"));
 	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;

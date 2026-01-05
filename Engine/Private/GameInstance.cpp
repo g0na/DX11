@@ -273,6 +273,10 @@ CGameObject* CGameInstance::Get_Player(_uint iLevelIndex)
 {
 	return m_pObjectManager->Get_Player(iLevelIndex);
 }
+CGameObject* CGameInstance::Get_Object(_uint iLevelIndex, const _wstring& strLayerTag, const _tchar* strObjectName)
+{
+	return m_pObjectManager->Get_Object(iLevelIndex, strLayerTag, strObjectName);
+}
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

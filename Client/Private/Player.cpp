@@ -87,7 +87,7 @@ HRESULT CPlayer::Initialize(void* pArg)
         return E_FAIL;
 
     //x: -11.812585, y : -15.249994, z : -45.795914
-    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, 15.24f, -45.8f, 1.f));
+    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, -15.24f, -45.8f, 1.f));
 
     m_bIsCollisionEnabled = true;
 
@@ -111,7 +111,6 @@ void CPlayer::Update(_float fTimeDelta)
         vPosition = XMVectorSetX(vPosition, -0.771973f);
         vPosition = XMVectorSetZ(vPosition, 22.446703f);
         m_pTransformCom->Set_State(STATE::POSITION, vPosition);
-        int a = 10;
     }
 
     // 루트 모션 적용 이전의 위치 저장
@@ -177,6 +176,14 @@ void CPlayer::Update_Late(_float fTimeDelta)
     m_fStaminaRatio = m_fCurStamina / m_fMaxStamina;
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
+
+    // 디버깅
+    _char buf[128];
+    sprintf_s(buf, "x: %f, z: %f\n", 
+        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
+    );
+    OutputDebugStringA(buf);
 }
 
 HRESULT CPlayer::Render()

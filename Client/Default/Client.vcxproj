@@ -205,6 +205,7 @@
     <ClInclude Include="..\Public\Shield.h" />
     <ClInclude Include="..\Public\Sky.h" />
     <ClInclude Include="..\Public\UI_Boss_Gauge.h" />
+    <ClInclude Include="..\Public\UI_Boss_HP.h" />
     <ClInclude Include="..\Public\UI_Estus.h" />
     <ClInclude Include="..\Public\UI_Player_Gauge.h" />
     <ClInclude Include="..\Public\UI_Player_HP.h" />
@@ -278,6 +279,7 @@
     <ClCompile Include="..\Private\Shield.cpp" />
     <ClCompile Include="..\Private\Sky.cpp" />
     <ClCompile Include="..\Private\UI_Boss_Gauge.cpp" />
+    <ClCompile Include="..\Private\UI_Boss_HP.cpp" />
     <ClCompile Include="..\Private\UI_Estus.cpp" />
     <ClCompile Include="..\Private\UI_Player_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />

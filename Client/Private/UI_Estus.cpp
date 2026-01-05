@@ -23,10 +23,10 @@ HRESULT CUI_Estus::Initialize(void* pArg)
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX * 0.15f;
+	Desc.fX = g_iWinSizeX * 0.175f;
 	Desc.fY = g_iWinSizeY * 0.84f;
-	Desc.fSizeX = 95;
-	Desc.fSizeY = 119;
+	Desc.fSizeX = 136;
+	Desc.fSizeY = 170;
 	lstrcpy(Desc.szName, TEXT("UI_Estus"));
 	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;

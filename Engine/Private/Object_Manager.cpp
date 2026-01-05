@@ -111,6 +111,20 @@ list<class CGameObject*> CObject_Manager::Get_ObjectList(_uint iLevelIndex, cons
 	return pLayer->Get_Objects();
 }
 
+CGameObject* CObject_Manager::Get_Object(_uint iLevelIndex, const _wstring& strLayerTag, const _tchar* strObjectName)
+{
+	list<CGameObject*> listObjects = Get_ObjectList(iLevelIndex, strLayerTag);
+
+	auto iter = find_if(listObjects.begin(), listObjects.end(), [strObjectName](CGameObject* pObject) {
+		return !wcscmp(strObjectName, pObject->Get_Name());
+	});
+
+	if (iter == listObjects.end())
+		return nullptr;
+
+	return *iter;
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto iter = m_pLayers[iLevelIndex].find(strLayerTag);

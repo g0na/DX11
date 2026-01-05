@@ -23,10 +23,10 @@ HRESULT CUI_Player_Gauge::Initialize(void* pArg)
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX * 0.33f;
+	Desc.fX = g_iWinSizeX * 0.36f;
 	Desc.fY = g_iWinSizeY * 0.1f;
-	Desc.fSizeX = 800;
-	Desc.fSizeY = 30;
+	Desc.fSizeX = 1200;
+	Desc.fSizeY = 40;
 	lstrcpy(Desc.szName, TEXT("UI_Player_Gauge"));
 	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;

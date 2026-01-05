@@ -36,6 +36,7 @@ public:
 	const _vector		Get_PlayerPos() const { return m_vPlayerPos; }
 	const _float		Get_TargetDist() const { return m_fDistance; }
 	_float*				Get_CurAnglePtr() { return &m_fCurAngle; }
+	_float				Get_HpRatio() { return m_fHpRatio; }
 	
 	void				Set_Animation(_uint iAnimationIndex, _bool isLoop);
 	void				Set_Damaged(_uint iDamage);
@@ -64,7 +65,10 @@ private:
 	_bool				m_bAttackReady = {};
 	_bool				m_bIsDamaged = {};
 
-	_int				m_iHp = {};
+	// 체력 관련
+	_float				m_fMaxHp = {};
+	_float				m_fCurHp = {};
+	_float				m_fHpRatio = {};
 
 	_float				m_fCurAngle = {};
 	_float				m_fDistance = {};

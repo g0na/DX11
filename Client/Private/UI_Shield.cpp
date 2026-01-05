@@ -23,10 +23,10 @@ HRESULT CUI_Shield::Initialize(void* pArg)
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX * 0.07f;
+	Desc.fX = g_iWinSizeX * 0.095f;
 	Desc.fY = g_iWinSizeY * 0.75f;
-	Desc.fSizeX = 80;
-	Desc.fSizeY = 119;
+	Desc.fSizeX = 118;
+	Desc.fSizeY = 175;
 	lstrcpy(Desc.szName, TEXT("UI_Shield"));
 	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;

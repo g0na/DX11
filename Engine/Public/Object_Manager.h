@@ -28,6 +28,8 @@ public:
 
 	list<class CGameObject*> Get_ObjectList(_uint iLevelIndex, const _wstring& strLayerTag);
 
+	class CGameObject* Get_Object(_uint iLevelIndex, const _wstring& strLayerTag, const _tchar* strObjectName);
+
 private:
 	ID3D11Device*					m_pDevice = { nullptr };
 	ID3D11DeviceContext*			m_pContext = { nullptr };

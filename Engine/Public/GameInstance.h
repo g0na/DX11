@@ -70,6 +70,8 @@ public:
 	list<class CGameObject*> Get_ObjectList(_uint iLevelIndex, const _wstring& strLayerTag);
 
 	class CGameObject* Get_Player(_uint iLevelIndex);
+
+	class CGameObject* Get_Object(_uint iLevelIndex, const _wstring& strLayerTag, const _tchar* strObjectName);
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

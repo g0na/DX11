@@ -16,6 +16,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Fonts()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -40,29 +43,29 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
 		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Object")));
 
-	//// Player, Monster 面倒 眉农
-	//m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
-	//	m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
+	// Player, Monster 面倒 眉农
+	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
+		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
 
-	//// Player_Weapon, Monster 面倒 眉农
-	//m_pGameInstance->Check_Collision(static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)))->Get_PartObjects(),
-	//	m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
+	// Player_Weapon, Monster 面倒 眉农
+	m_pGameInstance->Check_Collision(static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)))->Get_PartObjects(),
+		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster")));
 
-	//// Player, Monster_Weapon 面倒 眉农
-	//list<CGameObject*> MonsterList = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
-	//list<CGameObject*> MonsterPartList = {};
-	//for (auto& pMonster : MonsterList)
-	//{
-	//	for (auto& Part : static_cast<CContainerObject*>(pMonster)->Get_PartObjects())
-	//	{
-	//		if (Part == nullptr)
-	//			continue;
+	// Player, Monster_Weapon 面倒 眉农
+	list<CGameObject*> MonsterList = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Monster"));
+	list<CGameObject*> MonsterPartList = {};
+	for (auto& pMonster : MonsterList)
+	{
+		for (auto& Part : static_cast<CContainerObject*>(pMonster)->Get_PartObjects())
+		{
+			if (Part == nullptr)
+				continue;
 
-	//		MonsterPartList.push_back(Part);
-	//	}
-	//}
+			MonsterPartList.push_back(Part);
+		}
+	}
 
-	//m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")), MonsterPartList);
+	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")), MonsterPartList);
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -88,6 +91,14 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	LightDesc.vSpecular = { 1.f, 1.f, 1.f, 1.f };
 
 	if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Fonts()
+{
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Korean"), TEXT("../Bin/Resources/Fonts/Korean.spritefont"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -143,6 +154,12 @@ HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 
+	// UI_Boss_HP
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Boss_HP"),
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Boss_HP"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
 	// UI_Boss_Gauge
 	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Boss_Gauge"),	
 		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Boss_Gauge"),
@@ -162,8 +179,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
 	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
 	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);

@@ -28,6 +28,7 @@ public:
 
 public:
 	HRESULT Ready_Lights();
+	HRESULT Ready_Fonts();
 	HRESULT Ready_UIs(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
