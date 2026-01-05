@@ -46,6 +46,22 @@ HRESULT CFont_Manager::Draw_Text(const _wstring& strFontTag, const _tchar* pText
     return S_OK;
 }
 
+HRESULT CFont_Manager::Draw_Text3D(const _wstring& strFontTag, const _tchar* pText, const _fvector vPosition, _fvector vColor)
+{
+    CFont* pFont = Find_Font(strFontTag);
+    if (nullptr == pFont)
+        return E_FAIL;
+
+    m_pBatch->Begin();
+
+    pFont->Draw_Text3D(m_pBatch, pText, vPosition, vColor);
+
+    m_pBatch->End();
+
+    return S_OK;
+
+}
+
 CFont* CFont_Manager::Find_Font(const _wstring& strFontTag)
 {
     auto    iter = m_Fonts.find(strFontTag);

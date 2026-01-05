@@ -60,6 +60,10 @@ HRESULT CLevel_Loading::Render()
 
 HRESULT CLevel_Loading::Ready_Layer_UI()
 {
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_GameObject_Loading"),
+			ENUM_TO_UINT(LEVELID::LOADING), TEXT("Layer_Loading")) == nullptr)
+		return E_FAIL;
+
 	return S_OK;
 }
 

@@ -401,6 +401,11 @@ HRESULT CGameInstance::Draw_Text(const _wstring& strFontTag, const _tchar* pText
 {
 	return m_pFontManager->Draw_Text(strFontTag, pText, vPosition, vColor);
 }
+
+HRESULT CGameInstance::Draw_Text3D(const _wstring& strFontTag, const _tchar* pText, const _fvector vPosition, _fvector vColor)
+{
+	return m_pFontManager->Draw_Text3D(strFontTag, pText, vPosition, vColor);
+}
 #pragma endregion
 
 #pragma region UI_MANAGER

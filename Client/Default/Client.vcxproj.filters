@@ -232,11 +232,14 @@
     <Filter Include="02. GameObjects\00. UI\03. Boss">
       <UniqueIdentifier>{47ba5c68-dd17-490b-bd23-af32bde36fe7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObjects\00. UI\03. Boss\00. Boss_Guage">
-      <UniqueIdentifier>{66cd9d0f-cb91-45df-af46-dd1232b3b092}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObjects\00. UI\03. Boss\01. Boss_HP">
       <UniqueIdentifier>{4d4a157d-bbd2-4141-ba5a-32571112653c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\03. Boss\00. Boss_Gauge">
+      <UniqueIdentifier>{66cd9d0f-cb91-45df-af46-dd1232b3b092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\04. Background_Loading">
+      <UniqueIdentifier>{ff368a12-e63b-422d-befc-41fd9e76f911}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -454,10 +457,13 @@
       <Filter>02. GameObjects\02. Player\99. States\09. Ladder</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Boss_Gauge.h">
-      <Filter>02. GameObjects\00. UI\03. Boss\00. Boss_Guage</Filter>
+      <Filter>02. GameObjects\00. UI\03. Boss\00. Boss_Gauge</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Boss_HP.h">
       <Filter>02. GameObjects\00. UI\03. Boss\01. Boss_HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Background_Loading.h">
+      <Filter>02. GameObjects\00. UI\04. Background_Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -676,10 +682,13 @@
       <Filter>02. GameObjects\02. Player\99. States\09. Ladder</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Boss_Gauge.cpp">
-      <Filter>02. GameObjects\00. UI\03. Boss\00. Boss_Guage</Filter>
+      <Filter>02. GameObjects\00. UI\03. Boss\00. Boss_Gauge</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Boss_HP.cpp">
       <Filter>02. GameObjects\00. UI\03. Boss\01. Boss_HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Background_Loading.cpp">
+      <Filter>02. GameObjects\00. UI\04. Background_Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

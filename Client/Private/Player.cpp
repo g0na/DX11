@@ -195,6 +195,8 @@ HRESULT CPlayer::Render()
     m_pNavigationCom->Render();
 #endif
 
+    m_pGameInstance->Draw_Text3D(TEXT("Font_English"), TEXT("Character"), m_pTransformCom->Get_State(STATE::POSITION), XMVectorSet(1.f, 1.f, 1.f, 1.f));
+
     return S_OK;
 }
 

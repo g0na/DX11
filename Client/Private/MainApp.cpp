@@ -1,6 +1,7 @@
 #include "MainApp.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "Background_Loading.h"
 
 USING(Client)
 
@@ -76,6 +77,16 @@ HRESULT CMainApp::Ready_Prototype_For_Static()
 	// Prototype_Component_Shader_VtxPosTex 추가
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_Component_Shader_VtxPosTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPosTex.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
+		return E_FAIL;
+
+	// Prototype_Component_Texture_Loading 추가
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_Component_Texture_Loading"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading.dds"), 1))))
+		return E_FAIL;
+
+	// Prototype_GameObject_Loading 추가
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_GameObject_Loading"),
+		CBackground_Loading::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	return S_OK;

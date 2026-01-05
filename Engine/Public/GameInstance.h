@@ -122,6 +122,7 @@ public:
 #pragma region FONT_MANAGER
 	HRESULT Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath);
 	HRESULT Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPosition, _fvector vColor);
+	HRESULT Draw_Text3D(const _wstring& strFontTag, const _tchar* pText, const _fvector vPosition, _fvector vColor);
 #pragma endregion
 
 #pragma region UI_MANAGER

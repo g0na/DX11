@@ -22,6 +22,13 @@ HRESULT CFont::Draw_Text(SpriteBatch* pBatch, const _tchar* pText, const _float2
 	return S_OK;
 }
 
+HRESULT CFont::Draw_Text3D(SpriteBatch* pBatch, const _tchar* pText, const _fvector vPosition, _fvector vColor)
+{
+	m_pFont->DrawString(pBatch, pText, vPosition, vColor);
+
+	return S_OK;
+}
+
 CFont* CFont::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pFontFilePath)
 {
 	CFont* pInstance = new CFont(pDevice, pContext);

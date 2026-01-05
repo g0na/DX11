@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Background.h" />
+    <ClInclude Include="..\Public\Background_Loading.h" />
     <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Boss_Attack.h" />
     <ClInclude Include="..\Public\Boss_Backstep.h" />
@@ -226,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Background.cpp" />
+    <ClCompile Include="..\Private\Background_Loading.cpp" />
     <ClCompile Include="..\Private\Body.cpp" />
     <ClCompile Include="..\Private\Boss_Attack.cpp" />
     <ClCompile Include="..\Private\Boss_Backstep.cpp" />
