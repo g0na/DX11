@@ -32,6 +32,9 @@ public:
 	virtual HRESULT Render();
 
 private:
+	void Fix_Camera();
+
+private:
 	CTransform*		m_pPlayerTransform = { nullptr };
 
 	_float			m_fSensor = {};

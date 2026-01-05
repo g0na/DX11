@@ -66,15 +66,22 @@ void CCamera_Free::Update(_float fTimeDelta)
 
 void CCamera_Free::Update_Late(_float fTimeDelta)
 {
-
+    Fix_Camera();
 }
 
 HRESULT CCamera_Free::Render()
 {
-
     return S_OK;
 }
 
+void CCamera_Free::Fix_Camera()
+{
+    POINT	ptMouse{ g_iWinSizeX >> 1, g_iWinSizeY >> 1 };
+
+    ShowCursor(false);
+    ClientToScreen(g_hWnd, &ptMouse);
+    SetCursorPos(ptMouse.x, ptMouse.y);
+}
 
 CCamera_Free* CCamera_Free::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
