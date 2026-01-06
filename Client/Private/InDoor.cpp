@@ -20,13 +20,15 @@ HRESULT CInDoor::Initialize_Prototype()
 
 HRESULT CInDoor::Initialize(void* pArg)
 {
-	lstrcpy(m_szName, TEXT("InDoor"));
+	lstrcpy(m_szName, TEXT("Door"));
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	m_bIsCollisionEnabled = true;
 
 	m_pModelCom->Set_Animation(0, false);
 
@@ -35,15 +37,15 @@ HRESULT CInDoor::Initialize(void* pArg)
 
 void CInDoor::Update_Priority(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyDown(DIK_P))
-		m_pModelCom->Set_Animation(0, false);
-	else if (m_pGameInstance->Get_KeyDown(DIK_O))
+	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
 		m_pModelCom->Set_Animation(1, false);
 }
 
 void CInDoor::Update(_float fTimeDelta)
 {
 	m_pModelCom->Play_Animation(fTimeDelta);
+	
+	m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
 void CInDoor::Update_Late(_float fTimeDelta)
@@ -72,11 +74,32 @@ HRESULT CInDoor::Render()
 		m_pModelCom->Render(i);
 	}
 
+#ifdef _DEBUG
+	m_pColliderCom->Render();
+#endif // _DEBUG
+
 	return S_OK;
+}
+
+void CInDoor::OnCollisionEnter(CGameObject* pOtherObject)
+{
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
+	{
+		m_bIsColliding = true;
+	}
+}
+
+void CInDoor::OnCollisionExit(CGameObject* pOtherObject)
+{
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
+	{
+		m_bIsColliding = false;
+	}
 }
 
 HRESULT CInDoor::Ready_Components()
 {
+	// For Com_Model
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_InDoor"),
 		TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
 		return E_FAIL;
@@ -84,6 +107,15 @@ HRESULT CInDoor::Ready_Components()
 	// For Com_Shader
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
+	// For Com_Collider
+	CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
+	SphereDesc.fRadius = 1.2f;
+	SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius, -1.f);
+
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom), &SphereDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -131,6 +163,7 @@ void CInDoor::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 }

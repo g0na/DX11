@@ -75,9 +75,11 @@ void CBody::Update(_float fTimeDelta)
         m_pPlayerTransform->Get_State(STATE::LOOK) : XMVector3Normalize(m_vInputDir);
 
     m_vWorldDelta = vRight * fDelta.x + vUp * fDelta.y + vLook * fDelta.z;
+    if (m_pGameInstance->Get_KeyHold(DIK_M))
+        m_vWorldDelta *= 6.f;
 
     _vector vPosition = m_pPlayerTransform->Get_State(STATE::POSITION);
-    vPosition += m_vWorldDelta * 3.f;
+    vPosition += m_vWorldDelta;
     
     // 사다리 위에 있으면 네비게이션 OFF
     if (m_bIsOnLadder)

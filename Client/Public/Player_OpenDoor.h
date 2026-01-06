@@ -5,18 +5,16 @@
 NS_BEGIN(Engine)
 class CGameInstance;
 class CStateMachine;
-class CTransform;
-class CModel;
 NS_END
 
 NS_BEGIN(Client)
 
-class CPlayer_Ladder final : public CState
+class CPlayer_OpenDoor final : public CState
 {
 private:
-	CPlayer_Ladder();
-	CPlayer_Ladder(const CPlayer_Ladder& Prototype) = delete;
-	virtual ~CPlayer_Ladder() = default;
+	CPlayer_OpenDoor();
+	CPlayer_OpenDoor(const CPlayer_OpenDoor& Prototype) = delete;
+	virtual ~CPlayer_OpenDoor() = default;
 
 public:
 	virtual HRESULT Initialize(class CGameObject* pOwner, class CBody* pBody);
@@ -28,18 +26,15 @@ public:
 private:
 	CGameInstance*	m_pGameInstance = { nullptr };
 	CStateMachine*	m_pStateMachine = { nullptr };
-	CTransform*		m_pPlayerTransform = { nullptr };
-	CModel*			m_pPlayerModel = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
-	class CWeapon* m_pWeapon = { nullptr };
-	class CShield* m_pShield = { nullptr };
+	class CWeapon*	m_pWeapon = { nullptr };
+	class CShield*	m_pShield = { nullptr };
 
 private:
-	_vector			m_vInputDir = {};
 	_float			m_fTimeElapsed = {};
 
 public:
-	static CPlayer_Ladder* Create(class CGameObject* pOwner, CBody* pBody);
+	static CPlayer_OpenDoor* Create(class CGameObject* pOwner, CBody* pBody);
 	virtual void Free() override;
 };
 

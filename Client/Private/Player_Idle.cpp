@@ -59,6 +59,13 @@ void CPlayer_Idle::Update_State(_float fTimeDelta)
         return;
     }
 
+    // ¹® ¿­±â
+    if (m_pStateMachine->Get_BoolData(TEXT("Player_Door"), false) == true)
+    {
+        m_pStateMachine->Change_State(CPlayer::DOOR);
+        return;
+    }
+
     _vector vCameraLook = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::LOOK);
     vCameraLook = XMVector3Normalize(XMVectorSetY(vCameraLook, 0.f));
     _vector vCameraRight = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::RIGHT);

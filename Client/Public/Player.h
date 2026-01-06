@@ -22,7 +22,7 @@ public:
 		ATTACK,
 		DAMAGED,
 		DEATH,
-		LADDER,
+		LADDER, DOOR,
 		HEAL_START, HEAL_ING, HEAL_END,
 		END
 	};
@@ -77,6 +77,7 @@ private:
 
 	_bool			m_bIsDamaged = {};
 	_bool			m_bLadder = {};
+	_bool			m_bDoor = {};
 
 private:
 	HRESULT Ready_Components();

@@ -86,7 +86,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 	LightDesc.eType = LIGHT::DIRECTIONAL;
 	LightDesc.vDirection = { 1.f, -1.f, 1.f, 0.f };
-	LightDesc.vDiffuse = { 0.5f, 0.5f, 0.5f, 1.f };
+	LightDesc.vDiffuse = { 0.8f, 0.8f, 0.8f, 1.f };
 	LightDesc.vAmbient = { 0.3f, 0.3f, 0.3f, 1.f };
 	LightDesc.vSpecular = { 0.3f, 0.3f, 0.3f, 1.f };
 

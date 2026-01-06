@@ -194,6 +194,7 @@
     <ClInclude Include="..\Public\Player_Attack.h" />
     <ClInclude Include="..\Public\Player_Damaged.h" />
     <ClInclude Include="..\Public\Player_Death.h" />
+    <ClInclude Include="..\Public\Player_OpenDoor.h" />
     <ClInclude Include="..\Public\Player_Guard.h" />
     <ClInclude Include="..\Public\Player_HealEnd.h" />
     <ClInclude Include="..\Public\Player_Healing.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="..\Private\Player_Healing.cpp" />
     <ClCompile Include="..\Private\Player_HealStart.cpp" />
     <ClCompile Include="..\Private\Player_Ladder.cpp" />
+    <ClCompile Include="..\Private\Player_OpenDoor.cpp" />
     <ClCompile Include="..\Private\Player_Slot.cpp" />
     <ClCompile Include="..\Private\Player_Idle.cpp" />
     <ClCompile Include="..\Private\Player_Recoil.cpp" />
