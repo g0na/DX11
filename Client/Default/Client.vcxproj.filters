@@ -247,6 +247,9 @@
     <Filter Include="02. GameObjects\02. Player\99. States\10. OpenDoor">
       <UniqueIdentifier>{9b58ba2d-1c7f-4915-be94-66cf6a11c514}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\OutDoor">
+      <UniqueIdentifier>{a3a652ea-61c6-45e0-999e-8ad519c3cd83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -476,6 +479,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player_OpenDoor.h">
       <Filter>02. GameObjects\02. Player\99. States\10. OpenDoor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\OutDoor.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -707,6 +713,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player_OpenDoor.cpp">
       <Filter>02. GameObjects\02. Player\99. States\10. OpenDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\OutDoor.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

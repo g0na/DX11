@@ -133,6 +133,9 @@
     <Filter Include="02. GameObjects\01. Map\00. Objects\InDoor">
       <UniqueIdentifier>{a84b6502-e144-4ab3-bc4f-27f8022ea2c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\OutDoor">
+      <UniqueIdentifier>{92bc5f17-c55e-46c7-acf1-53b0971cda89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -273,6 +276,9 @@
     <ClInclude Include="..\Public\InDoor.h">
       <Filter>02. GameObjects\01. Map\00. Objects\InDoor</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\OutDoor.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maptool.cpp">
@@ -397,6 +403,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\InDoor.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\InDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\OutDoor.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

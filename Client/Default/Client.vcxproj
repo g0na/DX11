@@ -190,6 +190,7 @@
     <ClInclude Include="..\Public\Monster_Darkwraith.h" />
     <ClInclude Include="..\Public\Monster_Hollow.h" />
     <ClInclude Include="..\Public\Mountain.h" />
+    <ClInclude Include="..\Public\OutDoor.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Player_Attack.h" />
     <ClInclude Include="..\Public\Player_Damaged.h" />
@@ -267,6 +268,7 @@
     <ClCompile Include="..\Private\Monster_Darkwraith.cpp" />
     <ClCompile Include="..\Private\Monster_Hollow.cpp" />
     <ClCompile Include="..\Private\Mountain.cpp" />
+    <ClCompile Include="..\Private\OutDoor.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Player_Attack.cpp" />
     <ClCompile Include="..\Private\Player_Damaged.cpp" />

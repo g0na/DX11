@@ -78,6 +78,7 @@ private:
 	_bool			m_bIsDamaged = {};
 	_bool			m_bLadder = {};
 	_bool			m_bDoor = {};
+	_bool			m_bOutDoor = {};
 
 private:
 	HRESULT Ready_Components();

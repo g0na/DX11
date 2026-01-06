@@ -14,6 +14,7 @@
 #include "Map4.h"
 #include "Ladder.h"
 #include "InDoor.h"
+#include "OutDoor.h"
 
 #include "Player.h"
 #include "Body.h"
@@ -176,6 +177,11 @@ HRESULT CLoader::Loading_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_InDoor"),
 		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Maps/InDoor.fbx", PreTransformMatrix))))
 		return E_FAIL;
+
+	/* For.Prototype_Component_Model_OutDoor */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_OutDoor"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Maps/OutDoor.fbx", PreTransformMatrix))))
+		return E_FAIL;
 	
 	/* For.Prototype_Component_Calculator */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Calculator"),
@@ -251,6 +257,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_InDoor */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_InDoor"),
 		CInDoor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_OutDoor */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_OutDoor"),
+		COutDoor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Body_Player*/

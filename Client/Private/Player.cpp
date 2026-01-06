@@ -125,6 +125,16 @@ void CPlayer::Update(_float fTimeDelta)
             vPosition = XMVectorSetZ(vPosition, -3.254387f);
             m_pTransformCom->Set_State(STATE::POSITION, vPosition);
         }
+        else if (m_bOutDoor)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Player_Door"), true);
+
+            // 문 앞으로 위치 조정 x: 3.197129, z: -32.945137
+            _vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+            vPosition = XMVectorSetX(vPosition, 3.197129f);
+            vPosition = XMVectorSetZ(vPosition, -32.76f);
+            m_pTransformCom->Set_State(STATE::POSITION, vPosition);
+        }
     }
 
     // 루트 모션 적용 이전의 위치 저장
@@ -223,8 +233,13 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
         }
         else if (!lstrcmp(pOtherObject->Get_Name(), TEXT("Door")))
         {
-            // 문에 충돌했을 때 플래그 설정
+            // 내부문에 충돌했을 때 플래그 설정
             m_bDoor = true;
+        }
+        else if (!lstrcmp(pOtherObject->Get_Name(), TEXT("OutDoor")))
+        {
+            // 외부문에 충돌했을 때 플래그 설정
+            m_bOutDoor = true;
         }
     }
 
@@ -278,6 +293,11 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
         else if (!lstrcmp(pOtherObject->Get_Name(), TEXT("Door")))
         {
             m_bDoor = false;
+            m_pStateMachine->Set_BoolData(TEXT("Player_Door"), false);
+        }
+        else if (!lstrcmp(pOtherObject->Get_Name(), TEXT("OutDoor")))
+        {
+            m_bOutDoor = false;
             m_pStateMachine->Set_BoolData(TEXT("Player_Door"), false);
         }
     }
