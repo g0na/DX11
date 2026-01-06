@@ -176,14 +176,6 @@ void CPlayer::Update_Late(_float fTimeDelta)
     m_fStaminaRatio = m_fCurStamina / m_fMaxStamina;
 
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
-
-    // µð¹ö±ë
-    _char buf[128];
-    sprintf_s(buf, "x: %f, z: %f\n", 
-        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
-        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
-    );
-    OutputDebugStringA(buf);
 }
 
 HRESULT CPlayer::Render()
@@ -194,8 +186,6 @@ HRESULT CPlayer::Render()
 
     m_pNavigationCom->Render();
 #endif
-
-    m_pGameInstance->Draw_Text3D(TEXT("Font_English"), TEXT("Character"), m_pTransformCom->Get_State(STATE::POSITION), XMVectorSet(1.f, 1.f, 1.f, 1.f));
 
     return S_OK;
 }

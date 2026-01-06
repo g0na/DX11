@@ -32,6 +32,7 @@
 #include "Map3.h"
 #include "Map4.h"
 #include "Ladder.h"
+#include "InDoor.h"
 #include "Navigation.h"
 
 #include "Player.h"
@@ -293,6 +294,11 @@ HRESULT CLoader::Loading_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Maps/ladder.fbx", PreTransformMatrix))))
 		return E_FAIL;	
 
+	/* For.Prototype_Component_Model_InDoor */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_InDoor"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Maps/InDoor.fbx", PreTransformMatrix))))
+		return E_FAIL;
+
 	UpdateLoadingText(TEXT("셰이더을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxNorTex"),
@@ -498,6 +504,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Ladder */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Ladder"),
 		CLadder::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_InDoor */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_InDoor"),
+		CInDoor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("로딩이 완료되었슴니다."));

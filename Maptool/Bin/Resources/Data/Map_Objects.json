@@ -3,9 +3,47 @@
         "PrototypeTag": "Prototype_GameObject_Sky",
         "LayerTag": "Layer_Map",
         "Position": [
-            43.356468200683594,
-            13.110048294067383,
-            -50.512733459472656
+            3.01568865776062,
+            7.0051589012146,
+            4.519025802612305
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            3.01568865776062,
+            7.0051589012146,
+            4.519025802612305
         ],
         "Rotation": [
             0.0,
@@ -130,6 +168,25 @@
             1.000346064567566,
             1.0,
             1.000346064567566
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_InDoor",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            3.1583590507507324,
+            -1.8370747566223145,
+            -4.099999904632568
+        ],
+        "Rotation": [
+            0.0,
+            180.0,
+            0.0
+        ],
+        "Scale": [
+            0.9972517490386963,
+            1.0,
+            0.9972517490386963
         ]
     }
 ]

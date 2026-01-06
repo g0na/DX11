@@ -72,7 +72,7 @@ HRESULT CMonster_Boss::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 
-	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 0.f, 5.f, 1.f));
+	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 1000.f, 5.f, 1.f));
 	// x: -13.734574, z : -8.797766
 	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-13.734574f, -15.24f, -8.797766f, 1.f));
 

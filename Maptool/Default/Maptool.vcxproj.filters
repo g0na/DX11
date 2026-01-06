@@ -130,6 +130,9 @@
     <Filter Include="02. GameObjects\01. Map\00. Objects\Ladder">
       <UniqueIdentifier>{b019dcb3-d497-46b3-a3b3-ba8ff5afb3e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\InDoor">
+      <UniqueIdentifier>{a84b6502-e144-4ab3-bc4f-27f8022ea2c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -267,6 +270,9 @@
     <ClInclude Include="..\Public\Ladder.h">
       <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\InDoor.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\InDoor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Maptool.cpp">
@@ -388,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Ladder.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InDoor.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\InDoor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

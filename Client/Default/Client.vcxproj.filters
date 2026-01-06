@@ -241,6 +241,9 @@
     <Filter Include="02. GameObjects\00. UI\04. Background_Loading">
       <UniqueIdentifier>{ff368a12-e63b-422d-befc-41fd9e76f911}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\InDoor">
+      <UniqueIdentifier>{1de2ec41-6129-4a3d-bea1-f4d787dc052f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -464,6 +467,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Background_Loading.h">
       <Filter>02. GameObjects\00. UI\04. Background_Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\InDoor.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\InDoor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -689,6 +695,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Background_Loading.cpp">
       <Filter>02. GameObjects\00. UI\04. Background_Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InDoor.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\InDoor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
