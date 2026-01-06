@@ -13,6 +13,16 @@ CUI_Estus::CUI_Estus(const CUI_Estus& Prototype)
 {
 }
 
+void CUI_Estus::Set_EstusCount()
+{
+	if (m_iEstusCount <= 0)
+		return;
+
+	m_iEstusCount--;
+
+	swprintf_s(m_szEstusCount, _countof(m_szEstusCount), L"%d", m_iEstusCount);
+}
+
 HRESULT CUI_Estus::Initialize_Prototype()
 {
 	return S_OK;
@@ -37,11 +47,17 @@ HRESULT CUI_Estus::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_iTextureIndex = 0;
+	m_iEstusCount = 10;
+	swprintf_s(m_szEstusCount, _countof(m_szEstusCount), L"%d", m_iEstusCount);
+
 	return S_OK;
 }
 
 void CUI_Estus::Update_Priority(_float fTimeDelta)
 {
+	if (m_iEstusCount <= 0)
+		m_iTextureIndex = 1;
 }
 
 void CUI_Estus::Update(_float fTimeDelta)
@@ -70,6 +86,8 @@ HRESULT CUI_Estus::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	m_pGameInstance->Draw_Text(TEXT("Font_Korean"), m_szEstusCount, _float2(g_iWinSizeX * 0.195f, g_iWinSizeY * 0.9f), XMVectorSet(1.f, 1.f, 1.f, 1.f));
 
 	return S_OK;
 }

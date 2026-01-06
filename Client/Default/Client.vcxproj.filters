@@ -250,6 +250,9 @@
     <Filter Include="02. GameObjects\01. Map\00. Objects\OutDoor">
       <UniqueIdentifier>{a3a652ea-61c6-45e0-999e-8ad519c3cd83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Item">
+      <UniqueIdentifier>{cbafdd8f-f016-4991-83ca-a33e1e174872}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -482,6 +485,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\OutDoor.h">
       <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -716,6 +722,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\OutDoor.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -38,7 +38,10 @@ HRESULT CInDoor::Initialize(void* pArg)
 void CInDoor::Update_Priority(_float fTimeDelta)
 {
 	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
+	{
 		m_pModelCom->Set_Animation(1, false);
+		m_bIsCollisionEnabled = false;
+	}
 }
 
 void CInDoor::Update(_float fTimeDelta)

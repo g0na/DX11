@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Body.h"
 #include "Estus.h"
+#include "UI_Estus.h"
 #include "Weapon.h"
 #include "GameInstance.h"
 
@@ -34,7 +35,11 @@ void CPlayer_Healing::Enter_State()
     if (m_pPlayerBody != nullptr)
         m_pPlayerBody->Set_Animation(26, false);
 
+    // 체력 회복
     static_cast<CPlayer*>(m_pOwner)->Heal(25.f);
+
+    // UI 갱신
+    static_cast<CUI_Estus*>(m_pGameInstance->Find_UI(TEXT("Prototype_UI_Estus")))->Set_EstusCount();
 
     m_fCoolDown = 0.f;
 }

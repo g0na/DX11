@@ -18,6 +18,10 @@ private:
 	virtual ~CUI_Estus() = default;
 
 public:
+	_uint	Get_EstusCount() { return m_iEstusCount; }
+	void	Set_EstusCount();
+
+public:
 	virtual HRESULT Initialize_Prototype();					// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
 	virtual HRESULT Initialize(void* pArg);					// 원형 객체를 복제할 때 호출되는 함수. 추가적인 초기화를 위해서
 	virtual void	Update_Priority(_float fTimeDelta);
@@ -31,7 +35,9 @@ private:
 	CTexture*				m_pTextureCom = { nullptr };
 
 private:
+	_tchar		m_szEstusCount[16] = {};
 	_uint		m_iTextureIndex = {};
+	_uint		m_iEstusCount = {};
 
 private:
 	HRESULT		Ready_Components();

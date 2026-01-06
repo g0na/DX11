@@ -414,6 +414,11 @@ HRESULT CGameInstance::Add_UI(_wstring strUITag, CUIObj* pUIObj)
 	return m_pUIManager->Add_UI(strUITag, pUIObj);
 }
 
+CUIObj* CGameInstance::Find_UI(_wstring strUITag)
+{
+	return m_pUIManager->Find_UI(strUITag);
+}
+
 void CGameInstance::Show_UI(_wstring strUITag)
 {
 	return m_pUIManager->Show_UI(strUITag);

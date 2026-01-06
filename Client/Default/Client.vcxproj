@@ -176,6 +176,7 @@
     <ClInclude Include="..\Public\Hollow_Idle.h" />
     <ClInclude Include="..\Public\Hollow_Walk.h" />
     <ClInclude Include="..\Public\InDoor.h" />
+    <ClInclude Include="..\Public\Item.h" />
     <ClInclude Include="..\Public\Ladder.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="..\Private\Hollow_Idle.cpp" />
     <ClCompile Include="..\Private\Hollow_Walk.cpp" />
     <ClCompile Include="..\Private\InDoor.cpp" />
+    <ClCompile Include="..\Private\Item.cpp" />
     <ClCompile Include="..\Private\Ladder.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />

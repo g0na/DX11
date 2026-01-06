@@ -127,6 +127,7 @@ public:
 
 #pragma region UI_MANAGER
 	HRESULT		Add_UI(_wstring strUITag, class CUIObj* pUIObj);
+	CUIObj*		Find_UI(_wstring strUITag);
 	void		Show_UI(_wstring strUITag);
 	void		Hide_UI(_wstring strUITag);
 #pragma endregion

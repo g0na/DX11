@@ -3,6 +3,7 @@
 #include "Body.h"
 #include "Weapon.h"
 #include "Estus.h"
+#include "UI_Estus.h"
 #include "GameInstance.h"
 
 CPlayer_HealStart::CPlayer_HealStart()
@@ -31,6 +32,12 @@ HRESULT CPlayer_HealStart::Initialize(CGameObject* pOwner, CBody* pBody)
 
 void CPlayer_HealStart::Enter_State()
 {
+    if (static_cast<CUI_Estus*>(m_pGameInstance->Find_UI(TEXT("Prototype_UI_Estus")))->Get_EstusCount() <= 0)
+    {
+        m_pStateMachine->Change_State(CPlayer::IDLE);
+        return;
+    }
+
     if (m_pPlayerBody != nullptr)
         m_pPlayerBody->Set_Animation(25, false);
 }
