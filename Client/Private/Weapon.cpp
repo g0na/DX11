@@ -126,7 +126,7 @@ HRESULT CWeapon::Ready_Components()
 	for (_uint i = 0; i < m_iColliderCnt; i++)
 	{
 		CBounding_Sphere::BOUNDING_SPHERE_DESC SphereDesc{};
-		SphereDesc.fRadius = 0.1f;
+		SphereDesc.fRadius = 0.2f;
 		_float fOffset = SphereDesc.fRadius - 0.9f + (0.2f * i);
 		SphereDesc.vCenter = _float3(0.f, fOffset, 0.f);
 

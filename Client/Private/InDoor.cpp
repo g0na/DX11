@@ -40,7 +40,6 @@ void CInDoor::Update_Priority(_float fTimeDelta)
 	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
 	{
 		m_pModelCom->Set_Animation(1, false);
-		m_bIsCollisionEnabled = false;
 	}
 }
 
@@ -97,6 +96,7 @@ void CInDoor::OnCollisionExit(CGameObject* pOtherObject)
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
 	{
 		m_bIsColliding = false;
+		m_bIsCollisionEnabled = false;
 	}
 }
 

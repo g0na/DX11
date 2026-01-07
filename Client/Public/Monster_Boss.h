@@ -7,6 +7,7 @@ NS_BEGIN(Engine)
 class CModel;
 class CShader;
 class CCollider;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
@@ -57,6 +58,7 @@ private:
 	CModel*				m_pModelCom = { nullptr };
 	CShader*			m_pShaderCom = { nullptr };
 	CCollider*			m_pColliderBody = { nullptr };
+	CNavigation*		m_pNavigationCom = { nullptr };
 	CPlayer*			m_pPlayer = { nullptr };
 	
 	_vector				m_vPlayerPos = {};

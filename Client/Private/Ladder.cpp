@@ -67,8 +67,6 @@ HRESULT CLadder::Render()
 	}
 
 #ifdef _DEBUG
-	m_bIsCollisionEnabled = true;
-
 	if (m_bIsCollisionEnabled == true)
 	{
 		for (auto& pCollider : m_vecColliders)

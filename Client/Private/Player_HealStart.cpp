@@ -50,6 +50,8 @@ void CPlayer_HealStart::Update_State(_float fTimeDelta)
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Dead"), false) == true)
     {
         m_pStateMachine->Change_State(CPlayer::DEATH);
+        m_pWeapon->Set_Activity(true);
+        m_pEstus->Set_Activity(false);
         return;
     }
 
@@ -58,6 +60,8 @@ void CPlayer_HealStart::Update_State(_float fTimeDelta)
         m_pStateMachine->Get_BoolData(TEXT("Player_Knockback"), false))
     {
         m_pStateMachine->Change_State(CPlayer::DAMAGED);
+        m_pWeapon->Set_Activity(true);
+        m_pEstus->Set_Activity(false);
         return;
     }
 

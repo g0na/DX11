@@ -20,12 +20,14 @@ HRESULT CPlayer_Attack::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
+    m_pPlayerModel = pBody->Get_Component<CModel>(TEXT("Com_Model"));
     m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
         m_pPlayerBody == nullptr ||
-        m_pPlayerCamera == nullptr)
+        m_pPlayerCamera == nullptr ||
+        m_pPlayerModel == nullptr)
         return E_FAIL;
 
     CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
@@ -91,10 +93,25 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
 
     m_fAttackDelay += fTimeDelta;
 
-    if (m_fAttackDelay >= 0.5f && m_fAttackDelay < 0.6f)
-        m_pPlayerWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
-    else
-        m_pPlayerWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+    _uint iCurAnimIndex = m_pPlayerModel->Get_CurAnimIndex();
+    switch (iCurAnimIndex)
+    {
+    case 32:
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.535f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.665f)
+            m_pPlayerWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+        else
+            m_pPlayerWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+
+    case 33:
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.465f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.565f)
+            m_pPlayerWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
+        else
+            m_pPlayerWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
+        break;
+    }
 
     if (m_pGameInstance->Get_MouseBtnDown(MOUSEKEYSTATE::LB) && m_fPlayerStamina > 0.f)
     {

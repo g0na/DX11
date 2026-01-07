@@ -72,7 +72,7 @@ HRESULT CMonster_Boss::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, 1000.f, 5.f, 1.f));
+	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(3.03f, -2.19f, -27.54f, 1.f));
 	// x: -13.734574, z : -8.797766
 	//m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-13.734574f, -15.24f, -8.797766f, 1.f));
 
@@ -115,7 +115,7 @@ void CMonster_Boss::Update(_float fTimeDelta)
 
 	// BlackBoard에 데이터 저장
 	m_pStateMachine->Set_FloatData(TEXT("Boss_Distance"), m_fDistance);
-	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 15.f);
+	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 10.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
@@ -139,6 +139,8 @@ void CMonster_Boss::Update(_float fTimeDelta)
 	
 	_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 	vPosition += vWorldDelta;
+	vPosition = m_pNavigationCom->Move(m_pTransformCom->Get_State(STATE::POSITION), vPosition);
+
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 
 	// 콜라이더 업데이트
@@ -192,7 +194,7 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
-		Set_Damaged(100);
+		Set_Damaged(500);
 	}
 }
 
@@ -227,6 +229,15 @@ HRESULT CMonster_Boss::Ready_Components()
 
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderBody), &SphereDesc)))
+		return E_FAIL;
+
+	// For Com_Navigation
+	CNavigation::NAVIGATION_DESC NavigationDesc{};
+	NavigationDesc.iCurrentCellIndex = 768;
+	NavigationDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
+		TEXT("Com_Navigation"), reinterpret_cast<CComponent**>(&m_pNavigationCom), &NavigationDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -323,6 +334,7 @@ void CMonster_Boss::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pNavigationCom);
 	Safe_Release(m_pColliderBody);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);

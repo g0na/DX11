@@ -78,7 +78,7 @@ HRESULT CMonster_Hollow::Initialize(void* pArg)
 	Safe_AddRef(m_pPlayer);
 
 	m_bIsCollisionEnabled = true;
-	m_iHp = 5;
+	m_iHp = 3;
 
 	return S_OK;
 }

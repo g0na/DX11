@@ -182,8 +182,9 @@ void CPlayer::Update_Late(_float fTimeDelta)
             _vector vSliding = vMoveDistance - XMVectorScale(vNormal, fDot);
             vAfterPosition = XMVectorLerp(vAfterPosition, vAfterPosition + XMVectorSetW(vSliding, 0.f), 0.05f);
 
-            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(vAfterPosition, 1.f));
-        }
+            vPosition = m_pNavigationCom->Move(m_pTransformCom->Get_State(STATE::POSITION), vAfterPosition);
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSetW(vPosition, 1.f));
+        }  
     }
 
     // 체력, 스태미나 비율 계산
@@ -203,10 +204,7 @@ void CPlayer::Update_Late(_float fTimeDelta)
 
     // 위치 디버깅
     _char buf[64];
-    sprintf_s(buf, "x: %f, z: %f\n",
-        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
-        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
-    );
+    sprintf_s(buf, "Cell: %d\n", m_pNavigationCom->Get_CurCellIndex());
     OutputDebugStringA(buf);
 }
 
@@ -216,7 +214,7 @@ HRESULT CPlayer::Render()
     if (m_bIsCollisionEnabled == true)
         m_pColliderCom->Render();
 
-    m_pNavigationCom->Render();
+    //m_pNavigationCom->Render();
 #endif
 
     return S_OK;

@@ -63,7 +63,7 @@ void CWeapon_Hollow::Update_Late(_float fTimeDelta)
 
 HRESULT CWeapon_Hollow::Render()
 {
-	m_bIsCollisionEnabled = true;
+	//m_bIsCollisionEnabled = true;
 #ifdef _DEBUG
 	if (m_bIsCollisionEnabled == true)
 	{

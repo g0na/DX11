@@ -36,6 +36,9 @@ private:
 	virtual ~CNavigation() = default;
 
 public:
+	_uint	Get_CurCellIndex() { return m_iCurrentCellIndex; }
+
+public:
 	virtual HRESULT Initialize_Prototype(const vector<const _tchar*>& pNavigationData);
 	virtual HRESULT Initialize(void* pArg) override;
 
