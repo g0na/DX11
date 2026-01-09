@@ -177,6 +177,8 @@
     <ClInclude Include="..\Public\Hollow_Walk.h" />
     <ClInclude Include="..\Public\InDoor.h" />
     <ClInclude Include="..\Public\Item.h" />
+    <ClInclude Include="..\Public\Item_Shield.h" />
+    <ClInclude Include="..\Public\Item_Weapon.h" />
     <ClInclude Include="..\Public\Ladder.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
@@ -202,6 +204,7 @@
     <ClInclude Include="..\Public\Player_Healing.h" />
     <ClInclude Include="..\Public\Player_HealStart.h" />
     <ClInclude Include="..\Public\Player_Ladder.h" />
+    <ClInclude Include="..\Public\Player_PickUp.h" />
     <ClInclude Include="..\Public\Player_Slot.h" />
     <ClInclude Include="..\Public\Player_Idle.h" />
     <ClInclude Include="..\Public\Player_Recoil.h" />
@@ -218,6 +221,7 @@
     <ClInclude Include="..\Public\UI_Player_Stamina.h" />
     <ClInclude Include="..\Public\UI_Player_Stamina_Gauge.h" />
     <ClInclude Include="..\Public\UI_PopUp_Door.h" />
+    <ClInclude Include="..\Public\UI_PopUp_PickUp.h" />
     <ClInclude Include="..\Public\UI_Shield.h" />
     <ClInclude Include="..\Public\UI_Weapon.h" />
     <ClInclude Include="..\Public\WeaponCase.h" />
@@ -258,6 +262,8 @@
     <ClCompile Include="..\Private\Hollow_Walk.cpp" />
     <ClCompile Include="..\Private\InDoor.cpp" />
     <ClCompile Include="..\Private\Item.cpp" />
+    <ClCompile Include="..\Private\Item_Shield.cpp" />
+    <ClCompile Include="..\Private\Item_Weapon.cpp" />
     <ClCompile Include="..\Private\Ladder.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
@@ -283,6 +289,7 @@
     <ClCompile Include="..\Private\Player_HealStart.cpp" />
     <ClCompile Include="..\Private\Player_Ladder.cpp" />
     <ClCompile Include="..\Private\Player_OpenDoor.cpp" />
+    <ClCompile Include="..\Private\Player_PickUp.cpp" />
     <ClCompile Include="..\Private\Player_Slot.cpp" />
     <ClCompile Include="..\Private\Player_Idle.cpp" />
     <ClCompile Include="..\Private\Player_Recoil.cpp" />
@@ -299,6 +306,7 @@
     <ClCompile Include="..\Private\UI_Player_Stamina.cpp" />
     <ClCompile Include="..\Private\UI_Player_Stamina_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_Door.cpp" />
+    <ClCompile Include="..\Private\UI_PopUp_PickUp.cpp" />
     <ClCompile Include="..\Private\UI_Shield.cpp" />
     <ClCompile Include="..\Private\UI_Weapon.cpp" />
     <ClCompile Include="..\Private\WeaponCase.cpp" />

@@ -31,6 +31,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Object(TEXT("Layer_Object"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_UIs(TEXT("Layer_UI"))))
 		return E_FAIL;
 
@@ -178,6 +181,12 @@ HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 
+	// UI_PopUp_PickUp
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PopUp_PickUp"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_PickUp"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -205,6 +214,23 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
 {
 	Load_Mapdata(TEXT("../Bin/DataFiles/Map_Objects.json"));
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
+{
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Estus"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
+		return E_FAIL;
+
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Weapon"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
+		return E_FAIL;
+
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Shield"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -10,12 +10,12 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CItem final : public CGameObject
+class CItem_Weapon final : public CGameObject
 {
 private:
-	CItem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CItem(const CItem& Prototype);
-	virtual ~CItem() = default;
+	CItem_Weapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CItem_Weapon(const CItem_Weapon& Prototype);
+	virtual ~CItem_Weapon() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;							// 원형 객체를 생성할 때 호출되는 함수. 무거운 초기화 작업(서버 패킷, 파일 입출력)을 담당한다.
@@ -30,9 +30,10 @@ public:
 	virtual void OnCollisionExit(CGameObject* pOtherObject) override;
 
 private:
-	CModel*		m_pModelCom = { nullptr };
-	CShader*	m_pShaderCom = { nullptr };
-	CCollider*	m_pColliderCom = { nullptr };
+	CModel*			m_pModelCom = { nullptr };
+	CShader*		m_pShaderCom = { nullptr };
+	CCollider*		m_pColliderCom = { nullptr };
+	class CWeapon*	m_pPlayerWeapon = { nullptr };
 
 private:
 	_bool		m_bIsColliding = {};
@@ -42,7 +43,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CItem* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CItem_Weapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

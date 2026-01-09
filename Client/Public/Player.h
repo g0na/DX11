@@ -24,6 +24,7 @@ public:
 		DEATH,
 		LADDER, DOOR,
 		HEAL_START, HEAL_ING, HEAL_END,
+		PICKUP,
 		END
 	};
 
@@ -79,6 +80,7 @@ private:
 	_bool			m_bLadder = {};
 	_bool			m_bDoor = {};
 	_bool			m_bOutDoor = {};
+	_bool			m_bPickUp = {};
 
 private:
 	HRESULT Ready_Components();

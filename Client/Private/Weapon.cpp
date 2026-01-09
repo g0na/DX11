@@ -34,6 +34,7 @@ HRESULT CWeapon::Initialize(void* pArg)
 
 	m_eLayer = LAYER::WEAPON;
 	m_bIsCollisionEnabled = false;
+	m_bIsActive = false;
 
 	return S_OK;
 }

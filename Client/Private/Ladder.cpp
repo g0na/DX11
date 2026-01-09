@@ -79,12 +79,18 @@ HRESULT CLadder::Render()
 
 void CLadder::OnCollisionEnter(CGameObject* pOtherObject)
 {
-	m_pGameInstance->Show_UI(TEXT("Prototype_UI_PopUp"));
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
+	{
+		m_pGameInstance->Show_UI(TEXT("Prototype_UI_PopUp"));
+	}
 }
 
 void CLadder::OnCollisionExit(CGameObject* pOtherObject)
 {
-	m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp"));
+	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
+	{
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp"));
+	}
 }
 
 HRESULT CLadder::Ready_Components()

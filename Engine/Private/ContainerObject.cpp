@@ -28,19 +28,28 @@ HRESULT CContainerObject::Initialize(void* pArg)
 void CContainerObject::Update_Priority(_float fTimeDelta)
 {
 	for (auto& Pair : m_mapPartObjects)
-		Pair.second->Update_Priority(fTimeDelta);
+	{
+		if (Pair.second->Get_IsActive())
+			Pair.second->Update_Priority(fTimeDelta);
+	}
 }
 
 void CContainerObject::Update(_float fTimeDelta)
 {
 	for (auto& Pair : m_mapPartObjects)
-		Pair.second->Update(fTimeDelta);
+	{
+		if (Pair.second->Get_IsActive())
+			Pair.second->Update(fTimeDelta);
+	}
 }
 
 void CContainerObject::Update_Late(_float fTimeDelta)
 {
 	for (auto& Pair : m_mapPartObjects)
-		Pair.second->Update_Late(fTimeDelta);
+	{
+		if (Pair.second->Get_IsActive())
+			Pair.second->Update_Late(fTimeDelta);
+	}
 }
 
 HRESULT CContainerObject::Render()

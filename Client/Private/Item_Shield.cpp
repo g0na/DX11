@@ -1,26 +1,28 @@
-#include "Item.h"
+#include "Item_Shield.h"
+#include "Shield.h"
+#include "ContainerObject.h"
 #include "GameInstance.h"
 
-CItem::CItem(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CItem_Shield::CItem_Shield(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject { pDevice, pContext }
 {
 }
 
-CItem::CItem(const CItem& Prototype)
+CItem_Shield::CItem_Shield(const CItem_Shield& Prototype)
 	: CGameObject { Prototype }
 {
 }
 
-HRESULT CItem::Initialize_Prototype()
+HRESULT CItem_Shield::Initialize_Prototype()
 {
 	m_eLayer = LAYER::OBJECT;
 
 	return S_OK;
 }
 
-HRESULT CItem::Initialize(void* pArg)
+HRESULT CItem_Shield::Initialize(void* pArg)
 {
-	lstrcpy(m_szName, TEXT("Item_Estus"));
+	lstrcpy(m_szName, TEXT("Item_Shield"));
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -28,9 +30,11 @@ HRESULT CItem::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(90.f));
+	m_pPlayerShield = static_cast<CShield*>((static_cast<CContainerObject*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)))->Find_PartObject(TEXT("Part_Shield"))));
 
-	_vector vPosition = XMVectorSet(-2.893944263458252f, 1.4138572216033936f, 19.501508712768555f, 1.f);
+	m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(90.f));
+
+	_vector vPosition = XMVectorSet(39.01951599121094f, -4.573685646057129f, 17.72850799560547f, 1.f);
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 
 	m_bIsCollisionEnabled = true;
@@ -38,26 +42,27 @@ HRESULT CItem::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CItem::Update_Priority(_float fTimeDelta)
+void CItem_Shield::Update_Priority(_float fTimeDelta)
 {
 	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
 	{
 		m_bIsActive = false;
-		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Estus"));
+		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Shield"));
+		m_pPlayerShield->Set_Activity(true);
 	}
 }
 
-void CItem::Update(_float fTimeDelta)
+void CItem_Shield::Update(_float fTimeDelta)
 {
 	m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
-void CItem::Update_Late(_float fTimeDelta)
+void CItem_Shield::Update_Late(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
-HRESULT CItem::Render()
+HRESULT CItem_Shield::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -82,7 +87,7 @@ HRESULT CItem::Render()
 	return S_OK;
 }
 
-void CItem::OnCollisionEnter(CGameObject* pOtherObject)
+void CItem_Shield::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
 	{
@@ -91,7 +96,7 @@ void CItem::OnCollisionEnter(CGameObject* pOtherObject)
 	}
 }
 
-void CItem::OnCollisionExit(CGameObject* pOtherObject)
+void CItem_Shield::OnCollisionExit(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
 	{
@@ -101,7 +106,7 @@ void CItem::OnCollisionExit(CGameObject* pOtherObject)
 	}
 }
 
-HRESULT CItem::Ready_Components()
+HRESULT CItem_Shield::Ready_Components()
 {
 	// For Com_Model
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Item"),
@@ -126,7 +131,7 @@ HRESULT CItem::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CItem::Bind_ShaderResources()
+HRESULT CItem_Shield::Bind_ShaderResources()
 {
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
@@ -138,33 +143,33 @@ HRESULT CItem::Bind_ShaderResources()
 	return S_OK;
 }
 
-CItem* CItem::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CItem_Shield* CItem_Shield::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CItem* pInstance = new CItem(pDevice, pContext);
+	CItem_Shield* pInstance = new CItem_Shield(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CItem");
+		MSG_BOX("Failed to Created : CItem_Shield");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CItem::Clone(void* pArg)
+CGameObject* CItem_Shield::Clone(void* pArg)
 {
-	CItem* pInstance = new CItem(*this);
+	CItem_Shield* pInstance = new CItem_Shield(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CItem");
+		MSG_BOX("Failed to Cloned : CItem_Shield");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CItem::Free()
+void CItem_Shield::Free()
 {
 	__super::Free();
 

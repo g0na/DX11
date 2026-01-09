@@ -15,6 +15,7 @@
 #include "UI_Boss_HP.h"
 #include "UI_PopUp.h"
 #include "UI_PopUp_Door.h"
+#include "UI_PopUp_PickUp.h"
 
 #include "Monster_Darkwraith.h"
 #include "Weapon_Darkwraith.h"
@@ -36,6 +37,9 @@
 #include "Ladder.h"
 #include "InDoor.h"
 #include "OutDoor.h"
+#include "Item.h"
+#include "Item_Weapon.h"
+#include "Item_Shield.h"
 #include "Navigation.h"
 
 #include "Player.h"
@@ -312,6 +316,11 @@ HRESULT CLoader::Loading_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Maps/OutDoor.fbx", PreTransformMatrix))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Model_Item */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Model_Item"),
+		CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Item/Item.fbx", PreTransformMatrix))))
+		return E_FAIL;
+
 	UpdateLoadingText(TEXT("셰이더을(를) 로딩 중 입니다."));
 	/* For.Prototype_Component_Shader_VtxNorTex */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxNorTex"),
@@ -417,6 +426,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_UI_PopUp_Door */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Door"),
 		CUI_PopUp_Door::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_PopUp_PickUp */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_PickUp"),
+		CUI_PopUp_PickUp::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera_Free */
@@ -537,6 +551,21 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_OutDoor */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_OutDoor"),
 		COutDoor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Item_Estus */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Estus"),
+		CItem::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Item_Weapon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Weapon"),
+		CItem_Weapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Item_Shield */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Shield"),
+		CItem_Shield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("로딩이 완료되었슴니다."));

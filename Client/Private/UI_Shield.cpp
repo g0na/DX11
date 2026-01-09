@@ -37,7 +37,7 @@ HRESULT CUI_Shield::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_bVisible = false;
+	m_bVisible = false;
 
 	return S_OK;
 }

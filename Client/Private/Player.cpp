@@ -24,6 +24,7 @@
 #include "Player_HealStart.h"
 #include "Player_Healing.h"
 #include "Player_HealEnd.h"
+#include "Player_PickUp.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject { pDevice, pContext }
@@ -141,6 +142,12 @@ void CPlayer::Update(_float fTimeDelta)
             vPosition = XMVectorSetZ(vPosition, -32.76f);
             m_pTransformCom->Set_State(STATE::POSITION, vPosition);
         }
+        else if (m_bPickUp)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Player_PickUp"), true);
+
+            m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp_PickUp"));
+        }
     }
 
     // 루트 모션 적용 이전의 위치 저장
@@ -210,7 +217,11 @@ void CPlayer::Update_Late(_float fTimeDelta)
 
     // 위치 디버깅
     _char buf[64];
-    sprintf_s(buf, "Cell: %d\n", m_pNavigationCom->Get_CurCellIndex());
+    sprintf_s(buf, "x: %f, y: %f, z:%f\n",
+        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
+    );
     OutputDebugStringA(buf);
 }
 
@@ -244,6 +255,13 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
         {
             // 외부문에 충돌했을 때 플래그 설정
             m_bOutDoor = true;
+        }
+        else if (!lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Estus"))
+              || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Weapon"))
+              || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Shield")))
+        {
+            // 아이템에 충돌했을 때 플래그 설정
+            m_bPickUp = true;
         }
     }
 
@@ -304,6 +322,13 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
             m_bOutDoor = false;
             m_pStateMachine->Set_BoolData(TEXT("Player_Door"), false);
         }
+        else if (!lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Estus"))
+              || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Shield"))
+              || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Weapon")))
+        {
+            m_bPickUp = false;
+            m_pStateMachine->Set_BoolData(TEXT("Player_PickUp"), false);
+        }
     }
 
     if (pOtherObject->Get_Layer() == TEXT("Layer_Monster"))
@@ -318,7 +343,7 @@ void CPlayer::OnCollisionExit(CGameObject* pOtherObject)
 }
 
 void CPlayer::Heal(_float fHealAmount)
-{
+{ 
     m_fCurHp += fHealAmount;
 
     if (m_fCurHp >= m_fMaxHp)
@@ -395,6 +420,9 @@ HRESULT CPlayer::Ready_States()
         return E_FAIL;
 
     if (FAILED(m_pStateMachine->Add_State(HEAL_END, CPlayer_HealEnd::Create(this, m_pBody))))
+        return E_FAIL;
+
+    if (FAILED(m_pStateMachine->Add_State(PICKUP, CPlayer_PickUp::Create(this, m_pBody))))
         return E_FAIL;
 
     m_pStateMachine->Set_State(IDLE);

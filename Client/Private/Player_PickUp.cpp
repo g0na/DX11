@@ -1,18 +1,19 @@
-#include "Player_OpenDoor.h"
+#include "Player_PickUp.h"
 #include "Transform.h"
 #include "Player.h"
 #include "Body.h"
+#include "Model.h"
 #include "Weapon.h"
 #include "Shield.h"
 #include "GameInstance.h"
 
-CPlayer_OpenDoor::CPlayer_OpenDoor()
+CPlayer_PickUp::CPlayer_PickUp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 }
 
-HRESULT CPlayer_OpenDoor::Initialize(CGameObject* pOwner, CBody* pBody)
+HRESULT CPlayer_PickUp::Initialize(CGameObject* pOwner, CBody* pBody)
 {
 	__super::Initialize(pOwner);
 
@@ -25,47 +26,43 @@ HRESULT CPlayer_OpenDoor::Initialize(CGameObject* pOwner, CBody* pBody)
 		m_pPlayerBody == nullptr)
 		return E_FAIL;
 
+    CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
+
 	return S_OK;
 }
 
-void CPlayer_OpenDoor::Enter_State()
+void CPlayer_PickUp::Enter_State()
 {
 	if (m_pPlayerBody != nullptr)
-		m_pPlayerBody->Set_Animation(22, false);
+		m_pPlayerBody->Set_Animation(24, false);
 
 	// 무기, 방패 비활성화
-	m_pWeapon->Set_Activity(false);
-	m_pShield->Set_Activity(false);
+	//m_pWeapon->Set_Activity(false);
+	//m_pShield->Set_Activity(false);
 }
 
-void CPlayer_OpenDoor::Update_State(_float fTimeDelta)
+void CPlayer_PickUp::Update_State(_float fTimeDelta)
 {
 	m_fTimeElapsed += fTimeDelta;
-
-	if (m_fTimeElapsed >= 6.9f)
-	{
-		m_pWeapon->Set_Activity(true);
-		m_pShield->Set_Activity(true);
-	}
 
 	if (m_pPlayerBody->Get_IsAnimFinish() == true)
 		m_pStateMachine->Change_State(CPlayer::IDLE);
 }
 
-void CPlayer_OpenDoor::Exit_State()
+void CPlayer_PickUp::Exit_State()
 {
 	// 문 열기 상태 비활성화
-	m_pStateMachine->Set_BoolData(TEXT("Player_Door"), false);
+	m_pStateMachine->Set_BoolData(TEXT("Player_PickUp"), false);
 	m_fTimeElapsed = 0.f;
 }
 
-CPlayer_OpenDoor* CPlayer_OpenDoor::Create(CGameObject* pOwner, CBody* pBody)
+CPlayer_PickUp* CPlayer_PickUp::Create(CGameObject* pOwner, CBody* pBody)
 {
-	CPlayer_OpenDoor* pInstance = new CPlayer_OpenDoor();
+	CPlayer_PickUp* pInstance = new CPlayer_PickUp();
 
 	if (FAILED(pInstance->Initialize(pOwner, pBody)))
 	{
-		MSG_BOX("Failed to Created : CPlayer_OpenDoor");
+		MSG_BOX("Failed to Created : CPlayer_PickUp");
 		Safe_Release(pInstance);
 	}
 
@@ -73,7 +70,7 @@ CPlayer_OpenDoor* CPlayer_OpenDoor::Create(CGameObject* pOwner, CBody* pBody)
 
 }
 
-void CPlayer_OpenDoor::Free()
+void CPlayer_PickUp::Free()
 {
 	__super::Free();
 

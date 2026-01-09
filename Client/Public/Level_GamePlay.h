@@ -34,6 +34,7 @@ public:
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Map(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Object(const _wstring& strLayerTag);
 
 private:
 	_wstring	CharToWstring(const _char* pString);

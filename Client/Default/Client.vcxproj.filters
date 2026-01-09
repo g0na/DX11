@@ -262,6 +262,21 @@
     <Filter Include="02. GameObjects\00. UI\05. PopUp\Door">
       <UniqueIdentifier>{2f1e20b0-896c-4305-916f-f899d080f509}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp\PickUp">
+      <UniqueIdentifier>{4149a83a-a6ab-4721-8ecd-34b2bb0c12bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\02. Player\99. States\11. PickUp">
+      <UniqueIdentifier>{0d2b3069-8b9f-49e2-88a6-fa8052c9fbf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Item\Estus">
+      <UniqueIdentifier>{583e1798-790a-435a-939c-d6ab559c6d89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Item\Weapon">
+      <UniqueIdentifier>{a02878df-3311-42fb-afa3-242541a424c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Item\Shield">
+      <UniqueIdentifier>{7784acd2-da26-49ea-bfee-1eef056b70b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -495,14 +510,26 @@
     <ClInclude Include="..\Public\OutDoor.h">
       <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Item.h">
-      <Filter>02. GameObjects\01. Map\00. Objects\Item</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_PopUp.h">
       <Filter>02. GameObjects\00. UI\05. PopUp\Ladder</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_PopUp_Door.h">
       <Filter>02. GameObjects\00. UI\05. PopUp\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PopUp_PickUp.h">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player_PickUp.h">
+      <Filter>02. GameObjects\02. Player\99. States\11. PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Estus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Weapon.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Shield.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Shield</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -738,14 +765,26 @@
     <ClCompile Include="..\Private\OutDoor.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\OutDoor</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Item.cpp">
-      <Filter>02. GameObjects\01. Map\00. Objects\Item</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UI_PopUp.cpp">
       <Filter>02. GameObjects\00. UI\05. PopUp\Ladder</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_PopUp_Door.cpp">
       <Filter>02. GameObjects\00. UI\05. PopUp\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp_PickUp.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player_PickUp.cpp">
+      <Filter>02. GameObjects\02. Player\99. States\11. PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Estus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Weapon.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Shield.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Shield</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

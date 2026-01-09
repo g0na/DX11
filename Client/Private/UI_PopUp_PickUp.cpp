@@ -1,43 +1,33 @@
-#include "UI_Estus.h"
+#include "UI_PopUp_PickUp.h"
 #include "GameInstance.h"
 
 USING(Client)
 
-CUI_Estus::CUI_Estus(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_PopUp_PickUp::CUI_PopUp_PickUp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CUIObj { pDevice, pContext }
 {
 }
 
-CUI_Estus::CUI_Estus(const CUI_Estus& Prototype)
+CUI_PopUp_PickUp::CUI_PopUp_PickUp(const CUI_PopUp_PickUp& Prototype)
 	: CUIObj { Prototype }
 {
 }
 
-void CUI_Estus::Set_EstusCount()
-{
-	if (m_iEstusCount <= 0)
-		return;
-
-	m_iEstusCount--;
-
-	swprintf_s(m_szEstusCount, _countof(m_szEstusCount), L"%d", m_iEstusCount);
-}
-
-HRESULT CUI_Estus::Initialize_Prototype()
+HRESULT CUI_PopUp_PickUp::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUI_Estus::Initialize(void* pArg)
+HRESULT CUI_PopUp_PickUp::Initialize(void* pArg)
 {
 	// 여기서 초기화 할 때 정보를 설정해주거나, 사용할 레벨에서 정보를 설정해줘도 된다.
 	CUIObj::UIOBJ_DESC        Desc{};
 
-	Desc.fX = g_iWinSizeX * 0.175f;
-	Desc.fY = g_iWinSizeY * 0.84f;
-	Desc.fSizeX = 136;
-	Desc.fSizeY = 170;
-	lstrcpy(Desc.szName, TEXT("UI_Estus"));
+	Desc.fX = g_iWinSizeX >> 1;
+	Desc.fY = g_iWinSizeY * 0.875f;
+	Desc.fSizeX = 850.f;
+	Desc.fSizeY = 70.f;
+	lstrcpy(Desc.szName, TEXT("PopUp_PickUp"));
 	Desc.fSpeedPerSec = 0.f;
 	Desc.fRotationPerSec = 0.f;
 
@@ -47,26 +37,20 @@ HRESULT CUI_Estus::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_iTextureIndex = 0;
-	m_iEstusCount = 10;
-	swprintf_s(m_szEstusCount, _countof(m_szEstusCount), L"%d", m_iEstusCount);
-
 	m_bVisible = false;
 
 	return S_OK;
 }
 
-void CUI_Estus::Update_Priority(_float fTimeDelta)
-{
-	if (m_iEstusCount <= 0)
-		m_iTextureIndex = 1;
-}
-
-void CUI_Estus::Update(_float fTimeDelta)
+void CUI_PopUp_PickUp::Update_Priority(_float fTimeDelta)
 {
 }
 
-void CUI_Estus::Update_Late(_float fTimeDelta)
+void CUI_PopUp_PickUp::Update(_float fTimeDelta)
+{
+}
+
+void CUI_PopUp_PickUp::Update_Late(_float fTimeDelta)
 {
 	if (m_bVisible == false)
 		return;
@@ -74,13 +58,13 @@ void CUI_Estus::Update_Late(_float fTimeDelta)
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::UI, this);
 }
 
-HRESULT CUI_Estus::Render()
+HRESULT CUI_PopUp_PickUp::Render()
 {
 	// 직교 투영을 위해 쉐이더에 행렬을 전달해주는 과정!!!!!!!!!!!!!!!!!!!!!!!!!
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(0)))
+	if (FAILED(m_pShaderCom->Begin(1)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Resource()))
@@ -89,12 +73,12 @@ HRESULT CUI_Estus::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	m_pGameInstance->Draw_Text(TEXT("Font_Korean"), m_szEstusCount, _float2(g_iWinSizeX * 0.195f, g_iWinSizeY * 0.9f), XMVectorSet(1.f, 1.f, 1.f, 1.f));
+	m_pGameInstance->Draw_Text(TEXT("Font_Korean"), TEXT("E : 아이템을 줍는다."), _float2((_float)(g_iWinSizeX * 0.414f), g_iWinSizeY * 0.8625f), XMVectorSet(1.f, 1.f, 1.f, 1.f));
 
 	return S_OK;
 }
 
-HRESULT CUI_Estus::Ready_Components()
+HRESULT CUI_PopUp_PickUp::Ready_Components()
 {
 	// Com_VIBuffer 추가
 	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -107,14 +91,14 @@ HRESULT CUI_Estus::Ready_Components()
 		return E_FAIL;
 
 	// Com_Texture 추가
-	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_Estus"),
+	if (FAILED(__super::Add_Component(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CUI_Estus::Bind_ShaderResources()
+HRESULT CUI_PopUp_PickUp::Bind_ShaderResources()
 {
 	// 직교투영용 뷰, 투영 행렬을 쉐이더에 전달한다.
 	if (FAILED(__super::Bind_OrthoMatrices(m_pShaderCom, "g_ViewMatrix", "g_ProjMatrix")))
@@ -125,39 +109,39 @@ HRESULT CUI_Estus::Bind_ShaderResources()
 		return E_FAIL;
 
 	// 텍스쳐를 쉐이더에 전달한다.
-	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
+	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CUI_Estus* CUI_Estus::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_PopUp_PickUp* CUI_PopUp_PickUp::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CUI_Estus* pInstance = new CUI_Estus(pDevice, pContext);
+	CUI_PopUp_PickUp* pInstance = new CUI_PopUp_PickUp(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CUI_Estus");
+		MSG_BOX("Failed to Created : CPopUp_PickUp");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CUI_Estus::Clone(void* pArg)
+CGameObject* CUI_PopUp_PickUp::Clone(void* pArg)
 {
-	CUI_Estus* pInstance = new CUI_Estus(*this);
+	CUI_PopUp_PickUp* pInstance = new CUI_PopUp_PickUp(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CUI_Estus");
+		MSG_BOX("Failed to Clone : CPopUp_PickUp");
 		Safe_Release(pInstance);
 	}
 	
 	return pInstance;
 }
 
-void CUI_Estus::Free()
+void CUI_PopUp_PickUp::Free()
 {
 	__super::Free();
 

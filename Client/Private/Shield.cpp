@@ -31,6 +31,8 @@ HRESULT CShield::Initialize(void* pArg)
 	m_pTransformCom->Rotation(XMConvertToRadians(90.0f), 0.f, XMConvertToRadians(180.0f));
 	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.f, -0.03f, 0.f, 1.f));
 
+	m_bIsActive = false;
+
 	return S_OK;
 }
 
