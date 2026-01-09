@@ -277,6 +277,15 @@
     <Filter Include="02. GameObjects\01. Map\00. Objects\Item\Shield">
       <UniqueIdentifier>{7784acd2-da26-49ea-bfee-1eef056b70b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp\PickUp\Estus">
+      <UniqueIdentifier>{061e915c-1a19-433a-abdb-0f12073e1260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp\PickUp\Weapon">
+      <UniqueIdentifier>{a53e47d3-cf64-4f33-9cae-212e3d5de5d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp\PickUp\Shield">
+      <UniqueIdentifier>{3568ac3e-a578-4fb1-9157-a7a5512c7728}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -531,6 +540,15 @@
     <ClInclude Include="..\Public\Item_Shield.h">
       <Filter>02. GameObjects\01. Map\00. Objects\Item\Shield</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_PopUp_Estus.h">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Estus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PopUp_Weapon.h">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PopUp_Shield.h">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Shield</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -771,9 +789,6 @@
     <ClCompile Include="..\Private\UI_PopUp_Door.cpp">
       <Filter>02. GameObjects\00. UI\05. PopUp\Door</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_PopUp_PickUp.cpp">
-      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Player_PickUp.cpp">
       <Filter>02. GameObjects\02. Player\99. States\11. PickUp</Filter>
     </ClCompile>
@@ -785,6 +800,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Shield.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\Item\Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp_PickUp.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp_Estus.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Estus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp_Weapon.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp_Shield.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Shield</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -40,10 +40,20 @@ HRESULT CItem::Initialize(void* pArg)
 
 void CItem::Update_Priority(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
+	if (m_bVisible == false)
+		m_fTimeElapsed += fTimeDelta;
+
+	if (m_fTimeElapsed >= 3.f)
 	{
 		m_bIsActive = false;
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp_Estus"));
+	}
+
+	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
+	{
+		m_bVisible = false;
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Estus"));
+		m_pGameInstance->Show_UI(TEXT("Prototype_UI_PopUp_Estus"));
 	}
 }
 
@@ -54,7 +64,8 @@ void CItem::Update(_float fTimeDelta)
 
 void CItem::Update_Late(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
+	if (m_bVisible)
+		m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
 HRESULT CItem::Render()

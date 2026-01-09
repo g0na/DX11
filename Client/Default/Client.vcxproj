@@ -222,6 +222,9 @@
     <ClInclude Include="..\Public\UI_Player_Stamina_Gauge.h" />
     <ClInclude Include="..\Public\UI_PopUp_Door.h" />
     <ClInclude Include="..\Public\UI_PopUp_PickUp.h" />
+    <ClInclude Include="..\Public\UI_PopUp_Estus.h" />
+    <ClInclude Include="..\Public\UI_PopUp_Shield.h" />
+    <ClInclude Include="..\Public\UI_PopUp_Weapon.h" />
     <ClInclude Include="..\Public\UI_Shield.h" />
     <ClInclude Include="..\Public\UI_Weapon.h" />
     <ClInclude Include="..\Public\WeaponCase.h" />
@@ -307,6 +310,9 @@
     <ClCompile Include="..\Private\UI_Player_Stamina_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_Door.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_PickUp.cpp" />
+    <ClCompile Include="..\Private\UI_PopUp_Estus.cpp" />
+    <ClCompile Include="..\Private\UI_PopUp_Shield.cpp" />
+    <ClCompile Include="..\Private\UI_PopUp_Weapon.cpp" />
     <ClCompile Include="..\Private\UI_Shield.cpp" />
     <ClCompile Include="..\Private\UI_Weapon.cpp" />
     <ClCompile Include="..\Private\WeaponCase.cpp" />

@@ -16,6 +16,9 @@
 #include "UI_PopUp.h"
 #include "UI_PopUp_Door.h"
 #include "UI_PopUp_PickUp.h"
+#include "UI_PopUp_Estus.h"
+#include "UI_PopUp_Weapon.h"
+#include "UI_PopUp_Shield.h"
 
 #include "Monster_Darkwraith.h"
 #include "Weapon_Darkwraith.h"
@@ -158,7 +161,7 @@ HRESULT CLoader::Loading_GamePlay()
 	UpdateLoadingText(TEXT("텍스쳐를 로딩 중 입니다."));
 	// For Prototype_Component_Texture_PlayerSlot
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_PlayerSlot"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/Player_SlotBG.dds"), 1))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/Player_SlotBG1.dds"), 1))))
 		return E_FAIL;
 
 	// For Prototype_Component_Texture_UI_Estus
@@ -199,6 +202,21 @@ HRESULT CLoader::Loading_GamePlay()
 	// For Prototype_Component_Texture_UI_PopUp
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Slim.dds"), 1))))
+		return E_FAIL;
+
+	// For Prototype_Component_Texture_UI_PopUp_Estus
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp_Estus"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Estus.dds"), 1))))
+		return E_FAIL;
+
+	// For Prototype_Component_Texture_UI_PopUp_Weapon
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp_Weapon"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Weapon.dds"), 1))))
+		return E_FAIL;
+
+	// For Prototype_Component_Texture_UI_PopUp_Shield
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp_Shield"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Shield.dds"), 1))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
@@ -431,6 +449,21 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_UI_PopUp_PickUp */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_PickUp"),
 		CUI_PopUp_PickUp::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_PopUp_Estus */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Estus"),
+		CUI_PopUp_Estus::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_PopUp_Weapon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Weapon"),
+		CUI_PopUp_Weapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_PopUp_Shield */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Shield"),
+		CUI_PopUp_Shield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera_Free */

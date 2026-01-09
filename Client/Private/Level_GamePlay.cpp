@@ -187,6 +187,24 @@ HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 
+	// UI_PopUp_Estus
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PopUp_Estus"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Estus"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_PopUp_Weapon
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PopUp_Weapon"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Weapon"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_PopUp_Shield
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PopUp_Shield"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Shield"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

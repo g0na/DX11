@@ -44,10 +44,20 @@ HRESULT CItem_Weapon::Initialize(void* pArg)
 
 void CItem_Weapon::Update_Priority(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
+	if (m_bVisible == false)
+		m_fTimeElapsed += fTimeDelta;
+
+	if (m_fTimeElapsed >= 3.f)
 	{
 		m_bIsActive = false;
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp_Weapon"));
+	}
+
+	if (m_pGameInstance->Get_KeyDown(DIK_E) && m_bIsColliding)
+	{
+		m_bVisible = false;
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Weapon"));
+		m_pGameInstance->Show_UI(TEXT("Prototype_UI_PopUp_Weapon"));
 		m_pPlayerWeapon->Set_Activity(true);
 	}
 }
@@ -59,7 +69,8 @@ void CItem_Weapon::Update(_float fTimeDelta)
 
 void CItem_Weapon::Update_Late(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
+	if (m_bVisible)
+		m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 
 HRESULT CItem_Weapon::Render()

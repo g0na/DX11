@@ -36,6 +36,8 @@ private:
 
 private:
 	_bool		m_bIsColliding = {};
+	_bool		m_bVisible = { true };
+	_float		m_fTimeElapsed = {};
 
 private:
 	HRESULT Ready_Components();
