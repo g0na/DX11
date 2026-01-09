@@ -166,6 +166,18 @@ HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 
+	// UI_PopUp
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PopUp"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_PopUp_Door
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PopUp_Door"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Door"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -176,14 +188,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
-
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
-
-	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }
@@ -198,9 +204,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
 {
-	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Map1"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
-
 	Load_Mapdata(TEXT("../Bin/DataFiles/Map_Objects.json"));
 
 	return S_OK;

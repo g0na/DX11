@@ -253,6 +253,15 @@
     <Filter Include="02. GameObjects\01. Map\00. Objects\Item">
       <UniqueIdentifier>{cbafdd8f-f016-4991-83ca-a33e1e174872}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp">
+      <UniqueIdentifier>{3b3a425c-cf9a-40b1-a14c-9e950cc0b217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp\Ladder">
+      <UniqueIdentifier>{befee528-3448-4fb7-b64a-090e37cfd794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp\Door">
+      <UniqueIdentifier>{2f1e20b0-896c-4305-916f-f899d080f509}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -488,6 +497,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Item.h">
       <Filter>02. GameObjects\01. Map\00. Objects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PopUp.h">
+      <Filter>02. GameObjects\00. UI\05. PopUp\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PopUp_Door.h">
+      <Filter>02. GameObjects\00. UI\05. PopUp\Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -725,6 +740,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp_Door.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

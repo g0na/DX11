@@ -1,4 +1,4 @@
-#pragma once
+#pragma once;
 #include "Maptool_Defines.h"
 #include "GameObject.h"
 

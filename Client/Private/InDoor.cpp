@@ -87,6 +87,8 @@ void CInDoor::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
 	{
+		m_pGameInstance->Show_UI(TEXT("Prototype_UI_PopUp_Door"));
+
 		m_bIsColliding = true;
 	}
 }
@@ -95,6 +97,8 @@ void CInDoor::OnCollisionExit(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Player"))
 	{
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp_Door"));
+
 		m_bIsColliding = false;
 		m_bIsCollisionEnabled = false;
 	}

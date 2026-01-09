@@ -207,6 +207,7 @@
     <ClInclude Include="..\Public\Player_Recoil.h" />
     <ClInclude Include="..\Public\Player_Roll.h" />
     <ClInclude Include="..\Public\Player_Run.h" />
+    <ClInclude Include="..\Public\UI_PopUp.h" />
     <ClInclude Include="..\Public\Shield.h" />
     <ClInclude Include="..\Public\Sky.h" />
     <ClInclude Include="..\Public\UI_Boss_Gauge.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="..\Public\UI_Player_HP.h" />
     <ClInclude Include="..\Public\UI_Player_Stamina.h" />
     <ClInclude Include="..\Public\UI_Player_Stamina_Gauge.h" />
+    <ClInclude Include="..\Public\UI_PopUp_Door.h" />
     <ClInclude Include="..\Public\UI_Shield.h" />
     <ClInclude Include="..\Public\UI_Weapon.h" />
     <ClInclude Include="..\Public\WeaponCase.h" />
@@ -286,6 +288,7 @@
     <ClCompile Include="..\Private\Player_Recoil.cpp" />
     <ClCompile Include="..\Private\Player_Roll.cpp" />
     <ClCompile Include="..\Private\Player_Run.cpp" />
+    <ClCompile Include="..\Private\UI_PopUp.cpp" />
     <ClCompile Include="..\Private\Shield.cpp" />
     <ClCompile Include="..\Private\Sky.cpp" />
     <ClCompile Include="..\Private\UI_Boss_Gauge.cpp" />
@@ -295,6 +298,7 @@
     <ClCompile Include="..\Private\UI_Player_HP.cpp" />
     <ClCompile Include="..\Private\UI_Player_Stamina.cpp" />
     <ClCompile Include="..\Private\UI_Player_Stamina_Gauge.cpp" />
+    <ClCompile Include="..\Private\UI_PopUp_Door.cpp" />
     <ClCompile Include="..\Private\UI_Shield.cpp" />
     <ClCompile Include="..\Private\UI_Weapon.cpp" />
     <ClCompile Include="..\Private\WeaponCase.cpp" />

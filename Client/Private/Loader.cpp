@@ -13,6 +13,8 @@
 #include "UI_Player_Stamina.h"
 #include "UI_Boss_Gauge.h"
 #include "UI_Boss_HP.h"
+#include "UI_PopUp.h"
+#include "UI_PopUp_Door.h"
 
 #include "Monster_Darkwraith.h"
 #include "Weapon_Darkwraith.h"
@@ -188,6 +190,11 @@ HRESULT CLoader::Loading_GamePlay()
 	// For Prototype_Component_Texture_UI_Boss_Gauge
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_Boss_Gauge"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/Boss_Gauge.dds"), 1))))
+		return E_FAIL;
+
+	// For Prototype_Component_Texture_UI_PopUp
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Slim.dds"), 1))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
@@ -400,6 +407,16 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_UI_Boss_HP */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Boss_HP"),
 		CUI_Boss_HP::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_PopUp */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp"),
+		CUI_PopUp::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_PopUp_Door */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Door"),
+		CUI_PopUp_Door::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera_Free */

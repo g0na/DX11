@@ -107,6 +107,8 @@ void CPlayer::Update(_float fTimeDelta)
     {
         if (m_bLadder)
         {
+            m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp"));
+
             m_pStateMachine->Set_BoolData(TEXT("Player_Ladder_Start"), true);
 
             // 사다리쪽으로 위치 조정
@@ -119,6 +121,8 @@ void CPlayer::Update(_float fTimeDelta)
         {
             m_pStateMachine->Set_BoolData(TEXT("Player_Door"), true);
 
+            m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp_Door"));
+
             // 문 앞으로 위치 조정  x: 3.176330, z: -3.254387
             _vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
             vPosition = XMVectorSetX(vPosition, 3.176330f);
@@ -128,6 +132,8 @@ void CPlayer::Update(_float fTimeDelta)
         else if (m_bOutDoor)
         {
             m_pStateMachine->Set_BoolData(TEXT("Player_Door"), true);
+
+            m_pGameInstance->Hide_UI(TEXT("Prototype_UI_PopUp_Door"));
 
             // 문 앞으로 위치 조정 x: 3.197129, z: -32.945137
             _vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
