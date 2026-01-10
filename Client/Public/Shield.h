@@ -18,6 +18,11 @@ public:
 		const _float4x4* pSocketMatrix = { nullptr };
 	}SHIELD_DESC;
 
+public:
+	_bool	Get_Visible() { return m_bVisible; }
+
+	void	Set_Visible(_bool bVisible) { m_bVisible = bVisible; }
+
 private:
 	CShield(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CShield(const CShield& Prototype);
@@ -40,7 +45,8 @@ private:
 	CShader* m_pShaderCom = { nullptr };
 
 private:
-	const _float4x4* m_pSocketMatrix = { nullptr };
+	const _float4x4*	m_pSocketMatrix = { nullptr };
+	_bool				m_bVisible = { true };
 
 public:
 	static CShield* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

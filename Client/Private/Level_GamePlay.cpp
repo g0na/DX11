@@ -262,10 +262,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
 		return E_FAIL;
 
-	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Fire"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
-		return E_FAIL;
-
 	return S_OK;
 }
 

@@ -31,12 +31,9 @@ private:
 	CTransform*		m_pPlayerTransform = { nullptr };
 	CModel*			m_pPlayerModel = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
-	class CWeapon* m_pWeapon = { nullptr };
-	class CShield* m_pShield = { nullptr };
 
 private:
 	_vector			m_vInputDir = {};
-	_float			m_fTimeElapsed = {};
 
 public:
 	static CPlayer_Ladder* Create(class CGameObject* pOwner, CBody* pBody);

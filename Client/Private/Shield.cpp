@@ -55,6 +55,9 @@ void CShield::Update(_float fTimeDelta)
 
 void CShield::Update_Late(_float fTimeDelta)
 {
+	if (!m_bVisible)
+		return;
+
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 

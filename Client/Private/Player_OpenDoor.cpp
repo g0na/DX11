@@ -34,8 +34,8 @@ void CPlayer_OpenDoor::Enter_State()
 		m_pPlayerBody->Set_Animation(22, false);
 
 	// 무기, 방패 비활성화
-	m_pWeapon->Set_Activity(false);
-	m_pShield->Set_Activity(false);
+	m_pWeapon->Set_Visible(false);
+	m_pShield->Set_Visible(false);
 }
 
 void CPlayer_OpenDoor::Update_State(_float fTimeDelta)
@@ -44,8 +44,10 @@ void CPlayer_OpenDoor::Update_State(_float fTimeDelta)
 
 	if (m_fTimeElapsed >= 6.9f)
 	{
-		m_pWeapon->Set_Activity(true);
-		m_pShield->Set_Activity(true);
+		if (m_pWeapon->Get_Visible() == false)
+			m_pWeapon->Set_Visible(true);
+		if (m_pShield->Get_Visible() == false)
+			m_pShield->Set_Visible(true);
 	}
 
 	if (m_pPlayerBody->Get_IsAnimFinish() == true)
