@@ -289,6 +289,9 @@
     <Filter Include="02. GameObjects\00. UI\06. Victory">
       <UniqueIdentifier>{bd6ba88b-7b43-46ac-b04e-bda210e20c80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Fire">
+      <UniqueIdentifier>{b48bfe4b-81ff-4498-b6da-7be4398fe664}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -557,6 +560,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Victory_Back.h">
       <Filter>02. GameObjects\00. UI\06. Victory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Fire.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Fire</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -828,6 +834,9 @@
     <ClCompile Include="..\Private\UI_Victory_Back.cpp">
       <Filter>02. GameObjects\00. UI\06. Victory</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Fire.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Fire</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex.hlsl">
@@ -840,6 +849,9 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimMesh.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Fire.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

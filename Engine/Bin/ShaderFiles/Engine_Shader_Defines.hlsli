@@ -12,6 +12,13 @@ sampler PointSampler = sampler_state
     AddressV = wrap;
 };
 
+sampler ClampSampler = sampler_state
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = clamp;
+    AddressV = clamp;
+};
+
 RasterizerState RS_Default
 {
     FillMode = Solid;
