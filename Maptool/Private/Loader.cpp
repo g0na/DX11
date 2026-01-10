@@ -16,6 +16,7 @@
 #include "InDoor.h"
 #include "OutDoor.h"
 #include "Item.h"
+#include "Fire.h"
 
 #include "Player.h"
 #include "Body.h"
@@ -93,6 +94,10 @@ HRESULT CLoader::Loading_Logo()
 HRESULT CLoader::Loading_GamePlay()
 {
 	UpdateLoadingText(TEXT("텍스쳐를 로딩 중 입니다."));
+	// For Prototype_Component_Texture_Fire
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Fire"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Fire/fire%d.dds"), 3))))
+		return E_FAIL;
 	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
 	_matrix PreTransformMatrix = DirectX::XMMatrixIdentity();
@@ -205,6 +210,11 @@ HRESULT CLoader::Loading_GamePlay()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxAnimMesh.hlsl"), VTXANIMMESH::Elements, VTXANIMMESH::iNumElements))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Shader_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_Fire"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Fire.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
+		return E_FAIL;
+
 	UpdateLoadingText(TEXT("객체원형을(를) 로딩 중 입니다."));
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
 		CCamera_Free::Create(m_pDevice, m_pContext))))
@@ -298,6 +308,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Shield_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Shield_Player"),
 		CShield::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Fire */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Fire"),
+		CFire::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 

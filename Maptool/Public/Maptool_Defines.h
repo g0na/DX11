@@ -24,8 +24,8 @@ extern char g_szSelectedPrototypeName[128];
 
 namespace Maptool
 {
-	static const unsigned int g_iWinSizeX = { 1280 };
-	static const unsigned int g_iWinSizeY = { 720 };
+	static const unsigned int g_iWinSizeX = { 1600 };
+	static const unsigned int g_iWinSizeY = { 900 };
 
 	enum class LEVELID { STATIC, LOADING, LOGO, GAMEPLAY, END};
 	enum class TERRAINTEX { DIFFUSE, MASK, END };

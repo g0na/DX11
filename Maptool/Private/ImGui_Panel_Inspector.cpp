@@ -64,7 +64,7 @@ void CImGui_Panel_Inspector::Render()
                 _vector vPosition = pTransform->Get_State(STATE::POSITION);
                 XMStoreFloat4(&position, vPosition);
 
-                ImGui::DragFloat3("##Position", (float*)&position, 0.1f);
+                ImGui::DragFloat3("##Position", (float*)&position, 0.01f);
                 pTransform->Set_State(STATE::POSITION, position);      // 위치값 갱신
 
                 ImGui::Spacing();

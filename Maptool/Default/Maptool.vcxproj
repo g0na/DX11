@@ -22,6 +22,7 @@
     <ClInclude Include="..\Private\ImGui_Manager.h" />
     <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Camera_Free.h" />
+    <ClInclude Include="..\Public\Fire.h" />
     <ClInclude Include="..\Public\ImGui_Panel_Scene.h" />
     <ClInclude Include="..\Public\InDoor.h" />
     <ClInclude Include="..\Public\Item.h" />
@@ -71,6 +72,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Body.cpp" />
     <ClCompile Include="..\Private\Camera_Free.cpp" />
+    <ClCompile Include="..\Private\Fire.cpp" />
     <ClCompile Include="..\Private\imgui.cpp" />
     <ClCompile Include="..\Private\imgui_demo.cpp" />
     <ClCompile Include="..\Private\imgui_draw.cpp" />

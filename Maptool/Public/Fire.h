@@ -1,5 +1,5 @@
 #pragma once
-#include "Client_Defines.h"
+#include "Maptool_Defines.h"
 #include "GameObject.h"
 
 NS_BEGIN(Engine)
@@ -8,7 +8,7 @@ class CShader;
 class CTexture;
 NS_END
 
-NS_BEGIN(Client)
+NS_BEGIN(Maptool)
 
 class CFire final : public CGameObject
 {

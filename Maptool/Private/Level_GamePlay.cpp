@@ -64,7 +64,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	lstrcpy(CameraDesc.szName, TEXT("Main_Camera"));
 	CameraDesc.vPosition = _float3(0.f, 30.f, -20.f);
 	CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
-	CameraDesc.fSpeedPerSec = 25.f;
+	CameraDesc.fSpeedPerSec = 5.f;
 	CameraDesc.fRotationPerSec = XMConvertToRadians(180.0f);
 	CameraDesc.fFovY = XMConvertToRadians(45.0f);
 	CameraDesc.fNearZ = 0.1f;

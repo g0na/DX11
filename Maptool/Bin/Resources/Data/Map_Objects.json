@@ -3,9 +3,9 @@
         "PrototypeTag": "Prototype_GameObject_Sky",
         "LayerTag": "Layer_Map",
         "Position": [
-            8.290022850036621,
-            -2.0897586345672607,
-            4.173544883728027
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
         ],
         "Rotation": [
             0.0,
@@ -41,9 +41,9 @@
         "PrototypeTag": "Prototype_GameObject_Sky",
         "LayerTag": "Layer_Map",
         "Position": [
-            8.290022850036621,
-            -2.0897586345672607,
-            4.173544883728027
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
         ],
         "Rotation": [
             0.0,
@@ -79,9 +79,9 @@
         "PrototypeTag": "Prototype_GameObject_Sky",
         "LayerTag": "Layer_Map",
         "Position": [
-            8.290022850036621,
-            -2.0897586345672607,
-            4.173544883728027
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
         ],
         "Rotation": [
             0.0,
@@ -117,9 +117,9 @@
         "PrototypeTag": "Prototype_GameObject_Sky",
         "LayerTag": "Layer_Map",
         "Position": [
-            8.290022850036621,
-            -2.0897586345672607,
-            4.173544883728027
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
         ],
         "Rotation": [
             0.0,
@@ -155,9 +155,275 @@
         "PrototypeTag": "Prototype_GameObject_Sky",
         "LayerTag": "Layer_Map",
         "Position": [
-            8.290022850036621,
-            -2.0897586345672607,
-            4.173544883728027
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Mountain",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            1.0,
+            1.0,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Sky",
+        "LayerTag": "Layer_Map",
+        "Position": [
+            2.7446045875549316,
+            -0.2280387431383133,
+            3.9848430156707764
         ],
         "Rotation": [
             0.0,
@@ -269,9 +535,9 @@
         "PrototypeTag": "Prototype_GameObject_Hollow",
         "LayerTag": "Layer_Monster",
         "Position": [
-            -13.783245086669922,
-            -14.385951042175293,
-            -10.631643295288086
+            -13.716073989868164,
+            -14.750020027160645,
+            -42.62632369995117
         ],
         "Rotation": [
             0.0,
@@ -279,18 +545,18 @@
             0.0
         ],
         "Scale": [
-            0.9995320439338684,
+            0.999528706073761,
             1.0,
-            0.9995320439338684
+            0.999528706073761
         ]
     },
     {
         "PrototypeTag": "Prototype_GameObject_Darkwraith",
         "LayerTag": "Layer_Monster",
         "Position": [
-            9.655189514160156,
+            -5.168385028839111,
             -4.023075103759766,
-            2.4363114833831787
+            20.10240364074707
         ],
         "Rotation": [
             0.0,
@@ -336,9 +602,9 @@
             0.0
         ],
         "Scale": [
-            0.9972503185272217,
+            0.9972469806671143,
             1.0,
-            0.9972503185272217
+            0.9972469806671143
         ]
     },
     {
@@ -355,56 +621,18 @@
             0.0
         ],
         "Scale": [
-            0.9983122944831848,
+            0.9983089566230774,
             1.0,
-            0.9983122944831848
+            0.9983089566230774
         ]
     },
     {
-        "PrototypeTag": "Prototype_GameObject_Item",
+        "PrototypeTag": "Prototype_GameObject_Fire",
         "LayerTag": "Layer_Object",
         "Position": [
-            -2.893944263458252,
-            1.4138572216033936,
-            19.501508712768555
-        ],
-        "Rotation": [
-            0.0,
-            90.0,
-            0.0
-        ],
-        "Scale": [
-            0.9999778270721436,
-            1.0,
-            0.9999778270721436
-        ]
-    },
-    {
-        "PrototypeTag": "Prototype_GameObject_Item",
-        "LayerTag": "Layer_Object",
-        "Position": [
-            32.98000717163086,
-            -7.8175435066223145,
-            -12.387142181396484
-        ],
-        "Rotation": [
-            0.0,
-            -90.0,
-            0.0
-        ],
-        "Scale": [
-            0.9976754188537598,
-            1.0,
-            0.9976754188537598
-        ]
-    },
-    {
-        "PrototypeTag": "Prototype_GameObject_Item",
-        "LayerTag": "Layer_Object",
-        "Position": [
-            39.01951599121094,
-            -4.573685646057129,
-            17.72850799560547
+            -14.685999870300293,
+            -12.100000381469727,
+            -37.10900115966797
         ],
         "Rotation": [
             0.0,
@@ -412,8 +640,350 @@
             0.0
         ],
         "Scale": [
-            1.0,
-            1.0,
+            0.35000044107437134,
+            0.610000491142273,
+            0.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -12.79699993133545,
+            -11.90999984741211,
+            -29.030000686645508
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -12.800000190734863,
+            -12.059000015258789,
+            -10.130000114440918
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -14.670000076293945,
+            -12.0649995803833,
+            -7.421999931335449
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -12.793000221252441,
+            -6.864999771118164,
+            3.190999984741211
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -10.51099967956543,
+            -8.513999938964844,
+            15.119999885559082
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -10.496552467346191,
+            -8.49899959564209,
+            25.030000686645508
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -0.27300000190734863,
+            -1.4589999914169312,
+            20.128999710083008
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -2.8698103427886963,
+            -1.444000005722046,
+            20.115999221801758
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            13.984000205993652,
+            1.5160000324249268,
+            -23.815000534057617
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            13.996000289916992,
+            1.475000023841858,
+            -27.270999908447266
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            26.851539611816406,
+            -3.688999891281128,
+            -26.625999450683594
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            26.852397918701172,
+            -3.6989998817443848,
+            -24.520000457763672
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            40.09381866455078,
+            -5.119999885559082,
+            -20.683923721313477
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            32.282447814941406,
+            -1.2130000591278076,
+            20.55900001525879
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            32.2829475402832,
+            -1.2089999914169312,
+            18.676000595092773
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            13.933961868286133,
+            4.650000095367432,
+            20.488000869750977
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            -13.40999984741211,
+            4.824999809265137,
+            19.67799949645996
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
+            1.0
+        ]
+    },
+    {
+        "PrototypeTag": "Prototype_GameObject_Fire",
+        "LayerTag": "Layer_Object",
+        "Position": [
+            16.23900032043457,
+            11.093000411987305,
+            -27.93600082397461
+        ],
+        "Rotation": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "Scale": [
+            0.3499999940395355,
+            0.6100000143051147,
             1.0
         ]
     }
