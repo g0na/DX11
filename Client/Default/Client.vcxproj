@@ -226,6 +226,8 @@
     <ClInclude Include="..\Public\UI_PopUp_Shield.h" />
     <ClInclude Include="..\Public\UI_PopUp_Weapon.h" />
     <ClInclude Include="..\Public\UI_Shield.h" />
+    <ClInclude Include="..\Public\UI_Victory.h" />
+    <ClInclude Include="..\Public\UI_Victory_Back.h" />
     <ClInclude Include="..\Public\UI_Weapon.h" />
     <ClInclude Include="..\Public\WeaponCase.h" />
     <ClInclude Include="..\Public\Player_Walk.h" />
@@ -314,6 +316,8 @@
     <ClCompile Include="..\Private\UI_PopUp_Shield.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_Weapon.cpp" />
     <ClCompile Include="..\Private\UI_Shield.cpp" />
+    <ClCompile Include="..\Private\UI_Victory.cpp" />
+    <ClCompile Include="..\Private\UI_Victory_Back.cpp" />
     <ClCompile Include="..\Private\UI_Weapon.cpp" />
     <ClCompile Include="..\Private\WeaponCase.cpp" />
     <ClCompile Include="..\Private\Player_Walk.cpp" />

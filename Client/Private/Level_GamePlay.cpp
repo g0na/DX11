@@ -205,6 +205,18 @@ HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 
+	// UI_Victory_Back
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Victory_Back"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Victory_Back"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
+	// UI_Victory
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Victory"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Victory"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

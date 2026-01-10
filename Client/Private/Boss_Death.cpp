@@ -25,7 +25,11 @@ void CBoss_Death::Update_State(_float fTimeDelta)
     m_fDeathTime += fTimeDelta;
 
     if (m_fDeathTime >= 5.5f)
+    {
         static_cast<CMonster_Boss*>(m_pOwner)->Set_CollisionEnabled(false);
+        m_pGameInstance->Show_UI(TEXT("Prototype_UI_Victory_Back"));
+        m_pGameInstance->Show_UI(TEXT("Prototype_UI_Victory"));
+    }
     else if (m_fDeathTime >= 7.333f)
         static_cast<CMonster_Boss*>(m_pOwner)->Set_Activity(false);
 }

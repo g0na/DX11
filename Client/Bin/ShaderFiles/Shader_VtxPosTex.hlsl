@@ -2,7 +2,7 @@
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture;
-float g_fHpRatio, g_fStaminaRatio;
+float g_fHpRatio, g_fStaminaRatio, g_fTransparency;
 float2 g_vOffsetUV, g_vScaleUV;
 
 /*삼각형리스트로 그린다 -> 인덱스버퍼에 있는 인덱스 세개에 해당하는 정점 세개롤 뽑아온다. */ 
@@ -131,6 +131,19 @@ PS_OUT PS_LOADING(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_VICTORY(PS_IN In)
+{
+    PS_OUT Out;
+    
+    vector vColor = g_Texture.Sample(DefaultSampler, In.vTexCoord);
+    
+    vColor.rgba *= g_fTransparency;
+    
+    Out.vColor = vColor;
+
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass Default
@@ -197,6 +210,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_LOADING();
+    }
+
+    pass UI_Victory
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_VICTORY();
     }
     // 한 technique에는 Default pass 이외에도 여러 pass가 들어올 수 있다.
 }

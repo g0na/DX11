@@ -19,6 +19,8 @@
 #include "UI_PopUp_Estus.h"
 #include "UI_PopUp_Weapon.h"
 #include "UI_PopUp_Shield.h"
+#include "UI_Victory.h"
+#include "UI_Victory_Back.h"
 
 #include "Monster_Darkwraith.h"
 #include "Weapon_Darkwraith.h"
@@ -217,6 +219,16 @@ HRESULT CLoader::Loading_GamePlay()
 	// For Prototype_Component_Texture_UI_PopUp_Shield
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp_Shield"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Shield.dds"), 1))))
+		return E_FAIL;
+
+	// For Prototype_Component_Texture_UI_Victory
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_Victory"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/Victory.dds"), 1))))
+		return E_FAIL;
+
+	// For Prototype_Component_Texture_UI_Victory_Back
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_Victory_Back"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/Victory_Back.dds"), 1))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
@@ -464,6 +476,16 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_UI_PopUp_Shield */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Shield"),
 		CUI_PopUp_Shield::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Victory */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Victory"),
+		CUI_Victory::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_UI_Victory_Back */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Victory_Back"),
+		CUI_Victory_Back::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera_Free */
