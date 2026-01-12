@@ -46,6 +46,9 @@
 #include "Item_Weapon.h"
 #include "Item_Shield.h"
 #include "Fire.h"
+#include "Blood.h"
+#include "Blood_Boss.h"
+
 #include "Navigation.h"
 
 #include "Player.h"
@@ -237,6 +240,11 @@ HRESULT CLoader::Loading_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Fire/fire%d.dds"), 3))))
 		return E_FAIL;
 
+	// For Prototype_Component_Texture_Blood
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Blood"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effects/blood/blood.dds"), 1))))
+		return E_FAIL;
+
 	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
 	/* For.Prototype_Component_StateMachine */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
@@ -251,6 +259,34 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_Component_Collider_Sphere */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
 		CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Particle_Blood */
+	CVIBuffer_Particle_Point::PARTICLE_POINT_DESC	BloodDesc{};
+	BloodDesc.iNumInstance = 250;
+	BloodDesc.vCenter = _float3(0.f, 0.f, 0.f);
+	BloodDesc.vSize = _float2(0.015f, 0.03f);
+	BloodDesc.vRange = _float3(0.15f, 0.15f, 0.15f);
+	BloodDesc.vSpeed = _float2(2.5f, 3.5f);
+	BloodDesc.vLifeTime = _float2(1.f, 1.5f);
+	BloodDesc.isLoop = false;
+	BloodDesc.vPivot = _float3(0.f, -0.5f, 0.f);
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Particle_Blood"),
+		CVIBuffer_Particle_Point::Create(m_pDevice, m_pContext, &BloodDesc))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Particle_Blood_Boss */
+	CVIBuffer_Particle_Point::PARTICLE_POINT_DESC	BloodBossDesc{};
+	BloodBossDesc.iNumInstance = 500;
+	BloodBossDesc.vCenter = _float3(0.f, 0.f, 0.f);
+	BloodBossDesc.vSize = _float2(0.015f, 0.03f);
+	BloodBossDesc.vRange = _float3(0.7f, 0.3f, 0.7f);
+	BloodBossDesc.vSpeed = _float2(2.5f, 5.f);
+	BloodBossDesc.vLifeTime = _float2(1.f, 1.5f);
+	BloodBossDesc.isLoop = false;
+	BloodBossDesc.vPivot = _float3(0.f, -0.5f, 0.5f);
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Particle_Blood_Boss"),
+		CVIBuffer_Particle_Point::Create(m_pDevice, m_pContext, &BloodBossDesc))))
 		return E_FAIL;
 	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
@@ -376,6 +412,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_Component_Shader_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_Fire"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Fire.hlsl"), VTXPOSTEX::Elements, VTXPOSTEX::iNumElements))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Shader_VtxPos_Particle */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxPos_Particle"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPos_Particle.hlsl"), VTXPOS_PARTICLE::Elements, VTXPOS_PARTICLE::iNumElements))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("네비게이션을(를) 로딩 중 입니다."));
@@ -637,6 +678,16 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Fire */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Fire"),
 		CFire::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Blood */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Blood"),
+		CBlood::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Blood_Boss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Blood_Boss"),
+		CBlood_Boss::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("로딩이 완료되었슴니다."));

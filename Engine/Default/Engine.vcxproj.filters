@@ -172,6 +172,12 @@
     <Filter Include="01. Utility\10. Font\00. Manager">
       <UniqueIdentifier>{0112360e-4a37-4e2d-8a12-48233c113a19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\05. Component\01. VI Buffer\03. Particle">
+      <UniqueIdentifier>{2e9fcaf0-3c6c-4466-9738-fe77c374728d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\05. Component\01. VI Buffer\03. Particle\Point">
+      <UniqueIdentifier>{d9189990-255d-4d60-ac7c-9912ead63245}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -323,6 +329,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Font_Manager.cpp">
       <Filter>01. Utility\10. Font\00. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Particle.cpp">
+      <Filter>01. Utility\05. Component\01. VI Buffer\03. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Particle_Point.cpp">
+      <Filter>01. Utility\05. Component\01. VI Buffer\03. Particle\Point</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -493,6 +505,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Font_Manager.h">
       <Filter>01. Utility\10. Font\00. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Particle.h">
+      <Filter>01. Utility\05. Component\01. VI Buffer\03. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Particle_Point.h">
+      <Filter>01. Utility\05. Component\01. VI Buffer\03. Particle\Point</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

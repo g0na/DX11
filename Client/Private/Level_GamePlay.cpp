@@ -34,6 +34,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Object(TEXT("Layer_Object"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_UIs(TEXT("Layer_UI"))))
 		return E_FAIL;
 
@@ -91,7 +94,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	LightDesc.vDirection = { 1.f, -1.f, 1.f, 0.f };
 	LightDesc.vDiffuse = { 0.8f, 0.8f, 0.8f, 1.f };
 	LightDesc.vAmbient = { 0.3f, 0.3f, 0.3f, 1.f };
-	LightDesc.vSpecular = { 0.3f, 0.3f, 0.3f, 1.f };
+	LightDesc.vSpecular = { 0.15f, 0.15f, 0.15f, 1.f };
 
 	if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
 		return E_FAIL;
@@ -259,6 +262,19 @@ HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Shield"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
+{
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Blood"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
+		return E_FAIL;
+
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Blood_Boss"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
 		return E_FAIL;
 

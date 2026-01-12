@@ -152,6 +152,8 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Background.h" />
     <ClInclude Include="..\Public\Background_Loading.h" />
+    <ClInclude Include="..\Public\Blood.h" />
+    <ClInclude Include="..\Public\Blood_Boss.h" />
     <ClInclude Include="..\Public\Body.h" />
     <ClInclude Include="..\Public\Boss_Attack.h" />
     <ClInclude Include="..\Public\Boss_Backstep.h" />
@@ -244,6 +246,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Background.cpp" />
     <ClCompile Include="..\Private\Background_Loading.cpp" />
+    <ClCompile Include="..\Private\Blood_Boss.cpp" />
     <ClCompile Include="..\Private\Body.cpp" />
     <ClCompile Include="..\Private\Boss_Attack.cpp" />
     <ClCompile Include="..\Private\Boss_Backstep.cpp" />
@@ -259,6 +262,7 @@
     <ClCompile Include="..\Private\Darkwraith_Idle.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Walk.cpp" />
     <ClCompile Include="..\Private\Estus.cpp" />
+    <ClCompile Include="..\Private\Blood.cpp" />
     <ClCompile Include="..\Private\Fire.cpp" />
     <ClCompile Include="..\Private\FlyCollider_Boss.cpp" />
     <ClCompile Include="..\Private\Fog.cpp" />
@@ -366,6 +370,12 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPos_Particle.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

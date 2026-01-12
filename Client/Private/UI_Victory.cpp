@@ -44,11 +44,6 @@ HRESULT CUI_Victory::Initialize(void* pArg)
 
 void CUI_Victory::Update_Priority(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyDown(DIK_P))
-	{
-		m_bVisible = true;
-	}
-
 	if (m_bVisible)
 		m_fTransparency += fTimeDelta * 0.5f;
 

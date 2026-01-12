@@ -292,6 +292,15 @@
     <Filter Include="02. GameObjects\01. Map\00. Objects\Fire">
       <UniqueIdentifier>{b48bfe4b-81ff-4498-b6da-7be4398fe664}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\04. Effect">
+      <UniqueIdentifier>{107c5b44-b463-4d01-aff9-f170e6ea9762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Effect\Particle">
+      <UniqueIdentifier>{7721bdf8-f8b5-4067-9951-19b0a90c710f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\04. Effect\Particle\Blood">
+      <UniqueIdentifier>{2bebb3a3-5efc-49bf-b5e0-6912049870af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -563,6 +572,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Fire.h">
       <Filter>02. GameObjects\01. Map\00. Objects\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Blood.h">
+      <Filter>02. GameObjects\04. Effect\Particle\Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Blood_Boss.h">
+      <Filter>02. GameObjects\04. Effect\Particle\Blood</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -837,6 +852,12 @@
     <ClCompile Include="..\Private\Fire.cpp">
       <Filter>02. GameObjects\01. Map\00. Objects\Fire</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Blood.cpp">
+      <Filter>02. GameObjects\04. Effect\Particle\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Blood_Boss.cpp">
+      <Filter>02. GameObjects\04. Effect\Particle\Blood</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPosTex.hlsl">
@@ -852,6 +873,9 @@
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Fire.hlsl">
+      <Filter>97. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPos_Particle.hlsl">
       <Filter>97. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
