@@ -26,7 +26,7 @@ HRESULT CBlood::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f));
+    //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f));
 
     //m_bIsOn = true;
 

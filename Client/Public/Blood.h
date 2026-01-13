@@ -15,7 +15,7 @@ class CBlood final : public CGameObject
 {
 public:
 	
-protected:
+private:
 	CBlood(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CBlood(const CBlood& Prototype); /* 메모리 복사를 통해 객체를 생성. */
 	virtual ~CBlood() = default;

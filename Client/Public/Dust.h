@@ -11,14 +11,14 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CBlood_Boss final : public CGameObject
+class CDust final : public CGameObject
 {
 public:
 	
 private:
-	CBlood_Boss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBlood_Boss(const CBlood_Boss& Prototype); /* 메모리 복사를 통해 객체를 생성. */
-	virtual ~CBlood_Boss() = default;
+	CDust(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CDust(const CDust& Prototype); /* 메모리 복사를 통해 객체를 생성. */
+	virtual ~CDust() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype(); /* 원형객체가 만들어질 때 호출되는 함수. 무거운 초기화작업.  */
@@ -39,12 +39,26 @@ private:
 private:
 	_bool		m_bIsOn = {};
 
+	const _uint m_iFrameCnt = 56;
+	const _uint m_iCountX = 8;
+	const _uint m_iCountY = 7;
+
+	const _float m_fSizeX = { 1.f / (_float)m_iCountX };
+	const _float m_fSizeY = { 1.f / (_float)m_iCountY };
+
+	_float2 m_vOffsetUV = {};
+	_float2 m_vScaleUV = {};
+
+	_uint m_iCurrentFrameIdx = {};
+	_float m_fFrameDelay = {};
+
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CBlood_Boss* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CDust* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

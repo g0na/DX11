@@ -11,6 +11,7 @@
 
 #include "Bounding_Sphere.h"
 #include "Collider.h"
+#include "Blood.h"
 
 CMonster_Hollow::CMonster_Hollow(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CContainerObject{ pDevice, pContext }

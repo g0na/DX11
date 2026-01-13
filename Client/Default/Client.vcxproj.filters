@@ -301,6 +301,9 @@
     <Filter Include="02. GameObjects\04. Effect\Particle\Blood">
       <UniqueIdentifier>{2bebb3a3-5efc-49bf-b5e0-6912049870af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\04. Effect\Particle\Dust">
+      <UniqueIdentifier>{2485c4ac-a688-44cb-9889-fb2c97729c06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -578,6 +581,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Blood_Boss.h">
       <Filter>02. GameObjects\04. Effect\Particle\Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Dust.h">
+      <Filter>02. GameObjects\04. Effect\Particle\Dust</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -857,6 +863,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Blood_Boss.cpp">
       <Filter>02. GameObjects\04. Effect\Particle\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Dust.cpp">
+      <Filter>02. GameObjects\04. Effect\Particle\Dust</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

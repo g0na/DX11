@@ -169,6 +169,7 @@
     <ClInclude Include="..\Public\Darkwraith_Death.h" />
     <ClInclude Include="..\Public\Darkwraith_Idle.h" />
     <ClInclude Include="..\Public\Darkwraith_Walk.h" />
+    <ClInclude Include="..\Public\Dust.h" />
     <ClInclude Include="..\Public\Estus.h" />
     <ClInclude Include="..\Public\Fire.h" />
     <ClInclude Include="..\Public\FlyCollider_Boss.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="..\Private\Darkwraith_Death.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Idle.cpp" />
     <ClCompile Include="..\Private\Darkwraith_Walk.cpp" />
+    <ClCompile Include="..\Private\Dust.cpp" />
     <ClCompile Include="..\Private\Estus.cpp" />
     <ClCompile Include="..\Private\Blood.cpp" />
     <ClCompile Include="..\Private\Fire.cpp" />

@@ -48,6 +48,7 @@
 #include "Fire.h"
 #include "Blood.h"
 #include "Blood_Boss.h"
+#include "Dust.h"
 
 #include "Navigation.h"
 
@@ -245,6 +246,11 @@ HRESULT CLoader::Loading_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effects/blood/blood.dds"), 1))))
 		return E_FAIL;
 
+	// For Prototype_Component_Texture_Dust
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_Dust"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Effects/dust/dust.dds"), 1))))
+		return E_FAIL;
+
 	UpdateLoadingText(TEXT("컴포넌트를 로딩 중 입니다."));
 	/* For.Prototype_Component_StateMachine */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_StateMachine"),
@@ -280,13 +286,27 @@ HRESULT CLoader::Loading_GamePlay()
 	BloodBossDesc.iNumInstance = 500;
 	BloodBossDesc.vCenter = _float3(0.f, 0.f, 0.f);
 	BloodBossDesc.vSize = _float2(0.015f, 0.03f);
-	BloodBossDesc.vRange = _float3(0.3f, 0.15f, 0.3f);
+	BloodBossDesc.vRange = _float3(0.3f, 0.5f, 0.3f);
 	BloodBossDesc.vSpeed = _float2(2.5f, 5.f);
 	BloodBossDesc.vLifeTime = _float2(1.f, 1.5f);
 	BloodBossDesc.isLoop = false;
 	BloodBossDesc.vPivot = _float3(0.f, -0.5f, 0.f);
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Particle_Blood_Boss"),
 		CVIBuffer_Particle_Point::Create(m_pDevice, m_pContext, &BloodBossDesc))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Particle_Dust */
+	CVIBuffer_Particle_Point::PARTICLE_POINT_DESC	DustDesc{};
+	DustDesc.iNumInstance = 5;
+	DustDesc.vCenter = _float3(0.f, 0.f, 0.f);
+	DustDesc.vSize = _float2(2.f, 2.5f);
+	DustDesc.vRange = _float3(1.f, 0.5f, 1.f);
+	DustDesc.vSpeed = _float2(0.f, 0.f);
+	DustDesc.vLifeTime = _float2(2.f, 2.f);
+	DustDesc.isLoop = true;
+	DustDesc.vPivot = _float3(0.f, -0.5f, 0.f);
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Particle_Dust"),
+		CVIBuffer_Particle_Point::Create(m_pDevice, m_pContext, &DustDesc))))
 		return E_FAIL;
 	
 	UpdateLoadingText(TEXT("모델을(를) 로딩 중 입니다."));
@@ -688,6 +708,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Blood_Boss */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Blood_Boss"),
 		CBlood_Boss::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Dust */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Dust"),
+		CDust::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	UpdateLoadingText(TEXT("로딩이 완료되었슴니다."));

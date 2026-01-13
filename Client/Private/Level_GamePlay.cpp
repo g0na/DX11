@@ -233,8 +233,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }
@@ -278,6 +278,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Blood_Boss"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
+		return E_FAIL;
+
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Dust"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
 		return E_FAIL;
 

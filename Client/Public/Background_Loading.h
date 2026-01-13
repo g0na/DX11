@@ -33,9 +33,6 @@ private:
 private:
 	// 아틀라스 이미지 8 x 4 = 32 이미지
 	// 프레임당 0.1초
-	_float fUV_X = {};
-	_float fUV_Y = {};
-
 	const _uint m_iFrameCnt = 32;
 	const _uint m_iCountX = 8;
 	const _uint m_iCountY = 4;

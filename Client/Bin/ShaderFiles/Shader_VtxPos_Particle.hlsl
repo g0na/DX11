@@ -3,6 +3,7 @@
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 vector g_vCamPosition;
 Texture2D g_Texture;
+float2 g_vOffsetUV, g_vScaleUV;
 
 struct VS_IN
 {
@@ -118,7 +119,19 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
-
+PS_OUT PS_DUST(PS_IN In)
+{
+    PS_OUT Out;
+    
+    vector vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord * g_vScaleUV + g_vOffsetUV);
+    
+    if (vColor.a <= 0.3f)
+        discard;
+    
+    Out.vColor = vColor * 0.5f;
+    
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -133,4 +146,14 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
+    pass Dust
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Fog, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = compile gs_5_0 GS_MAIN();
+        PixelShader = compile ps_5_0 PS_DUST();
+    }
 }
