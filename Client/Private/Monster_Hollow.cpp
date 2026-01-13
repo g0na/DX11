@@ -166,6 +166,17 @@ void CMonster_Hollow::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
+		// ÃâÇ÷ ÀÌÆåÆ®
+		_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		_vector vDir = XMVector3Normalize(m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION) - vPosition);
+
+		_float fY = XMVectorGetY(vPosition);
+		fY += 1.f;
+		vPosition = XMVectorSetY(vPosition, fY);
+		vPosition = vPosition + (vDir * 0.25f);
+		static_cast<CBlood*>(m_pGameInstance->Get_Object(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"), TEXT("Effect_Blood")))
+			->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
+
 		Set_Damaged(true);
 	}
 }
@@ -174,7 +185,6 @@ void CMonster_Hollow::OnCollisionExit(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
-		Set_Damaged(false);
 	}
 }
 

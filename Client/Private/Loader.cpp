@@ -265,9 +265,9 @@ HRESULT CLoader::Loading_GamePlay()
 	CVIBuffer_Particle_Point::PARTICLE_POINT_DESC	BloodDesc{};
 	BloodDesc.iNumInstance = 250;
 	BloodDesc.vCenter = _float3(0.f, 0.f, 0.f);
-	BloodDesc.vSize = _float2(0.015f, 0.03f);
-	BloodDesc.vRange = _float3(0.15f, 0.15f, 0.15f);
-	BloodDesc.vSpeed = _float2(2.5f, 5.f);
+	BloodDesc.vSize = _float2(0.015f, 0.02f);
+	BloodDesc.vRange = _float3(0.1f, 0.05f, 0.1f);
+	BloodDesc.vSpeed = _float2(2.5f, 4.f);
 	BloodDesc.vLifeTime = _float2(1.f, 1.5f);
 	BloodDesc.isLoop = false;
 	BloodDesc.vPivot = _float3(0.f, -0.5f, 0.f);

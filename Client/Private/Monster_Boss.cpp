@@ -15,7 +15,7 @@
 #include "Bounding_Sphere.h"
 #include "Collider.h"
 
-#include "Blood.h"
+#include "Blood_Boss.h"
 
 CMonster_Boss::CMonster_Boss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CContainerObject{ pDevice, pContext }
@@ -204,7 +204,7 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 		fY += 1.f;
 		vPosition = XMVectorSetY(vPosition, fY);
 		vPosition = vPosition + (vDir * 2.f);
-		static_cast<CBlood*>(m_pGameInstance->Get_Object(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"), TEXT("Effect_Blood_Boss")))
+		static_cast<CBlood_Boss*>(m_pGameInstance->Get_Object(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"), TEXT("Effect_Blood_Boss")))
 			->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
 
 		Set_Damaged(10);

@@ -11,6 +11,7 @@
 
 #include "Bounding_Sphere.h"
 #include "Collider.h"
+#include "Blood.h"
 
 CMonster_Darkwraith::CMonster_Darkwraith(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CContainerObject{ pDevice, pContext }
@@ -71,14 +72,14 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(20.f, 0.f, 5.f, 1.f));
+	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, -15.24f, -45.8f, 1.f));
 
 	// 플레이어 정보 세팅
 	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
 	Safe_AddRef(m_pPlayer);
 
 	m_bIsCollisionEnabled = true;
-	m_iHp = 5;
+	m_iHp = 10;
 
 	return S_OK;
 }
@@ -166,6 +167,17 @@ void CMonster_Darkwraith::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
+		// 출혈 이펙트
+		_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		_vector vDir = XMVector3Normalize(m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION) - vPosition);
+
+		_float fY = XMVectorGetY(vPosition);
+		fY += 1.f;
+		vPosition = XMVectorSetY(vPosition, fY);
+		vPosition = vPosition + (vDir * 0.25f);
+		static_cast<CBlood*>(m_pGameInstance->Get_Object(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"), TEXT("Effect_Blood")))
+			->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
+
 		Set_Damaged(true);
 	}
 }
@@ -174,7 +186,6 @@ void CMonster_Darkwraith::OnCollisionExit(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
-		Set_Damaged(false);
 	}
 }
 
