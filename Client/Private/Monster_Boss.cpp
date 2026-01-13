@@ -198,11 +198,14 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 	{
 		// ÃâÇ÷ ÀÌÆåÆ®
 		_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+		_vector vDir = XMVector3Normalize(m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION) - vPosition);
+
 		_float fY = XMVectorGetY(vPosition);
 		fY += 1.f;
 		vPosition = XMVectorSetY(vPosition, fY);
+		vPosition = vPosition + (vDir * 2.f);
 		static_cast<CBlood*>(m_pGameInstance->Get_Object(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"), TEXT("Effect_Blood_Boss")))
-			->Play(vPosition);
+			->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
 
 		Set_Damaged(10);
 	}

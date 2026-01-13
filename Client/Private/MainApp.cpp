@@ -63,10 +63,10 @@ HRESULT CMainApp::Start_Level(LEVELID eLevelID)
 {
 	if (FAILED(m_pGameInstance->Change_Level(ENUM_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, eLevelID))))
 		return E_FAIL;
-
+	
 	return S_OK;
 }
-
+ 
 HRESULT CMainApp::Ready_Prototype_For_Static()
 {
 	// Prototype_Component_VIBuffer_Rect Ãß°¡

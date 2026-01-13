@@ -64,7 +64,7 @@ HRESULT CWeapon_Boss::Render()
 {
 	//m_bIsCollisionEnabled = true;
 #ifdef _DEBUG
-	if (m_bIsCollisionEnabled == true)
+	if (m_bIsCollisionEnabled == true)     
 	{
 		for (auto& pCollider : m_vecColliders)
 			pCollider->Render();

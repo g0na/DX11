@@ -22,12 +22,14 @@ void CBounding_Sphere::Update(_fmatrix WorldMatrix)
 	m_pOriginalDesc->Transform(*m_pDesc, WorldMatrix);
 }
 
+#ifdef _DEBUG
 HRESULT CBounding_Sphere::Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl)
 {
 	DX::Draw(pBatch, *m_pDesc, isColl == true ? XMVectorSet(1.f, 0.f, 0.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));
 
 	return S_OK;
 }
+#endif // _DEBUG
 
 CBounding_Sphere* CBounding_Sphere::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const BOUNDING_DESC* pInitialDesc)
 {

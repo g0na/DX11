@@ -36,7 +36,8 @@ HRESULT CBlood::Initialize(void* pArg)
 void CBlood::Update_Priority(_float fTimeDelta)
 {
     if (m_pGameInstance->Get_KeyDown(DIK_P))
-        Play(XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f));
+        Play(XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f),
+            m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY))->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
 }
 
 void CBlood::Update(_float fTimeDelta)
@@ -75,13 +76,18 @@ HRESULT CBlood::Render()
     return S_OK;
 }
 
-void CBlood::Play(_fvector vResetPosition)
+void CBlood::Play(_fvector vResetPosition, _fvector vTargetPosition)
 {
     m_bIsOn = true;
 
     m_pTransformCom->Set_State(STATE::POSITION, vResetPosition);
-    
-    m_pVIBufferCom->Reset();
+
+    _vector vDir = vTargetPosition - vResetPosition;
+    vDir = XMVector3Normalize(vDir);
+
+    _float3 vFinalDir = {};
+    XMStoreFloat3(&vFinalDir, vDir);
+    m_pVIBufferCom->Reset(vFinalDir);
 }
 
 HRESULT CBlood::Ready_Components()

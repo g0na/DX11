@@ -29,7 +29,7 @@ public:
 	virtual HRESULT Render();
 
 public:
-	void Play(_fvector vResetPosition);
+	void Play(_fvector vResetPosition, _fvector vTargetPosition);
 
 private:
 	CVIBuffer_Particle_Point*	m_pVIBufferCom = { nullptr };

@@ -16,7 +16,9 @@ CCollider::CCollider(const CCollider& Prototype)
 	, m_pInputLayout { Prototype.m_pInputLayout }
 #endif
 {
+#ifdef _DEBUG
 	Safe_AddRef(m_pInputLayout);
+#endif // _DEBUG
 }
 
 HRESULT CCollider::Initialize_Prototype(COLLIDER eType)
@@ -106,6 +108,7 @@ void CCollider::Free()
 #endif
 }
 
+#ifdef _DEBUG
 HRESULT CCollider::Render()
 {
 	if (m_isActive == false)
@@ -128,3 +131,4 @@ HRESULT CCollider::Render()
 
 	return S_OK;
 }
+#endif // _DEBUG

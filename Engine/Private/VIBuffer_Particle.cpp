@@ -161,7 +161,7 @@ void CVIBuffer_Particle::BloodDrop(_float fTimeDelta)
 	m_pContext->Unmap(m_pVBInstance, 0);
 }
 
-void CVIBuffer_Particle::Reset()
+void CVIBuffer_Particle::Reset(const _float3& vDirection)
 {
 	D3D11_MAPPED_SUBRESOURCE		SubResource{};
 
@@ -172,7 +172,17 @@ void CVIBuffer_Particle::Reset()
 	for (_uint i = 0; i < m_iNumInstance; i++)
 	{
 		pVertices[i].vTranslation = m_pInstanceVertices[i].vTranslation;
-		m_pVelocities[i] = m_pInitialVelocities[i];
+
+		//m_pVelocities[i] = m_pInitialVelocities[i];
+		_float3 vFinalDir = _float3(vDirection.x + m_pInitialVelocities[i].x,
+									vDirection.y + m_pInitialVelocities[i].y,
+									vDirection.z + m_pInitialVelocities[i].z);
+		XMStoreFloat3(&vFinalDir, XMVector3Normalize(XMLoadFloat3(&vFinalDir)));
+
+		m_pVelocities[i].x = vFinalDir.x * m_pSpeeds[i];
+		m_pVelocities[i].y = vFinalDir.y * m_pSpeeds[i] + 0.05f;
+		m_pVelocities[i].z = vFinalDir.z * m_pSpeeds[i];
+
 		pVertices[i].vLifeTime.x = 0.f;
 	}
 

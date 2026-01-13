@@ -267,7 +267,7 @@ HRESULT CLoader::Loading_GamePlay()
 	BloodDesc.vCenter = _float3(0.f, 0.f, 0.f);
 	BloodDesc.vSize = _float2(0.015f, 0.03f);
 	BloodDesc.vRange = _float3(0.15f, 0.15f, 0.15f);
-	BloodDesc.vSpeed = _float2(2.5f, 3.5f);
+	BloodDesc.vSpeed = _float2(2.5f, 5.f);
 	BloodDesc.vLifeTime = _float2(1.f, 1.5f);
 	BloodDesc.isLoop = false;
 	BloodDesc.vPivot = _float3(0.f, -0.5f, 0.f);
@@ -280,11 +280,11 @@ HRESULT CLoader::Loading_GamePlay()
 	BloodBossDesc.iNumInstance = 500;
 	BloodBossDesc.vCenter = _float3(0.f, 0.f, 0.f);
 	BloodBossDesc.vSize = _float2(0.015f, 0.03f);
-	BloodBossDesc.vRange = _float3(0.7f, 0.3f, 0.7f);
+	BloodBossDesc.vRange = _float3(0.3f, 0.15f, 0.3f);
 	BloodBossDesc.vSpeed = _float2(2.5f, 5.f);
 	BloodBossDesc.vLifeTime = _float2(1.f, 1.5f);
 	BloodBossDesc.isLoop = false;
-	BloodBossDesc.vPivot = _float3(0.f, -0.5f, 0.5f);
+	BloodBossDesc.vPivot = _float3(0.f, -0.5f, 0.f);
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Particle_Blood_Boss"),
 		CVIBuffer_Particle_Point::Create(m_pDevice, m_pContext, &BloodBossDesc))))
 		return E_FAIL;

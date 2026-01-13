@@ -27,12 +27,14 @@ void CBounding_AABB::Update(_fmatrix WorldMatrix)
 	m_pOriginalDesc->Transform(*m_pDesc, TransformMatrix);
 }
 
+#ifdef _DEBUG
 HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl)
 {
 	DX::Draw(pBatch, *m_pDesc, isColl == true ? XMVectorSet(1.f, 0.f, 0.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));
 
-    return S_OK;
+	return S_OK;
 }
+#endif // _DEBUG
 
 CBounding_AABB* CBounding_AABB::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const BOUNDING_DESC* pInitialDesc)
 {
