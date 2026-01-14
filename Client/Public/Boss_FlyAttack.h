@@ -34,7 +34,6 @@ private:
 	class CFlyCollider_Boss*		m_pFlyCollider = { nullptr };
 
 	_float* m_pCurAngle = { nullptr };
-	_bool	m_bDustFlag = {};
 	_float	m_fFlyAttackDelay = {};
 
 public:

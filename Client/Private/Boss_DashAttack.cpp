@@ -56,14 +56,10 @@ void CBoss_DashAttack::Update_State(_float fTimeDelta)
     _uint iCurAnimIndex = m_pMonsterModel->Get_CurAnimIndex();
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.966f &&
         m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.2f)
-        //m_bDustFlag = true;
+    {
         m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
-
-    //if (m_bDustFlag)
-    //{
-    //    m_pBoss->Play_Dust(vPlayerPos);
-    //    m_bDustFlag = false;
-    //}
+        m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), true);
+    }
 
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.868f &&
         m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.067f)

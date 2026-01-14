@@ -33,7 +33,6 @@ private:
 	class CMonster_Boss*		m_pBoss = { nullptr };
 	class CWeapon*				m_pMonsterWeapon = { nullptr };
 
-	_bool	m_bDustFlag = {};
 	_uint	m_iAttackCnt = {};
 	_float* m_pCurAngle = { nullptr };
 	_float	m_fAttackDelay = {};

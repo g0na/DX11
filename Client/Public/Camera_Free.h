@@ -31,6 +31,9 @@ public:
 	virtual void Update_Late(_float fTimeDelta);
 	virtual HRESULT Render();
 
+public:
+	void Add_Shake(_float fAmount);
+
 private:
 	void Fix_Camera();
 
@@ -41,6 +44,12 @@ private:
 	_float			m_fDistance = {};
 	_float			m_fYaw = {};
 	_float			m_fPitch = {};
+
+	// 카메라 쉐이킹 관련
+	_float			m_fTrauma = {};
+	_float			m_fShakeTime = {};
+	_float			m_fMaxOffset = {};
+	_float			m_fTraumaDecay = {};
 
 public:
 	static CCamera_Free* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

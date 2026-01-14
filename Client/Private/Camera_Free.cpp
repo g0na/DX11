@@ -33,6 +33,12 @@ HRESULT CCamera_Free::Initialize(void* pArg)
     m_fYaw = XM_PI;             // 180도
     m_fPitch = 0.5f;
 
+    // 카메라 쉐이킹
+    m_fTrauma = 0.f;
+    m_fShakeTime = 0.f;
+    m_fMaxOffset = 0.5f;
+    m_fTraumaDecay = 1.f;
+
     return S_OK;
 }
 
@@ -55,6 +61,26 @@ void CCamera_Free::Update_Priority(_float fTimeDelta)
     m_pTransformCom->Set_State(STATE::POSITION, vLocalPosition);
     m_pTransformCom->LookAt(vTargetPosition);
 
+    if (m_fTrauma > 0.f)
+    {
+        m_fShakeTime += fTimeDelta;
+        
+        _float fShakeAmount = m_fTrauma * m_fTrauma;
+        _float fOffsetX = (sin(m_fShakeTime * 25.f) + sin(m_fShakeTime * 13.f) * 0.5f) / 1.5f * fShakeAmount * m_fMaxOffset;
+        _float fOffsetY = (sin(m_fShakeTime * 20.f) + sin(m_fShakeTime * 10.f) * 0.5f) / 1.5f * fShakeAmount * m_fMaxOffset;
+        
+        _vector vCurrentPosition = m_pTransformCom->Get_State(STATE::POSITION);
+        _vector vRight = m_pTransformCom->Get_State(STATE::RIGHT) * fOffsetX;
+        _vector vUp = m_pTransformCom->Get_State(STATE::UP) * fOffsetY;
+        vCurrentPosition += vRight + vUp;
+        vCurrentPosition = XMVectorSetW(vCurrentPosition, 1.f);
+        m_pTransformCom->Set_State(STATE::POSITION, vCurrentPosition);
+
+        m_fTrauma -= m_fTraumaDecay * fTimeDelta;
+        if (m_fTrauma <= 0.f)
+            m_fTrauma = 0.f;
+    }
+
     // 부모의 월드 행렬을 받아 자신의 최종 변환 행렬을 계산
     __super::SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 }
@@ -72,6 +98,14 @@ void CCamera_Free::Update_Late(_float fTimeDelta)
 HRESULT CCamera_Free::Render()
 {
     return S_OK;
+}
+
+void CCamera_Free::Add_Shake(_float fAmount)
+{
+    m_fTrauma += fAmount;
+
+    if (m_fTrauma >= 1.f)
+        m_fTrauma = 1.f;
 }
 
 void CCamera_Free::Fix_Camera()

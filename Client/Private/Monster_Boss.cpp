@@ -1,5 +1,6 @@
 #include "Monster_Boss.h"
 #include "GameInstance.h"
+#include "Camera_Free.h"
 
 #include "Boss_Idle.h"
 #include "Boss_Walk.h"
@@ -83,6 +84,14 @@ HRESULT CMonster_Boss::Initialize(void* pArg)
 	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
 	Safe_AddRef(m_pPlayer);
 
+	// 카메라 정보 세팅
+	m_pCamera_Free = static_cast<CCamera_Free*>(m_pPlayer->Find_PartObject(TEXT("Part_Camera")));
+	Safe_AddRef(m_pCamera_Free);
+
+	if (m_pPlayer == nullptr ||
+		m_pCamera_Free == nullptr)
+		return E_FAIL;
+
 	m_bIsCollisionEnabled = true;
 
 	// 체력 설정
@@ -121,6 +130,13 @@ void CMonster_Boss::Update(_float fTimeDelta)
 	{
 		Play_Dust(m_vPlayerPos);
 		m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), false);
+	}
+
+	// 카메라 쉐이크
+	if (m_pStateMachine->Get_BoolData(TEXT("Shake_Enable"), false) == true)
+	{
+		Add_Shake(0.8f);
+		m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), false);
 	}
 
 	// BlackBoard에 데이터 저장
@@ -246,6 +262,11 @@ void CMonster_Boss::Play_Blood(_fvector vPosition)
 			return;
 		}
 	}
+}
+
+void CMonster_Boss::Add_Shake(_float fAmount)
+{
+	m_pCamera_Free->Add_Shake(fAmount);
 }
 
 void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
@@ -406,5 +427,6 @@ void CMonster_Boss::Free()
 	Safe_Release(m_pColliderBody);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pCamera_Free);
 	Safe_Release(m_pPlayer);
 }

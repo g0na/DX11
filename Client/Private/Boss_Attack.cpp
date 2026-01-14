@@ -68,9 +68,15 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 4:
-        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.25f)
-            m_bDustFlag = true;
+        // 이펙트, 카메라 플래그
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.25f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.45f)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
+            m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), true);
+        }
 
+        // 콜라이더 시간
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.5f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -79,9 +85,15 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 5:
-        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.3f)
-            m_bDustFlag = true;
+        // 이펙트, 카메라 플래그
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.3f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.5f)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
+            m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), true);
+        }
 
+        // 콜라이더 시간
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.4f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -90,9 +102,15 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 6:
-        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.6f)
-            m_bDustFlag = true;
+        // 이펙트, 카메라 플래그
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.6f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.8f)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
+            m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), true);
+        }
 
+        // 콜라이더 시간
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.37f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.73f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -101,9 +119,15 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 7:
-        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.2f)
-            m_bDustFlag = true;
+        // 이펙트, 카메라 플래그
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.2f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.4f)
+        {
+            m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
+            m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), true);
+        }
 
+        // 콜라이더 시간
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.03f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.33f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -116,11 +140,19 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
     }
 
-    if (m_bDustFlag)
-    {
-        m_pBoss->Play_Dust(vPlayerPos);
-        m_bDustFlag = false;
-    }
+    //// 이펙트 플래그
+    //if (m_bDustFlag)
+    //{
+    //    m_pBoss->Play_Dust(vPlayerPos);
+    //    m_bDustFlag = false;
+    //}
+
+    //// 쉐이크 플래그
+    //if (m_bShakeFlag)
+    //{
+    //    m_pBoss->Add_Shake(0.8f);
+    //    m_bShakeFlag = false;
+    //}
 
     switch (m_iAttackCnt)
     {

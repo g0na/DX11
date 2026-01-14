@@ -54,14 +54,13 @@ void CBoss_FlyAttack::Update_State(_float fTimeDelta)
     m_fFlyAttackDelay += fTimeDelta;
 
     _uint iCurAnimIndex = m_pMonsterModel->Get_CurAnimIndex();
+
+    // 이펙트, 카메라 플래그
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.367f &&
         m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 3.6f)
-        m_bDustFlag = true;
-
-    if (m_bDustFlag)
     {
-        m_pBoss->Play_Dust(m_pMonsterTransform->Get_State(STATE::POSITION));
-        m_bDustFlag = false;
+        m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
+        m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), true);
     }
 
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.33f &&

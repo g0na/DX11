@@ -53,31 +53,33 @@ public:
 public:
 	void Play_Dust(_fvector vPosition);
 	void Play_Blood(_fvector vPosition);
+	void Add_Shake(_float fAmount);
 
 public:
 	virtual void OnCollisionEnter(CGameObject* pOtherObject) override;
 	virtual void OnCollisionExit(CGameObject* pOtherObject) override;
 
 private:
-	CModel*				m_pModelCom = { nullptr };
-	CShader*			m_pShaderCom = { nullptr };
-	CCollider*			m_pColliderBody = { nullptr };
-	CNavigation*		m_pNavigationCom = { nullptr };
-	CPlayer*			m_pPlayer = { nullptr };
+	CModel*					m_pModelCom = { nullptr };
+	CShader*				m_pShaderCom = { nullptr };
+	CCollider*				m_pColliderBody = { nullptr };
+	CNavigation*			m_pNavigationCom = { nullptr };
+	CPlayer*				m_pPlayer = { nullptr };
+	class CCamera_Free*		m_pCamera_Free = { nullptr };
 	
-	_vector				m_vPlayerPos = {};
+	_vector					m_vPlayerPos = {};
 
-	_bool				m_bIsTargeting = {};
-	_bool				m_bAttackReady = {};
-	_bool				m_bIsDamaged = {};
+	_bool					m_bIsTargeting = {};
+	_bool					m_bAttackReady = {};
+	_bool					m_bIsDamaged = {};
 
 	// 체력 관련
-	_float				m_fMaxHp = {};
-	_float				m_fCurHp = {};
-	_float				m_fHpRatio = {};
+	_float					m_fMaxHp = {};
+	_float					m_fCurHp = {};
+	_float					m_fHpRatio = {};
 
-	_float				m_fCurAngle = {};
-	_float				m_fDistance = {};
+	_float					m_fCurAngle = {};
+	_float					m_fDistance = {};
 
 private:
 	HRESULT Ready_Components();
