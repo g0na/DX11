@@ -25,9 +25,9 @@ HRESULT CBoss_Attack::Initialize(CGameObject* pOwner)
         m_pMonsterModel == nullptr)
         return E_FAIL;
 
-    CMonster_Boss* pBoss = static_cast<CMonster_Boss*>(m_pOwner);
-    m_pCurAngle = pBoss->Get_CurAnglePtr();
-    m_pMonsterWeapon = static_cast<CWeapon*>(pBoss->Find_PartObject(TEXT("Part_Weapon_Boss")));
+    m_pBoss = static_cast<CMonster_Boss*>(m_pOwner);
+    m_pCurAngle = m_pBoss->Get_CurAnglePtr();
+    m_pMonsterWeapon = static_cast<CWeapon*>(m_pBoss->Find_PartObject(TEXT("Part_Weapon_Boss")));
 
     return S_OK;
 }
@@ -68,6 +68,9 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 4:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.25f)
+            m_bDustFlag = true;
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.5f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -76,6 +79,9 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 5:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.3f)
+            m_bDustFlag = true;
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.4f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -84,6 +90,9 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 6:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.6f)
+            m_bDustFlag = true;
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.37f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.73f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -92,6 +101,9 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 7:
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.2f)
+            m_bDustFlag = true;
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.03f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.33f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -102,6 +114,12 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
     default:
         m_pMonsterWeapon->Set_CollisionEnabled(false);                // 무기 콜라이더 비활성화
         break;
+    }
+
+    if (m_bDustFlag)
+    {
+        m_pBoss->Play_Dust(vPlayerPos);
+        m_bDustFlag = false;
     }
 
     switch (m_iAttackCnt)

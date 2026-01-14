@@ -297,13 +297,13 @@ HRESULT CLoader::Loading_GamePlay()
 
 	/* For.Prototype_Component_VIBuffer_Particle_Dust */
 	CVIBuffer_Particle_Point::PARTICLE_POINT_DESC	DustDesc{};
-	DustDesc.iNumInstance = 5;
+	DustDesc.iNumInstance = 25;
 	DustDesc.vCenter = _float3(0.f, 0.f, 0.f);
-	DustDesc.vSize = _float2(2.f, 2.5f);
-	DustDesc.vRange = _float3(1.f, 0.5f, 1.f);
+	DustDesc.vSize = _float2(2.0f, 3.f);
+	DustDesc.vRange = _float3(6.f, 5.f, 6.f);
 	DustDesc.vSpeed = _float2(0.f, 0.f);
 	DustDesc.vLifeTime = _float2(2.f, 2.f);
-	DustDesc.isLoop = true;
+	DustDesc.isLoop = false;
 	DustDesc.vPivot = _float3(0.f, -0.5f, 0.f);
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Particle_Dust"),
 		CVIBuffer_Particle_Point::Create(m_pDevice, m_pContext, &DustDesc))))

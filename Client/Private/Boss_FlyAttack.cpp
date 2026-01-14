@@ -25,9 +25,9 @@ HRESULT CBoss_FlyAttack::Initialize(CGameObject* pOwner)
         m_pMonsterModel == nullptr)
         return E_FAIL;
 
-    CMonster_Boss* pBoss = static_cast<CMonster_Boss*>(m_pOwner);
-    m_pCurAngle = pBoss->Get_CurAnglePtr();
-    m_pFlyCollider = static_cast<CFlyCollider_Boss*>(pBoss->Find_PartObject(TEXT("Part_FlyCollider_Boss")));
+    m_pBoss = static_cast<CMonster_Boss*>(m_pOwner);
+    m_pCurAngle = m_pBoss->Get_CurAnglePtr();
+    m_pFlyCollider = static_cast<CFlyCollider_Boss*>(m_pBoss->Find_PartObject(TEXT("Part_FlyCollider_Boss")));
 
     return S_OK;
 }
@@ -54,6 +54,16 @@ void CBoss_FlyAttack::Update_State(_float fTimeDelta)
     m_fFlyAttackDelay += fTimeDelta;
 
     _uint iCurAnimIndex = m_pMonsterModel->Get_CurAnimIndex();
+    if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.367f &&
+        m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 3.6f)
+        m_bDustFlag = true;
+
+    if (m_bDustFlag)
+    {
+        m_pBoss->Play_Dust(m_pMonsterTransform->Get_State(STATE::POSITION));
+        m_bDustFlag = false;
+    }
+
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.33f &&
         m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 4.f)
         m_pFlyCollider->Set_CollisionEnabled(true);                 // 콜라이더 활성화

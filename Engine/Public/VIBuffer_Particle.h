@@ -37,6 +37,8 @@ public:
 	void Drop(_float fTimeDelta);
 	void Spread(_float fTimeDelta);
 	void BloodDrop(_float fTimeDelta);
+
+	void Reset();
 	void Reset(const _float3& vDirection);
 
 protected:

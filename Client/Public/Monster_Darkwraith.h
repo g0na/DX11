@@ -47,6 +47,9 @@ public:
 	virtual HRESULT	Render() override;
 
 public:
+	void Play_Blood(_fvector vPosition);
+
+public:
 	virtual void OnCollisionEnter(CGameObject* pOtherObject) override;
 	virtual void OnCollisionExit(CGameObject* pOtherObject) override;
 

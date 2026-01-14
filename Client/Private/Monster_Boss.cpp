@@ -16,6 +16,7 @@
 #include "Collider.h"
 
 #include "Blood_Boss.h"
+#include "Dust.h"
 
 CMonster_Boss::CMonster_Boss(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CContainerObject{ pDevice, pContext }
@@ -115,6 +116,13 @@ void CMonster_Boss::Update(_float fTimeDelta)
 		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_Boss_Gauge"));
 	}
 
+	// Dust 이펙트
+	if (m_pStateMachine->Get_BoolData(TEXT("Dust_Enable"), false) == true)
+	{
+		Play_Dust(m_vPlayerPos);
+		m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), false);
+	}
+
 	// BlackBoard에 데이터 저장
 	m_pStateMachine->Set_FloatData(TEXT("Boss_Distance"), m_fDistance);
 	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 10.f);
@@ -192,6 +200,54 @@ HRESULT CMonster_Boss::Render()
 	return S_OK;
 }
 
+void CMonster_Boss::Play_Dust(_fvector vPosition)
+{
+	// 이펙트 리스트 가져오기
+	list<CGameObject*> pListEffects = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"));
+
+	// 이펙트 리스트 순회하면서 Dust만 따로 리스트에 삽입하기
+	list<CDust*> pListDusts;
+	for (auto& pEffect : pListEffects)
+	{
+		if (!wcscmp(TEXT("Effect_Dust"), pEffect->Get_Name()))
+			pListDusts.push_back(static_cast<CDust*>(pEffect));
+	}
+
+	// Dust 리스트 순회하면서 비활성화 된 거 찾으면 Play
+	for (auto& pDust : pListDusts)
+	{
+		if (!pDust->Get_IsOn())
+		{
+			pDust->Play(vPosition);
+			return;
+		}
+	}
+}
+
+void CMonster_Boss::Play_Blood(_fvector vPosition)
+{
+	// 이펙트 리스트 가져오기
+	list<CGameObject*> pListEffects = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"));
+
+	// 이펙트 리스트 순회하면서 Blood만 따로 리스트에 삽입하기
+	list<CBlood_Boss*> pListBloods;
+	for (auto& pEffect : pListEffects)
+	{
+		if (!wcscmp(TEXT("Effect_Blood_Boss"), pEffect->Get_Name()))
+			pListBloods.push_back(static_cast<CBlood_Boss*>(pEffect));
+	}
+
+	// Dust 리스트 순회하면서 비활성화 된 거 찾으면 Play
+	for (auto& pBlood : pListBloods)
+	{
+		if (!pBlood->Get_IsOn())
+		{
+			pBlood->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
+			return;
+		}
+	}
+}
+
 void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
@@ -204,8 +260,7 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 		fY += 1.f;
 		vPosition = XMVectorSetY(vPosition, fY);
 		vPosition = vPosition + (vDir * 2.f);
-		static_cast<CBlood_Boss*>(m_pGameInstance->Get_Object(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"), TEXT("Effect_Blood_Boss")))
-			->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
+		Play_Blood(vPosition);
 
 		Set_Damaged(10);
 	}

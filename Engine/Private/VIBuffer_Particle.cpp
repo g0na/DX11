@@ -161,6 +161,26 @@ void CVIBuffer_Particle::BloodDrop(_float fTimeDelta)
 	m_pContext->Unmap(m_pVBInstance, 0);
 }
 
+void CVIBuffer_Particle::Reset()
+{
+	D3D11_MAPPED_SUBRESOURCE		SubResource{};
+
+	m_pContext->Map(m_pVBInstance, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
+
+	VTXPARTICLE* pVertices = static_cast<VTXPARTICLE*>(SubResource.pData);
+
+	for (_uint i = 0; i < m_iNumInstance; i++)
+	{
+		pVertices[i].vTranslation = m_pInstanceVertices[i].vTranslation;
+
+		m_pVelocities[i] = m_pInitialVelocities[i];
+
+		pVertices[i].vLifeTime.x = 0.f;
+	}
+
+	m_pContext->Unmap(m_pVBInstance, 0);
+}
+
 void CVIBuffer_Particle::Reset(const _float3& vDirection)
 {
 	D3D11_MAPPED_SUBRESOURCE		SubResource{};

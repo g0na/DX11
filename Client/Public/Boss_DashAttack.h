@@ -30,9 +30,11 @@ private:
 	CStateMachine*					m_pStateMachine = { nullptr };
 	CTransform*						m_pMonsterTransform = { nullptr };
 	CModel*							m_pMonsterModel = { nullptr };
+	class CMonster_Boss*			m_pBoss = { nullptr };
 	class CWeapon_Boss*				m_pMonsterWeapon = { nullptr };
 
 	_float* m_pCurAngle = { nullptr };
+	_bool	m_bDustFlag = {};
 	_float	m_fDashAttackDelay = {};
 
 public:

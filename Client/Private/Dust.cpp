@@ -28,7 +28,7 @@ HRESULT CDust::Initialize(void* pArg)
 
     m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f));
 
-    m_bIsOn = true;
+    m_bIsOn = false;
 
     m_vScaleUV = _float2(m_fSizeX, m_fSizeY);
 
@@ -37,34 +37,41 @@ HRESULT CDust::Initialize(void* pArg)
 
 void CDust::Update_Priority(_float fTimeDelta)
 {
-    if (m_pGameInstance->Get_KeyDown(DIK_P))
-        Play(XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f),
-            m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY))->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
+	if (m_pGameInstance->Get_KeyDown(DIK_P))
+		Play(XMVectorSet(-11.81f, -12.24f, -45.8f, 1.f));
 }
 
 void CDust::Update(_float fTimeDelta)
 {
-    if (m_bIsOn)
-    {
-        m_fFrameDelay += fTimeDelta;
+	if (m_bIsOn)
+	{
+		m_fFrameDelay += fTimeDelta;
 
-        if (m_fFrameDelay >= 0.03571f)
-        {
-            m_vOffsetUV = _float2((m_iCurrentFrameIdx % m_iCountX) * m_fSizeX,
-                (m_iCurrentFrameIdx / m_iCountX) * m_fSizeY);
+		if (m_fFrameDelay >= 0.03571f)
+		{
+			m_vOffsetUV = _float2((m_iCurrentFrameIdx % m_iCountX) * m_fSizeX,
+				(m_iCurrentFrameIdx / m_iCountX) * m_fSizeY);
 
-            m_iCurrentFrameIdx++;
-            m_fFrameDelay = 0.f;
-        }
+			m_iCurrentFrameIdx++;
+			m_fFrameDelay = 0.f;
+		}
 
-        if (m_iCurrentFrameIdx >= m_iFrameCnt)
-            m_iCurrentFrameIdx = 0;
+		if (m_iCurrentFrameIdx >= 41)
+		{
+			m_fTransparency -= 0.03571f;
 
-        m_pVIBufferCom->Spread(fTimeDelta);
+			if (m_fTransparency <= 0.f)
+				m_fTransparency = 0.f;
+		}
 
-        if (m_pVIBufferCom->Get_IsFinished())
-            m_bIsOn = false;
-    }
+		if (m_iCurrentFrameIdx >= m_iFrameCnt)
+			m_iCurrentFrameIdx = 0;
+
+		m_pVIBufferCom->Spread(fTimeDelta);
+
+		if (m_pVIBufferCom->Get_IsFinished())
+			m_bIsOn = false;
+	}
 }
 
 void CDust::Update_Late(_float fTimeDelta)
@@ -92,18 +99,16 @@ HRESULT CDust::Render()
     return S_OK;
 }
 
-void CDust::Play(_fvector vResetPosition, _fvector vTargetPosition)
+void CDust::Play(_fvector vResetPosition)
 {
     m_bIsOn = true;
 
     m_pTransformCom->Set_State(STATE::POSITION, vResetPosition);
 
-    _vector vDir = vTargetPosition - vResetPosition;
-    vDir = XMVector3Normalize(vDir);
+    m_pVIBufferCom->Reset();
 
-    _float3 vFinalDir = {};
-    XMStoreFloat3(&vFinalDir, vDir);
-    m_pVIBufferCom->Reset(vFinalDir);
+    m_iCurrentFrameIdx = 0;
+    m_fTransparency = 1.f;
 }
 
 HRESULT CDust::Ready_Components()
@@ -145,6 +150,8 @@ HRESULT CDust::Bind_ShaderResources()
     if (FAILED(m_pShaderCom->Bind_RawValue("g_vOffsetUV", &m_vOffsetUV, sizeof(_float2))))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_RawValue("g_vScaleUV", &m_vScaleUV, sizeof(_float2))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_fTransparency", &m_fTransparency, sizeof(_float))))
         return E_FAIL;
 
     return S_OK;

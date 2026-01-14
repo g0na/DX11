@@ -4,6 +4,7 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 vector g_vCamPosition;
 Texture2D g_Texture;
 float2 g_vOffsetUV, g_vScaleUV;
+float g_fTransparency;
 
 struct VS_IN
 {
@@ -127,6 +128,8 @@ PS_OUT PS_DUST(PS_IN In)
     
     if (vColor.a <= 0.3f)
         discard;
+    
+    vColor.rgba *= g_fTransparency;
     
     Out.vColor = vColor * 0.5f;
     

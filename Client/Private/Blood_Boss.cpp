@@ -28,7 +28,7 @@ HRESULT CBlood_Boss::Initialize(void* pArg)
 
     //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f));
 
-    m_bIsOn = true;
+    m_bIsOn = false;
 
     return S_OK;
 }

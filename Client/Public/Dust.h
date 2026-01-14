@@ -13,12 +13,13 @@ NS_BEGIN(Client)
 
 class CDust final : public CGameObject
 {
-public:
-	
 private:
 	CDust(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CDust(const CDust& Prototype); /* 메모리 복사를 통해 객체를 생성. */
 	virtual ~CDust() = default;
+
+public:
+	_bool	Get_IsOn() { return m_bIsOn; }
 
 public:
 	virtual HRESULT Initialize_Prototype(); /* 원형객체가 만들어질 때 호출되는 함수. 무거운 초기화작업.  */
@@ -29,7 +30,7 @@ public:
 	virtual HRESULT Render();
 
 public:
-	void Play(_fvector vResetPosition, _fvector vTargetPosition);
+	void Play(_fvector vResetPosition);
 
 private:
 	CVIBuffer_Particle_Point*	m_pVIBufferCom = { nullptr };
@@ -51,7 +52,7 @@ private:
 
 	_uint m_iCurrentFrameIdx = {};
 	_float m_fFrameDelay = {};
-
+	_float m_fTransparency = { 1.f };
 
 private:
 	HRESULT Ready_Components();

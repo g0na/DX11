@@ -25,9 +25,9 @@ HRESULT CBoss_DashAttack::Initialize(CGameObject* pOwner)
         m_pMonsterModel == nullptr)
         return E_FAIL;
 
-    CMonster_Boss* pBoss = static_cast<CMonster_Boss*>(m_pOwner);
-    m_pCurAngle = pBoss->Get_CurAnglePtr();
-    m_pMonsterWeapon = static_cast<CWeapon_Boss*>(pBoss->Find_PartObject(TEXT("Part_Weapon_Boss")));
+    m_pBoss = static_cast<CMonster_Boss*>(m_pOwner);
+    m_pCurAngle = m_pBoss->Get_CurAnglePtr();
+    m_pMonsterWeapon = static_cast<CWeapon_Boss*>(m_pBoss->Find_PartObject(TEXT("Part_Weapon_Boss")));
 
     return S_OK;
 }
@@ -54,6 +54,17 @@ void CBoss_DashAttack::Update_State(_float fTimeDelta)
     m_fDashAttackDelay += fTimeDelta;
 
     _uint iCurAnimIndex = m_pMonsterModel->Get_CurAnimIndex();
+    if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.966f &&
+        m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.2f)
+        //m_bDustFlag = true;
+        m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
+
+    //if (m_bDustFlag)
+    //{
+    //    m_pBoss->Play_Dust(vPlayerPos);
+    //    m_bDustFlag = false;
+    //}
+
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.868f &&
         m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.067f)
         m_pMonsterWeapon->Set_CollisionEnabled(true);                 // 콜라이더 활성화

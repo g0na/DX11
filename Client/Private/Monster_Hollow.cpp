@@ -72,14 +72,14 @@ HRESULT CMonster_Hollow::Initialize(void* pArg)
 	if (FAILED(Ready_States()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(20.f, 0.f, -10.f, 1.f));
+	m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-11.81f, -15.24f, -45.8f, 1.f));
 
 	// 플레이어 정보 세팅
 	m_pPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY)));
 	Safe_AddRef(m_pPlayer);
 
 	m_bIsCollisionEnabled = true;
-	m_iHp = 3;
+	m_iHp = 30;
 
 	return S_OK;
 }
@@ -163,6 +163,30 @@ HRESULT CMonster_Hollow::Render()
 	return S_OK;
 }
 
+void CMonster_Hollow::Play_Blood(_fvector vPosition)
+{
+	// 이펙트 리스트 가져오기
+	list<CGameObject*> pListEffects = m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"));
+
+	// 이펙트 리스트 순회하면서 Blood만 따로 리스트에 삽입하기
+	list<CBlood*> pListBloods;
+	for (auto& pEffect : pListEffects)
+	{
+		if (!wcscmp(TEXT("Effect_Blood"), pEffect->Get_Name()))
+			pListBloods.push_back(static_cast<CBlood*>(pEffect));
+	}
+
+	// Dust 리스트 순회하면서 비활성화 된 거 찾으면 Play
+	for (auto& pBlood : pListBloods)
+	{
+		if (!pBlood->Get_IsOn())
+		{
+			pBlood->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
+			return;
+		}
+	}
+}
+
 void CMonster_Hollow::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
@@ -172,11 +196,10 @@ void CMonster_Hollow::OnCollisionEnter(CGameObject* pOtherObject)
 		_vector vDir = XMVector3Normalize(m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION) - vPosition);
 
 		_float fY = XMVectorGetY(vPosition);
-		fY += 1.f;
+		fY += 0.75f;
 		vPosition = XMVectorSetY(vPosition, fY);
 		vPosition = vPosition + (vDir * 0.25f);
-		static_cast<CBlood*>(m_pGameInstance->Get_Object(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Effect"), TEXT("Effect_Blood")))
-			->Play(vPosition, m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
+		Play_Blood(vPosition);
 
 		Set_Damaged(true);
 	}
