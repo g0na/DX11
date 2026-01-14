@@ -131,7 +131,7 @@ PS_OUT PS_DUST(PS_IN In)
     
     vColor.rgba *= g_fTransparency;
     
-    Out.vColor = vColor * 0.5f;
+    Out.vColor = vColor * 0.35f;
     
     return Out;
 }

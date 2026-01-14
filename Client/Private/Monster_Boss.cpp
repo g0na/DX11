@@ -114,7 +114,7 @@ void CMonster_Boss::Update_Priority(_float fTimeDelta)
 void CMonster_Boss::Update(_float fTimeDelta)
 {
 	// UI ON/OFF
-	if (m_pStateMachine->Get_BoolData(TEXT("Boss_Targeting"), false) == true)
+	if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 14.f)
 	{
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_HP"));
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_Gauge"));

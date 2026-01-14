@@ -59,8 +59,14 @@ void CBoss_FlyAttack::Update_State(_float fTimeDelta)
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.367f &&
         m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 3.6f)
     {
-        m_pStateMachine->Set_BoolData(TEXT("Dust_Enable"), true);
         m_pStateMachine->Set_BoolData(TEXT("Shake_Enable"), true);
+        m_bDustFlag = true;
+    }
+
+    if (m_bDustFlag)
+    {
+        m_pBoss->Play_Dust(m_pMonsterTransform->Get_State(STATE::POSITION));
+        m_bDustFlag = false;
     }
 
     if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.33f &&

@@ -140,20 +140,6 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
     }
 
-    //// 이펙트 플래그
-    //if (m_bDustFlag)
-    //{
-    //    m_pBoss->Play_Dust(vPlayerPos);
-    //    m_bDustFlag = false;
-    //}
-
-    //// 쉐이크 플래그
-    //if (m_bShakeFlag)
-    //{
-    //    m_pBoss->Add_Shake(0.8f);
-    //    m_bShakeFlag = false;
-    //}
-
     switch (m_iAttackCnt)
     {
     case 0:
