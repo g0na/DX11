@@ -5,6 +5,8 @@
 #include "UI_Estus.h"
 #include "Weapon.h"
 #include "GameInstance.h"
+#include "Model.h"
+#include "Animation.h"
 
 CPlayer_Healing::CPlayer_Healing()
     : m_pGameInstance{ CGameInstance::GetInstance() }
@@ -20,11 +22,13 @@ HRESULT CPlayer_Healing::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pPlayerBody = pBody;
     m_pEstus = static_cast<CEstus*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Estus")));
     m_pWeapon = static_cast<CWeapon*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Weapon")));
+    m_pPlayerModel = pBody->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerBody == nullptr ||
         m_pEstus == nullptr ||
-        m_pWeapon == nullptr)
+        m_pWeapon == nullptr ||
+        m_pPlayerModel == nullptr)
         return E_FAIL;
 
     return S_OK;
@@ -46,6 +50,11 @@ void CPlayer_Healing::Enter_State()
 
 void CPlayer_Healing::Update_State(_float fTimeDelta)
 {
+    // 사운드 재생
+    if (m_pPlayerModel->Get_Animation(26)->Get_CurrentTrackPosition() >= 0.f &&
+        m_pPlayerModel->Get_Animation(26)->Get_CurrentTrackPosition() <= 0.02f)
+        m_pGameInstance->PlaySoundW(TEXT("EST-drink.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
     m_fCoolDown += fTimeDelta;
 
     // 사망

@@ -68,6 +68,20 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 4:
+        // 사운드 재생
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.267f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.287f)
+            m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.033f &&
+                 m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.053f)
+                 m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_swing.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.167f &&
+                 m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.187f)
+                 m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.3f &&
+                 m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 3.32f)
+                 m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+        
         // 이펙트, 카메라 플래그
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.25f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.45f)
@@ -85,6 +99,17 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 5:
+        // 사운드 재생
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.02f)
+            m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_swing.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.166f &&
+                 m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.186f)
+                 m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 3.4f &&
+                 m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 3.42f)
+                 m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+
         // 이펙트, 카메라 플래그
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.3f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.5f)
@@ -102,6 +127,20 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 6:
+        // 사운드 재생
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.333f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.353f)
+            m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.366f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.386f)
+            m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_swing.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.6f &&
+                 m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.62f)
+                 m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_zimen.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 4.333f &&
+                 m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 4.353f)
+                 m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+
         // 이펙트, 카메라 플래그
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.6f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.8f)
@@ -119,6 +158,17 @@ void CBoss_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 7:
+        // 사운드 재생
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.02f)
+            m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_swing.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.2f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.22f)
+            m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_zimen.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+        else if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 4.167f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 4.187f)
+            m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+
         // 이펙트, 카메라 플래그
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 2.2f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 2.4f)

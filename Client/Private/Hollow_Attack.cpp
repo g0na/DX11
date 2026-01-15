@@ -66,6 +66,21 @@ void CHollow_Attack::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 4:
+        // 사운드
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.866f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.886f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_swing.mp3"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_swing2.mp3"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_attack3.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_attack4.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+        }
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.96f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.1f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -74,6 +89,21 @@ void CHollow_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 5:
+        // 사운드
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.633f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.653f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_swing.mp3"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_swing2.mp3"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_attack3.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_attack4.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+        }
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.7f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.832f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -82,6 +112,21 @@ void CHollow_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 6:
+        // 사운드
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.833f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.853f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_swing.mp3"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_swing2.mp3"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_attack3.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Hollow_attack4.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+        }   
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.967f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.166f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화

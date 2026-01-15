@@ -72,6 +72,7 @@ private:
 	_bool					m_bIsTargeting = {};
 	_bool					m_bAttackReady = {};
 	_bool					m_bIsDamaged = {};
+	_bool					m_bBgm = {};
 
 	// 체력 관련
 	_float					m_fMaxHp = {};

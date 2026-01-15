@@ -58,6 +58,18 @@ void CPlayer_Damaged::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 14:        // 피격
+        // 사운드 재생
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.02f)
+        {
+            m_pGameInstance->PlaySoundW(TEXT("Player_Damaged.wav"), CHANNELID::SOUND_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Voice_Damage1.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Voice_Damage2.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+        }
+
         // 넉백 아닐 때 다시 피격
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Damaged"), false) == true)
         {
@@ -67,6 +79,20 @@ void CPlayer_Damaged::Update_State(_float fTimeDelta)
         break;
 
     case 15:        // 넉백
+        // 사운드 재생
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.02f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Voice_Damage1.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Voice_Damage2.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+        }
+        
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.567f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.587f)
+            m_pGameInstance->PlaySoundW(TEXT("Player_Roll.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
         // 무적
         if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 3.6f)
             m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);

@@ -2,6 +2,8 @@
 #include "Transform.h"
 #include "Monster_Boss.h"
 #include "GameInstance.h"
+#include "Model.h"
+#include "Animation.h"
 
 CBoss_Backstep::CBoss_Backstep()
     : m_pGameInstance { CGameInstance::GetInstance() }
@@ -14,8 +16,10 @@ HRESULT CBoss_Backstep::Initialize(CGameObject* pOwner)
     __super::Initialize(pOwner);
 
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
+    m_pMonsterModel = m_pOwner->Get_Component<CModel>(TEXT("Com_Model"));
 
-    if (m_pStateMachine == nullptr)
+    if (m_pStateMachine == nullptr ||
+        m_pMonsterModel == nullptr)
         return E_FAIL;
 
     return S_OK;
@@ -37,6 +41,14 @@ void CBoss_Backstep::Update_State(_float fTimeDelta)
         m_pStateMachine->Change_State(CMonster_Boss::DEATH);
         return;
     }
+
+    // »ç¿îµå
+    if (m_pMonsterModel->Get_Animation(2)->Get_CurrentTrackPosition() >= 0.667f &&
+        m_pMonsterModel->Get_Animation(2)->Get_CurrentTrackPosition() <= 0.687f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_foot_slice.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(2)->Get_CurrentTrackPosition() >= 1.5f &&
+        m_pMonsterModel->Get_Animation(2)->Get_CurrentTrackPosition() <= 1.52f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
 
     m_fTimeElapsed += fTimeDelta;
 

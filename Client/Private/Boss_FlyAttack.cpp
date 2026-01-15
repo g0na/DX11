@@ -47,6 +47,32 @@ void CBoss_FlyAttack::Update_State(_float fTimeDelta)
         return;
     }
 
+    // 사운드 재생
+    if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 0.3f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 0.32f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 0.8f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 0.82f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 1.2f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 1.22f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_wing.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 1.9f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 1.92f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_wing.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 2.4f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 2.42f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_wing.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 2.8f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 2.8f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_wing.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 3.333f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 3.353f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_taoreru.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 3.433f &&
+        m_pMonsterModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 3.453f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_sand.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+
     _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
     _vector vTargetDir = XMVector3Normalize(XMVectorSetW(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION), 0.f));
     _vector vLook = XMVector3Normalize(m_pMonsterTransform->Get_State(STATE::LOOK));

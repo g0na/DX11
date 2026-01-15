@@ -3,6 +3,7 @@
 #include "Monster_Hollow.h"
 #include "GameInstance.h"
 #include "Model.h"
+#include "Animation.h"
 
 CHollow_Damaged::CHollow_Damaged()
     : m_pGameInstance{ CGameInstance::GetInstance() }
@@ -15,6 +16,7 @@ HRESULT CHollow_Damaged::Initialize(CGameObject* pOwner)
     __super::Initialize(pOwner);
 
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
+    m_pMonsterModel = m_pOwner->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr)
         return E_FAIL;
@@ -39,6 +41,21 @@ void CHollow_Damaged::Update_State(_float fTimeDelta)
     {
         m_pStateMachine->Change_State(CMonster_Hollow::DEATH);
         return;
+    }
+
+    // 사운드
+    if (m_pMonsterModel->Get_Animation(2)->Get_CurrentTrackPosition() >= 0.f &&
+        m_pMonsterModel->Get_Animation(2)->Get_CurrentTrackPosition() <= 0.02f)
+    {
+        if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+            m_pGameInstance->PlaySoundW(TEXT("blood1.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+        else
+            m_pGameInstance->PlaySoundW(TEXT("blood2.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+        
+        if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+            m_pGameInstance->PlaySoundW(TEXT("Hollow_attack.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+        else
+            m_pGameInstance->PlaySoundW(TEXT("Hollow_attack2.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
     }
     
     // 피격

@@ -35,7 +35,8 @@ private:
 
 private:
 	// 사운드 폴더의 최종 경로를 갖는 변수
-	wstring m_strSoundFolderPath;
+	_wstring m_strSoundFolderPath;
+	_wstring m_strCurrentBGM;
 
 	// 사운드 리소스 정보를 갖는 객체 
 	map<_wstring, FMOD_SOUND*> m_mapSound2D;

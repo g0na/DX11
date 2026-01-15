@@ -20,6 +20,9 @@ public:
 	HRESULT Ready_Fonts();
 	HRESULT	Ready_Layer_Background(const _wstring& strLayerTag);
 
+private:
+	_bool			m_bBgm = { true };
+
 public:
 	static CLevel_Logo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

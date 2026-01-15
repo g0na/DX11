@@ -23,6 +23,8 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
+	m_pGameInstance->PlayBGM(TEXT("config.wav.mp3"), 1.f);
+
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		m_pGameInstance->PlaySoundW(TEXT("GAMESTART.wav"), CHANNELID::SOUND_EFFECT, 1.f);

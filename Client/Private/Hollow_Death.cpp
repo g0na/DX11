@@ -17,6 +17,9 @@ HRESULT CHollow_Death::Initialize(CGameObject* pOwner)
 
 void CHollow_Death::Enter_State()
 {
+    m_pGameInstance->PlaySoundW(TEXT("Player_Kill.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+    m_pGameInstance->PlaySoundW(TEXT("Hollow_death.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+
     static_cast<CMonster_Hollow*>(m_pOwner)->Set_Animation(3, false);
 }
 
@@ -27,7 +30,7 @@ void CHollow_Death::Update_State(_float fTimeDelta)
     if (m_fDeathTime >= 2.f)
     {
         static_cast<CMonster_Hollow*>(m_pOwner)->Set_CollisionEnabled(false);
-        static_cast<CMonster_Hollow*>(m_pOwner)->Set_Activity(false);
+        //static_cast<CMonster_Hollow*>(m_pOwner)->Set_Activity(false);
     }
 
 }

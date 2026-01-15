@@ -1,5 +1,6 @@
 #include "OutDoor.h"
 #include "GameInstance.h"
+#include "Animation.h"
 
 COutDoor::COutDoor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CGameObject { pDevice, pContext }
@@ -52,6 +53,11 @@ void COutDoor::Update(_float fTimeDelta)
 
 void COutDoor::Update_Late(_float fTimeDelta)
 {
+	// 사운드 재생
+	if (m_pModelCom->Get_Animation(1)->Get_CurrentTrackPosition() >= 1.f &&
+		m_pModelCom->Get_Animation(1)->Get_CurrentTrackPosition() <= 1.02f)
+		m_pGameInstance->PlaySoundW(TEXT("OutDoor_Open.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 }
 

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Body.h"
 #include "Model.h"
+#include "Animation.h"
 #include "Weapon.h"
 #include "Shield.h"
 #include "GameInstance.h"
@@ -19,11 +20,11 @@ HRESULT CPlayer_PickUp::Initialize(CGameObject* pOwner, CBody* pBody)
 
 	m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
 	m_pPlayerBody = pBody;
-	m_pWeapon = static_cast<CWeapon*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Weapon")));
-	m_pShield = static_cast<CShield*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Shield")));
+	m_pPlayerModel = pBody->Get_Component<CModel>(TEXT("Com_Model"));
 
 	if (m_pStateMachine == nullptr ||
-		m_pPlayerBody == nullptr)
+		m_pPlayerBody == nullptr ||
+		m_pPlayerModel == nullptr)
 		return E_FAIL;
 
     CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
@@ -35,14 +36,15 @@ void CPlayer_PickUp::Enter_State()
 {
 	if (m_pPlayerBody != nullptr)
 		m_pPlayerBody->Set_Animation(24, false);
-
-	// 무기, 방패 비활성화
-	//m_pWeapon->Set_Activity(false);
-	//m_pShield->Set_Activity(false);
 }
 
 void CPlayer_PickUp::Update_State(_float fTimeDelta)
 {
+	// 사운드 재생
+	if (m_pPlayerModel->Get_Animation(24)->Get_CurrentTrackPosition() >= 0.f &&
+		m_pPlayerModel->Get_Animation(24)->Get_CurrentTrackPosition() <= 0.02f)
+		m_pGameInstance->PlaySoundW(TEXT("ITEMGET.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 	m_fTimeElapsed += fTimeDelta;
 
 	if (m_pPlayerBody->Get_IsAnimFinish() == true)

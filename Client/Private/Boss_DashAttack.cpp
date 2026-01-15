@@ -47,6 +47,24 @@ void CBoss_DashAttack::Update_State(_float fTimeDelta)
         return;
     }
 
+    // 사운드 재생
+    if (m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() >= 0.533f &&
+        m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() <= 0.553f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() >= 1.067f &&
+        m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() <= 1.087f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_swing.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+    else if (m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() >= 1.7f &&
+        m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() <= 1.72f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_foot.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() >= 1.767f &&
+        m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() <= 1.787f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_swing.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+    else if (m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() >= 1.934f &&
+        m_pMonsterModel->Get_Animation(8)->Get_CurrentTrackPosition() <= 1.954f)
+        m_pGameInstance->PlaySoundW(TEXT("Boss_weapon_zimen.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+
     _vector vPlayerPos = m_pStateMachine->Get_VectorData(TEXT("Player_Position"), XMVectorZero());
     _vector vTargetDir = XMVector3Normalize(XMVectorSetW(vPlayerPos - m_pMonsterTransform->Get_State(STATE::POSITION), 0.f));
     _vector vLook = XMVector3Normalize(m_pMonsterTransform->Get_State(STATE::LOOK));

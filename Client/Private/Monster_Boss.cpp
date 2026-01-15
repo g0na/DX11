@@ -115,12 +115,18 @@ void CMonster_Boss::Update_Priority(_float fTimeDelta)
 void CMonster_Boss::Update(_float fTimeDelta)
 {
 	// UI ON/OFF
-	if (m_fDistance <= 18.f && m_fHeightDistance <= 4.f)
+	if (m_fDistance <= 20.f && m_fHeightDistance <= 4.f)
 	{
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_HP"));
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_Gauge"));
 	}
 	else
+	{
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_Boss_HP"));
+		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_Boss_Gauge"));
+	}
+
+	if (m_pStateMachine->Get_BoolData(TEXT("Boss_Dead"), false) == true)
 	{
 		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_Boss_HP"));
 		m_pGameInstance->Hide_UI(TEXT("Prototype_UI_Boss_Gauge"));
@@ -278,6 +284,12 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 {
 	if (pOtherObject->Get_Layer() == TEXT("Layer_Weapon"))
 	{
+		// »ç¿îµå Àç»ý
+		if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+			m_pGameInstance->PlaySoundW(TEXT("Boss_damage.wav"), CHANNELID::SOUND_PARTICLE, 1.f);
+		else
+			m_pGameInstance->PlaySoundW(TEXT("Boss_damage2.wav"), CHANNELID::SOUND_PARTICLE, 1.f);
+
 		// ÃâÇ÷ ÀÌÆåÆ®
 		_vector vPosition = m_pTransformCom->Get_State(STATE::POSITION);
 		_vector vDir = XMVector3Normalize(m_pPlayer->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION) - vPosition);
@@ -288,7 +300,7 @@ void CMonster_Boss::OnCollisionEnter(CGameObject* pOtherObject)
 		vPosition = vPosition + (vDir * 2.f);
 		Play_Blood(vPosition);
 
-		Set_Damaged(10);
+		Set_Damaged(250);
 	}
 }
 

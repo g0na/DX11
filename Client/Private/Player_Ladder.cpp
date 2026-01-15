@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Body.h"
 #include "Model.h"
+#include "Animation.h"
 #include "GameInstance.h"
 
 CPlayer_Ladder::CPlayer_Ladder()
@@ -59,16 +60,31 @@ void CPlayer_Ladder::Update_State(_float fTimeDelta)
 		switch (iCurAnimIndex)
 		{
 		case 17:
+			// 사운드 재생
+			if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.366f &&
+				m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.386f)
+				m_pGameInstance->PlaySoundW(TEXT("Player_Walk1.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 			if (m_pPlayerBody->Get_IsAnimFinish() == true)
 				m_pPlayerBody->Set_Animation(18, false);
 			break;
 
 		case 18:
+			// 사운드 재생
+			if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.133f &&
+				m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.153f)
+				m_pGameInstance->PlaySoundW(TEXT("Player_Walk2.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 			if (m_pPlayerBody->Get_IsAnimFinish() == true)
 				m_pPlayerBody->Set_Animation(19, false);
 			break;
 
 		case 19:
+			// 사운드 재생
+			if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.133f &&
+				m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.153f)
+				m_pGameInstance->PlaySoundW(TEXT("Player_Walk1.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 			if (m_pPlayerBody->Get_IsAnimFinish() == true)
 			{
 				if (m_pStateMachine->Get_BoolData(TEXT("Player_Ladder_End"), false) == true)
@@ -81,6 +97,11 @@ void CPlayer_Ladder::Update_State(_float fTimeDelta)
 			break;
 
 		case 20:
+			// 사운드 재생
+			if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 1.233f &&
+				m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 1.433f)
+				m_pGameInstance->PlaySoundW(TEXT("Player_Walk2.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 			if (m_pPlayerBody->Get_IsAnimFinish() == true)
 			{
 				m_pStateMachine->Change_State(CPlayer::IDLE);

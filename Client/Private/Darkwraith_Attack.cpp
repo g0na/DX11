@@ -66,6 +66,21 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 4:
+        // 사운드
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.5f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.52f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack2.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice1.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice2.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+        }
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.6f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.765f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -74,6 +89,21 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 5:
+        // 사운드
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.4f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.42f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack2.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice1.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice2.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+        }
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.366f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.53f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -82,6 +112,21 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 6:
+        // 사운드
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.333f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.353f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack2.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice1.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice2.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+        }
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.366f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.56f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -90,6 +135,21 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 7:
+        // 사운드
+        if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.633f &&
+            m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.653f)
+        {
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_Attack2.wav"), CHANNELID::SOUND_MONSTER_WEAPON, 1.f);
+
+            if (m_pGameInstance->Random(1.f, 10.f) >= 5.f)
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice1.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+            else
+                m_pGameInstance->PlaySoundW(TEXT("Darkwraith_voice2.mp3"), CHANNELID::SOUND_MONSTER, 1.f);
+        }
+
         if (m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.73f &&
             m_pMonsterModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.87f)
             m_pMonsterWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -157,7 +217,7 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 
 			m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
 		}
-		else if (m_fAttackDelay >= 0.8f)
+		else if (m_fAttackDelay >= 1.f)
 		{
 			// 거리가 멀어지면 걷기로 변경
 			if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)
@@ -191,7 +251,7 @@ void CDarkwraith_Attack::Update_State(_float fTimeDelta)
 
             m_pMonsterTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
         }
-        else if (m_fAttackDelay >= 0.6f)
+        else if (m_fAttackDelay >= 1.f)
         {
             // 거리가 멀어지면 걷기로 변경
             if (m_pStateMachine->Get_FloatData(TEXT("Darkwraith_Distance"), 999.f) > 6.f)

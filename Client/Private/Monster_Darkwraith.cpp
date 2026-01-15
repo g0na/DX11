@@ -79,7 +79,7 @@ HRESULT CMonster_Darkwraith::Initialize(void* pArg)
 	Safe_AddRef(m_pPlayer);
 
 	m_bIsCollisionEnabled = true;
-	m_iHp = 10;
+	m_iHp = 15;
 
 	return S_OK;
 }

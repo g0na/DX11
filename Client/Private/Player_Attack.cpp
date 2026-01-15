@@ -98,9 +98,14 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
     {
     case 32:
         // 사운드 재생
-        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.466f &&
+        if (m_pPlayerWeapon->Get_IsActive() &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.466f &&
             m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.486f)
             m_pGameInstance->PlaySoundW(TEXT("swing-sword.wav"), CHANNELID::SOUND_WEAPON, 1.f);
+        else if (!m_pPlayerWeapon->Get_IsActive() &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.466f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.486f)
+            m_pGameInstance->PlaySoundW(TEXT("Player_hand.mp3"), CHANNELID::SOUND_WEAPON, 1.f);
 
         if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.535f &&
             m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.665f)
@@ -111,9 +116,14 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
 
     case 33:
         // 사운드 재생
-        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.4f &&
+        if (m_pPlayerWeapon->Get_IsActive() &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.4f &&
             m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.42f)
             m_pGameInstance->PlaySoundW(TEXT("swing-sword2.wav"), CHANNELID::SOUND_WEAPON, 1.f);
+        else if (!m_pPlayerWeapon->Get_IsActive() &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.4f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.42f)
+            m_pGameInstance->PlaySoundW(TEXT("Player_hand.mp3"), CHANNELID::SOUND_WEAPON, 1.f);
 
         if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.465f &&
             m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.565f)
@@ -158,6 +168,32 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
                 m_pStateMachine->Change_State(CPlayer::IDLE);
             break;
         }
+    }
+
+    _vector vCameraLook = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::LOOK);
+    vCameraLook = XMVector3Normalize(XMVectorSetY(vCameraLook, 0.f));
+    _vector vCameraRight = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::RIGHT);
+    vCameraRight = XMVector3Normalize(XMVectorSetY(vCameraRight, 0.f));
+
+    m_vInputDir = XMVectorZero();
+    if (m_pGameInstance->Get_KeyHold(DIK_D))
+        m_vInputDir += vCameraRight;
+    if (m_pGameInstance->Get_KeyHold(DIK_A))
+        m_vInputDir -= vCameraRight;
+    if (m_pGameInstance->Get_KeyHold(DIK_S))
+        m_vInputDir -= vCameraLook;
+    if (m_pGameInstance->Get_KeyHold(DIK_W))
+        m_vInputDir += vCameraLook;
+
+    if (!XMVector3Equal(m_vInputDir, XMVectorZero()))
+    {
+        // 회전 관련
+        m_vInputDir = XMVector3Normalize(m_vInputDir);
+        _float fAngle = atan2f(XMVectorGetX(m_vInputDir), XMVectorGetZ(m_vInputDir));       // 라디안 반환
+
+        *m_pCurAngle = fAngle;
+        m_pPlayerTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), *m_pCurAngle);
+        m_pPlayerBody->Set_InputDir(m_vInputDir);
     }
 
     if (m_pGameInstance->Get_KeyDown(DIK_SPACE) && m_fAttackDelay >= 1.f && m_fPlayerStamina > 0.f)

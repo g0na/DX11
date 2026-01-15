@@ -2,6 +2,8 @@
 #include "Transform.h"
 #include "Monster_Darkwraith.h"
 #include "GameInstance.h"
+#include "Model.h"
+#include "Animation.h"
 
 CDarkwraith_Walk::CDarkwraith_Walk()
     : m_pGameInstance{ CGameInstance::GetInstance() }
@@ -15,9 +17,11 @@ HRESULT CDarkwraith_Walk::Initialize(CGameObject* pOwner)
 
     m_pMonsterTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
+    m_pMonsterModel = m_pOwner->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
-        m_pMonsterTransform == nullptr)
+        m_pMonsterTransform == nullptr ||
+        m_pMonsterModel == nullptr)
         return E_FAIL;
 
     m_pCurAngle = static_cast<CMonster_Darkwraith*>(m_pOwner)->Get_CurAnglePtr();
@@ -39,6 +43,14 @@ void CDarkwraith_Walk::Update_State(_float fTimeDelta)
         m_pStateMachine->Change_State(CMonster_Darkwraith::DEATH);
         return;
     }
+
+    // »ç¿îµå
+    if (m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() >= 0.3f &&
+        m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() <= 0.32f)
+        m_pGameInstance->PlaySoundW(TEXT("Darkwraith_foot1.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() >= 1.167f &&
+             m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() <= 1.187f)
+             m_pGameInstance->PlaySoundW(TEXT("Darkwraith_foot1.wav"), CHANNELID::SOUND_MONSTER, 1.f);
 
     m_fCoolDown += fTimeDelta;
 

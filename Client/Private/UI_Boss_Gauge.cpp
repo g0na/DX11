@@ -53,7 +53,12 @@ void CUI_Boss_Gauge::Update(_float fTimeDelta)
 void CUI_Boss_Gauge::Update_Late(_float fTimeDelta)
 {
 	if (m_bVisible == false)
+	{
+		m_pGameInstance->PlayBGM(TEXT("Background_Wind2.wav"), 0.45f);
 		return;
+	}
+	else
+		m_pGameInstance->PlayBGM(TEXT("Boss_BGM.wav"), 0.8f);
 
 	m_pGameInstance->Add_RenderObject(RENDERGROUP::UI, this);
 }

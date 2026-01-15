@@ -2,6 +2,8 @@
 #include "Transform.h"
 #include "Monster_Hollow.h"
 #include "GameInstance.h"
+#include "Model.h"
+#include "Animation.h"
 
 CHollow_Walk::CHollow_Walk()
     : m_pGameInstance{ CGameInstance::GetInstance() }
@@ -15,9 +17,11 @@ HRESULT CHollow_Walk::Initialize(CGameObject* pOwner)
 
     m_pMonsterTransform = m_pOwner->Get_Component<CTransform>(g_strTransformTag);
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
+    m_pMonsterModel = m_pOwner->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
-        m_pMonsterTransform == nullptr)
+        m_pMonsterTransform == nullptr ||
+        m_pMonsterModel == nullptr)
         return E_FAIL;
 
     m_pCurAngle = static_cast<CMonster_Hollow*>(m_pOwner)->Get_CurAnglePtr();
@@ -39,6 +43,20 @@ void CHollow_Walk::Update_State(_float fTimeDelta)
         m_pStateMachine->Change_State(CMonster_Hollow::DEATH);
         return;
     }
+
+    // »ç¿îµå
+    if (m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() >= 0.266f &&
+        m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() <= 0.286f)
+        m_pGameInstance->PlaySoundW(TEXT("Hollow_foot1.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() >= 0.933f &&
+             m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() <= 0.953f)
+             m_pGameInstance->PlaySoundW(TEXT("Hollow_foot1.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() >= 1.5f &&
+             m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() <= 1.52f)
+             m_pGameInstance->PlaySoundW(TEXT("Hollow_foot1.wav"), CHANNELID::SOUND_MONSTER, 1.f);
+    else if (m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() >= 2.266f &&
+             m_pMonsterModel->Get_Animation(1)->Get_CurrentTrackPosition() <= 2.286f)
+             m_pGameInstance->PlaySoundW(TEXT("Hollow_foot1.wav"), CHANNELID::SOUND_MONSTER, 1.f);
 
     m_fCoolDown += fTimeDelta;
 

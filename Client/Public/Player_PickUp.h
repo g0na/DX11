@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 class CGameInstance;
 class CStateMachine;
+class CModel;
 NS_END
 
 NS_BEGIN(Client)
@@ -26,9 +27,8 @@ public:
 private:
 	CGameInstance*	m_pGameInstance = { nullptr };
 	CStateMachine*	m_pStateMachine = { nullptr };
+	CModel*			m_pPlayerModel = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };
-	class CWeapon*	m_pWeapon = { nullptr };
-	class CShield*	m_pShield = { nullptr };
 
 private:
 	_float			m_fTimeElapsed = {};

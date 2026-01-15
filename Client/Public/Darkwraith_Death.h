@@ -4,6 +4,7 @@
 
 NS_BEGIN(Engine)
 class CGameInstance;
+class CModel;
 NS_END
 
 NS_BEGIN(Client)
@@ -24,6 +25,7 @@ public:
 
 private:
 	CGameInstance*	m_pGameInstance = { nullptr };
+	CModel* m_pMonsterModel = { nullptr };
 
 private:
 	_float			m_fDeathTime = {};

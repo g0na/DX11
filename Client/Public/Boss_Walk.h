@@ -6,6 +6,7 @@ NS_BEGIN(Engine)
 class CGameInstance;
 class CStateMachine;
 class CTransform;
+class CModel;
 NS_END
 
 NS_BEGIN(Client)
@@ -28,6 +29,7 @@ private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	CStateMachine* m_pStateMachine = { nullptr };
 	CTransform* m_pMonsterTransform = { nullptr };
+	CModel* m_pMonsterModel = { nullptr };
 
 private:
 	_float*		m_pCurAngle = { nullptr };

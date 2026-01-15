@@ -6,7 +6,9 @@
 #include "GameInstance.h"
 
 CPlayer_Recoil::CPlayer_Recoil()
+    : m_pGameInstance{ CGameInstance::GetInstance() }
 {
+    Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CPlayer_Recoil::Initialize(CGameObject* pOwner, CBody* pBody)
@@ -29,9 +31,6 @@ void CPlayer_Recoil::Enter_State()
 {
     if (m_pPlayerBody == nullptr)
         return;
-
-    // 사운드 재생
-    m_pGameInstance->PlaySoundW(TEXT("Player_Shield.wav"), CHANNELID::SOUND_WEAPON, 1.f);
 
     // 넉백 유무에 따른 애니메이션 재생
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Knockback"), false) == true)
@@ -60,6 +59,11 @@ void CPlayer_Recoil::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 2:
+        // 사운드 재생
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.02f)
+            m_pGameInstance->PlaySoundW(TEXT("Player_Shield.wav"), CHANNELID::SOUND_WEAPON, 1.f);
+
         // 반동 애니 재생 중 반동 상태 재진입
         if (m_pStateMachine->Get_BoolData(TEXT("Player_Recoil"), false) == true)
         {
@@ -69,6 +73,16 @@ void CPlayer_Recoil::Update_State(_float fTimeDelta)
         break;
 
     case 3:
+        // 사운드 재생
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.02f)
+            m_pGameInstance->PlaySoundW(TEXT("Player_Shield.wav"), CHANNELID::SOUND_WEAPON, 1.f);
+
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.567f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.587f)
+            m_pGameInstance->PlaySoundW(TEXT("Player_Roll.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
+
         // 무적
         if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.833f)
             m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);
@@ -110,4 +124,6 @@ CPlayer_Recoil* CPlayer_Recoil::Create(CGameObject* pOwner, CBody* pBody)
 void CPlayer_Recoil::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pGameInstance);
 }
