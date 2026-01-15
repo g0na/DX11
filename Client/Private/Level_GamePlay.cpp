@@ -208,6 +208,12 @@ HRESULT CLevel_GamePlay::Ready_UIs(const _wstring& strLayerTag)
 			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
 		return E_FAIL;
 
+	// UI_PopUp_Key
+	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_PopUp_Key"),	
+		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Key"),
+			ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag)))))
+		return E_FAIL;
+
 	// UI_Victory_Back
 	if (FAILED(m_pGameInstance->Add_UI(TEXT("Prototype_UI_Victory_Back"),	
 		static_cast<CUIObj*>(m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Victory_Back"),
@@ -236,8 +242,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
 	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 	
-	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
-		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
+	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
+	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }
@@ -268,6 +274,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Shield"),
+		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
+		return E_FAIL;
+
+	if (m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Key"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag) == nullptr)
 		return E_FAIL;
 

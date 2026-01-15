@@ -19,6 +19,7 @@
 #include "UI_PopUp_Estus.h"
 #include "UI_PopUp_Weapon.h"
 #include "UI_PopUp_Shield.h"
+#include "UI_PopUp_Key.h"
 #include "UI_Victory.h"
 #include "UI_Victory_Back.h"
 
@@ -45,6 +46,7 @@
 #include "Item.h"
 #include "Item_Weapon.h"
 #include "Item_Shield.h"
+#include "Item_Key.h"
 #include "Fire.h"
 #include "Blood.h"
 #include "Blood_Boss.h"
@@ -224,6 +226,11 @@ HRESULT CLoader::Loading_GamePlay()
 	// For Prototype_Component_Texture_UI_PopUp_Shield
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp_Shield"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Shield.dds"), 1))))
+		return E_FAIL;
+
+	// For Prototype_Component_Texture_UI_PopUp_Key
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_Component_Texture_UI_PopUp_Key"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/bk-tpf/PopUp_Key.dds"), 1))))
 		return E_FAIL;
 
 	// For Prototype_Component_Texture_UI_Victory
@@ -550,6 +557,11 @@ HRESULT CLoader::Loading_GamePlay()
 		CUI_PopUp_Shield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_UI_PopUp_Key */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_PopUp_Key"),
+		CUI_PopUp_Key::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* For.Prototype_GameObject_UI_Victory */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_UI_Victory"),
 		CUI_Victory::Create(m_pDevice, m_pContext))))
@@ -693,6 +705,11 @@ HRESULT CLoader::Loading_GamePlay()
 	/* For.Prototype_GameObject_Item_Shield */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Shield"),
 		CItem_Shield::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Item_Shield */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Item_Key"),
+		CItem_Key::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Fire */

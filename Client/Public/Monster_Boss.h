@@ -80,6 +80,7 @@ private:
 
 	_float					m_fCurAngle = {};
 	_float					m_fDistance = {};
+	_float					m_fHeightDistance = {};
 
 private:
 	HRESULT Ready_Components();

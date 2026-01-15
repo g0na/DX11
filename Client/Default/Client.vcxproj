@@ -181,6 +181,7 @@
     <ClInclude Include="..\Public\Hollow_Walk.h" />
     <ClInclude Include="..\Public\InDoor.h" />
     <ClInclude Include="..\Public\Item.h" />
+    <ClInclude Include="..\Public\Item_Key.h" />
     <ClInclude Include="..\Public\Item_Shield.h" />
     <ClInclude Include="..\Public\Item_Weapon.h" />
     <ClInclude Include="..\Public\Ladder.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\Public\UI_Player_Stamina.h" />
     <ClInclude Include="..\Public\UI_Player_Stamina_Gauge.h" />
     <ClInclude Include="..\Public\UI_PopUp_Door.h" />
+    <ClInclude Include="..\Public\UI_PopUp_Key.h" />
     <ClInclude Include="..\Public\UI_PopUp_PickUp.h" />
     <ClInclude Include="..\Public\UI_PopUp_Estus.h" />
     <ClInclude Include="..\Public\UI_PopUp_Shield.h" />
@@ -275,6 +277,7 @@
     <ClCompile Include="..\Private\Hollow_Walk.cpp" />
     <ClCompile Include="..\Private\InDoor.cpp" />
     <ClCompile Include="..\Private\Item.cpp" />
+    <ClCompile Include="..\Private\Item_Key.cpp" />
     <ClCompile Include="..\Private\Item_Shield.cpp" />
     <ClCompile Include="..\Private\Item_Weapon.cpp" />
     <ClCompile Include="..\Private\Ladder.cpp" />
@@ -319,6 +322,7 @@
     <ClCompile Include="..\Private\UI_Player_Stamina.cpp" />
     <ClCompile Include="..\Private\UI_Player_Stamina_Gauge.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_Door.cpp" />
+    <ClCompile Include="..\Private\UI_PopUp_Key.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_PickUp.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_Estus.cpp" />
     <ClCompile Include="..\Private\UI_PopUp_Shield.cpp" />

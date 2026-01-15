@@ -109,6 +109,7 @@ void CMonster_Boss::Update_Priority(_float fTimeDelta)
 	m_pStateMachine->Set_VectorData(TEXT("Player_Position"), m_vPlayerPos);
 
 	m_fDistance = Compute_Distance(m_vPlayerPos);
+	m_fHeightDistance = Compute_Height(m_vPlayerPos);
 }
 
 void CMonster_Boss::Update(_float fTimeDelta)
@@ -173,9 +174,9 @@ void CMonster_Boss::Update(_float fTimeDelta)
 	m_pColliderBody->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
 	// µð¹ö±ë
-	//_char buf[128];
-	//sprintf_s(buf, "Distance : %f\n", m_fDistance);
-	//OutputDebugStringA(buf);
+	_char buf[128];
+	sprintf_s(buf, "Height : %f\n", m_fHeightDistance);
+	OutputDebugStringA(buf);
 }
 
 void CMonster_Boss::Update_Late(_float fTimeDelta)

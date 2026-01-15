@@ -82,6 +82,14 @@ _float CGameObject::Compute_Distance(_fvector vTargetPos)
 	return XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(STATE::POSITION)));
 }
 
+_float CGameObject::Compute_Height(_fvector vTargetPos)
+{
+	_float fPositionY = XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION));
+	_float fTargetY = XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION));
+
+	return fabs(fPositionY - fTargetY);
+}
+
 HRESULT CGameObject::Add_CollisionList(CGameObject* pOtherObject)
 {
 	if (pOtherObject == nullptr)

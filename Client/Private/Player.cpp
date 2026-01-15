@@ -216,13 +216,13 @@ void CPlayer::Update_Late(_float fTimeDelta)
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 
     // 위치 디버깅
-    _char buf[64];
-    sprintf_s(buf, "x: %f, y: %f, z:%f\n",
-        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
-        XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
-        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
-    );
-    OutputDebugStringA(buf);
+    //_char buf[64];
+    //sprintf_s(buf, "x: %f, y: %f, z:%f\n",
+    //    XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
+    //    XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
+    //    XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
+    //);
+    //OutputDebugStringA(buf);
 }
 
 HRESULT CPlayer::Render()
@@ -231,7 +231,7 @@ HRESULT CPlayer::Render()
     if (m_bIsCollisionEnabled == true)
         m_pColliderCom->Render();
 
-    //m_pNavigationCom->Render();
+    m_pNavigationCom->Render();
 #endif
 
     return S_OK;
@@ -258,7 +258,8 @@ void CPlayer::OnCollisionEnter(CGameObject* pOtherObject)
         }
         else if (!lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Estus"))
               || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Weapon"))
-              || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Shield")))
+              || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Shield"))
+              || !lstrcmp(pOtherObject->Get_Name(), TEXT("Item_Key")))
         {
             // 아이템에 충돌했을 때 플래그 설정
             m_bPickUp = true;

@@ -32,6 +32,7 @@ public:
 
 public:
 	_float			Compute_Distance(_fvector vTargetPos);
+	_float			Compute_Height(_fvector vTargetPos);
 
 	HRESULT Add_CollisionList(CGameObject* pOtherObject);
 	HRESULT Remove_CollisionList(CGameObject* pOtherObject);

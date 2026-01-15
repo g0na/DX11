@@ -304,6 +304,12 @@
     <Filter Include="02. GameObjects\04. Effect\Particle\Dust">
       <UniqueIdentifier>{2485c4ac-a688-44cb-9889-fb2c97729c06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObjects\00. UI\05. PopUp\PickUp\Key">
+      <UniqueIdentifier>{572d9d93-d13e-4599-8937-280a6db9487e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObjects\01. Map\00. Objects\Item\Key">
+      <UniqueIdentifier>{a40663f3-67a1-436f-b578-6f854f4db757}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -584,6 +590,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Dust.h">
       <Filter>02. GameObjects\04. Effect\Particle\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PopUp_Key.h">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Key.h">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Key</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -866,6 +878,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Dust.cpp">
       <Filter>02. GameObjects\04. Effect\Particle\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PopUp_Key.cpp">
+      <Filter>02. GameObjects\00. UI\05. PopUp\PickUp\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Key.cpp">
+      <Filter>02. GameObjects\01. Map\00. Objects\Item\Key</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
