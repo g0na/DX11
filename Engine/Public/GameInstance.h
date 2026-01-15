@@ -132,6 +132,15 @@ public:
 	void		Hide_UI(_wstring strUITag);
 #pragma endregion
 
+#pragma region SOUND_MANAGER
+	void PlaySoundW(const _wstring& soundKey, CHANNELID eID, float fVolume);
+	void PlayBGM(const _wstring& soundKey, float fVolume);
+	void StopSound(CHANNELID eID);
+	void StopAll();
+	void SetChannelVolume(CHANNELID eID, float fVolume);
+#pragma endregion
+
+
 private:
 	class CGraphic_Device*		m_pGraphicDevice = { nullptr };
 	class CInput_Device*		m_pInputDevice = { nullptr };
@@ -146,6 +155,7 @@ private:
 	class CTarget_Manager*		m_pTargetManager = { nullptr };
 	class CFont_Manager*		m_pFontManager = { nullptr };
 	class CUI_Manager*			m_pUIManager = { nullptr };
+	class CSound_Manager*		m_pSoundManager = { nullptr };
 
 public:
 	void Release_Engine();

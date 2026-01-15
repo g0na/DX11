@@ -11,6 +11,7 @@
 #include "Target_Manager.h"
 #include "Font_Manager.h"
 #include "UI_Manager.h"
+#include "Sound_Manager.h"
 
 #include "GameObject.h"
 
@@ -92,6 +93,11 @@ HRESULT	CGameInstance::Initialize_Engine(EngineDesc& EngineDesc, ID3D11Device** 
 	if (m_pCollisionManager == nullptr)
 		return E_FAIL;
 
+	// 사운드 매니저 초기화
+	m_pSoundManager = CSound_Manager::Create();
+	if (m_pSoundManager == nullptr)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -103,6 +109,7 @@ void CGameInstance::Update_Engine(const _float& fTimeDelta)
 	m_pObjectManager->Update(fTimeDelta);
 	m_pObjectManager->Update_Late(fTimeDelta);
 	m_pLevelManager->Update_Level(fTimeDelta);
+	m_pSoundManager->Update();
 }
 
 HRESULT CGameInstance::Draw_Begin(const _float4* pClearColor)
@@ -430,8 +437,36 @@ void CGameInstance::Hide_UI(_wstring strUITag)
 }
 #pragma endregion
 
+#pragma region SOUND_MANAGER
+void CGameInstance::PlaySoundW(const _wstring& soundKey, CHANNELID eID, float fVolume)
+{
+	return m_pSoundManager->PlaySoundW(soundKey, eID, fVolume);
+}
+
+void CGameInstance::PlayBGM(const _wstring& soundKey, float fVolume)
+{
+	return m_pSoundManager->PlayBGM(soundKey, fVolume);
+}
+
+void CGameInstance::StopSound(CHANNELID eID)
+{
+	return m_pSoundManager->StopSound(eID);
+}
+
+void CGameInstance::StopAll()
+{
+	return m_pSoundManager->StopAll();
+}
+
+void CGameInstance::SetChannelVolume(CHANNELID eID, float fVolume)
+{
+	return m_pSoundManager->SetChannelVolume(eID, fVolume);
+}
+#pragma endregion
+
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pUIManager);
 	Safe_Release(m_pFontManager);
 	Safe_Release(m_pCollisionManager);

@@ -178,6 +178,12 @@
     <Filter Include="01. Utility\05. Component\01. VI Buffer\03. Particle\Point">
       <UniqueIdentifier>{d9189990-255d-4d60-ac7c-9912ead63245}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Utility\11. Sound">
+      <UniqueIdentifier>{beafa0af-bfae-471b-ba3e-308647641f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Utility\11. Sound\fMod">
+      <UniqueIdentifier>{ee13d02d-a9c8-4121-864a-3ab7674dca64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -335,6 +341,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Particle_Point.cpp">
       <Filter>01. Utility\05. Component\01. VI Buffer\03. Particle\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
+      <Filter>01. Utility\11. Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -512,6 +521,33 @@
     <ClInclude Include="..\Public\VIBuffer_Particle_Point.h">
       <Filter>01. Utility\05. Component\01. VI Buffer\03. Particle\Point</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\fmod.h">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\fmod.hpp">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\fmod_codec.h">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\fmod_common.h">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\fmod_dsp.h">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\fmod_dsp_effects.h">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\fmod_errors.h">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\fmod_output.h">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sound_Manager.h">
+      <Filter>01. Utility\11. Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
@@ -524,6 +560,12 @@
   <ItemGroup>
     <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli">
       <Filter>01. Utility\98. ShaderFiles</Filter>
+    </None>
+    <None Include="..\Public\fmodL.dll">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
+    </None>
+    <None Include="..\Public\fmod.dll">
+      <Filter>01. Utility\11. Sound\fMod</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -34,6 +34,12 @@ using namespace std;
 #include <unordered_map>
 #include <ctime>
 
+#include "fmod.h"
+#include "fmod.hpp"
+#include <io.h>
+#include <cstdlib>
+#pragma comment(lib, "fmod_vc.lib")
+
 #include "Engine_Enum.h"
 #include "Engine_Macro.h"
 #include "Engine_Struct.h"

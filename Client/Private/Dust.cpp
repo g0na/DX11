@@ -37,8 +37,6 @@ HRESULT CDust::Initialize(void* pArg)
 
 void CDust::Update_Priority(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_KeyDown(DIK_P))
-		Play(XMVectorSet(-11.81f, -12.24f, -45.8f, 1.f));
 }
 
 void CDust::Update(_float fTimeDelta)

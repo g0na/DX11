@@ -35,9 +35,6 @@ HRESULT CBlood_Boss::Initialize(void* pArg)
 
 void CBlood_Boss::Update_Priority(_float fTimeDelta)
 {
-    if (m_pGameInstance->Get_KeyDown(DIK_P))
-        Play(XMVectorSet(-11.81f, -14.24f, -45.8f, 1.f),
-            m_pGameInstance->Get_Player(ENUM_TO_UINT(LEVELID::GAMEPLAY))->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::POSITION));
 }
 
 void CBlood_Boss::Update(_float fTimeDelta)

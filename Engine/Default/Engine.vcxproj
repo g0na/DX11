@@ -124,7 +124,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;Effects11d.lib;DirectXTKd.lib;dinput8.lib;assimp-vc143-mtd.lib;DirectXTexd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;Effects11d.lib;DirectXTKd.lib;dinput8.lib;assimp-vc143-mtd.lib;DirectXTexd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../ThirdPartyLib/</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -147,7 +147,7 @@ call UpdateLib.bat</Command>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;Effects11.lib;DirectXTK.lib;dinput8.lib;assimp-vc143-mt.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;Effects11.lib;DirectXTK.lib;dinput8.lib;assimp-vc143-mt.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../ThirdPartyLib/</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -177,6 +177,14 @@ call UpdateLib.bat</Command>
     <ClInclude Include="..\Public\Engine_Macro.h" />
     <ClInclude Include="..\Public\Engine_Struct.h" />
     <ClInclude Include="..\Public\Engine_Typedef.h" />
+    <ClInclude Include="..\Public\fmod.h" />
+    <ClInclude Include="..\Public\fmod.hpp" />
+    <ClInclude Include="..\Public\fmod_codec.h" />
+    <ClInclude Include="..\Public\fmod_common.h" />
+    <ClInclude Include="..\Public\fmod_dsp.h" />
+    <ClInclude Include="..\Public\fmod_dsp_effects.h" />
+    <ClInclude Include="..\Public\fmod_errors.h" />
+    <ClInclude Include="..\Public\fmod_output.h" />
     <ClInclude Include="..\Public\Font.h" />
     <ClInclude Include="..\Public\Font_Manager.h" />
     <ClInclude Include="..\Public\GameInstance.h" />
@@ -199,6 +207,7 @@ call UpdateLib.bat</Command>
     <ClInclude Include="..\Public\Renderer.h" />
     <ClInclude Include="..\Public\RenderTarget.h" />
     <ClInclude Include="..\Public\Shader.h" />
+    <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\Public\State.h" />
     <ClInclude Include="..\Public\StateMachine.h" />
     <ClInclude Include="..\Public\Target_Manager.h" />
@@ -244,6 +253,7 @@ call UpdateLib.bat</Command>
     <ClCompile Include="..\Private\PipeLine.cpp" />
     <ClCompile Include="..\Private\RenderTarget.cpp" />
     <ClCompile Include="..\Private\Shader.cpp" />
+    <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\Private\State.cpp" />
     <ClCompile Include="..\Private\StateMachine.cpp" />
     <ClCompile Include="..\Private\Target_Manager.cpp" />
@@ -287,6 +297,8 @@ call UpdateLib.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli" />
+    <None Include="..\Public\fmod.dll" />
+    <None Include="..\Public\fmodL.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
