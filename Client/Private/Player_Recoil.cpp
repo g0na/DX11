@@ -3,6 +3,7 @@
 #include "Body.h"
 #include "Animation.h"
 #include "Model.h"
+#include "GameInstance.h"
 
 CPlayer_Recoil::CPlayer_Recoil()
 {
@@ -28,6 +29,9 @@ void CPlayer_Recoil::Enter_State()
 {
     if (m_pPlayerBody == nullptr)
         return;
+
+    // 사운드 재생
+    m_pGameInstance->PlaySoundW(TEXT("Player_Shield.wav"), CHANNELID::SOUND_WEAPON, 1.f);
 
     // 넉백 유무에 따른 애니메이션 재생
     if (m_pStateMachine->Get_BoolData(TEXT("Player_Guard_Knockback"), false) == true)

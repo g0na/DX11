@@ -92,6 +92,11 @@ void CPlayer_Roll::Update_State(_float fTimeDelta)
 
     m_fCoolDown += fTimeDelta;
 
+    // 사운드
+    if (m_pPlayerModel->Get_Animation(9)->Get_CurrentTrackPosition() >= 0.2f &&
+        m_pPlayerModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 0.22f)
+        m_pGameInstance->PlaySoundW(TEXT("Player_Roll.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
     // 무적 상태 조정
     if (m_pPlayerModel->Get_Animation(9)->Get_CurrentTrackPosition() <= 0.4f)
         m_pStateMachine->Set_BoolData(TEXT("Player_Invincible"), true);

@@ -45,6 +45,7 @@ private:
 private:
 	_wstring		m_strJsonPath = {};
 	_float3			m_vRotationAngle{};
+	_bool			m_bBgm = {true};
 
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

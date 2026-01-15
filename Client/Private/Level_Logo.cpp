@@ -25,6 +25,8 @@ void CLevel_Logo::Update(_float fTimeDelta)
 {
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
+		m_pGameInstance->PlaySoundW(TEXT("GAMESTART.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+
 		if (FAILED(m_pGameInstance->Change_Level(ENUM_TO_UINT(LEVELID::LOADING), CLevel_Loading::Create(m_pDevice, m_pContext, LEVELID::GAMEPLAY))))
 			return;
 	}

@@ -3,6 +3,7 @@
 #include "State.h"
 
 NS_BEGIN(Engine)
+class CGameInstance;
 class CStateMachine;
 class CModel;
 NS_END
@@ -24,6 +25,7 @@ public:
 	virtual void Exit_State() override;
 
 private:
+	CGameInstance*  m_pGameInstance = { nullptr };
 	CStateMachine*	m_pStateMachine = { nullptr };
 	CModel*			m_pPlayerModel = { nullptr };
 	class CBody*	m_pPlayerBody = { nullptr };

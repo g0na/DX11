@@ -40,11 +40,18 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_UIs(TEXT("Layer_UI"))))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	if (m_bBgm)
+	{
+		m_pGameInstance->PlayBGM(TEXT("Background_Wind.wav"), 0.2f);
+		m_bBgm = false;
+	}
+
 	// Player, Object 충돌 체크
 	m_pGameInstance->Check_Collision(m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Player")),
 		m_pGameInstance->Get_ObjectList(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Layer_Object")));
@@ -238,12 +245,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
 	m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Boss"),
 		ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
-
-	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Darkwraith"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
-	
-	//m_pGameInstance->Add_GameObject_To_Layer(ENUM_TO_UINT(LEVELID::GAMEPLAY), TEXT("Prototype_GameObject_Hollow"),
-	//	ENUM_TO_UINT(LEVELID::GAMEPLAY), strLayerTag);
 
 	return S_OK;
 }

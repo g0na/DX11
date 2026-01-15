@@ -84,5 +84,7 @@ void CLevel_Loading::Free()
 {
 	__super::Free();
 
+	m_pGameInstance->StopAll();
+
 	Safe_Release(m_pLoader);
 }

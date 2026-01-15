@@ -97,6 +97,11 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
     switch (iCurAnimIndex)
     {
     case 32:
+        // 사운드 재생
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.466f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.486f)
+            m_pGameInstance->PlaySoundW(TEXT("swing-sword.wav"), CHANNELID::SOUND_WEAPON, 1.f);
+
         if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.535f &&
             m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.665f)
             m_pPlayerWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화
@@ -105,6 +110,11 @@ void CPlayer_Attack::Update_State(_float fTimeDelta)
         break;
 
     case 33:
+        // 사운드 재생
+        if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.4f &&
+            m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.42f)
+            m_pGameInstance->PlaySoundW(TEXT("swing-sword2.wav"), CHANNELID::SOUND_WEAPON, 1.f);
+
         if (m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() >= 0.465f &&
             m_pPlayerModel->Get_Animation(iCurAnimIndex)->Get_CurrentTrackPosition() <= 0.565f)
             m_pPlayerWeapon->Set_CollisionEnabled(true);                // 무기 콜라이더 활성화

@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "Player.h"
 #include "Body.h"
+#include "Animation.h"
 #include "GameInstance.h"
 #include "Camera_Free.h"
 
@@ -19,11 +20,13 @@ HRESULT CPlayer_Run::Initialize(CGameObject* pOwner, CBody* pBody)
     m_pStateMachine = m_pOwner->Get_Component<CStateMachine>(TEXT("Com_StateMachine"));
     m_pPlayerBody = pBody;
     m_pPlayerCamera = static_cast<CCamera_Free*>(static_cast<CContainerObject*>(m_pOwner)->Find_PartObject(TEXT("Part_Camera")));
+    m_pPlayerModel = pBody->Get_Component<CModel>(TEXT("Com_Model"));
 
     if (m_pStateMachine == nullptr ||
         m_pPlayerTransform == nullptr ||
         m_pPlayerBody == nullptr ||
-        m_pPlayerCamera == nullptr)
+        m_pPlayerCamera == nullptr ||
+        m_pPlayerModel == nullptr)
         return E_FAIL;
 
     CPlayer* pPlayer = static_cast<CPlayer*>(pOwner);
@@ -62,6 +65,14 @@ void CPlayer_Run::Update_State(_float fTimeDelta)
 
     // 스태미너 받아오기
     m_fPlayerStamina = static_cast<CPlayer*>(m_pOwner)->Get_CurStamina();
+
+    // 사운드
+    if (m_pPlayerModel->Get_Animation(13)->Get_CurrentTrackPosition() >= 0.166f &&
+        m_pPlayerModel->Get_Animation(13)->Get_CurrentTrackPosition() <= 0.186f)
+        m_pGameInstance->PlaySoundW(TEXT("Player_Walk1.wav"), CHANNELID::SOUND_EFFECT, 1.f);
+    else if (m_pPlayerModel->Get_Animation(13)->Get_CurrentTrackPosition() >= 0.533f &&
+        m_pPlayerModel->Get_Animation(13)->Get_CurrentTrackPosition() <= 0.553f)
+        m_pGameInstance->PlaySoundW(TEXT("Player_Walk2.wav"), CHANNELID::SOUND_EFFECT, 1.f);
 
     _vector vCameraLook = m_pPlayerCamera->Get_Component<CTransform>(g_strTransformTag)->Get_State(STATE::LOOK);
     vCameraLook = XMVector3Normalize(XMVectorSetY(vCameraLook, 0.f));
