@@ -85,7 +85,7 @@ _float CGameObject::Compute_Distance(_fvector vTargetPos)
 _float CGameObject::Compute_Height(_fvector vTargetPos)
 {
 	_float fPositionY = XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION));
-	_float fTargetY = XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION));
+	_float fTargetY = XMVectorGetY(vTargetPos);
 
 	return fabs(fPositionY - fTargetY);
 }

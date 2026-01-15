@@ -216,13 +216,13 @@ void CPlayer::Update_Late(_float fTimeDelta)
     m_pGameInstance->Add_RenderObject(RENDERGROUP::NONBLEND, this);
 
     // À§Ä¡ µð¹ö±ë
-    //_char buf[64];
-    //sprintf_s(buf, "x: %f, y: %f, z:%f\n",
-    //    XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
-    //    XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
-    //    XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
-    //);
-    //OutputDebugStringA(buf);
+    _char buf[64];
+    sprintf_s(buf, "x: %f, y: %f, z:%f\n",
+        XMVectorGetX(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetY(m_pTransformCom->Get_State(STATE::POSITION)),
+        XMVectorGetZ(m_pTransformCom->Get_State(STATE::POSITION))
+    );
+    OutputDebugStringA(buf);
 }
 
 HRESULT CPlayer::Render()

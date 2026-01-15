@@ -29,9 +29,10 @@ HRESULT CItem_Key::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180.f));
+	m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180.f));\
 
-	_vector vPosition = XMVectorSet(-11.81f, -15.24f, -45.8f, 1.f);
+	//x: 14.379133, y : 8.434803, z : -0.126355
+	_vector vPosition = XMVectorSet(14.379133f, 8.434803f, -0.126355f, 1.f);
 	m_pTransformCom->Set_State(STATE::POSITION, vPosition);
 
 	m_bIsCollisionEnabled = true;

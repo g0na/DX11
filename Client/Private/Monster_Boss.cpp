@@ -115,7 +115,7 @@ void CMonster_Boss::Update_Priority(_float fTimeDelta)
 void CMonster_Boss::Update(_float fTimeDelta)
 {
 	// UI ON/OFF
-	if (m_pStateMachine->Get_FloatData(TEXT("Boss_Distance"), 999.f) <= 14.f)
+	if (m_fDistance <= 18.f && m_fHeightDistance <= 4.f)
 	{
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_HP"));
 		m_pGameInstance->Show_UI(TEXT("Prototype_UI_Boss_Gauge"));
@@ -142,7 +142,8 @@ void CMonster_Boss::Update(_float fTimeDelta)
 
 	// BlackBoard에 데이터 저장
 	m_pStateMachine->Set_FloatData(TEXT("Boss_Distance"), m_fDistance);
-	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 10.f);
+	m_pStateMachine->Set_FloatData(TEXT("Boss_Height"), m_fHeightDistance);
+	m_pStateMachine->Set_BoolData(TEXT("Boss_Targeting"), m_fDistance <= 10.f && m_fHeightDistance <= 6.f);
 	
 	// 상태머신 업데이트
 	m_pStateMachine->Update_State(fTimeDelta);
@@ -182,6 +183,9 @@ void CMonster_Boss::Update(_float fTimeDelta)
 void CMonster_Boss::Update_Late(_float fTimeDelta)
 {
 	__super::Update_Late(fTimeDelta);
+
+	if (m_fHeightDistance > 4.f)
+		m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(3.03f, -2.19f, -27.54f, 1.f));
 
 	// 체력, 스태미나 비율 계산
 	m_fHpRatio = m_fCurHp / m_fMaxHp;

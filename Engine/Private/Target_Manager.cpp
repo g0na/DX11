@@ -66,6 +66,10 @@ HRESULT CTarget_Manager::Begin_MRT(const _wstring& strMRTTag)
         pRTVs[iNumRenderTargets++] = pRenderTarget->Get_RTV();
     }
 
+    ID3D11ShaderResourceView* nullSRV[8] = { nullptr };
+    m_pContext->VSSetShaderResources(0, 8, nullSRV);
+    m_pContext->PSSetShaderResources(0, 8, nullSRV);
+    
     // 픽셀 셰이더의 출력이 pRTVs 배열의 렌더 타겟들로 동시에 기록된다.
     m_pContext->OMSetRenderTargets(iNumRenderTargets, pRTVs, m_pDSV);
 
